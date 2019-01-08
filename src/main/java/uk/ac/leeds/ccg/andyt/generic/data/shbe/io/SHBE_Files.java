@@ -36,7 +36,7 @@ public class SHBE_Files extends Generic_Files implements Serializable {
         super(s.s_data);
         this.Strings = s;
     }
-    
+
     /**
      *
      * @param s
@@ -45,5 +45,45 @@ public class SHBE_Files extends Generic_Files implements Serializable {
     public SHBE_Files(SHBE_Strings s, String dataDirName) {
         super(dataDirName);
         this.Strings = s;
+    }
+
+    private File inputLCCDir;
+    private File inputSHBEDir;
+    private File generatedLCCDir;
+    private File generatedSHBEDir;
+
+    public File getInputLCCDir() {
+        if (inputLCCDir == null) {
+            inputLCCDir = new File(getInputDataDir(Strings), Strings.sLCC);
+        }
+        return inputLCCDir;
+    }
+
+    public File getInputSHBEDir() {
+        if (inputSHBEDir == null) {
+            inputSHBEDir = new File(getInputLCCDir(), Strings.sSHBE);
+        }
+        return inputSHBEDir;
+    }
+
+    public File getGeneratedLCCDir() {
+        if (generatedLCCDir == null) {
+            generatedLCCDir = new File(getGeneratedDataDir(Strings), 
+                    Strings.sLCC);
+            generatedLCCDir.mkdirs();
+        }
+        return generatedLCCDir;
+    }
+
+    public File getGeneratedSHBEDir() {
+        if (generatedSHBEDir == null) {
+            generatedSHBEDir = new File(getGeneratedLCCDir(), Strings.sSHBE);
+        }
+        return generatedSHBEDir;
+    }
+
+    
+    public File getDataFile() {
+        return new File(getDataDir(), "SHBE_Data.dat");
     }
 }

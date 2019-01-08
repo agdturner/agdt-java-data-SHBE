@@ -16,10 +16,13 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.core;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Postcode_Handler;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.DW_SHBE_Data;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.DW_SHBE_Handler;
 //import uk.ac.leeds.ccg.andyt.data.postcode.Generic_UKPostcode_Handler;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 //import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.ONSPD_Data;
@@ -35,6 +38,16 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public transient Generic_Environment ge;
     public transient SHBE_Strings Strings;
     public transient SHBE_Files Files;
+    public transient DW_SHBE_Data Data;
+    public transient DW_SHBE_Handler SHBE_Handler;
+
+    /**
+     * Logging levels.
+     */
+    public int DEBUG_Level;
+    public final int DEBUG_Level_FINEST = 0;
+    public final int DEBUG_Level_FINE = 1;
+    public final int DEBUG_Level_NORMAL = 2;
     
     /**
      * For storing an instance of ONSPD_Postcode_Handler for convenience.
@@ -123,30 +136,28 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     }
 
     public boolean clearSomeData() {
-//        return data.clearSomeData();
-        return false;
+        return Data.clearSomeCache();
     }
 
     public int clearAllData() {
         int r;
-//        r = data.clearAllData();
-//        return r;
-    return 0;
+        r = Data.clearAllCache();
+        return r;
     }
     
     public void cacheData() {
-//        File f;
-//        f = Files.getEnvDataFile();
+        File f;
+        f = Files.getDataFile();
         System.out.println("<cache data>");
-//        Generic_IO.writeObject(data, f);
+        Generic_IO.writeObject(Data, f);
         System.out.println("</cache data>");
     }
 
     public final void loadData() {
-//        File f;
-//        f = Files.getEnvDataFile();
+        File f;
+        f = Files.getDataFile();
         System.out.println("<load data>");
-//        data = (ONSPD_Data) Generic_IO.readObject(f);
+        Data = (DW_SHBE_Data) Generic_IO.readObject(f);
         System.out.println("<load data>");
     }
     
@@ -162,5 +173,121 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
             Postcode_Handler = new ONSPD_Postcode_Handler(ONSPD_Env);
         }
         return Postcode_Handler;
+    }
+    
+    /**
+     * For writing output messages to.
+     */
+    private PrintWriter PrintWriterOut;
+
+    /**
+     * For writing error messages to.
+     */
+    private PrintWriter PrintWriterErr;
+
+    public PrintWriter getPrintWriterOut() {
+        return PrintWriterOut;
+    }
+
+    public void setPrintWriterOut(PrintWriter PrintWriterOut) {
+        this.PrintWriterOut = PrintWriterOut;
+    }
+
+    public PrintWriter getPrintWriterErr() {
+        return PrintWriterErr;
+    }
+
+    public void setPrintWriterErr(PrintWriter PrintWriterErr) {
+        this.PrintWriterErr = PrintWriterErr;
+    }
+
+    /**
+     * Writes s to a new line of the output log and error log and also prints it
+     * to std.out.
+     *
+     * @param s
+     */
+    public void log(String s) {
+        PrintWriterOut.println(s);
+        PrintWriterErr.println(s);
+        System.out.println(s);
+    }
+
+//    private static void log(
+//            String message) {
+//        log(DW_Log.DW_DefaultLogLevel, message);
+//    }
+//
+//    private static void log(
+//            Level level,
+//            String message) {
+//        Logger.getLogger(DW_Log.DW_DefaultLoggerName).log(level, message);
+//    }
+    /**
+     * Writes s to a new line of the output log and also prints it to std.out.
+     *
+     * @param s
+     * @param println
+     */
+    public void logO(String s, boolean println) {
+        if (PrintWriterOut != null) {
+            PrintWriterOut.println(s);
+        }
+        if (println) {
+            System.out.println(s);
+        }
+    }
+
+    /**
+     * Writes s to a new line of the output log and also prints it to std.out if
+     * {@code this.DEBUG_Level <= DEBUG_Level}.
+     *
+     * @param DEBUG_Level
+     * @param s
+     */
+    public void logO(int DEBUG_Level, String s) {
+        if (this.DEBUG_Level <= DEBUG_Level) {
+            PrintWriterOut.println(s);
+            System.out.println(s);
+        }
+    }
+
+    /**
+     * Writes s to a new line of the error log and also prints it to std.err.
+     *
+     * @param s
+     */
+    public void logE(String s) {
+        if (PrintWriterErr != null) {
+            PrintWriterErr.println(s);
+        }
+        System.err.println(s);
+    }
+
+    /**
+     * Writes {@code e.getStackTrace()} to the error log and also prints it to
+     * std.err.
+     *
+     * @param e
+     */
+    public void logE(Exception e) {
+        StackTraceElement[] st;
+        st = e.getStackTrace();
+        for (StackTraceElement st1 : st) {
+            logE(st1.toString());
+        }
+    }
+
+    /**
+     * Writes e StackTrace to the error log and also prints it to std.err.
+     *
+     * @param e
+     */
+    public void logE(Error e) {
+        StackTraceElement[] st;
+        st = e.getStackTrace();
+        for (StackTraceElement st1 : st) {
+            logE(st1.toString());
+        }
     }
 }
