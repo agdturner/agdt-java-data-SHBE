@@ -27,66 +27,95 @@ public class SHBE_Strings extends Generic_Strings implements Serializable {
 
     public final String CottingleySpringsCaravanParkPostcode = "LS27 7NS";
     public final String sCottingleySpringsCaravanPark = "CottingleySpringsCaravanPark";
+
+    public final String sCountOfCTBAndHBClaims = "CountOfCTBAndHBClaims";
+    public final String sCountOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = "CountOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim";
+    public final String sCountOfClaimsWithClaimantsThatArePartnersInAnotherClaim = "CountOfClaimsWithClaimantsThatArePartnersInAnotherClaim";
+    public final String sCountOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = "CountOfClaimsWithPartnersThatAreClaimantsInAnotherClaim";
+    public final String sCountOfClaimsWithPartnersThatArePartnersInAnotherClaim = "CountOfClaimsWithPartnersThatArePartnersInAnotherClaim";
+    public final String sCountOfClaimantsInMultipleClaimsInAMonth = "CountOfClaimantsInMultipleClaimsInAMonth";
+    public final String sCountOfDependentsInAllClaims = "CountOfDependentsInAllClaims";
+    public final String sCountOfPartnersInMultipleClaimsInAMonth = "CountOfPartnersInMultipleClaimsInAMonth";
+    public final String sCountOfNonDependentsInMultipleClaimsInAMonth = "CountOfNonDependentsInMultipleClaimsInAMonth";
+    public final String sCountOfNewClaimantPostcodes = "CountOfNewClaimantPostcodes";
+    public final String sCountOfNewValidMappableClaimantPostcodes = "CountOfNewValidMappableClaimantPostcodes";
+    public final String sCountOfMappableClaimantPostcodes = "CountOfMappableClaimantPostcodes";
+    public final String sCountOfNonMappableClaimantPostcodes = "CountOfNonMappableClaimantPostcodes";
+    public final String sCountOfInvalidFormatClaimantPostcodes = "CountOfInvalidFormatClaimantPostcodes";
+    public final String sCountOfClaims = "CountOfClaims";
+    public final String sCountOfClaimsWithPartners = "CountOfClaimsWithPartners";
+    public final String sCountOfCTBClaims = "CountOfCTBClaims";
+    public final String sCountOfRecords = "CountOfRecords";
+    public final String sCountOfHBClaims = "CountOfHBClaims";
+    public final String sCountOfIncompleteDRecords = "CountOfIncompleteDRecords";
+    public final String sCountOfNonDependentsInAllClaims = "CountOfNonDependentsInAllClaims";
+    public final String sCountOfUniqueDependents = "CountOfUniqueDependents";
+    public final String sCountOfUniqueNonDependents = "CountOfUniqueNonDependents";
+    public final String sCountOfUniqueClaimants = "CountOfUniqueClaimants";
+    public final String sCountOfUniquePartners = "CountOfUniquePartners";
+    public final String sCountOfSRecords = "CountOfSRecords";
+    public final String sCountOfSRecordsWithoutDRecord = "CountOfSRecordsWithoutDRecord";
+    public final String sCountOfRecordIDsNotLoaded = "CountOfRecordIDsNotLoaded";
+    public final String sCountOfSRecordsNotLoaded = "CountOfSRecordsNotLoaded";
+
     /**
      * Code for a Default National Insurance Number. There are other defaults
      * that appear to be in the source SHBE data that are of a similar form, but
      * this is the default one used by this program.
      */
     public final String sDefaultNINO = "ZX999999XZ";
-    
+
     public final String sPaymentTypeOther = "PTO";
     public final String sPaymentTypeAll = "PTA";
     public final String sUnregulated = "Unregulated";
     public final String sRegulated = "Regulated";
     public final String sPaymentTypeIn = "PTI";
     public final String sPaymentTypeSuspended = "PTS";
-
     public final String sBinaryFileExtension = ".dat";
 
-    
+    public final String sIncludeSameTenancy = "IncludeSameTenancy";
+    public final String sNotIncludeSameTenancy = "NotIncludeSameTenancy";
+    public final String sIncludeMonthlySinceApril2013 = "IMU";
+    public final String sInclude2MonthlySinceApril2013Offset0 = "I2MU0";
+    public final String sInclude2MonthlySinceApril2013Offset1 = "I2MU1";
+    public final String sIncludeStartEndSinceApril2013 = "ISEU";
+    public final String sIncludingTenancyTransitionBreaks = "ITTBY";
+    public final String sIncludingTenancyTransitionBreaksNo = "ITTBN";
+    public final String sInclude6Monthly = "I6M";
+    public final String sIncludeMonthly = "IM";
+    public final String sIncludeApril2013May2013 = "IncludeApril2013May2013";
+    public final String sIncludeYearly = "IY";
+    public final String sIncludeAll = "IA";
+    public final String sInclude3Monthly = "I3M";
+
     public final String sHB = "HB";
     public final String sCTB = "CTB";
 
     public final String sLCC = "LCC";
     public final String sSHBE = "SHBE";
     public final String sUnit = "Unit";
-    
+
     public final String sU = "U";
 
     public final String sUngrouped = "Ungrouped";
-
-    /**
-     * "CountOfNewSHBEClaims".
-     */
+    public final String sCountOfIndividuals = "CountOfIndividuals";
     public final String sCountOfNewSHBEClaims = "CountOfNewSHBEClaims";
-
-    /**
-     * "CountOfNewSHBEClaimsWhereClaimantWasClaimantBefore".
-     */
     public final String sCountOfNewSHBEClaimsWhereClaimantWasClaimantBefore = "CountOfNewSHBEClaimsWhereClaimantWasClaimantBefore";
-
-    /**
-     * "CountOfNewSHBEClaimsWhereClaimantWasPartnerBefore".
-     */
     public final String sCountOfNewSHBEClaimsWhereClaimantWasPartnerBefore = "CountOfNewSHBEClaimsWhereClaimantWasPartnerBefore";
-
-    /**
-     * "CountOfNewSHBEClaimsWhereClaimantWasNonDependentBefore".
-     */
     public final String sCountOfNewSHBEClaimsWhereClaimantWasNonDependentBefore = "CountOfNewSHBEClaimsWhereClaimantWasNonDependentBefore";
-
-    /**
-     * "CountOfNewSHBEClaimsWhereClaimantIsNew".
-     */
     public final String sCountOfNewSHBEClaimsWhereClaimantIsNew = "CountOfNewSHBEClaimsWhereClaimantIsNew";
-    /*
-     * General names.
-     */
-//    public final String S_dat = "dat";
-//    public final String S_ONSPD = "ONSPD";
-//    public final String S_PostcodeUnit = "PostcodeUnit";
-//    public final String S_PostcodeSector = "PostcodeSector";
-//    public final String S_PostcodeDistrict = "PostcodeDistrict";
+    public final String sLineCount = "LineCount";
+    public final String sRecords = "Records";
+
+    public final String sTotalIncomeGreaterThanZeroCount = "TotalIncomeGreaterThanZeroCount";
+    public final String sTotalWeeklyEligibleRentAmount = "TotalWeeklyEligibleRentAmount";
+    public final String sTotalWeeklyEligibleRentAmountGreaterThanZeroCount = "TotalWeeklyEligibleRentAmountGreaterThanZeroCount";
+    public final String sTotalIncome = "TotalIncome";
+    public final String sCountOfNewSHBEClaimsPSI = "CountOfNewSHBEClaimsPSI";
+
+    public final String sAverage_NonZero_Income = "Average_NonZero_Income";
+    public final String sAverage_NonZero_WeeklyEligibleRentAmount = "Average_NonZero_WeeklyEligibleRentAmount";
+
     public SHBE_Strings() {
         super();
     }

@@ -42,8 +42,10 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
-import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.underoccupied.DW_UO_Record;
-import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.underoccupied.DW_UO_Set;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
+//import uk.ac.leeds.ccg.andyt.math.Generic_BigDecimal;
+//import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.underoccupied.DW_UO_Record;
+//import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.underoccupied.DW_UO_Set;
 
 /**
  * Class for handling DW_SHBE_Data.
@@ -58,8 +60,8 @@ public class DW_SHBE_Handler extends SHBE_Object {
     private final transient DW_SHBE_Data SHBE_Data;
     private final transient HashMap<String, SHBE_ID> NINOToNINOIDLookup;
     private final transient HashMap<String, SHBE_ID> DOBToDOBIDLookup;
-    private final transient SHBE_Strings Strings;
-    private final transient DW_Files Files;
+    public final transient SHBE_Strings Strings;
+    public final transient SHBE_Files Files;
     private final transient ONSPD_Postcode_Handler Postcode_Handler;
 
     /**
@@ -254,7 +256,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         NearestYM3ForONSPDLookupYM31 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM31);
         System.out.println("NearestYM3ForONSPDLookupYM31 " + NearestYM3ForONSPDLookupYM31);
         DW_SHBE_Records DW_SHBE_Records1;
-        DW_SHBE_Records1 = new DW_SHBE_Records(                Env,                YM31);
+        DW_SHBE_Records1 = new DW_SHBE_Records(Env, YM31);
         HashMap<SHBE_ID, DW_SHBE_Record> recs1;
         recs1 = DW_SHBE_Records1.getClaimIDToDW_SHBE_RecordMap(handleOutOfMemoryError);
         DW_SHBE_Record rec1;
@@ -328,7 +330,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         System.out.println("YM30 " + YM30);
         YMN = getYearMonthNumber(SHBEFilenames[i]);
         // Set up to write FutureModifiedPostcodes
-        FutureModifiedPostcodesFile = new File(                logDir,
+        FutureModifiedPostcodesFile = new File(logDir,
                 "FutureModifiedPostcodes" + YMN + ".csv");
         try {
             pw = new PrintWriter(FutureModifiedPostcodesFile);
@@ -338,7 +340,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         }
         NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
         System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
-        DW_SHBE_Records0 = new DW_SHBE_Records(                Env,                YM30);
+        DW_SHBE_Records0 = new DW_SHBE_Records(Env, YM30);
         recs0 = DW_SHBE_Records0.getClaimIDToDW_SHBE_RecordMap(handleOutOfMemoryError);
         // <writeOutModifiedPostcodes>
         writeOutModifiedPostcodes(
@@ -541,7 +543,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
          * Claimant Postcodes that are not yet mappable by any means.
          */
         File UnmappablePostcodesFile;
-        UnmappablePostcodesFile = new File(                logDir,
+        UnmappablePostcodesFile = new File(logDir,
                 "UnmappablePostcodes" + YMN + ".csv");
         PrintWriter pw2 = null;
         try {
@@ -808,7 +810,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     public HashSet<SHBE_ID> getClaimIDsWithStatusOfCTBAtExtractDate(
             DW_SHBE_Records DW_SHBE_Records,
             String PT) {
-         HashSet<SHBE_ID> result;
+        HashSet<SHBE_ID> result;
         result = null;
         if (PT.equalsIgnoreCase(Strings.sPaymentTypeAll)) {
             result = DW_SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
@@ -1075,384 +1077,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         return r;
     }
 
-    /**
-     *
-     * @param DW_SHBE_Records
-     * @param HB_CTB
-     * @param PTs
-     * @param YM30
-     * @param UOReportSetCouncil
-     * @param UOReportSetRSL
-     * @param doUnderOccupancy
-     * @param doCouncil
-     * @param doRSL
-     * @param forceNew
-     * @return HashMap<String, BigDecimal> result where the keys are Strings for
-     * Income and Rent Summary Statistics. An example key is:
-     * SHBE_Strings.sTotal_Income + nameSuffix , where; nameSuffix = AllOrHBOrCTB
-     * + PT. (AllOrHBOrCTB is given by HB_CTB, PT is given by PTs)
-     */
-    public HashMap<String, BigDecimal> getIncomeAndRentSummary(
-            DW_SHBE_Records DW_SHBE_Records,
-            ArrayList<String> HB_CTB,
-            ArrayList<String> PTs,
-            ONSPD_YM3 YM30,
-            DW_UO_Set UOReportSetCouncil,
-            DW_UO_Set UOReportSetRSL,
-            boolean doUnderOccupancy,
-            boolean doCouncil,
-            boolean doRSL,
-            boolean forceNew) {
-        HashMap<String, BigDecimal> result;
-        result = new HashMap<>();
-        File IncomeAndRentSummaryFile = getIncomeAndRentSummaryFile(
-                YM30,
-                doUnderOccupancy,
-                doCouncil,
-                doRSL);
-        if (IncomeAndRentSummaryFile.exists()) {
-            if (!forceNew) {
-                return (HashMap<String, BigDecimal>) Generic_IO.readObject(
-                        IncomeAndRentSummaryFile);
-            }
-        }
-        int nTT = getNumberOfTenancyTypes();
-        String HBOrCTB;
-        String PT;
-        String nameSuffix;
-        Iterator<String> HB_CTBIte;
-        HB_CTBIte = HB_CTB.iterator();
-        Iterator<String> PTsIte;
-
-        HashMap<SHBE_ID, DW_SHBE_Record> recs;
-        recs = DW_SHBE_Records.getRecords();
-
-        BigDecimal tBD;
-        BigDecimal zBD;
-
-        BigDecimal TotalIncome = null;
-        long TotalCount_IncomeNonZero = 0;
-        long TotalCount_IncomeZero = 0;
-        BigDecimal TotalWeeklyEligibleRentAmount = null;
-        long TotalCount_WeeklyEligibleRentAmountNonZero = 0;
-        long TotalCount_WeeklyEligibleRentAmountZero = 0;
-        BigDecimal[] TotalIncomeTT = null;
-        long[] TotalCount_IncomeTTNonZero = null;
-        long[] TotalCount_IncomeTTZero = null;
-        BigDecimal[] TotalTTWeeklyEligibleRentAmount = null;
-        int[] TotalCount_TTWeeklyEligibleRentAmountNonZero = null;
-        int[] TotalCount_TTWeeklyEligibleRentAmountZero = null;
-        Iterator<SHBE_ID> ite;
-        HashMap<SHBE_ID, DW_UO_Record> map;
-        SHBE_ID ClaimID;
-        int TT;
-        BigDecimal income;
-
-        while (HB_CTBIte.hasNext()) {
-            HBOrCTB = HB_CTBIte.next();
-            HashSet<SHBE_ID> ClaimIDs;
-
-            // Initialise
-            TotalCount_IncomeNonZero = 0;
-            TotalIncome = BigDecimal.ZERO;
-            TotalCount_IncomeZero = 0;
-            TotalWeeklyEligibleRentAmount = BigDecimal.ZERO;
-            TotalCount_WeeklyEligibleRentAmountNonZero = 0;
-            TotalCount_WeeklyEligibleRentAmountZero = 0;
-            TotalIncomeTT = new BigDecimal[nTT];
-            TotalCount_IncomeTTNonZero = new long[nTT];
-            TotalCount_IncomeTTZero = new long[nTT];
-            TotalTTWeeklyEligibleRentAmount = new BigDecimal[nTT];
-            TotalCount_TTWeeklyEligibleRentAmountNonZero = new int[nTT];
-            TotalCount_TTWeeklyEligibleRentAmountZero = new int[nTT];
-            for (int i = 0; i < nTT; i++) {
-                TotalIncomeTT[i] = BigDecimal.ZERO;
-                TotalCount_IncomeTTNonZero[i] = 0;
-                TotalCount_IncomeTTZero[i] = 0;
-                TotalTTWeeklyEligibleRentAmount[i] = BigDecimal.ZERO;
-                TotalCount_TTWeeklyEligibleRentAmountNonZero[i] = 0;
-                TotalCount_TTWeeklyEligibleRentAmountZero[i] = 0;
-            }
-            PTsIte = PTs.iterator();
-            while (PTsIte.hasNext()) {
-                PT = PTsIte.next();
-                if (HBOrCTB.equalsIgnoreCase(Strings.sHB)) {
-                    ClaimIDs = getClaimIDsWithStatusOfHBAtExtractDate(DW_SHBE_Records, PT);
-                } else {
-                    ClaimIDs = getClaimIDsWithStatusOfCTBAtExtractDate(DW_SHBE_Records, PT);
-                }
-//                Debugging code
-//                if (ClaimIDs == null) {
-//                    System.out.println(SHBE_Strings.sHB);
-//                    System.out.println(PT);
-//                }
-//                
-                if (doUnderOccupancy) {
-                    if (UOReportSetCouncil != null) {
-                        map = UOReportSetCouncil.getMap();
-                        ite = map.keySet().iterator();
-                        while (ite.hasNext()) {
-                            ClaimID = ite.next();
-                            if (ClaimIDs.contains(ClaimID)) {
-                                DW_SHBE_Record rec;
-                                rec = recs.get(ClaimID);
-                                if (rec != null) {
-                                    DW_SHBE_D_Record aDRecord;
-                                    aDRecord = rec.getDRecord();
-                                    TT = aDRecord.getTenancyType();
-                                    income = BigDecimal.valueOf(getClaimantsAndPartnersIncomeTotal(aDRecord));
-                                    if (HBOrCTB.equalsIgnoreCase(Strings.sHB)) {
-                                        // HB
-                                        if (isHBClaim(TT)) {
-                                            TotalIncome = TotalIncome.add(income);
-                                            TotalIncomeTT[TT] = TotalIncomeTT[TT].add(income);
-                                            if (income.compareTo(BigDecimal.ZERO) == 1) {
-                                                TotalCount_IncomeNonZero++;
-                                                TotalCount_IncomeTTNonZero[TT]++;
-                                            } else {
-                                                TotalCount_IncomeZero++;
-                                                TotalCount_IncomeTTZero[TT]++;
-                                            }
-                                            tBD = BigDecimal.valueOf(aDRecord.getWeeklyEligibleRentAmount());
-                                            TotalWeeklyEligibleRentAmount = TotalWeeklyEligibleRentAmount.add(tBD);
-                                            TotalTTWeeklyEligibleRentAmount[TT] = TotalTTWeeklyEligibleRentAmount[TT].add(tBD);
-                                            if (tBD.compareTo(BigDecimal.ZERO) == 1) {
-                                                TotalCount_WeeklyEligibleRentAmountNonZero++;
-                                                TotalCount_TTWeeklyEligibleRentAmountNonZero[TT]++;
-                                            } else {
-                                                TotalCount_WeeklyEligibleRentAmountZero++;
-                                                TotalCount_TTWeeklyEligibleRentAmountZero[TT]++;
-                                            }
-                                        }
-                                    } else // CTB
-                                    if (isCTBOnlyClaim(TT)) {
-                                        TotalIncome = TotalIncome.add(income);
-                                        TotalIncomeTT[TT] = TotalIncomeTT[TT].add(income);
-                                        if (income.compareTo(BigDecimal.ZERO) == 1) {
-                                            TotalCount_IncomeNonZero++;
-                                            TotalCount_IncomeTTNonZero[TT]++;
-                                        } else {
-                                            TotalCount_IncomeZero++;
-                                            TotalCount_IncomeTTZero[TT]++;
-                                        }
-                                        tBD = BigDecimal.valueOf(aDRecord.getWeeklyEligibleRentAmount());
-                                        TotalWeeklyEligibleRentAmount = TotalWeeklyEligibleRentAmount.add(tBD);
-                                        TotalTTWeeklyEligibleRentAmount[TT] = TotalTTWeeklyEligibleRentAmount[TT].add(tBD);
-                                        if (tBD.compareTo(BigDecimal.ZERO) == 1) {
-                                            TotalCount_WeeklyEligibleRentAmountNonZero++;
-                                            TotalCount_TTWeeklyEligibleRentAmountNonZero[TT]++;
-                                        } else {
-                                            TotalCount_WeeklyEligibleRentAmountZero++;
-                                            TotalCount_TTWeeklyEligibleRentAmountZero[TT]++;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (UOReportSetRSL != null) {
-                        map = UOReportSetRSL.getMap();
-                        ite = map.keySet().iterator();
-                        while (ite.hasNext()) {
-                            ClaimID = ite.next();
-                            if (ClaimIDs.contains(ClaimID)) {
-                                DW_SHBE_Record rec;
-                                rec = recs.get(ClaimID);
-                                if (rec != null) {
-                                    DW_SHBE_D_Record aDRecord;
-                                    aDRecord = rec.getDRecord();
-                                    TT = aDRecord.getTenancyType();
-                                    income = BigDecimal.valueOf(getClaimantsAndPartnersIncomeTotal(aDRecord));
-                                    if (HBOrCTB.equalsIgnoreCase(Strings.sHB)) {
-                                        // HB
-                                        if (isHBClaim(TT)) {
-                                            TotalIncome = TotalIncome.add(income);
-                                            TotalIncomeTT[TT] = TotalIncomeTT[TT].add(income);
-                                            if (income.compareTo(BigDecimal.ZERO) == 1) {
-                                                TotalCount_IncomeNonZero++;
-                                                TotalCount_IncomeTTNonZero[TT]++;
-                                            } else {
-                                                TotalCount_IncomeZero++;
-                                                TotalCount_IncomeTTZero[TT]++;
-                                            }
-                                            tBD = BigDecimal.valueOf(aDRecord.getWeeklyEligibleRentAmount());
-                                            TotalWeeklyEligibleRentAmount = TotalWeeklyEligibleRentAmount.add(tBD);
-                                            TotalTTWeeklyEligibleRentAmount[TT] = TotalTTWeeklyEligibleRentAmount[TT].add(tBD);
-                                            if (tBD.compareTo(BigDecimal.ZERO) == 1) {
-                                                TotalCount_WeeklyEligibleRentAmountNonZero++;
-                                                TotalCount_TTWeeklyEligibleRentAmountNonZero[TT]++;
-                                            } else {
-                                                TotalCount_WeeklyEligibleRentAmountZero++;
-                                                TotalCount_TTWeeklyEligibleRentAmountZero[TT]++;
-                                            }
-                                        }
-                                    } else // CTB
-                                    {
-                                        if (isCTBOnlyClaim(TT)) {
-                                            TotalIncome = TotalIncome.add(income);
-                                            TotalIncomeTT[TT] = TotalIncomeTT[TT].add(income);
-                                            if (income.compareTo(BigDecimal.ZERO) == 1) {
-                                                TotalCount_IncomeNonZero++;
-                                                TotalCount_IncomeTTNonZero[TT]++;
-                                            } else {
-                                                TotalCount_IncomeZero++;
-                                                TotalCount_IncomeTTZero[TT]++;
-                                            }
-                                            tBD = BigDecimal.valueOf(aDRecord.getWeeklyEligibleRentAmount());
-                                            TotalWeeklyEligibleRentAmount = TotalWeeklyEligibleRentAmount.add(tBD);
-                                            TotalTTWeeklyEligibleRentAmount[TT] = TotalTTWeeklyEligibleRentAmount[TT].add(tBD);
-                                            if (tBD.compareTo(BigDecimal.ZERO) == 1) {
-                                                TotalCount_WeeklyEligibleRentAmountNonZero++;
-                                                TotalCount_TTWeeklyEligibleRentAmountNonZero[TT]++;
-                                            } else {
-                                                TotalCount_WeeklyEligibleRentAmountZero++;
-                                                TotalCount_TTWeeklyEligibleRentAmountZero[TT]++;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    Iterator<SHBE_ID> ClaimIDsIte;
-                    ClaimIDsIte = ClaimIDs.iterator();
-                    while (ClaimIDsIte.hasNext()) {
-                        ClaimID = ClaimIDsIte.next();
-                        DW_SHBE_Record rec;
-                        rec = recs.get(ClaimID);
-                        DW_SHBE_D_Record aDRecord;
-                        aDRecord = rec.getDRecord();
-                        TT = aDRecord.getTenancyType();
-                        income = BigDecimal.valueOf(getClaimantsAndPartnersIncomeTotal(aDRecord));
-                        if (HBOrCTB.equalsIgnoreCase(Strings.sHB)) {
-                            // HB
-                            if (isHBClaim(TT)) {
-                                TotalIncome = TotalIncome.add(income);
-                                TotalIncomeTT[TT] = TotalIncomeTT[TT].add(income);
-                                if (income.compareTo(BigDecimal.ZERO) == 1) {
-                                    TotalCount_IncomeNonZero++;
-                                    TotalCount_IncomeTTNonZero[TT]++;
-                                } else {
-                                    TotalCount_IncomeZero++;
-                                    TotalCount_IncomeTTZero[TT]++;
-                                }
-                                tBD = BigDecimal.valueOf(aDRecord.getWeeklyEligibleRentAmount());
-                                TotalWeeklyEligibleRentAmount = TotalWeeklyEligibleRentAmount.add(tBD);
-                                TotalTTWeeklyEligibleRentAmount[TT] = TotalTTWeeklyEligibleRentAmount[TT].add(tBD);
-                                if (tBD.compareTo(BigDecimal.ZERO) == 1) {
-                                    TotalCount_WeeklyEligibleRentAmountNonZero++;
-                                    TotalCount_TTWeeklyEligibleRentAmountNonZero[TT]++;
-                                } else {
-                                    TotalCount_WeeklyEligibleRentAmountZero++;
-                                    TotalCount_TTWeeklyEligibleRentAmountZero[TT]++;
-                                }
-                            }
-                        } else // CTB
-                        {
-                            if (isCTBOnlyClaim(TT)) {
-                                TotalIncome = TotalIncome.add(income);
-                                TotalIncomeTT[TT] = TotalIncomeTT[TT].add(income);
-                                if (income.compareTo(BigDecimal.ZERO) == 1) {
-                                    TotalCount_IncomeNonZero++;
-                                    TotalCount_IncomeTTNonZero[TT]++;
-                                } else {
-                                    TotalCount_IncomeZero++;
-                                    TotalCount_IncomeTTZero[TT]++;
-                                }
-                                tBD = BigDecimal.valueOf(aDRecord.getWeeklyEligibleRentAmount());
-                                TotalWeeklyEligibleRentAmount = TotalWeeklyEligibleRentAmount.add(tBD);
-                                TotalTTWeeklyEligibleRentAmount[TT] = TotalTTWeeklyEligibleRentAmount[TT].add(tBD);
-                                if (tBD.compareTo(BigDecimal.ZERO) == 1) {
-                                    TotalCount_WeeklyEligibleRentAmountNonZero++;
-                                    TotalCount_TTWeeklyEligibleRentAmountNonZero[TT]++;
-                                } else {
-                                    TotalCount_WeeklyEligibleRentAmountZero++;
-                                    TotalCount_TTWeeklyEligibleRentAmountZero[TT]++;
-                                }
-                            }
-                        }
-                    }
-                }
-                nameSuffix = HBOrCTB + PT;
-                tBD = BigDecimal.valueOf(TotalCount_IncomeNonZero);
-                zBD = BigDecimal.valueOf(TotalCount_IncomeZero);
-                result.put(Strings.sTotal_Income + nameSuffix, TotalIncome);
-                result.put(Strings.sTotalCount_IncomeNonZero + nameSuffix, tBD);
-                result.put(Strings.sTotalCount_IncomeZero + nameSuffix, zBD);
-                if (tBD.compareTo(BigDecimal.ZERO) == 1) {
-                    result.put(Strings.sAverage_NonZero_Income + nameSuffix,
-                            Generic_BigDecimal.divideRoundIfNecessary(
-                                    TotalIncome, tBD,
-                                    2, RoundingMode.HALF_UP));
-                } else {
-                    result.put(Strings.sAverage_NonZero_Income + nameSuffix,
-                            BigDecimal.ZERO);
-                }
-                tBD = BigDecimal.valueOf(
-                        TotalCount_WeeklyEligibleRentAmountNonZero);
-                zBD = BigDecimal.valueOf(
-                        TotalCount_WeeklyEligibleRentAmountZero);
-                result.put(Strings.sTotal_WeeklyEligibleRentAmount + nameSuffix,
-                        TotalWeeklyEligibleRentAmount);
-                result.put(Strings.sTotalCount_WeeklyEligibleRentAmountNonZero + nameSuffix,
-                        tBD);
-                result.put(Strings.sTotalCount_WeeklyEligibleRentAmountZero + nameSuffix,
-                        zBD);
-                if (tBD.compareTo(BigDecimal.ZERO) == 1) {
-                    result.put(Strings.sAverage_NonZero_WeeklyEligibleRentAmount + nameSuffix,
-                            Generic_BigDecimal.divideRoundIfNecessary(
-                                    TotalWeeklyEligibleRentAmount,
-                                    tBD,
-                                    2, RoundingMode.HALF_UP));
-                }
-                for (int i = 0; i < nTT; i++) {
-                    // Income
-                    result.put(Strings.sTotal_IncomeTT[i] + nameSuffix,
-                            TotalIncomeTT[i]);
-                    tBD = BigDecimal.valueOf(
-                            TotalCount_IncomeTTNonZero[i]);
-                    zBD = BigDecimal.valueOf(
-                            TotalCount_IncomeTTZero[i]);
-                    result.put(Strings.sTotalCount_IncomeNonZeroTT[i] + nameSuffix, tBD);
-                    result.put(Strings.sTotalCount_IncomeZeroTT[i] + nameSuffix, zBD);
-                    if (tBD.compareTo(BigDecimal.ZERO) == 1) {
-                        result.put(Strings.sAverage_NonZero_IncomeTT[i] + nameSuffix,
-                                Generic_BigDecimal.divideRoundIfNecessary(
-                                        TotalIncomeTT[i],
-                                        tBD,
-                                        2, RoundingMode.HALF_UP));
-                    } else {
-                        result.put(Strings.sAverage_NonZero_IncomeTT[i] + nameSuffix,
-                                BigDecimal.ZERO);
-                    }
-                    // Rent
-                    result.put(Strings.sTotal_WeeklyEligibleRentAmountTT[i] + nameSuffix,
-                            TotalTTWeeklyEligibleRentAmount[i]);
-                    tBD = BigDecimal.valueOf(
-                            TotalCount_TTWeeklyEligibleRentAmountNonZero[i]);
-                    zBD = BigDecimal.valueOf(
-                            TotalCount_TTWeeklyEligibleRentAmountZero[i]);
-                    result.put(Strings.sTotalCount_WeeklyEligibleRentAmountNonZeroTT[i] + nameSuffix,
-                            tBD);
-                    result.put(Strings.sTotalCount_WeeklyEligibleRentAmountZeroTT[i] + nameSuffix,
-                            zBD);
-                    if (tBD.compareTo(BigDecimal.ZERO) == 1) {
-                        result.put(Strings.sAverage_NonZero_WeeklyEligibleRentAmountTT[i] + nameSuffix,
-                                Generic_BigDecimal.divideRoundIfNecessary(
-                                        TotalTTWeeklyEligibleRentAmount[i],
-                                        tBD,
-                                        2, RoundingMode.HALF_UP));
-                    } else {
-                        result.put(Strings.sAverage_NonZero_WeeklyEligibleRentAmountTT[i] + nameSuffix,
-                                BigDecimal.ZERO);
-                    }
-                }
-            }
-        }
-        Generic_IO.writeObject(result, IncomeAndRentSummaryFile);
-        return result;
-    }
+    
 
     public DW_SHBE_RecordAggregate aggregate(HashSet<DW_SHBE_Record> records) {
         DW_SHBE_RecordAggregate result = new DW_SHBE_RecordAggregate();
@@ -2284,20 +1909,20 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * Method for getting SHBE collections filenames in an array
      *
      * @code {if (SHBEFilenamesAll == null) {
- String[] list = Env.getFiles().getInputSHBEDir().list();
- SHBEFilenamesAll = new String[list.length];
- String s;
- String ym;
- TreeMap<String, String> yms;
- yms = new TreeMap<String, String>();
- for (String list1 : list) {
- s = list1;
- ym = getYearMonthNumber(s);
- yms.put(ym, s);
- }
- Iterator<String> ite; ite = yms.keySet().iterator(); int i = 0; while
- (ite.hasNext()) { ym = ite.next(); SHBEFilenamesAll[i] = yms.get(ym);
- i++; } } return SHBEFilenamesAll;} }
+     * String[] list = Env.getFiles().getInputSHBEDir().list();
+     * SHBEFilenamesAll = new String[list.length];
+     * String s;
+     * String ym;
+     * TreeMap<String, String> yms;
+     * yms = new TreeMap<String, String>();
+     * for (String list1 : list) {
+     * s = list1;
+     * ym = getYearMonthNumber(s);
+     * yms.put(ym, s);
+     * }
+     * Iterator<String> ite; ite = yms.keySet().iterator(); int i = 0; while
+     * (ite.hasNext()) { ym = ite.next(); SHBEFilenamesAll[i] = yms.get(ym);
+     * i++; } } return SHBEFilenamesAll;} }
      *
      * @return String[] result of SHBE collections filenames
      */
@@ -2709,66 +2334,6 @@ public class DW_SHBE_Handler extends SHBE_Object {
         return result;
     }
 
-    /**
-     * @param YM3
-     * @param doUnderOccupancy
-     * @param doCouncil
-     * @param doRSL
-     * @return
-     */
-    public File getIncomeAndRentSummaryFile(
-            //String PT,
-            ONSPD_YM3 YM3,
-            boolean doUnderOccupancy,
-            boolean doCouncil,
-            boolean doRSL
-    ) {
-        File result;
-        String partFilename;
-        if (doUnderOccupancy) {
-            if (doCouncil) {
-                if (doRSL) {
-                    //partFilename = "IncomeAndRentSummaryUA_HashMap_String__BigDecimal.dat";
-                    partFilename = Strings.sIncomeAndRentSummary
-                            + Strings.sU + Strings.s_A + Strings.symbol_underscore
-                            + Strings.sHashMap + Strings.symbol_underscore
-                            + Strings.sString + Strings.symbol_underscore + Strings.symbol_underscore
-                            + Strings.sBigDecimal + Strings.sBinaryFileExtension;
-                } else {
-                    //partFilename = "IncomeAndRentSummaryUC_HashMap_String__BigDecimal.dat";
-                    partFilename = Strings.sIncomeAndRentSummary
-                            + Strings.sU + Strings.sCouncil + Strings.symbol_underscore
-                            + Strings.sHashMap + Strings.symbol_underscore
-                            + Strings.s_String + Strings.symbol_underscore + Strings.symbol_underscore
-                            + Strings.s_BigDecimal + Strings.sBinaryFileExtension;
-                }
-            } else {
-                //partFilename = "IncomeAndRentSummaryUR_HashMap_String__BigDecimal.dat";
-                partFilename = Strings.sIncomeAndRentSummary
-                        + Strings.sU + Strings.sRSL + Strings.symbol_underscore
-                        + Strings.sHashMap + Strings.symbol_underscore
-                        + Strings.sString + Strings.symbol_underscore + Strings.symbol_underscore
-                        + Strings.sBigDecimal + Strings.sBinaryFileExtension;
-            }
-        } else {
-            //partFilename = "IncomeAndRentSummary_HashMap_String__BigDecimal.dat";
-            partFilename = Strings.sIncomeAndRentSummary
-                    + Strings.sHashMap + Strings.symbol_underscore
-                    + Strings.sString + Strings.symbol_underscore + Strings.symbol_underscore
-                    + Strings.sBigDecimal + Strings.sBinaryFileExtension;
-        }
-        File dir;
-        dir = new File(
-                Files.getGeneratedSHBEDir(),
-                YM3.toString());
-        dir = Files.getUODir(dir, doUnderOccupancy, doCouncil);
-        dir.mkdirs();
-        result = new File(
-                dir,
-                partFilename);
-        return result;
-    }
-
     public int getNumberOfTenancyTypes() {
         return 10;
     }
@@ -2792,17 +2357,12 @@ public class DW_SHBE_Handler extends SHBE_Object {
     /**
      * Negation of getOmits()
      *
-     * sIncludeAll
-     * sIncludeYearly
-     * sInclude6Monthly
-     * sInclude3Monthly
-     * sIncludeMonthly
-     * sIncludeMonthlySinceApril2013
+     * sIncludeAll sIncludeYearly sInclude6Monthly sInclude3Monthly
+     * sIncludeMonthly sIncludeMonthlySinceApril2013
      * sInclude2MonthlySinceApril2013Offset0
-     * sInclude2MonthlySinceApril2013Offset1
-     * sIncludeStartEndSinceApril2013
+     * sInclude2MonthlySinceApril2013Offset1 sIncludeStartEndSinceApril2013
      * sIncludeApril2013May2013
-     * 
+     *
      * @return
      */
     public TreeMap<String, ArrayList<Integer>> getIncludes() {
@@ -3112,16 +2672,11 @@ public class DW_SHBE_Handler extends SHBE_Object {
     /**
      * Negation of getIncludes(). This method will want modifying if data prior
      * to January 2013 is added.
-     * 
-     * sIncludeAll
-     * sIncludeYearly
-     * sInclude6Monthly
-     * sInclude3Monthly
-     * sIncludeMonthly
-     * sIncludeMonthlySinceApril2013
+     *
+     * sIncludeAll sIncludeYearly sInclude6Monthly sInclude3Monthly
+     * sIncludeMonthly sIncludeMonthlySinceApril2013
      * sInclude2MonthlySinceApril2013Offset0
-     * sInclude2MonthlySinceApril2013Offset1
-     * sIncludeStartEndSinceApril2013
+     * sInclude2MonthlySinceApril2013Offset1 sIncludeStartEndSinceApril2013
      * sIncludeApril2013May2013
      *
      * @return

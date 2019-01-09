@@ -70,7 +70,7 @@ public class DW_SHBE_Data extends SHBE_Object {
      */
     private HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup;
 
-//    private DW_CorrectedPostcodes CorrectedPostcodes;
+    private DW_CorrectedPostcodes CorrectedPostcodes;
 
     /**
      * National Insurance Number to NINO SHBE_ID Lookup.
