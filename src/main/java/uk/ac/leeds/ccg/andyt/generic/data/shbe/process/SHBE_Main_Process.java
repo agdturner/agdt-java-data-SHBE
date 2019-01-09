@@ -67,18 +67,6 @@ public class SHBE_Main_Process extends SHBE_Object {
         File indir;
         File outdir;
         File generateddir;
-//        ONSPD_HHOLD_Handler hholdHandler;
-//
-//        indir = Files.getONSPDInputDir();
-//        generateddir = Files.getGeneratedONSPDDir();
-//        outdir = new File(generateddir, "Subsets");
-//        outdir.mkdirs();
-//        hholdHandler = new ONSPD_HHOLD_Handler(Env.Files, Env.Strings, indir);
-//
-//        int chunkSize;
-//        chunkSize = 256; //1024; 512; 256;
-//        doDataProcessingStep1New(indir, outdir, hholdHandler);
-//        doDataProcessingStep2(indir, outdir, hholdHandler, chunkSize);
 
         logPW.close();
     }

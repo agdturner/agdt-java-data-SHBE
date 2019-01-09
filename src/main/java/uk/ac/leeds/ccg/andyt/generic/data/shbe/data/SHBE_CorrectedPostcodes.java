@@ -35,7 +35,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
  *
  * @author geoagdt
  */
-public class DW_CorrectedPostcodes extends SHBE_Object {
+public class SHBE_CorrectedPostcodes extends SHBE_Object {
 
     protected transient ONSPD_Postcode_Handler Postcode_Handler;
     protected transient SHBE_Files Files;
@@ -46,10 +46,10 @@ public class DW_CorrectedPostcodes extends SHBE_Object {
     private HashMap<String, ArrayList<String>> ClaimRefToCorrectedPostcodes;
     private HashSet<String> PostcodesCheckedAsMappable;
 
-    public DW_CorrectedPostcodes() {
+    public SHBE_CorrectedPostcodes() {
     }
 
-    public DW_CorrectedPostcodes(SHBE_Environment env) {
+    public SHBE_CorrectedPostcodes(SHBE_Environment env) {
         super(env);
         Postcode_Handler = env.getPostcode_Handler();
         Files = env.Files;
@@ -57,7 +57,7 @@ public class DW_CorrectedPostcodes extends SHBE_Object {
     }
 
     public static void main(String[] args) {
-//        new DW_CorrectedPostcodes(new SHBE_Environment(0)).run();
+//        new SHBE_CorrectedPostcodes(new SHBE_Environment(0)).run();
     }
 
     /**

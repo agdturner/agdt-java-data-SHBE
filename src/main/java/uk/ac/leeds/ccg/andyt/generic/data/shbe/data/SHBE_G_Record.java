@@ -25,9 +25,9 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class DW_SHBE_G_Record extends DW_SHBE_RecordAbstract {
+public class SHBE_G_Record extends SHBE_RecordAbstract {
     
-    public DW_SHBE_G_Record(SHBE_Environment env) {
+    public SHBE_G_Record(SHBE_Environment env) {
         super(env);
     }
     /**

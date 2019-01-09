@@ -29,7 +29,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
  *
  * @author geoagdt
  */
-public class DW_SHBE_TenancyType_Handler extends SHBE_Object {
+public class SHBE_TenancyType_Handler extends SHBE_Object {
 
     // For convenience
     SHBE_Strings ds;
@@ -73,10 +73,10 @@ public class DW_SHBE_TenancyType_Handler extends SHBE_Object {
     public final String sNoTenancy = "No Tenancy";
     public final String sUnknown = "Unknown";
 
-    protected DW_SHBE_TenancyType_Handler() {
+    protected SHBE_TenancyType_Handler() {
     }
 
-    public DW_SHBE_TenancyType_Handler(SHBE_Environment env) {
+    public SHBE_TenancyType_Handler(SHBE_Environment env) {
         super(env);
         ds = env.Strings;
     }

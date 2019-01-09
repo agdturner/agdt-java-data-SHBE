@@ -26,15 +26,15 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
  *
  * @author geoagdt
  */
-public class DW_ClaimID_PostcodeID implements Serializable {
+public class SHBE_ClaimID_PostcodeID implements Serializable {
 
     private SHBE_ID ClaimID;
     private ONSPD_ID PostcodeID;
 
-    public DW_ClaimID_PostcodeID() {
+    public SHBE_ClaimID_PostcodeID() {
     }
 
-    public DW_ClaimID_PostcodeID(
+    public SHBE_ClaimID_PostcodeID(
             SHBE_ID claimID,
             ONSPD_ID postcodeID
     ) {
@@ -69,9 +69,9 @@ public class DW_ClaimID_PostcodeID implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof DW_ClaimID_PostcodeID) {
-            DW_ClaimID_PostcodeID o;
-            o = (DW_ClaimID_PostcodeID) obj;
+        if (obj instanceof SHBE_ClaimID_PostcodeID) {
+            SHBE_ClaimID_PostcodeID o;
+            o = (SHBE_ClaimID_PostcodeID) obj;
             if (this.ClaimID.equals(o.ClaimID)) {
                 if (PostcodeID.equals(o.PostcodeID)) {
                     return true;

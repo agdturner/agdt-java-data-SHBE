@@ -26,7 +26,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class DW_SHBE_S_Record extends DW_SHBE_RecordAbstract implements Serializable {
+public class SHBE_S_Record extends DW_SHBE_RecordAbstract implements Serializable {
 
     /**
      * 11 16 NonDependentStatus
@@ -64,9 +64,9 @@ public class DW_SHBE_S_Record extends DW_SHBE_RecordAbstract implements Serializ
      */
     private String SubRecordDateOfBirth;
 
-    private DW_PersonID DW_PersonID;
+    private SHBE_PersonID DW_PersonID;
 
-    public DW_SHBE_S_Record(SHBE_Environment env) {
+    public SHBE_S_Record(SHBE_Environment env) {
         super(env);
     }
 
@@ -128,7 +128,7 @@ public class DW_SHBE_S_Record extends DW_SHBE_RecordAbstract implements Serializ
      * @param line
      * @throws java.lang.Exception
      */
-    public DW_SHBE_S_Record(SHBE_Environment env, long RecordID, int type,
+    public SHBE_S_Record(SHBE_Environment env, long RecordID, int type,
             String line    ) throws Exception {
         super(env);
         this.RecordID = RecordID;

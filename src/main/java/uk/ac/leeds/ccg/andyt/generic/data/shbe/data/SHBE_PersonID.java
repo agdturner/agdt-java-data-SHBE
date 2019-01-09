@@ -25,15 +25,15 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
  *
  * @author geoagdt
  */
-public class DW_PersonID implements Serializable {
+public class SHBE_PersonID implements Serializable {
 
     private SHBE_ID NINO_ID;
     private SHBE_ID DOB_ID;
 
-    public DW_PersonID() {
+    public SHBE_PersonID() {
     }
 
-    public DW_PersonID(
+    public SHBE_PersonID(
             SHBE_ID tNINO_ID,
             SHBE_ID tDOB_ID
     ) {
@@ -63,9 +63,9 @@ public class DW_PersonID implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof DW_PersonID) {
-            DW_PersonID o;
-            o = (DW_PersonID) obj;
+        if (obj instanceof SHBE_PersonID) {
+            SHBE_PersonID o;
+            o = (SHBE_PersonID) obj;
             if (this.hashCode() == o.hashCode()) {
                 if (NINO_ID.equals(o.getNINO_ID())) {
                     if (DOB_ID.equals(o.getDOB_ID())) {

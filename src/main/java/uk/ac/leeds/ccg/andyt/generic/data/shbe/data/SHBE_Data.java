@@ -40,7 +40,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.util.SHBE_Collections;
  *
  * @author geoagdt
  */
-public class DW_SHBE_Data extends SHBE_Object {
+public class SHBE_Data extends SHBE_Object {
 
     /**
      * For convenience
@@ -54,7 +54,7 @@ public class DW_SHBE_Data extends SHBE_Object {
      * the values are the respective collection.
      */
     protected HashMap<ONSPD_YM3, DW_SHBE_Records> Data;
-
+    
     /**
      * File for storing Data
      */
@@ -198,10 +198,10 @@ public class DW_SHBE_Data extends SHBE_Object {
      */
     private File PostcodeIDToPointLookupsFile;
 
-    public DW_SHBE_Data() {
+    public SHBE_Data() {
     }
 
-    public DW_SHBE_Data(SHBE_Environment env) {
+    public SHBE_Data(SHBE_Environment env) {
         super(env);
         DW_Postcode_Handler = env.getPostcode_Handler();
         SHBE_Files = env.Files;

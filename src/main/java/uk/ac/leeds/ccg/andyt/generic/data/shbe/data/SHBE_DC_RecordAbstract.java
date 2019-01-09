@@ -24,7 +24,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class DW_SHBE_DC_RecordAbstract extends DW_SHBE_DAC_RecordAbstract {
+public class SHBE_DC_RecordAbstract extends SHBE_DAC_RecordAbstract {
 
     /**
      * 32 37 DateOfFirstDecisionOnMostRecentHBClaim
@@ -91,7 +91,7 @@ public class DW_SHBE_DC_RecordAbstract extends DW_SHBE_DAC_RecordAbstract {
      */
     private int TotalAmountOfBackdatedCTBAwarded;
 
-    public DW_SHBE_DC_RecordAbstract(SHBE_Environment env) {
+    public SHBE_DC_RecordAbstract(SHBE_Environment env) {
         super(env);
     }
 

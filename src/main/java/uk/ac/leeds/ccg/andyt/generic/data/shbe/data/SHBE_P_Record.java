@@ -24,7 +24,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class DW_SHBE_P_Record extends DW_SHBE_RecordAbstract {
+public class SHBE_P_Record extends SHBE_RecordAbstract {
 
     /**
      * 250 259 DateApplicationForRevisionReconsiderationReceived
@@ -47,7 +47,7 @@ public class DW_SHBE_P_Record extends DW_SHBE_RecordAbstract {
      */
     private String DateOfOutcomeOfAppealApplication;
 
-    public DW_SHBE_P_Record(SHBE_Environment env) {
+    public SHBE_P_Record(SHBE_Environment env) {
         super(env);
     }
 

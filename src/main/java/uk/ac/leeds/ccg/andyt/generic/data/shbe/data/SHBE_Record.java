@@ -32,7 +32,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
  *
  * @author geoagdt
  */
-public class DW_SHBE_Record extends SHBE_Object implements Serializable {
+public class SHBE_Record extends SHBE_Object implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -102,12 +102,12 @@ public class DW_SHBE_Record extends SHBE_Object implements Serializable {
     /**
      * DRecord
      */
-    protected DW_SHBE_D_Record DRecord;
+    protected SHBE_D_Record DRecord;
 
     /**
      * SRecords associated with a DRecord
      */
-    protected ArrayList<DW_SHBE_S_Record> SRecords;
+    protected ArrayList<SHBE_S_Record> SRecords;
 
     /**
      *
@@ -115,7 +115,7 @@ public class DW_SHBE_Record extends SHBE_Object implements Serializable {
      * @param YM3 The Year_Month of this.
      * @param ClaimID The ClaimRef SHBE_ID for this.
      */
-    public DW_SHBE_Record(SHBE_Environment env, ONSPD_YM3 YM3, SHBE_ID ClaimID) {
+    public SHBE_Record(SHBE_Environment env, ONSPD_YM3 YM3, SHBE_ID ClaimID) {
         super(env);
         SHBE_Strings = env.Strings;
         this.YM3 = YM3;
@@ -130,11 +130,11 @@ public class DW_SHBE_Record extends SHBE_Object implements Serializable {
      * @param ClaimID The ClaimRef SHBE_ID for this.
      * @param DRecord
      */
-    public DW_SHBE_Record(
+    public SHBE_Record(
             SHBE_Environment env,
             ONSPD_YM3 YM3,
             SHBE_ID ClaimID,
-            DW_SHBE_D_Record DRecord) {
+            SHBE_D_Record DRecord) {
         super(env);
         this.SHBE_Strings = env.Strings;
         this.YM3 = YM3;
@@ -175,10 +175,10 @@ public class DW_SHBE_Record extends SHBE_Object implements Serializable {
             if (NumberOfS_Records > 0) {
                 result += ": ";
             }
-            Iterator<DW_SHBE_S_Record> ite;
+            Iterator<SHBE_S_Record> ite;
             ite = SRecords.iterator();
             while (ite.hasNext()) {
-                DW_SHBE_S_Record rec;
+                SHBE_S_Record rec;
                 rec = ite.next();
                 result += " SRecord: " + rec.toString();
                 result += SHBE_Strings.special_newLine;
@@ -209,10 +209,10 @@ public class DW_SHBE_Record extends SHBE_Object implements Serializable {
             if (NumberOfS_Records > 0) {
                 result += ": ";
             }
-            Iterator<DW_SHBE_S_Record> ite;
+            Iterator<SHBE_S_Record> ite;
             ite = SRecords.iterator();
             while (ite.hasNext()) {
-                DW_SHBE_S_Record rec;
+                SHBE_S_Record rec;
                 rec = ite.next();
                 result += " SRecord: " + rec.toString()
                         + SHBE_Strings.special_newLine;
@@ -254,21 +254,21 @@ public class DW_SHBE_Record extends SHBE_Object implements Serializable {
      *
      * @return
      */
-    public DW_SHBE_D_Record getDRecord() {
+    public SHBE_D_Record getDRecord() {
         return DRecord;
     }
 
     /**
      * @return the SRecords initialising if needs be.
      */
-    public final ArrayList<DW_SHBE_S_Record> getSRecords() {
+    public final ArrayList<SHBE_S_Record> getSRecords() {
         return SRecords;
     }
 
     /**
      * @param SRecords the SRecords to set
      */
-    public void setSRecords(ArrayList<DW_SHBE_S_Record> SRecords) {
+    public void setSRecords(ArrayList<SHBE_S_Record> SRecords) {
         this.SRecords = SRecords;
     }
 

@@ -24,7 +24,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class DW_SHBE_T_Record extends DW_SHBE_RecordAbstract {
+public class SHBE_T_Record extends DW_SHBE_RecordAbstract {
     
     /**
      * 45 50 WeeklyHBEntitlementBeforeChange
@@ -134,7 +134,7 @@ public class DW_SHBE_T_Record extends DW_SHBE_RecordAbstract {
      */
     private String OverpaymentReasonOther;
 
-    public DW_SHBE_T_Record(SHBE_Environment env) {
+    public SHBE_T_Record(SHBE_Environment env) {
         super(env);
     }
     

@@ -21,8 +21,8 @@ import java.io.Serializable;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Postcode_Handler;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.DW_SHBE_Data;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.DW_SHBE_Handler;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.SHBE_Data;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.SHBE_Handler;
 //import uk.ac.leeds.ccg.andyt.data.postcode.Generic_UKPostcode_Handler;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 //import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.ONSPD_Data;
@@ -38,8 +38,8 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public transient Generic_Environment ge;
     public transient SHBE_Strings Strings;
     public transient SHBE_Files Files;
-    public transient DW_SHBE_Data Data;
-    public transient DW_SHBE_Handler SHBE_Handler;
+    public transient SHBE_Data Data;
+    public transient SHBE_Handler SHBE_Handler;
 
     /**
      * Logging levels.
@@ -157,7 +157,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         File f;
         f = Files.getDataFile();
         System.out.println("<load data>");
-        Data = (DW_SHBE_Data) Generic_IO.readObject(f);
+        Data = (SHBE_Data) Generic_IO.readObject(f);
         System.out.println("<load data>");
     }
     

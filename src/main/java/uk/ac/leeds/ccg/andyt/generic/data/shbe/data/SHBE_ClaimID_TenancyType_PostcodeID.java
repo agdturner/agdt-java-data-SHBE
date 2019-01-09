@@ -26,13 +26,13 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
  *
  * @author geoagdt
  */
-public class DW_ClaimID_TenancyType_PostcodeID implements Serializable {
+public class SHBE_ClaimID_TenancyType_PostcodeID implements Serializable {
 
-    private final DW_ClaimID_TenancyType ClaimID_TenancyType;
+    private final SHBE_ClaimID_TenancyType ClaimID_TenancyType;
     private final ONSPD_ID PostcodeID;
 
-    public DW_ClaimID_TenancyType_PostcodeID(
-            DW_ClaimID_TenancyType ID_TenancyType,
+    public SHBE_ClaimID_TenancyType_PostcodeID(
+            SHBE_ClaimID_TenancyType ID_TenancyType,
             ONSPD_ID PostcodeID
     ) {
         this.ClaimID_TenancyType = ID_TenancyType;
@@ -68,9 +68,9 @@ public class DW_ClaimID_TenancyType_PostcodeID implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof DW_ClaimID_TenancyType_PostcodeID) {
-            DW_ClaimID_TenancyType_PostcodeID o;
-            o = (DW_ClaimID_TenancyType_PostcodeID) obj;
+        if (obj instanceof SHBE_ClaimID_TenancyType_PostcodeID) {
+            SHBE_ClaimID_TenancyType_PostcodeID o;
+            o = (SHBE_ClaimID_TenancyType_PostcodeID) obj;
             //if (this.hashCode() == o.hashCode()) {
                 if (PostcodeID.equals(o.PostcodeID)) {
                     if (ClaimID_TenancyType.equals(o.ClaimID_TenancyType)) {

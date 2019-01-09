@@ -25,7 +25,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class DW_SHBE_R_Record extends DW_SHBE_RecordAbstract implements Serializable {
+public class SHBE_R_Record extends SHBE_RecordAbstract implements Serializable {
 
     /**
      * 163 171 DateOverPaymentDetectionActivityInitiatedOnCase
@@ -69,7 +69,7 @@ public class DW_SHBE_R_Record extends DW_SHBE_RecordAbstract implements Serializ
      */
     private String IfResolutionOfHBMSReferralDoesNotResultInAFinancialAdjustmentPleaseIndicateTheReasonWhy;
 
-    public DW_SHBE_R_Record(SHBE_Environment env) {
+    public SHBE_R_Record(SHBE_Environment env) {
         super(env);
     }
 

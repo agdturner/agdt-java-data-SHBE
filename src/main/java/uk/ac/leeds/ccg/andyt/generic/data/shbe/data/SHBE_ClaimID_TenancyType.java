@@ -25,12 +25,12 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
  *
  * @author geoagdt
  */
-public class DW_ClaimID_TenancyType implements Serializable {
+public class SHBE_ClaimID_TenancyType implements Serializable {
 
     private final SHBE_ID ClaimID;
     private final int TenancyType;
 
-    public DW_ClaimID_TenancyType(
+    public SHBE_ClaimID_TenancyType(
             SHBE_ID ClaimID,
             int TenancyType
     ) {
@@ -60,9 +60,9 @@ public class DW_ClaimID_TenancyType implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof DW_ClaimID_TenancyType) {
-            DW_ClaimID_TenancyType o;
-            o = (DW_ClaimID_TenancyType) obj;
+        if (obj instanceof SHBE_ClaimID_TenancyType) {
+            SHBE_ClaimID_TenancyType o;
+            o = (SHBE_ClaimID_TenancyType) obj;
             if (hashCode() == o.hashCode()) {
                 if (TenancyType == o.TenancyType) {
                     if (ClaimID.equals(o.ClaimID)) {

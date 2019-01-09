@@ -24,7 +24,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class DW_SHBE_D_Record extends DW_SHBE_DC_RecordAbstract {
+public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
 
     /**
      * Creates a null record in case this is needed
@@ -32,7 +32,7 @@ public class DW_SHBE_D_Record extends DW_SHBE_DC_RecordAbstract {
      * @param env
      * @param RecordID
      */
-    public DW_SHBE_D_Record(SHBE_Environment env, long RecordID) {
+    public SHBE_D_Record(SHBE_Environment env, long RecordID) {
         super(env);
         this.RecordID = RecordID;
     }
@@ -47,7 +47,7 @@ public class DW_SHBE_D_Record extends DW_SHBE_DC_RecordAbstract {
      * @param line
      * @throws Exception
      */
-    public DW_SHBE_D_Record(SHBE_Environment env, long RecordID, int type, 
+    public SHBE_D_Record(SHBE_Environment env, long RecordID, int type, 
             String line) throws Exception {
         this(env, RecordID);
         String[] fields = line.split(",");

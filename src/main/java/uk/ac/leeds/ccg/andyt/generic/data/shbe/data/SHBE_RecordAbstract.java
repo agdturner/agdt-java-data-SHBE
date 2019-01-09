@@ -26,7 +26,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
  *
  * @author geoagdt
  */
-public abstract class DW_SHBE_RecordAbstract extends SHBE_Object implements Serializable {
+public abstract class SHBE_RecordAbstract extends SHBE_Object implements Serializable {
 
     /**
      * 0 RecordID
@@ -50,10 +50,10 @@ public abstract class DW_SHBE_RecordAbstract extends SHBE_Object implements Seri
      */
     private String ClaimantsNationalInsuranceNumber;
 
-    public DW_SHBE_RecordAbstract() {
+    public SHBE_RecordAbstract() {
     }
 
-    public DW_SHBE_RecordAbstract(SHBE_Environment env) {
+    public SHBE_RecordAbstract(SHBE_Environment env) {
         super(env);
     }
 

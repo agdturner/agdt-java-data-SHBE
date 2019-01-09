@@ -48,16 +48,16 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
 //import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.underoccupied.DW_UO_Set;
 
 /**
- * Class for handling DW_SHBE_Data.
+ * Class for handling SHBE_Data.
  *
  * @author geoagdt
  */
-public class DW_SHBE_Handler extends SHBE_Object {
+public class SHBE_Handler extends SHBE_Object {
 
     /**
      * For convenience, these are initialised in construction from Env.
      */
-    private final transient DW_SHBE_Data SHBE_Data;
+    private final transient SHBE_Data SHBE_Data;
     private final transient HashMap<String, SHBE_ID> NINOToNINOIDLookup;
     private final transient HashMap<String, SHBE_ID> DOBToDOBIDLookup;
     public final transient SHBE_Strings Strings;
@@ -71,9 +71,9 @@ public class DW_SHBE_Handler extends SHBE_Object {
     protected HashSet<String> RecordTypes;
 
 //    
-//    public DW_SHBE_Handler() {
+//    public SHBE_Handler() {
 //    }
-    public DW_SHBE_Handler(SHBE_Environment e) {
+    public SHBE_Handler(SHBE_Environment e) {
         super(e);
         SHBE_Data = e.Data;
         Strings = e.Strings;
@@ -98,8 +98,8 @@ public class DW_SHBE_Handler extends SHBE_Object {
         File dir;
         dir = Files.getInputSHBEDir();
         for (String SHBEFilename : SHBEFilenames) {
-            DW_SHBE_Records DW_SHBE_Records;
-            DW_SHBE_Records = new DW_SHBE_Records(
+            SHBE_Records DW_SHBE_Records;
+            DW_SHBE_Records = new SHBE_Records(
                     Env,
                     dir,
                     SHBEFilename,
@@ -200,8 +200,8 @@ public class DW_SHBE_Handler extends SHBE_Object {
             ite = newFilesToRead.iterator();
             while (ite.hasNext()) {
                 String SHBEFilename = ite.next();
-                DW_SHBE_Records DW_SHBE_Records;
-                DW_SHBE_Records = new DW_SHBE_Records(
+                SHBE_Records DW_SHBE_Records;
+                DW_SHBE_Records = new SHBE_Records(
                         Env,
                         dir,
                         SHBEFilename,
@@ -255,11 +255,11 @@ public class DW_SHBE_Handler extends SHBE_Object {
         ONSPD_YM3 NearestYM3ForONSPDLookupYM31;
         NearestYM3ForONSPDLookupYM31 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM31);
         System.out.println("NearestYM3ForONSPDLookupYM31 " + NearestYM3ForONSPDLookupYM31);
-        DW_SHBE_Records DW_SHBE_Records1;
-        DW_SHBE_Records1 = new DW_SHBE_Records(Env, YM31);
-        HashMap<SHBE_ID, DW_SHBE_Record> recs1;
+        SHBE_Records DW_SHBE_Records1;
+        DW_SHBE_Records1 = new SHBE_Records(Env, YM31);
+        HashMap<SHBE_ID, SHBE_Record> recs1;
         recs1 = DW_SHBE_Records1.getClaimIDToDW_SHBE_RecordMap(handleOutOfMemoryError);
-        DW_SHBE_Record rec1;
+        SHBE_Record rec1;
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup1;
         PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM31);
 
@@ -299,7 +299,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         try {
             pw2 = new PrintWriter(UnmappablePostcodesFile);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DW_SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
         }
         pw2.println("Ref,Year_Month,ClaimRef,Recorded Postcode,Correct Postcode,Input To Academy (Y/N)");
         int ref2 = 1;
@@ -307,9 +307,9 @@ public class DW_SHBE_Handler extends SHBE_Object {
         ONSPD_YM3 YM30;
         ONSPD_YM3 NearestYM3ForONSPDLookupYM30;
         HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable0;
-        DW_SHBE_Records DW_SHBE_Records0;
-        HashMap<SHBE_ID, DW_SHBE_Record> recs0;
-        DW_SHBE_Record rec0;
+        SHBE_Records DW_SHBE_Records0;
+        HashMap<SHBE_ID, SHBE_Record> recs0;
+        SHBE_Record rec0;
         String postcode0;
         String postcode1;
         String postcodef0;
@@ -336,11 +336,11 @@ public class DW_SHBE_Handler extends SHBE_Object {
             pw = new PrintWriter(FutureModifiedPostcodesFile);
             pw.println("ClaimRef,Original Claimant Postcode,Updated from the Future Claimant Postcode");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DW_SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
         }
         NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
         System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
-        DW_SHBE_Records0 = new DW_SHBE_Records(Env, YM30);
+        DW_SHBE_Records0 = new SHBE_Records(Env, YM30);
         recs0 = DW_SHBE_Records0.getClaimIDToDW_SHBE_RecordMap(handleOutOfMemoryError);
         // <writeOutModifiedPostcodes>
         writeOutModifiedPostcodes(
@@ -440,7 +440,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
             pw = new PrintWriter(UniqueUnmappablePostcodesFile);
             pw.println("ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,Input To Academy (Y/N)");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DW_SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
         }
         Iterator<String> iteS;
         iteS = UniqueUnmappablePostcodes.iterator();
@@ -457,7 +457,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
             pw = new PrintWriter(UniqueModifiedPostcodesFile);
             pw.println("ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,Input To Academy (Y/N)");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DW_SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
         }
         iteS = UniqueModifiedPostcodes.iterator();
         while (iteS.hasNext()) {
@@ -504,13 +504,13 @@ public class DW_SHBE_Handler extends SHBE_Object {
         ONSPD_YM3 NearestYM3ForONSPDLookupYM31;
         NearestYM3ForONSPDLookupYM31 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM31);
         System.out.println("NearestYM3ForONSPDLookupYM31 " + NearestYM3ForONSPDLookupYM31);
-        DW_SHBE_Records DW_SHBE_Records1;
-        DW_SHBE_Records1 = new DW_SHBE_Records(
+        SHBE_Records DW_SHBE_Records1;
+        DW_SHBE_Records1 = new SHBE_Records(
                 Env,
                 YM31);
-        HashMap<SHBE_ID, DW_SHBE_Record> recs1;
+        HashMap<SHBE_ID, SHBE_Record> recs1;
         recs1 = DW_SHBE_Records1.getClaimIDToDW_SHBE_RecordMap(handleOutOfMemoryError);
-        DW_SHBE_Record rec1;
+        SHBE_Record rec1;
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup1;
         PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM31);
 
@@ -549,7 +549,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         try {
             pw2 = new PrintWriter(UnmappablePostcodesFile);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DW_SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
         }
         pw2.println("Ref,Year_Month,ClaimRef,Recorded Postcode,Correct Postcode,Input To Academy (Y/N)");
         int ref2 = 1;
@@ -557,9 +557,9 @@ public class DW_SHBE_Handler extends SHBE_Object {
         ONSPD_YM3 YM30;
         ONSPD_YM3 NearestYM3ForONSPDLookupYM30;
         HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable0;
-        DW_SHBE_Records DW_SHBE_Records0;
-        HashMap<SHBE_ID, DW_SHBE_Record> recs0;
-        DW_SHBE_Record rec0;
+        SHBE_Records DW_SHBE_Records0;
+        HashMap<SHBE_ID, SHBE_Record> recs0;
+        SHBE_Record rec0;
         String postcode0;
         String postcode1;
         String postcodef0;
@@ -586,11 +586,11 @@ public class DW_SHBE_Handler extends SHBE_Object {
                 pw = new PrintWriter(FutureModifiedPostcodesFile);
                 pw.println("ClaimRef,Original Claimant Postcode,Updated from the Future Claimant Postcode");
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(DW_SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
             }
             NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
             System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
-            DW_SHBE_Records0 = new DW_SHBE_Records(
+            DW_SHBE_Records0 = new SHBE_Records(
                     Env,
                     YM30);
             recs0 = DW_SHBE_Records0.getClaimIDToDW_SHBE_RecordMap(handleOutOfMemoryError);
@@ -693,7 +693,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
             pw = new PrintWriter(UniqueUnmappablePostcodesFile);
             pw.println("ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,Input To Academy (Y/N)");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DW_SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
         }
         Iterator<String> iteS;
         iteS = UniqueUnmappablePostcodes.iterator();
@@ -710,7 +710,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
             pw = new PrintWriter(UniqueModifiedPostcodesFile);
             pw.println("ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,Input To Academy (Y/N)");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DW_SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
         }
         iteS = UniqueModifiedPostcodes.iterator();
         while (iteS.hasNext()) {
@@ -742,7 +742,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
      */
     protected void writeOutModifiedPostcodes(
             HashSet<String> UniqueModifiedPostcodes,
-            File dir, String YMN, DW_SHBE_Records DW_SHBE_Records,
+            File dir, String YMN, SHBE_Records DW_SHBE_Records,
             HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup,
             boolean handleOutOfMemoryError) {
         File ModifiedPostcodesFile;
@@ -759,7 +759,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         try {
             pw = new PrintWriter(ModifiedPostcodesFile);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DW_SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
         }
         pw.println("Ref,ClaimRef,Recorded Postcode,Modified Postcode,Input To Academy (Y/N)");
         ref = 1;
@@ -783,7 +783,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @return
      */
     public HashSet<SHBE_ID> getClaimIDsWithStatusOfHBAtExtractDate(
-            DW_SHBE_Records DW_SHBE_Records,
+            SHBE_Records DW_SHBE_Records,
             String PT) {
         HashSet<SHBE_ID> result;
         result = null;
@@ -808,7 +808,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @return
      */
     public HashSet<SHBE_ID> getClaimIDsWithStatusOfCTBAtExtractDate(
-            DW_SHBE_Records DW_SHBE_Records,
+            SHBE_Records DW_SHBE_Records,
             String PT) {
         HashSet<SHBE_ID> result;
         result = null;
@@ -826,7 +826,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         return result;
     }
 
-    public String getClaimantType(DW_SHBE_D_Record D_Record) {
+    public String getClaimantType(SHBE_D_Record D_Record) {
         if (isHBClaim(D_Record)) {
             return Strings.sHB;
         }
@@ -843,28 +843,28 @@ public class DW_SHBE_Handler extends SHBE_Object {
         return result;
     }
 
-    public boolean isCTBOnlyClaimOtherPT(DW_SHBE_D_Record D_Record) {
+    public boolean isCTBOnlyClaimOtherPT(SHBE_D_Record D_Record) {
         if (D_Record.getStatusOfCTBClaimAtExtractDate() == 0) {
             return isCTBOnlyClaim(D_Record);
         }
         return false;
     }
 
-    public boolean isCTBOnlyClaimSuspended(DW_SHBE_D_Record D_Record) {
+    public boolean isCTBOnlyClaimSuspended(SHBE_D_Record D_Record) {
         if (D_Record.getStatusOfCTBClaimAtExtractDate() == 2) {
             return isCTBOnlyClaim(D_Record);
         }
         return false;
     }
 
-    public boolean isCTBOnlyClaimInPayment(DW_SHBE_D_Record D_Record) {
+    public boolean isCTBOnlyClaimInPayment(SHBE_D_Record D_Record) {
         if (D_Record.getStatusOfCTBClaimAtExtractDate() == 1) {
             return isCTBOnlyClaim(D_Record);
         }
         return false;
     }
 
-    public boolean isCTBOnlyClaim(DW_SHBE_D_Record D_Record) {
+    public boolean isCTBOnlyClaim(SHBE_D_Record D_Record) {
         if (D_Record == null) {
             return false;
         }
@@ -883,28 +883,28 @@ public class DW_SHBE_Handler extends SHBE_Object {
         return TT == 5 || TT == 7;
     }
 
-    public boolean isHBClaimOtherPT(DW_SHBE_D_Record D_Record) {
+    public boolean isHBClaimOtherPT(SHBE_D_Record D_Record) {
         if (D_Record.getStatusOfHBClaimAtExtractDate() == 0) {
             return isHBClaim(D_Record);
         }
         return false;
     }
 
-    public boolean isHBClaimSuspended(DW_SHBE_D_Record D_Record) {
+    public boolean isHBClaimSuspended(SHBE_D_Record D_Record) {
         if (D_Record.getStatusOfHBClaimAtExtractDate() == 2) {
             return isHBClaim(D_Record);
         }
         return false;
     }
 
-    public boolean isHBClaimInPayment(DW_SHBE_D_Record D_Record) {
+    public boolean isHBClaimInPayment(SHBE_D_Record D_Record) {
         if (D_Record.getStatusOfHBClaimAtExtractDate() == 1) {
             return isHBClaim(D_Record);
         }
         return false;
     }
 
-    public boolean isHBClaim(DW_SHBE_D_Record D_Record) {
+    public boolean isHBClaim(SHBE_D_Record D_Record) {
         if (D_Record == null) {
             return false;
         }
@@ -1079,11 +1079,11 @@ public class DW_SHBE_Handler extends SHBE_Object {
 
     
 
-    public DW_SHBE_RecordAggregate aggregate(HashSet<DW_SHBE_Record> records) {
-        DW_SHBE_RecordAggregate result = new DW_SHBE_RecordAggregate();
-        Iterator<DW_SHBE_Record> ite = records.iterator();
+    public SHBE_RecordAggregate aggregate(HashSet<SHBE_Record> records) {
+        SHBE_RecordAggregate result = new SHBE_RecordAggregate();
+        Iterator<SHBE_Record> ite = records.iterator();
         while (ite.hasNext()) {
-            DW_SHBE_Record rec;
+            SHBE_Record rec;
             rec = ite.next();
             aggregate(rec, result);
         }
@@ -1091,9 +1091,9 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public void aggregate(
-            DW_SHBE_Record record,
-            DW_SHBE_RecordAggregate a_Aggregate_SHBE_DataRecord) {
-        DW_SHBE_D_Record aDRecord;
+            SHBE_Record record,
+            SHBE_RecordAggregate a_Aggregate_SHBE_DataRecord) {
+        SHBE_D_Record aDRecord;
         aDRecord = record.DRecord;
         a_Aggregate_SHBE_DataRecord.setTotalClaimCount(a_Aggregate_SHBE_DataRecord.getTotalClaimCount() + 1);
         //if (aDRecord.getHousingBenefitClaimReferenceNumber().length() > 2) {
@@ -1140,7 +1140,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
 //        Iterator<DW_SHBE_S_Record> ite;
 //        ite = tSRecords.iterator();
 //        while (ite.hasNext()) {
-//            DW_SHBE_S_Record aSRecord = ite.next();
+//            SHBE_S_Record aSRecord = ite.next();
 //            if (aSRecord.getNonDependentStatus() == 0) {
 //                a_Aggregate_SHBE_DataRecord.setTotalNonDependentStatus0(
 //                        a_Aggregate_SHBE_DataRecord.getTotalNonDependentStatus0() + 1);
@@ -1603,10 +1603,10 @@ public class DW_SHBE_Handler extends SHBE_Object {
                 + aDRecord.getPartnersTotalHoursOfRemunerativeWorkPerWeek());
     }
 
-    public long getHouseholdSize(DW_SHBE_Record rec) {
+    public long getHouseholdSize(SHBE_Record rec) {
         long result;
         result = 1;
-        DW_SHBE_D_Record D_Record;
+        SHBE_D_Record D_Record;
         D_Record = rec.DRecord;
         result += D_Record.getPartnerFlag();
         int NumberOfChildDependents;
@@ -1615,7 +1615,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         NumberOfNonDependents = D_Record.getNumberOfNonDependents();
         int NumberOfDependentsAndNonDependents;
         NumberOfDependentsAndNonDependents = NumberOfChildDependents + NumberOfNonDependents;
-        ArrayList<DW_SHBE_S_Record> S_Records;
+        ArrayList<SHBE_S_Record> S_Records;
         S_Records = rec.SRecords;
         if (S_Records != null) {
             result += Math.max(NumberOfDependentsAndNonDependents, S_Records.size());
@@ -1626,7 +1626,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
 //                Iterator<DW_SHBE_S_Record> ite;
 //                ite = S_Records.iterator();
 //                while (ite.hasNext()) {
-//                    DW_SHBE_S_Record S_Record;
+//                    SHBE_S_Record S_Record;
 //                    S_Record = ite.next();
 //                }
 //            }
@@ -1636,7 +1636,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         return result;
     }
 
-    public long getHouseholdSizeExcludingPartnerslong(DW_SHBE_D_Record D_Record) {
+    public long getHouseholdSizeExcludingPartnerslong(SHBE_D_Record D_Record) {
         long result;
         result = 1;
         result += D_Record.getNumberOfChildDependents();
@@ -1646,7 +1646,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         return result;
     }
 
-    public int getHouseholdSizeExcludingPartnersint(DW_SHBE_D_Record D_Record) {
+    public int getHouseholdSizeExcludingPartnersint(SHBE_D_Record D_Record) {
         int result;
         result = 1;
         result += D_Record.getNumberOfChildDependents();
@@ -1656,13 +1656,13 @@ public class DW_SHBE_Handler extends SHBE_Object {
         return result;
     }
 
-    public long getHouseholdSize(DW_SHBE_D_Record D_Record) {
+    public long getHouseholdSize(SHBE_D_Record D_Record) {
         long result;
         result = getHouseholdSizeint(D_Record);
         return result;
     }
 
-    public int getHouseholdSizeint(DW_SHBE_D_Record D_Record) {
+    public int getHouseholdSizeint(SHBE_D_Record D_Record) {
         int result;
         result = getHouseholdSizeExcludingPartnersint(D_Record);
         result += D_Record.getPartnerFlag();
@@ -1670,7 +1670,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getClaimantsIncomeFromBenefitsAndAllowances(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getClaimantsIncomeFromAttendanceAllowance();
         result += aDRecord.getClaimantsIncomeFromBereavementAllowance();
@@ -1699,7 +1699,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getClaimantsIncomeFromEmployment(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getClaimantsGrossWeeklyIncomeFromEmployment();
         result += aDRecord.getClaimantsGrossWeeklyIncomeFromSelfEmployment();
@@ -1707,7 +1707,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getClaimantsIncomeFromGovernmentTraining(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getClaimantsIncomeFromGovernmentTraining();
         result += aDRecord.getClaimantsIncomeFromTrainingForWorkCommunityAction();
@@ -1716,7 +1716,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getClaimantsIncomeFromPensionPrivate(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getClaimantsIncomeFromOccupationalPension();
         result += aDRecord.getClaimantsIncomeFromPersonalPension();
@@ -1724,7 +1724,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getClaimantsIncomeFromPensionState(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc();
         result += aDRecord.getClaimantsIncomeFromWarDisablementPensionArmedForcesGIP();
@@ -1733,7 +1733,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getClaimantsIncomeFromBoardersAndSubTenants(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getClaimantsIncomeFromSubTenants();
         result += aDRecord.getClaimantsIncomeFromBoarders();
@@ -1741,7 +1741,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getClaimantsIncomeFromOther(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getClaimantsIncomeFromMaintenancePayments();
         result += aDRecord.getClaimantsIncomeFromStudentGrantLoan();
@@ -1750,7 +1750,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getClaimantsIncomeTotal(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += getClaimantsIncomeFromBenefitsAndAllowances(aDRecord);
         result += getClaimantsIncomeFromEmployment(aDRecord);
@@ -1763,17 +1763,17 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getHouseholdIncomeTotal(
-            DW_SHBE_Record aRecord,
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_Record aRecord,
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += getClaimantsIncomeTotal(aDRecord);
         result += getPartnersIncomeTotal(aDRecord);
-        ArrayList<DW_SHBE_S_Record> SRecords;
+        ArrayList<SHBE_S_Record> SRecords;
         SRecords = aRecord.getSRecords();
         if (SRecords != null) {
-            Iterator<DW_SHBE_S_Record> ite;
+            Iterator<SHBE_S_Record> ite;
             ite = SRecords.iterator();
-            DW_SHBE_S_Record DW_SHBE_S_Record;
+            SHBE_S_Record DW_SHBE_S_Record;
             while (ite.hasNext()) {
                 DW_SHBE_S_Record = ite.next();
                 result += DW_SHBE_S_Record.getNonDependantGrossWeeklyIncomeFromRemunerativeWork();
@@ -1783,7 +1783,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getPartnersIncomeFromBenefitsAndAllowances(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getPartnersIncomeFromAttendanceAllowance();
         result += aDRecord.getPartnersIncomeFromBereavementAllowance();
@@ -1811,7 +1811,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getPartnersIncomeFromEmployment(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getPartnersGrossWeeklyIncomeFromEmployment();
         result += aDRecord.getPartnersGrossWeeklyIncomeFromSelfEmployment();
@@ -1819,7 +1819,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getPartnersIncomeFromGovernmentTraining(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getPartnersIncomeFromGovernmentTraining();
         result += aDRecord.getPartnersIncomeFromTrainingForWorkCommunityAction();
@@ -1828,7 +1828,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getPartnersIncomeFromPensionPrivate(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getPartnersIncomeFromOccupationalPension();
         result += aDRecord.getPartnersIncomeFromPersonalPension();
@@ -1836,7 +1836,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getPartnersIncomeFromPensionState(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc();
         result += aDRecord.getPartnersIncomeFromWarDisablementPensionArmedForcesGIP();
@@ -1845,7 +1845,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getPartnersIncomeFromBoardersAndSubTenants(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getPartnersIncomeFromSubTenants();
         result += aDRecord.getPartnersIncomeFromBoarders();
@@ -1853,7 +1853,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getPartnersIncomeFromOther(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += aDRecord.getPartnersIncomeFromMaintenancePayments();
         result += aDRecord.getPartnersIncomeFromStudentGrantLoan();
@@ -1862,7 +1862,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getPartnersIncomeTotal(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = 0L;
         result += getPartnersIncomeFromBenefitsAndAllowances(aDRecord);
         result += getPartnersIncomeFromEmployment(aDRecord);
@@ -1875,13 +1875,13 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public long getClaimantsAndPartnersIncomeTotal(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         long result = getClaimantsIncomeTotal(aDRecord) + getPartnersIncomeTotal(aDRecord);
         return result;
     }
 
     public boolean getUnderOccupancy(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         int numberOfBedroomsForLHARolloutCasesOnly = aDRecord.getNumberOfBedroomsForLHARolloutCasesOnly();
         if (numberOfBedroomsForLHARolloutCasesOnly > 0) {
             if (numberOfBedroomsForLHARolloutCasesOnly
@@ -1894,7 +1894,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     }
 
     public int getUnderOccupancyAmount(
-            DW_SHBE_D_Record aDRecord) {
+            SHBE_D_Record aDRecord) {
         int result = 0;
         int numberOfBedroomsForLHARolloutCasesOnly = aDRecord.getNumberOfBedroomsForLHARolloutCasesOnly();
         if (numberOfBedroomsForLHARolloutCasesOnly > 0) {
@@ -2740,7 +2740,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
      */
     public String getClaimantsAge(
             String yM3,
-            DW_SHBE_D_Record D_Record) {
+            SHBE_D_Record D_Record) {
         String result;
         String[] syM3;
         syM3 = yM3.split(Strings.symbol_underscore);
@@ -2758,7 +2758,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     public String getClaimantsAge(
             String year,
             String month,
-            DW_SHBE_D_Record D_Record) {
+            SHBE_D_Record D_Record) {
         String result;
         String DoB = D_Record.getClaimantsDateOfBirth();
         result = getAge(year, month, DoB);
@@ -2775,7 +2775,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
     public String getPartnersAge(
             String year,
             String month,
-            DW_SHBE_D_Record D_Record) {
+            SHBE_D_Record D_Record) {
         String result;
         String DoB = D_Record.getPartnersDateOfBirth();
         result = getAge(year, month, DoB);
@@ -2814,7 +2814,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @return true iff there is any disability awards in the household of
      * D_Record.
      */
-    public boolean getDisability(DW_SHBE_D_Record D_Record) {
+    public boolean getDisability(SHBE_D_Record D_Record) {
         // Disability
         int DisabilityPremiumAwarded = D_Record.getDisabilityPremiumAwarded();
         int SevereDisabilityPremiumAwarded = D_Record.getSevereDisabilityPremiumAwarded();
@@ -2827,7 +2827,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
                 || EnhancedDisabilityPremiumAwarded == 1;
     }
 
-    public int getEthnicityGroup(DW_SHBE_D_Record D_Record) {
+    public int getEthnicityGroup(SHBE_D_Record D_Record) {
         int claimantsEthnicGroup = D_Record.getClaimantsEthnicGroup();
         switch (claimantsEthnicGroup) {
             case 1:
@@ -2866,7 +2866,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         return 0;
     }
 
-    public String getEthnicityName(DW_SHBE_D_Record D_Record) {
+    public String getEthnicityName(SHBE_D_Record D_Record) {
         int claimantsEthnicGroup = D_Record.getClaimantsEthnicGroup();
         switch (claimantsEthnicGroup) {
             case 1:
@@ -2934,13 +2934,13 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @param D_Record
      * @return
      */
-    public DW_PersonID getClaimantPersonID(DW_SHBE_D_Record D_Record) {
-        DW_PersonID result;
+    public SHBE_PersonID getClaimantPersonID(SHBE_D_Record D_Record) {
+        SHBE_PersonID result;
         SHBE_ID NINO_ID;
         NINO_ID = NINOToNINOIDLookup.get(D_Record.getClaimantsNationalInsuranceNumber());
         SHBE_ID DOB_ID;
         DOB_ID = DOBToDOBIDLookup.get(D_Record.getClaimantsDateOfBirth());
-        result = new DW_PersonID(NINO_ID, DOB_ID);
+        result = new SHBE_PersonID(NINO_ID, DOB_ID);
         return result;
     }
 
@@ -2949,13 +2949,13 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @param D_Record
      * @return
      */
-    public DW_PersonID getPartnerPersonID(DW_SHBE_D_Record D_Record) {
-        DW_PersonID result;
+    public SHBE_PersonID getPartnerPersonID(SHBE_D_Record D_Record) {
+        SHBE_PersonID result;
         SHBE_ID NINO_ID;
         NINO_ID = NINOToNINOIDLookup.get(D_Record.getPartnersNationalInsuranceNumber());
         SHBE_ID DOB_ID;
         DOB_ID = DOBToDOBIDLookup.get(D_Record.getPartnersDateOfBirth());
-        result = new DW_PersonID(NINO_ID, DOB_ID);
+        result = new SHBE_PersonID(NINO_ID, DOB_ID);
         return result;
     }
 
@@ -2964,13 +2964,13 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @param S_Record
      * @return
      */
-    public DW_PersonID getNonDependentPersonID(DW_SHBE_S_Record S_Record) {
-        DW_PersonID result;
+    public SHBE_PersonID getNonDependentPersonID(SHBE_S_Record S_Record) {
+        SHBE_PersonID result;
         SHBE_ID NINO_ID;
         NINO_ID = NINOToNINOIDLookup.get(S_Record.getSubRecordChildReferenceNumberOrNINO());
         SHBE_ID DOB_ID;
         DOB_ID = DOBToDOBIDLookup.get(S_Record.getSubRecordDateOfBirth());
-        result = new DW_PersonID(NINO_ID, DOB_ID);
+        result = new SHBE_PersonID(NINO_ID, DOB_ID);
         return result;
     }
 
@@ -2980,8 +2980,8 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @param index
      * @return
      */
-    public DW_PersonID getDependentPersonID(DW_SHBE_S_Record S_Record, int index) {
-        DW_PersonID result;
+    public SHBE_PersonID getDependentPersonID(SHBE_S_Record S_Record, int index) {
+        SHBE_PersonID result;
         String NINO;
         String ClaimantsNINO;
         SHBE_ID NINO_ID;
@@ -3002,7 +3002,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         }
         NINO_ID = NINOToNINOIDLookup.get(NINO);
         DOB_ID = DOBToDOBIDLookup.get(S_Record.getSubRecordDateOfBirth());
-        result = new DW_PersonID(NINO_ID, DOB_ID);
+        result = new SHBE_PersonID(NINO_ID, DOB_ID);
         return result;
     }
 
@@ -3011,20 +3011,20 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @param S_Records
      * @return
      */
-    public HashSet<DW_PersonID> getPersonIDs(ArrayList<DW_SHBE_S_Record> S_Records) {
-        HashSet<DW_PersonID> result;
+    public HashSet<SHBE_PersonID> getPersonIDs(ArrayList<SHBE_S_Record> S_Records) {
+        HashSet<SHBE_PersonID> result;
         result = new HashSet<>();
-        DW_SHBE_S_Record S_Record;
+        SHBE_S_Record S_Record;
         SHBE_ID NINO_ID;
         SHBE_ID DOB_ID;
-        Iterator<DW_SHBE_S_Record> ite;
+        Iterator<SHBE_S_Record> ite;
         ite = S_Records.iterator();
         while (ite.hasNext()) {
             S_Record = ite.next();
             NINO_ID = NINOToNINOIDLookup.get(S_Record.getSubRecordChildReferenceNumberOrNINO());
             DOB_ID = DOBToDOBIDLookup.get(S_Record.getSubRecordDateOfBirth());
 
-            result.add(new DW_PersonID(NINO_ID, DOB_ID));
+            result.add(new SHBE_PersonID(NINO_ID, DOB_ID));
         }
         return result;
     }
@@ -3034,13 +3034,13 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @param S_Record
      * @return
      */
-    public DW_PersonID getNonDependentPersonIDs(DW_SHBE_S_Record S_Record) {
-        DW_PersonID result;
+    public SHBE_PersonID getNonDependentPersonIDs(SHBE_S_Record S_Record) {
+        SHBE_PersonID result;
         SHBE_ID NINO_ID;
         SHBE_ID DOB_ID;
         NINO_ID = NINOToNINOIDLookup.get(S_Record.getSubRecordChildReferenceNumberOrNINO());
         DOB_ID = DOBToDOBIDLookup.get(S_Record.getSubRecordDateOfBirth());
-        result = new DW_PersonID(NINO_ID, DOB_ID);
+        result = new SHBE_PersonID(NINO_ID, DOB_ID);
         return result;
     }
 
@@ -3058,7 +3058,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @param DOBIDToDOBLookup
      * @return
      */
-    DW_PersonID getPersonID(
+    SHBE_PersonID getPersonID(
             String NINO,
             String DOB,
             HashMap<String, SHBE_ID> NINOToNINOIDLookup,
@@ -3069,7 +3069,7 @@ public class DW_SHBE_Handler extends SHBE_Object {
         NINOID = getIDAddIfNeeded(NINO, NINOToNINOIDLookup, NINOIDToNINOLookup);
         SHBE_ID DOBID;
         DOBID = getIDAddIfNeeded(DOB, DOBToDOBIDLookup, DOBIDToDOBLookup);
-        return new DW_PersonID(NINOID, DOBID);
+        return new SHBE_PersonID(NINOID, DOBID);
     }
 
     /**
@@ -3085,8 +3085,8 @@ public class DW_SHBE_Handler extends SHBE_Object {
      * @param DOBIDToDOBLookup
      * @return
      */
-    DW_PersonID getPersonID(
-            DW_SHBE_D_Record DRecord,
+    SHBE_PersonID getPersonID(
+            SHBE_D_Record DRecord,
             HashMap<String, SHBE_ID> NINOToNINOIDLookup,
             HashMap<SHBE_ID, String> NINOIDToNINOLookup,
             HashMap<String, SHBE_ID> DOBToDOBIDLookup,
@@ -3095,15 +3095,15 @@ public class DW_SHBE_Handler extends SHBE_Object {
         NINO = DRecord.getPartnersNationalInsuranceNumber();
         String DOB;
         DOB = DRecord.getPartnersDateOfBirth();
-        return DW_SHBE_Handler.this.getPersonID(NINO, DOB, NINOToNINOIDLookup, NINOIDToNINOLookup,
+        return SHBE_Handler.this.getPersonID(NINO, DOB, NINOToNINOIDLookup, NINOIDToNINOLookup,
                 DOBToDOBIDLookup, DOBIDToDOBLookup);
     }
 
-    public HashSet<DW_PersonID> getUniquePersonIDs(
-            HashMap<SHBE_ID, HashSet<DW_PersonID>> ClaimIDToPersonIDsLookup) {
-        HashSet<DW_PersonID> result;
-        Collection<HashSet<DW_PersonID>> c;
-        Iterator<HashSet<DW_PersonID>> ite2;
+    public HashSet<SHBE_PersonID> getUniquePersonIDs(
+            HashMap<SHBE_ID, HashSet<SHBE_PersonID>> ClaimIDToPersonIDsLookup) {
+        HashSet<SHBE_PersonID> result;
+        Collection<HashSet<SHBE_PersonID>> c;
+        Iterator<HashSet<SHBE_PersonID>> ite2;
         result = new HashSet<>();
         c = ClaimIDToPersonIDsLookup.values();
         ite2 = c.iterator();
@@ -3113,9 +3113,9 @@ public class DW_SHBE_Handler extends SHBE_Object {
         return result;
     }
 
-    public HashSet<DW_PersonID> getUniquePersonIDs0(
-            HashMap<SHBE_ID, DW_PersonID> ClaimIDToPersonIDLookup) {
-        HashSet<DW_PersonID> result;
+    public HashSet<SHBE_PersonID> getUniquePersonIDs0(
+            HashMap<SHBE_ID, SHBE_PersonID> ClaimIDToPersonIDLookup) {
+        HashSet<SHBE_PersonID> result;
         result = new HashSet<>();
         result.addAll(ClaimIDToPersonIDLookup.values());
         return result;

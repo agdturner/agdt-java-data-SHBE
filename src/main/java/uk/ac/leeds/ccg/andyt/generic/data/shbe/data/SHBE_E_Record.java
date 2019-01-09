@@ -24,7 +24,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class DW_SHBE_E_Record extends DW_SHBE_RecordAbstract {
+public class SHBE_E_Record extends SHBE_RecordAbstract {
     
     /**
      * 293 320 UniqueTRecordIdentifier
@@ -55,7 +55,7 @@ public class DW_SHBE_E_Record extends DW_SHBE_RecordAbstract {
      */
     private String WhatWasTheCauseOfTheOverPayment;
 
-    public DW_SHBE_E_Record(SHBE_Environment env) {
+    public SHBE_E_Record(SHBE_Environment env) {
         super(env);
     }
             
