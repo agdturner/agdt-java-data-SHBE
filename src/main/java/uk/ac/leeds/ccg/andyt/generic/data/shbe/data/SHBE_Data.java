@@ -252,7 +252,7 @@ public class SHBE_Data extends SHBE_Object {
         if (DataFile == null) {
             String filename = "Data_HashMap_String__SHBE_Records"
                     + Strings.sBinaryFileExtension;
-            DataFile = new File(Files.getGeneratedDataDir(Strings), filename);
+            DataFile = new File(Files.getGeneratedDataDir(), filename);
         }
         return DataFile;
     }
@@ -667,7 +667,7 @@ public class SHBE_Data extends SHBE_Object {
  String filename = "ClaimRefToClaimID_HashMap_String__SHBE_ID"
  + Strings.sBinaryFileExtension;
  PostcodeToPostcodeIDLookupFile = new File(
- Files.getGeneratedDataDir(Strings),
+ Files.getGeneratedDataDir(),
  filename);
  }
  return ClaimRefToClaimIDLookupFile;}
@@ -679,8 +679,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "ClaimRefToClaimID_HashMap_String__SHBE_ID"
                     + Strings.sBinaryFileExtension;
             ClaimRefToClaimIDLookupFile = new File(
-                    Files.getGeneratedDataDir(Strings),
-                    filename);
+                    Files.getGeneratedDataDir(),                    filename);
         }
         return ClaimRefToClaimIDLookupFile;
     }
@@ -690,7 +689,7 @@ public class SHBE_Data extends SHBE_Object {
  String filename = "ClaimIDToClaimRef_HashMap_SHBE_ID__String"
  + Strings.sBinaryFileExtension;
  ClaimIDToClaimRefLookupFile = new File(
- Files.getGeneratedDataDir(Strings),
+ Files.getGeneratedDataDir(),
  filename);
  }
  return ClaimIDToClaimRefLookupFile;}
@@ -702,8 +701,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "ClaimIDToClaimRef_HashMap_SHBE_ID__String"
                     + Strings.sBinaryFileExtension;
             ClaimIDToClaimRefLookupFile = new File(
-                    Files.getGeneratedDataDir(Strings),
-                    filename);
+                    Files.getGeneratedDataDir(),                    filename);
         }
         return ClaimIDToClaimRefLookupFile;
     }
@@ -713,7 +711,7 @@ public class SHBE_Data extends SHBE_Object {
  String filename = "PostcodeToPostcodeID_HashMap_String__SHBE_ID"
  + Strings.class;
  PostcodeToPostcodeDWLookupFile = new File(
- Files.getGeneratedDataDir(Strings),
+ Files.getGeneratedDataDir(),
  filename);
  }
  return PostcodeToPostcodeDWLookupFile;}
@@ -725,8 +723,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "PostcodeToPostcodeID_HashMap_String__SHBE_ID"
                     + Strings.sBinaryFileExtension;
             PostcodeToPostcodeIDLookupFile = new File(
-                    Files.getGeneratedDataDir(Strings),
-                    filename);
+                    Files.getGeneratedDataDir(),                    filename);
         }
         return PostcodeToPostcodeIDLookupFile;
     }
@@ -736,7 +733,7 @@ public class SHBE_Data extends SHBE_Object {
  String filename = "PostcodeIDToPostcode_HashMap_SHBE_ID__String"
  + Strings.sBinaryFileExtension;
  PostcodeIDToPostcodeLookupFile = new File(
- Files.getGeneratedDataDir(Strings),
+ Files.getGeneratedDataDir(),
  filename);
  }
  return PostcodeIDToPostcodeLookupFile;}
@@ -748,8 +745,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "PostcodeIDToPostcode_HashMap_SHBE_ID__String"
                     + Strings.sBinaryFileExtension;
             PostcodeIDToPostcodeLookupFile = new File(
-                    Files.getGeneratedDataDir(Strings),
-                    filename);
+                    Files.getGeneratedDataDir(),                    filename);
         }
         return PostcodeIDToPostcodeLookupFile;
     }
@@ -759,7 +755,7 @@ public class SHBE_Data extends SHBE_Object {
  String filename = "PostcodeIDToAGDT_Point_HashMap_SHBE_ID__AGDT_Point"
  + Strings.sBinaryFileExtension;
  PostcodeIDToAGDT_PointLookupFile = new File(
- Files.getGeneratedDataDir(Strings),
+ Files.getGeneratedDataDir(),
  filename);
  }
  return PostcodeIDToAGDT_PointLookupFile;}
@@ -771,8 +767,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "PostcodeIDToPoint_HashMap_String__HashMap_SHBE_ID__AGDT_Point"
                     + Strings.sBinaryFileExtension;
             PostcodeIDToPointLookupsFile = new File(
-                    Files.getGeneratedDataDir(Strings),
-                    filename);
+                    Files.getGeneratedDataDir(),                    filename);
         }
         return PostcodeIDToPointLookupsFile;
     }
@@ -793,7 +788,7 @@ public class SHBE_Data extends SHBE_Object {
  String filename = "NINOToNINOID_HashMap_String__SHBE_ID"
  + Strings.sBinaryFileExtension;
  NINOToNINOIDLookupFile = new File(
- Files.getGeneratedDataDir(Strings),
+ Files.getGeneratedDataDir(),
  filename);
  }
  return NINOToNINOIDLookupFile;}
@@ -805,8 +800,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "NINOToNINOID_HashMap_String__SHBE_ID"
                     + Strings.sBinaryFileExtension;
             NINOToNINOIDLookupFile = new File(
-                    Files.getGeneratedDataDir(Strings),
-                    filename);
+                    Files.getGeneratedDataDir(),                    filename);
         }
         return NINOToNINOIDLookupFile;
     }
@@ -816,7 +810,7 @@ public class SHBE_Data extends SHBE_Object {
  String filename = "DOBToID_HashMap_String__SHBE_ID"
  + Strings.sBinaryFileExtension;
  DOBToSHBE_IDLookupFile = new File(
- Files.getGeneratedDataDir(Strings),
+ Files.getGeneratedDataDir(),
  filename);
  }
  return DOBToSHBE_IDLookupFile;}
@@ -828,8 +822,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "DOBToDOBID_HashMap_String__SHBE_ID"
                     + Strings.sBinaryFileExtension;
             DOBToDOBIDLookupFile = new File(
-                    Files.getGeneratedDataDir(Strings),
-                    filename);
+                    Files.getGeneratedDataDir(),                    filename);
         }
         return DOBToDOBIDLookupFile;
     }
@@ -839,7 +832,7 @@ public class SHBE_Data extends SHBE_Object {
  String filename = "NINOIDToNINO_HashMap_SHBE_ID__String"
  + Strings.sBinaryFileExtension;
  NINOIDToNINOLookupFile = new File(
- Files.getGeneratedDataDir(Strings),
+ Files.getGeneratedDataDir(),
  filename);
  }
  return NINOIDToNINOLookupFile;}
@@ -851,8 +844,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "NINOIDToNINO_HashMap_SHBE_ID__String"
                     + Strings.sBinaryFileExtension;
             NINOIDToNINOLookupFile = new File(
-                    Files.getGeneratedDataDir(Strings),
-                    filename);
+                    Files.getGeneratedDataDir(),                    filename);
         }
         return NINOIDToNINOLookupFile;
     }
@@ -862,7 +854,7 @@ public class SHBE_Data extends SHBE_Object {
  String filename = "DOBIDToDOB_HashMap_SHBE_ID__String"
  + Strings.sBinaryFileExtension;
  DOBIDToDOBLookupFile = new File(
- Files.getGeneratedDataDir(Strings),
+ Files.getGeneratedDataDir(),
  filename);
  }
  return DOBIDToDOBLookupFile;}
@@ -874,7 +866,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "DOBIDToDOB_HashMap_SHBE_ID__String"
                     + Strings.sBinaryFileExtension;
             DOBIDToDOBLookupFile = new File(
-                    Files.getGeneratedDataDir(Strings),
+                    Files.getGeneratedDataDir(),
                     filename);
         }
         return DOBIDToDOBLookupFile;
@@ -885,7 +877,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "Claimant_HashSet_SHBE_PersonID"
                     + Strings.sBinaryFileExtension;
             ClaimantPersonIDsFile = new File(
-                    Files.getGeneratedDataDir(Strings),
+                    Files.getGeneratedDataDir(),
                     filename);
         }
         return ClaimantPersonIDsFile;
@@ -896,7 +888,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "Partner_HashSet_SHBE_PersonID"
                     + Strings.sBinaryFileExtension;
             PartnerPersonIDsFile = new File(
-                    Files.getGeneratedDataDir(Strings),
+                    Files.getGeneratedDataDir(),
                     filename);
         }
         return PartnerPersonIDsFile;
@@ -907,7 +899,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "NonDependent_HashSet_SHBE_PersonID"
                     + Strings.sBinaryFileExtension;
             NonDependentPersonIDsFile = new File(
-                    Files.getGeneratedDataDir(Strings),
+                    Files.getGeneratedDataDir(),
                     filename);
         }
         return NonDependentPersonIDsFile;
@@ -918,7 +910,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "PersonIDToClaimIDsLookup_HashMap_SHBE_PersonID__HashSet_SHBE_ID"
                     + Strings.sBinaryFileExtension;
             PersonIDToClaimIDsLookupFile = new File(
-                    Files.getGeneratedDataDir(Strings),
+                    Files.getGeneratedDataDir(),
                     filename);
         }
         return PersonIDToClaimIDsLookupFile;
@@ -947,7 +939,7 @@ public class SHBE_Data extends SHBE_Object {
 
     /**
      * {@code return new File(
- Files.getGeneratedDataDir(Strings),
+ Files.getGeneratedDataDir(),
  YM3);}
      *
      * @param YM3
@@ -955,7 +947,7 @@ public class SHBE_Data extends SHBE_Object {
      */
     protected File getDir(ONSPD_YM3 YM3) {
         return new File(
-                Files.getGeneratedDataDir(Strings),
+                Files.getGeneratedDataDir(),
                 YM3.toString());
     }
 

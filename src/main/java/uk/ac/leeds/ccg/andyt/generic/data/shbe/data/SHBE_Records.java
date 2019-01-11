@@ -1239,7 +1239,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     protected File getDir() {
         if (Dir == null) {
-            Dir = new File(Env.Files.getGeneratedDataDir(Strings), getYM3().toString());
+            Dir = new File(Env.Files.getGeneratedDataDir(), getYM3().toString());
             Dir.mkdirs();
         }
         return Dir;

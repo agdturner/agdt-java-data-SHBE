@@ -63,7 +63,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public SHBE_Environment() {
         //Memory_Threshold = 3000000000L;
         Strings = new SHBE_Strings();
-        Files = new SHBE_Files(Strings, Strings.s_data);
+        Files = new SHBE_Files(Strings);
         ge = new Generic_Environment(Files, Strings);
 //        File f;
 //        f = Files.getEnvDataFile();

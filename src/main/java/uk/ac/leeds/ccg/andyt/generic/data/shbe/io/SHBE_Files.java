@@ -26,25 +26,12 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
  */
 public class SHBE_Files extends Generic_Files implements Serializable {
 
-    public transient SHBE_Strings Strings;
-
     /**
      *
      * @param s
      */
     public SHBE_Files(SHBE_Strings s) {
-        super(s.s_data);
-        this.Strings = s;
-    }
-
-    /**
-     *
-     * @param s
-     * @param dataDirName
-     */
-    public SHBE_Files(SHBE_Strings s, String dataDirName) {
-        super(dataDirName);
-        this.Strings = s;
+        super(s);
     }
 
     private File inputLCCDir;
@@ -54,22 +41,22 @@ public class SHBE_Files extends Generic_Files implements Serializable {
 
     public File getInputLCCDir() {
         if (inputLCCDir == null) {
-            inputLCCDir = new File(getInputDataDir(Strings), Strings.sLCC);
+            inputLCCDir = new File(getInputDataDir(), getStrings().sLCC);
         }
         return inputLCCDir;
     }
 
     public File getInputSHBEDir() {
         if (inputSHBEDir == null) {
-            inputSHBEDir = new File(getInputLCCDir(), Strings.sSHBE);
+            inputSHBEDir = new File(getInputLCCDir(), getStrings().sSHBE);
         }
         return inputSHBEDir;
     }
 
     public File getGeneratedLCCDir() {
         if (generatedLCCDir == null) {
-            generatedLCCDir = new File(getGeneratedDataDir(Strings), 
-                    Strings.sLCC);
+            generatedLCCDir = new File(getGeneratedDataDir(), 
+                    getStrings().sLCC);
             generatedLCCDir.mkdirs();
         }
         return generatedLCCDir;
@@ -77,7 +64,7 @@ public class SHBE_Files extends Generic_Files implements Serializable {
 
     public File getGeneratedSHBEDir() {
         if (generatedSHBEDir == null) {
-            generatedSHBEDir = new File(getGeneratedLCCDir(), Strings.sSHBE);
+            generatedSHBEDir = new File(getGeneratedLCCDir(), getStrings().sSHBE);
         }
         return generatedSHBEDir;
     }
@@ -85,5 +72,9 @@ public class SHBE_Files extends Generic_Files implements Serializable {
     
     public File getDataFile() {
         return new File(getDataDir(), "SHBE_Data.dat");
+    }
+    
+    public SHBE_Strings getStrings(){
+        return (SHBE_Strings) Strings;
     }
 }
