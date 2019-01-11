@@ -60,10 +60,10 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
 
     public transient static final String EOL = System.getProperty("line.separator");
 
-    public SHBE_Environment() {
+    public SHBE_Environment(File dataDir) {
         //Memory_Threshold = 3000000000L;
         Strings = new SHBE_Strings();
-        Files = new SHBE_Files(Strings, Files.getDataDir());
+        Files = new SHBE_Files(Strings, dataDir);
         ge = new Generic_Environment(Files, Strings);
 //        File f;
 //        f = Files.getEnvDataFile();
