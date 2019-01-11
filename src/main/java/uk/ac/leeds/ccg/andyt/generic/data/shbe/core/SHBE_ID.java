@@ -18,22 +18,20 @@ package uk.ac.leeds.ccg.andyt.generic.data.shbe.core;
 import java.io.Serializable;
 
 /**
- * A simple class for identifiers that uses a single long. There can only be as 
+ * A simple class for identifiers that uses a single long. There can only be as
  * many unique identifiers as there are long numbers.
  *
- * @author geoagdt
+ * @author Andy Turner.
  */
 public class SHBE_ID implements Serializable, Comparable<SHBE_ID> {
 
     protected final long l;
 
-    public SHBE_ID(
-            SHBE_ID ID) {
+    public SHBE_ID(SHBE_ID ID) {
         l = ID.l;
     }
 
-    public SHBE_ID(
-            long ID) {
+    public SHBE_ID(long ID) {
         l = ID;
     }
 

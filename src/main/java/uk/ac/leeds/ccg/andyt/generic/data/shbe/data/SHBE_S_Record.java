@@ -26,7 +26,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class SHBE_S_Record extends DW_SHBE_RecordAbstract implements Serializable {
+public class SHBE_S_Record extends SHBE_RecordAbstract implements Serializable {
 
     /**
      * 11 16 NonDependentStatus

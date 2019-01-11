@@ -24,7 +24,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class SHBE_T_Record extends DW_SHBE_RecordAbstract {
+public class SHBE_T_Record extends SHBE_RecordAbstract {
     
     /**
      * 45 50 WeeklyHBEntitlementBeforeChange

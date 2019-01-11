@@ -43,7 +43,7 @@ public class SHBE_Collections extends Generic_Collections {
      * @param m
      * @return
      */
-    public static int getCountHashMap_DW_PersonID__HashSet_SHBE_ID(HashMap<SHBE_PersonID, HashSet<SHBE_ID>> m) {
+    public static int getCountHashMap_SHBE_PersonID__HashSet_SHBE_ID(HashMap<SHBE_PersonID, HashSet<SHBE_ID>> m) {
         int result = 0;
         Collection<HashSet<SHBE_ID>> c;
         c = m.values();
@@ -62,7 +62,7 @@ public class SHBE_Collections extends Generic_Collections {
      * @param m
      * @return
      */
-    public static int getCountHashMap_SHBE_ID__HashSet_DW_PersonID(HashMap<SHBE_ID, HashSet<SHBE_PersonID>> m) {
+    public static int getCountHashMap_SHBE_ID__HashSet_SHBE_PersonID(HashMap<SHBE_ID, HashSet<SHBE_PersonID>> m) {
         int result = 0;
         Collection<HashSet<SHBE_PersonID>> c;
         c = m.values();
@@ -76,7 +76,7 @@ public class SHBE_Collections extends Generic_Collections {
     
     public static SHBE_ID getKeyOfSetValue(
             HashMap<SHBE_ID, HashSet<SHBE_PersonID>> map,
-            SHBE_PersonID DW_PersonID) {
+            SHBE_PersonID SHBE_PersonID) {
         SHBE_ID result;
         Set<Entry<SHBE_ID, HashSet<SHBE_PersonID>>> mapEntrySet;
         mapEntrySet = map.entrySet();
@@ -87,7 +87,7 @@ public class SHBE_Collections extends Generic_Collections {
         while (ite.hasNext()) {
             entry = ite.next();
             result = entry.getKey();
-            if (entry.getValue().contains(DW_PersonID)) {
+            if (entry.getValue().contains(SHBE_PersonID)) {
                 return result;
             }
         }
@@ -114,7 +114,7 @@ public class SHBE_Collections extends Generic_Collections {
         return result;
     }
     
-    public static HashSet<SHBE_PersonID> getHashSet_DW_PersonID(File f) {
+    public static HashSet<SHBE_PersonID> getHashSet_SHBE_PersonID(File f) {
         HashSet<SHBE_PersonID> result;
         if (f.exists()) {
             result = (HashSet<SHBE_PersonID>) Generic_IO.readObject(f);
@@ -124,7 +124,7 @@ public class SHBE_Collections extends Generic_Collections {
         return result;
     }
     
-    public static HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getHashMap_DW_PersonID__HashSet_SHBE_ID(
+    public static HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getHashMap_SHBE_PersonID__HashSet_SHBE_ID(
             File f) {
         HashMap<SHBE_PersonID, HashSet<SHBE_ID>> result;
         if (f.exists()) {

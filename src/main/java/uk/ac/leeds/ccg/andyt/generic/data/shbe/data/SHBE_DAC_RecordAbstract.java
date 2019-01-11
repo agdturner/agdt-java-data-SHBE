@@ -26,7 +26,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public abstract class SHBE_DAC_RecordAbstract extends DW_SHBE_RecordAbstract implements Serializable {
+public abstract class SHBE_DAC_RecordAbstract extends SHBE_RecordAbstract implements Serializable {
 
     /**
      * 4 8 ClaimantsDateOfBirth

@@ -36,10 +36,13 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         implements Serializable {
 
     public transient Generic_Environment ge;
+
+    public transient ONSPD_Postcode_Handler Postcode_Handler;
+
+    public transient SHBE_Handler Handler;
+    public transient SHBE_Data Data;
     public transient SHBE_Strings Strings;
     public transient SHBE_Files Files;
-    public transient SHBE_Data Data;
-    public transient SHBE_Handler SHBE_Handler;
 
     /**
      * Logging levels.
@@ -49,10 +52,6 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public final int DEBUG_Level_FINE = 1;
     public final int DEBUG_Level_NORMAL = 2;
     
-    /**
-     * For storing an instance of ONSPD_Postcode_Handler for convenience.
-     */
-    private ONSPD_Postcode_Handler Postcode_Handler;
 
     /**
      * Data.
