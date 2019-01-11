@@ -34,6 +34,16 @@ public class SHBE_Files extends Generic_Files implements Serializable {
         super(s);
     }
 
+    /**
+     *
+     * @param s
+     * @param dir
+     */
+    public SHBE_Files(SHBE_Strings s, File dir) {
+        super(s);
+        setDataDirectory(dir);
+    }
+
     private File inputLCCDir;
     private File inputSHBEDir;
     private File generatedLCCDir;
@@ -69,7 +79,6 @@ public class SHBE_Files extends Generic_Files implements Serializable {
         return generatedSHBEDir;
     }
 
-    
     public File getDataFile() {
         return new File(getDataDir(), "SHBE_Data.dat");
     }
