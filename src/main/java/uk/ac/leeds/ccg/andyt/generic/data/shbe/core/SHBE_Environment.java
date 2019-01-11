@@ -168,7 +168,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public ONSPD_Postcode_Handler getPostcode_Handler() {
         if (Postcode_Handler == null) {
             ONSPD_Environment ONSPD_Env;
-            ONSPD_Env = new ONSPD_Environment();
+            ONSPD_Env = new ONSPD_Environment(Files.getDataDir());
             Postcode_Handler = new ONSPD_Postcode_Handler(ONSPD_Env);
         }
         return Postcode_Handler;
