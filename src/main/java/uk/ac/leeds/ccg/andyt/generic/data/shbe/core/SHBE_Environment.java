@@ -16,8 +16,11 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.core;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Postcode_Handler;
@@ -52,6 +55,15 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public final int DEBUG_Level_FINE = 1;
     public final int DEBUG_Level_NORMAL = 2;
     
+/**
+     * For writing output messages to.
+     */
+    private PrintWriter PrintWriterOut;
+
+    /**
+     * For writing error messages to.
+     */
+    private PrintWriter PrintWriterErr;
 
     /**
      * Data.
@@ -65,6 +77,20 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         Strings = new SHBE_Strings();
         Files = new SHBE_Files(Strings, dataDir);
         ge = new Generic_Environment(Files, Strings);
+        File outDir = Files.getOutputDataDir();
+        File f;
+        f = new File(outDir, "Out.txt");
+        try {
+            PrintWriterOut = new PrintWriter(f);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SHBE_Environment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        f = new File(outDir, "Err.txt");
+        try {
+            PrintWriterErr = new PrintWriter(f);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SHBE_Environment.class.getName()).log(Level.SEVERE, null, ex);
+        }
 //        File f;
 //        f = Files.getEnvDataFile();
 //        if (f.exists()) {
@@ -174,32 +200,6 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         return Postcode_Handler;
     }
     
-    /**
-     * For writing output messages to.
-     */
-    private PrintWriter PrintWriterOut;
-
-    /**
-     * For writing error messages to.
-     */
-    private PrintWriter PrintWriterErr;
-
-    public PrintWriter getPrintWriterOut() {
-        return PrintWriterOut;
-    }
-
-    public void setPrintWriterOut(PrintWriter PrintWriterOut) {
-        this.PrintWriterOut = PrintWriterOut;
-    }
-
-    public PrintWriter getPrintWriterErr() {
-        return PrintWriterErr;
-    }
-
-    public void setPrintWriterErr(PrintWriter PrintWriterErr) {
-        this.PrintWriterErr = PrintWriterErr;
-    }
-
     /**
      * Writes s to a new line of the output log and error log and also prints it
      * to std.out.
