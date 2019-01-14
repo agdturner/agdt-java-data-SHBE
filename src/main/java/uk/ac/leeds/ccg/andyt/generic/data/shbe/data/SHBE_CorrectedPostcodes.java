@@ -61,15 +61,15 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
     }
 
     /**
-     * Currently this reads in Postcodes2016-10.csv. These are postcodes that 
-     * have been checked in Academy and either corrected, or checked and found 
+     * Currently this reads in Postcodes2016-10.csv. These are postcodes that
+     * have been checked in Academy and either corrected, or checked and found
      * to be mappable.
      */
     public void run() {
         File dir;
-        dir = new File(                Files.getInputLCCDir(),                "AcademyPostcodeCorrections");
+        dir = new File(Files.getInputLCCDir(), "AcademyPostcodeCorrections");
         File f;
-        f = new File(                dir,                "Postcodes2016-10.csv");
+        f = new File(dir, "Postcodes2016-10.csv");
         //Generic_ReadCSV.testRead(f, dir, 6);
         ArrayList<String> lines;
         lines = Generic_ReadCSV.read(f, dir, 6);
@@ -105,7 +105,7 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
                 PostcodesCheckedAsMappable.add(OriginalPostcodeF);
             } else {
                 //System.out.println(ClaimRef + ", " + OriginalPostcode + ", " + CorrectedPostcode + ", Y");
-                HashSet<String> MappablePostcodes;                
+                HashSet<String> MappablePostcodes;
                 if (UnmappableToMappablePostcodes.containsKey(OriginalPostcodeF)) {
                     MappablePostcodes = UnmappableToMappablePostcodes.get(OriginalPostcodeF);
                 } else {
@@ -152,10 +152,10 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
         dirout = Files.getGeneratedLCCDir();
         File fout;
         fout = new File(dirout,
-        "DW_CorrectedPostcodes" + Strings.sBinaryFileExtension);
+                "DW_CorrectedPostcodes" + Strings.sBinaryFileExtension);
         Generic_IO.writeObject(this, fout);
     }
-    
+
     /**
      * @return the UnmappableToMappablePostcode
      */
@@ -183,6 +183,5 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
     public HashSet<String> getPostcodesCheckedAsMappable() {
         return PostcodesCheckedAsMappable;
     }
-    
-    
+
 }

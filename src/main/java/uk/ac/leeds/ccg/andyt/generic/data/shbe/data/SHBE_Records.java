@@ -331,8 +331,8 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     private HashMap<SHBE_PersonID, HashSet<SHBE_ID>> ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup;
 
     /**
-     * SHBE_PersonIDs of Partners that are in multiple claims in a month mapped to
-     * a set of ClaimIDs of those claims.
+     * SHBE_PersonIDs of Partners that are in multiple claims in a month mapped
+     * to a set of ClaimIDs of those claims.
      */
     private HashMap<SHBE_PersonID, HashSet<SHBE_ID>> PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup;
 
@@ -1316,12 +1316,8 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @param LatestYM3ForONSPDFormat
      * @param logDir
      */
-    public SHBE_Records(
-            SHBE_Environment env,
-            File inputDirectory,
-            String inputFilename,
-            ONSPD_YM3 LatestYM3ForONSPDFormat,
-            File logDir
+    public SHBE_Records(SHBE_Environment env, File inputDirectory,
+            String inputFilename, ONSPD_YM3 LatestYM3ForONSPDFormat, File logDir
     ) {
         super(env);
         SHBE_Handler handler = env.Handler;
@@ -1625,8 +1621,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                             totalCouncilTaxBenefitClaims++;
                                         }
                                         /**
-                                         * Get or initialise SHBE_Record
-                                         * record
+                                         * Get or initialise SHBE_Record record
                                          */
                                         record = Records.get(ClaimID);
                                         if (record == null) {
@@ -1880,10 +1875,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                             }
                                         }
                                         /**
-                                         * If ClaimantSHBE_PersonID is already in
-                                         * ClaimIDToClaimantPersonIDLookup. then
-                                         * ClaimantSHBE_PersonID has multiple
-                                         * claims in a month.
+                                         * If ClaimantSHBE_PersonID is already
+                                         * in ClaimIDToClaimantPersonIDLookup.
+                                         * then ClaimantSHBE_PersonID has
+                                         * multiple claims in a month.
                                          */
                                         if (ClaimIDToClaimantPersonIDLookup.containsValue(ClaimantPersonID)) {
                                             /**
@@ -2206,7 +2201,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
              * General count statistics
              */
             addLoadSummaryCount(Strings.sCountOfClaims, Records.size());
-            addLoadSummaryCount(                    Strings.sCountOfCTBClaims,
+            addLoadSummaryCount(Strings.sCountOfCTBClaims,
                     totalCouncilTaxBenefitClaims);
             addLoadSummaryCount(
                     Strings.sCountOfCTBAndHBClaims,

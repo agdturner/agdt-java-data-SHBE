@@ -774,7 +774,7 @@ public class SHBE_Data extends SHBE_Object {
 
     public final File getCorrectedPostcodesFile() {
         if (CorrectedPostcodesFile == null) {
-            String filename = "SHBE_CorrectedPostcodes"
+            String filename = "DW_CorrectedPostcodes"
                     + Strings.sBinaryFileExtension;
             CorrectedPostcodesFile = new File(
                     Files.getGeneratedLCCDir(),
