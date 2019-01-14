@@ -206,10 +206,9 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
      *
      * @param s
      */
-    public void log(String s) {
-        PrintWriterOut.println(s);
-        PrintWriterErr.println(s);
-        System.out.println(s);
+    public void logEO(String s) {
+        logO(s, false);
+        logE(s);
     }
 
 //    private static void log(

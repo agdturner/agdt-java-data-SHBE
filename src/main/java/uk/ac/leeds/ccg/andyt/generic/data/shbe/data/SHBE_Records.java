@@ -1325,7 +1325,6 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     ) {
         super(env);
         SHBE_Handler handler = env.Handler;
-        ONSPD_Postcode_Handler Postcode_Handler;
         Postcode_Handler = env.getPostcode_Handler();
         SHBE_Data Data = env.Data;
         InputFile = new File(inputDirectory, inputFilename);
@@ -1373,15 +1372,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         ClaimantPostcodesModified = new HashMap<>();
         ClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes = new HashMap<>();
         ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture = new HashSet<>();
-        env.log("----------------------");
-        env.log("Load " + YM3);
-        env.log("----------------------");
-        env.log("NearestYM3ForONSPDLookup " + NearestYM3ForONSPDLookup);
-        env.log("LatestYM3ForONSPDLookup " + LatestYM3ForONSPDFormat);
+        env.logO("----------------------", true);
+        env.logO("Load " + YM3, true);
+        env.logO("----------------------", true);
+        env.logO("NearestYM3ForONSPDLookup " + NearestYM3ForONSPDLookup, true);
+        env.logO("LatestYM3ForONSPDLookup " + LatestYM3ForONSPDFormat, true);
         if (!LatestYM3ForONSPDFormat.equals(NearestYM3ForONSPDLookup)) {
-            env.log("The " + LatestYM3ForONSPDFormat + " ONSPD may be used "
+            env.logO("The " + LatestYM3ForONSPDFormat + " ONSPD may be used "
                     + "if the Claimant Postcode does not have a lookup in the "
-                    + NearestYM3ForONSPDLookup + " ONSPD.");
+                    + NearestYM3ForONSPDLookup + " ONSPD.", true);
         }
         /**
          * Check the postcodes against these to see if we should report them
@@ -1490,7 +1489,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         long grandTotalWeeklyEligibleRentAmount = 0;
         int totalWeeklyEligibleRentAmountGreaterThanZeroCount = 0;
         // Read data
-        env.log("<Read data>");
+        env.logO("<Read data>", true);
         try {
             BufferedReader br;
             br = Generic_IO.getBufferedReader(InputFile);
@@ -2143,7 +2142,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 }
                 tokenType = st.nextToken();
             }
-            env.log("</Read data>");
+            env.logO("</Read data>", true);
 
             br.close();
 
@@ -2153,7 +2152,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             SHBE_ID SHBE_ID;
             SHBE_Record SHBE_Record;
             Iterator<SHBE_ID> ite;
-            env.log("<Add SRecords>");
+            env.logO("<Add SRecords>", true);
             ite = Records.keySet().iterator();
             while (ite.hasNext()) {
                 SHBE_ID = ite.next();
@@ -2169,9 +2168,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                         PersonIDToClaimIDsLookup,
                         ClaimIDToClaimRefLookup);
             }
-            env.log("</Add SRecords>");
+            env.logO("</Add SRecords>", true);
 
-            env.log("<Summary Statistics>");
+            env.logO("<Summary Statistics>", true);
             /**
              * Add statistics to LoadSummary.
              */
@@ -2315,7 +2314,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     totalWeeklyEligibleRentAmountGreaterThanZeroCount);
             addLoadSummaryCount(Strings.sAverage_NonZero_WeeklyEligibleRentAmount,
                     grandTotalWeeklyEligibleRentAmount / (double) totalWeeklyEligibleRentAmountGreaterThanZeroCount);
-            env.log("<Summary Statistics>");
+            env.logO("<Summary Statistics>", true);
 
             /**
              * Write out data.
@@ -2439,9 +2438,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 pw.println(ClaimIDToClaimRefLookup.get(SHBE_ID));
             }
             pw.close();
-            env.log("----------------------");
-            env.log("Loaded " + YM3);
-            env.log("----------------------");
+            env.logO("----------------------", true);
+            env.logO("Loaded " + YM3, true);
+            env.logO("----------------------", true);
         } catch (IOException ex) {
             Logger.getLogger(SHBE_Handler.class
                     .getName()).log(Level.SEVERE, null, ex);

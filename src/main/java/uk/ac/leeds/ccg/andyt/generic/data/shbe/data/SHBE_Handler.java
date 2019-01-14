@@ -99,12 +99,8 @@ public class SHBE_Handler extends SHBE_Object {
         dir = Files.getInputSHBEDir();
         for (String SHBEFilename : SHBEFilenames) {
             SHBE_Records SHBE_Records;
-            SHBE_Records = new SHBE_Records(
-                    Env,
-                    dir,
-                    SHBEFilename,
-                    NearestYM3ForONSPDFormatLookupLastYM3,
-                    logDir);
+            SHBE_Records = new SHBE_Records(                    Env,                    dir,                    SHBEFilename,
+                    NearestYM3ForONSPDFormatLookupLastYM3,                    logDir);
             Generic_IO.writeObject(SHBE_Records, SHBE_Records.getFile());
         }
         writeLookups();
