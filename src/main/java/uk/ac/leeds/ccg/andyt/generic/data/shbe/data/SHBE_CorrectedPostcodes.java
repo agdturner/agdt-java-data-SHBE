@@ -66,8 +66,6 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
      * to be mappable.
      */
     public void run() {
-        Strings = new SHBE_Strings();
-        Files = new SHBE_Files(Strings);
         File dir;
         dir = new File(                Files.getInputLCCDir(),                "AcademyPostcodeCorrections");
         File f;
