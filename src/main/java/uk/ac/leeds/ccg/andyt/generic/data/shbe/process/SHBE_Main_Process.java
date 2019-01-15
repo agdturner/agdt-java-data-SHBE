@@ -53,7 +53,7 @@ public class SHBE_Main_Process extends SHBE_Object {
         SHBE_Main_Process p;
         SHBE_Environment env;
         File dataDir = new File(System.getProperty("user.dir"), "data");
-        env = new SHBE_Environment(dataDir);
+        env = new SHBE_Environment(dataDir, SHBE_Environment.DEBUG_Level_FINE);
         p = new SHBE_Main_Process(env);
         // Main switches
         p.doLoadDataIntoCaches = true; // rename/reuse just left here for convenience...

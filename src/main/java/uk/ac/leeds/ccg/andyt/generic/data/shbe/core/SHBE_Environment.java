@@ -51,9 +51,9 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
      * Logging levels.
      */
     public int DEBUG_Level;
-    public final int DEBUG_Level_FINEST = 0;
-    public final int DEBUG_Level_FINE = 1;
-    public final int DEBUG_Level_NORMAL = 2;
+    public static final int DEBUG_Level_FINEST = 0;
+    public static final int DEBUG_Level_FINE = 1;
+    public static final int DEBUG_Level_NORMAL = 2;
     
 /**
      * For writing output messages to.
@@ -72,12 +72,13 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
 
     public transient static final String EOL = System.getProperty("line.separator");
 
-    public SHBE_Environment(File dataDir) {
+    public SHBE_Environment(File dataDir, int DEBUG_Level) {
         //Memory_Threshold = 3000000000L;
         Strings = new SHBE_Strings();
         Files = new SHBE_Files(Strings, dataDir);
         ge = new Generic_Environment(Files, Strings);
         File outDir = Files.getOutputDataDir();
+        this.DEBUG_Level = DEBUG_Level;
         File f;
         f = new File(outDir, "Out.txt");
         try {
