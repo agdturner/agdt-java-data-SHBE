@@ -98,10 +98,10 @@ public class SHBE_Handler extends SHBE_Object {
         File dir;
         dir = Files.getInputSHBEDir();
         for (String SHBEFilename : SHBEFilenames) {
-            SHBE_Records SHBE_Records;
-            SHBE_Records = new SHBE_Records(                    Env,                    dir,                    SHBEFilename,
-                    NearestYM3ForONSPDFormatLookupLastYM3,                    logDir);
-            Generic_IO.writeObject(SHBE_Records, SHBE_Records.getFile());
+            SHBE_Records recs;
+            recs = new SHBE_Records(Env, dir, SHBEFilename,
+                    NearestYM3ForONSPDFormatLookupLastYM3, logDir);
+            Generic_IO.writeObject(recs, recs.getFile(), recs.toString());
         }
         writeLookups();
         // Make a backup copy
@@ -254,7 +254,7 @@ public class SHBE_Handler extends SHBE_Object {
         SHBE_Records SHBE_Records1;
         SHBE_Records1 = new SHBE_Records(Env, YM31);
         HashMap<SHBE_ID, SHBE_Record> recs1;
-        recs1 = SHBE_Records1.getClaimIDToSHBE_RecordMap(handleOutOfMemoryError);
+        recs1 = SHBE_Records1.getRecords(handleOutOfMemoryError);
         SHBE_Record rec1;
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup1;
         PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM31);
@@ -337,7 +337,7 @@ public class SHBE_Handler extends SHBE_Object {
         NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
         System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
         SHBE_Records0 = new SHBE_Records(Env, YM30);
-        recs0 = SHBE_Records0.getClaimIDToSHBE_RecordMap(handleOutOfMemoryError);
+        recs0 = SHBE_Records0.getRecords(handleOutOfMemoryError);
         // <writeOutModifiedPostcodes>
         writeOutModifiedPostcodes(
                 UniqueModifiedPostcodes,
@@ -505,7 +505,7 @@ public class SHBE_Handler extends SHBE_Object {
                 Env,
                 YM31);
         HashMap<SHBE_ID, SHBE_Record> recs1;
-        recs1 = SHBE_Records1.getClaimIDToSHBE_RecordMap(handleOutOfMemoryError);
+        recs1 = SHBE_Records1.getRecords(handleOutOfMemoryError);
         SHBE_Record rec1;
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup1;
         PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM31);
@@ -589,7 +589,7 @@ public class SHBE_Handler extends SHBE_Object {
             SHBE_Records0 = new SHBE_Records(
                     Env,
                     YM30);
-            recs0 = SHBE_Records0.getClaimIDToSHBE_RecordMap(handleOutOfMemoryError);
+            recs0 = SHBE_Records0.getRecords(handleOutOfMemoryError);
             // <writeOutModifiedPostcodes>
             writeOutModifiedPostcodes(
                     UniqueModifiedPostcodes,
@@ -1072,8 +1072,6 @@ public class SHBE_Handler extends SHBE_Object {
         }
         return r;
     }
-
-    
 
     public SHBE_RecordAggregate aggregate(HashSet<SHBE_Record> records) {
         SHBE_RecordAggregate result = new SHBE_RecordAggregate();

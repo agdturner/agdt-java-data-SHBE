@@ -65,7 +65,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      *
      * @param e
      */
-    public void init(SHBE_Environment e) {
+    public final void init(SHBE_Environment e) {
         Env = e;
         Strings = e.Strings;
         Postcode_Handler = e.getPostcode_Handler();
@@ -536,20 +536,21 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * If not initialised, initialises Records then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_ID, SHBE_Record> getClaimIDToSHBE_RecordMap(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, SHBE_Record> getRecords(boolean hoome) {
         try {
-            return getRecords();
+            Env.checkAndMaybeFreeMemory();
+            return SHBE_Records.this.getRecords();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDToSHBE_RecordMap(handleOutOfMemoryError);
+                return getRecords(hoome);
             } else {
                 throw e;
             }
@@ -561,7 +562,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      *
      * @return
      */
-    public HashMap<SHBE_ID, SHBE_Record> getRecords() {
+    protected final HashMap<SHBE_ID, SHBE_Record> getRecords() {
         if (Records == null) {
             File f;
             f = getRecordsFile();
@@ -577,20 +578,21 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * If not initialised, initialises ClaimIDsOfNewSHBEClaims then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfNewSHBEClaims(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfNewSHBEClaims(boolean hoome) {
         try {
+            Env.checkAndMaybeFreeMemory();
             return getClaimIDsOfNewSHBEClaims();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfNewSHBEClaims(handleOutOfMemoryError);
+                return getClaimIDsOfNewSHBEClaims(hoome);
             } else {
                 throw e;
             }
@@ -619,20 +621,22 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * ClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore(
+            boolean hoome) {
         try {
+            Env.checkAndMaybeFreeMemory();
             return getClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore(handleOutOfMemoryError);
+                return getClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore(hoome);
             } else {
                 throw e;
             }
@@ -662,20 +666,21 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * ClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore(boolean hoome) {
         try {
+            Env.checkAndMaybeFreeMemory();
             return getClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore(handleOutOfMemoryError);
+                return getClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore(hoome);
             } else {
                 throw e;
             }
@@ -706,20 +711,21 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * ClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore then returns
      * it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore(
+            boolean hoome) {
         try {
             return getClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore(handleOutOfMemoryError);
+                return getClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore(hoome);
             } else {
                 throw e;
             }
@@ -750,20 +756,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimIDsOfNewSHBEClaimsWhereClaimantIsNew
      * then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfNewSHBEClaimsWhereClaimantIsNew(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfNewSHBEClaimsWhereClaimantIsNew(boolean hoome) {
         try {
             return getClaimIDsOfNewSHBEClaimsWhereClaimantIsNew();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfNewSHBEClaimsWhereClaimantIsNew(handleOutOfMemoryError);
+                return getClaimIDsOfNewSHBEClaimsWhereClaimantIsNew(hoome);
             } else {
                 throw e;
             }
@@ -793,20 +799,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * CottingleySpringsCaravanParkPairedClaimIDs then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getCottingleySpringsCaravanParkPairedClaimIDs(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getCottingleySpringsCaravanParkPairedClaimIDs(boolean hoome) {
         try {
             return getCottingleySpringsCaravanParkPairedClaimIDs();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getCottingleySpringsCaravanParkPairedClaimIDs(handleOutOfMemoryError);
+                return getCottingleySpringsCaravanParkPairedClaimIDs(hoome);
             } else {
                 throw e;
             }
@@ -836,20 +842,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * ClaimIDsWithStatusOfHBAtExtractDateInPayment then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfHBAtExtractDateInPayment(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfHBAtExtractDateInPayment(boolean hoome) {
         try {
             return getClaimIDsWithStatusOfHBAtExtractDateInPayment();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsWithStatusOfHBAtExtractDateInPayment(handleOutOfMemoryError);
+                return getClaimIDsWithStatusOfHBAtExtractDateInPayment(hoome);
             } else {
                 throw e;
             }
@@ -879,20 +885,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * ClaimIDsWithStatusOfHBAtExtractDateSuspended then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfHBAtExtractDateSuspended(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfHBAtExtractDateSuspended(boolean hoome) {
         try {
             return getClaimIDsWithStatusOfHBAtExtractDateSuspended();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsWithStatusOfHBAtExtractDateSuspended(handleOutOfMemoryError);
+                return getClaimIDsWithStatusOfHBAtExtractDateSuspended(hoome);
             } else {
                 throw e;
             }
@@ -922,20 +928,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimIDsWithStatusOfHBAtExtractDateOther
      * then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfHBAtExtractDateOther(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfHBAtExtractDateOther(boolean hoome) {
         try {
             return getClaimIDsWithStatusOfHBAtExtractDateOther();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsWithStatusOfHBAtExtractDateOther(handleOutOfMemoryError);
+                return getClaimIDsWithStatusOfHBAtExtractDateOther(hoome);
             } else {
                 throw e;
             }
@@ -965,20 +971,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * ClaimIDsWithStatusOfCTBAtExtractDateInPayment then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfCTBAtExtractDateInPayment(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfCTBAtExtractDateInPayment(boolean hoome) {
         try {
             return getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsWithStatusOfCTBAtExtractDateInPayment(handleOutOfMemoryError);
+                return getClaimIDsWithStatusOfCTBAtExtractDateInPayment(hoome);
             } else {
                 throw e;
             }
@@ -1008,20 +1014,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * ClaimIDsWithStatusOfCTBAtExtractDateSuspended then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfCTBAtExtractDateSuspended(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfCTBAtExtractDateSuspended(boolean hoome) {
         try {
             return getClaimIDsWithStatusOfCTBAtExtractDateSuspended();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsWithStatusOfCTBAtExtractDateSuspended(handleOutOfMemoryError);
+                return getClaimIDsWithStatusOfCTBAtExtractDateSuspended(hoome);
             } else {
                 throw e;
             }
@@ -1051,20 +1057,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimIDsWithStatusOfCTBAtExtractDateOther
      * then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfCTBAtExtractDateOther(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsWithStatusOfCTBAtExtractDateOther(boolean hoome) {
         try {
             return getClaimIDsWithStatusOfCTBAtExtractDateOther();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsWithStatusOfCTBAtExtractDateOther(handleOutOfMemoryError);
+                return getClaimIDsWithStatusOfCTBAtExtractDateOther(hoome);
             } else {
                 throw e;
             }
@@ -1093,20 +1099,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * If not initialised, initialises SRecordsWithoutDRecords then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_ID, ArrayList<SHBE_S_Record>> getSRecordsWithoutDRecords(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, ArrayList<SHBE_S_Record>> getSRecordsWithoutDRecords(boolean hoome) {
         try {
             return getSRecordsWithoutDRecords();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getSRecordsWithoutDRecords(handleOutOfMemoryError);
+                return getSRecordsWithoutDRecords(hoome);
             } else {
                 throw e;
             }
@@ -1133,20 +1139,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimIDAndCountOfRecordsWithSRecords then
      * returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_ID, Integer> getClaimIDAndCountOfRecordsWithSRecords(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, Integer> getClaimIDAndCountOfRecordsWithSRecords(boolean hoome) {
         try {
             return getClaimIDAndCountOfRecordsWithSRecords();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDAndCountOfRecordsWithSRecords(handleOutOfMemoryError);
+                return getClaimIDAndCountOfRecordsWithSRecords(hoome);
             } else {
                 throw e;
             }
@@ -1157,20 +1163,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * ClaimIDsOfClaimsWithoutAMappableClaimantPostcode then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithoutAValidClaimantPostcode(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithoutAValidClaimantPostcode(boolean hoome) {
         try {
             return getClaimIDsOfClaimsWithoutAMappableClaimantPostcode();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfClaimsWithoutAValidClaimantPostcode(handleOutOfMemoryError);
+                return getClaimIDsOfClaimsWithoutAValidClaimantPostcode(hoome);
             } else {
                 throw e;
             }
@@ -1227,9 +1233,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * Write this to file.
      */
     public void write() {
-        Generic_IO.writeObject(
-                this,
-                getFile());
+        Generic_IO.writeObject(this, getFile());
     }
 
     /**
@@ -1239,7 +1243,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     protected File getDir() {
         if (Dir == null) {
-            Dir = new File(Env.Files.getGeneratedDataDir(), getYM3().toString());
+            Dir = new File(Env.Files.getGeneratedSHBEDir(), getYM3().toString());
             Dir.mkdirs();
         }
         return Dir;
@@ -1264,12 +1268,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     public SHBE_Records(SHBE_Environment env, ONSPD_YM3 YM3) {
         super(env);
+        init(env);
         this.YM3 = YM3;
         NearestYM3ForONSPDLookup = Postcode_Handler.getNearestYM3ForONSPDLookup(YM3);
         env.logO("YM3 " + YM3, true);
         env.logO("NearestYM3ForONSPDLookup " + NearestYM3ForONSPDLookup, true);
-        Strings = env.Strings;
-        Records = getClaimIDToSHBE_RecordMap(env.HOOME);
+        Records = SHBE_Records.this.getRecords();
         ClaimIDsOfNewSHBEClaims = getClaimIDsOfNewSHBEClaims(env.HOOME);
         ClaimantPersonIDs = getClaimantPersonIDs(env.HOOME);
         PartnerPersonIDs = getPartnerPersonIDs(env.HOOME);
@@ -1320,13 +1324,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             String inputFilename, ONSPD_YM3 LatestYM3ForONSPDFormat, File logDir
     ) {
         super(env);
+        init(env);
         SHBE_Handler handler = env.Handler;
-        Postcode_Handler = env.getPostcode_Handler();
         SHBE_Data Data = env.Data;
         InputFile = new File(inputDirectory, inputFilename);
         YM3 = handler.getYM3(inputFilename);
         NearestYM3ForONSPDLookup = Postcode_Handler.getNearestYM3ForONSPDLookup(YM3);
-        Strings = env.Strings;
         Records = new HashMap<>();
         ClaimIDs = new HashSet<>();
         ClaimIDsOfNewSHBEClaims = new HashSet<>();
@@ -1747,7 +1750,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                             if (!isMappablePostcode) {
                                                 isMappablePostcodeLastestYM3 = Postcode_Handler.isMappablePostcode(LatestYM3ForONSPDFormat, record.ClaimPostcodeF);
                                                 if (isMappablePostcodeLastestYM3) {
-                                                    env.logO(env.DEBUG_Level_FINEST,
+                                                    env.logO(SHBE_Environment.DEBUG_Level_FINEST,
                                                             "Postcode " + Postcode + " is not in the " + NearestYM3ForONSPDLookup + " ONSPD, "
                                                             + "but is in the " + LatestYM3ForONSPDFormat + " ONSPD!");
                                                     isMappablePostcode = isMappablePostcodeLastestYM3;
@@ -2569,7 +2572,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                 NINO = "" + i;
                                 NINO += "_" + ClaimantsNINO;
                                 if (NINOToNINOIDLookup.containsKey(NINO)) {
-                                    Env.logO(Env.DEBUG_Level_FINEST,
+                                    Env.logO(SHBE_Environment.DEBUG_Level_FINEST,
                                             "NINO " + NINO + " is not unique for " + ClaimantsNINO);
                                 } else {
                                     set = true;
@@ -2601,7 +2604,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                 NINO = "" + i;
                                 NINO += "_" + ClaimantsNINO;
                                 if (NINOToNINOIDLookup.containsKey(NINO)) {
-                                    Env.logO(Env.DEBUG_Level_FINEST,
+                                    Env.logO(SHBE_Environment.DEBUG_Level_FINEST,
                                             "NINO " + NINO + " is not unique for " + ClaimantsNINO);
                                 } else {
                                     set = true;
@@ -2876,20 +2879,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimIDToClaimantPersonIDLookup then
      * returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_ID, SHBE_PersonID> getClaimIDToClaimantPersonIDLookup(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, SHBE_PersonID> getClaimIDToClaimantPersonIDLookup(boolean hoome) {
         try {
             return getClaimIDToClaimantPersonIDLookup();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDToClaimantPersonIDLookup(handleOutOfMemoryError);
+                return getClaimIDToClaimantPersonIDLookup(hoome);
             } else {
                 throw e;
             }
@@ -2919,20 +2922,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimIDToPartnerPersonIDLookup then
      * returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_ID, SHBE_PersonID> getClaimIDToPartnerPersonIDLookup(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, SHBE_PersonID> getClaimIDToPartnerPersonIDLookup(boolean hoome) {
         try {
             return getClaimIDToPartnerPersonIDLookup();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDToPartnerPersonIDLookup(handleOutOfMemoryError);
+                return getClaimIDToPartnerPersonIDLookup(hoome);
             } else {
                 throw e;
             }
@@ -2962,20 +2965,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimIDToDependentPersonIDsLookup then
      * returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_ID, HashSet<SHBE_PersonID>> getClaimIDToDependentPersonIDsLookup(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, HashSet<SHBE_PersonID>> getClaimIDToDependentPersonIDsLookup(boolean hoome) {
         try {
             return getClaimIDToDependentPersonIDsLookup();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDToDependentPersonIDsLookup(handleOutOfMemoryError);
+                return getClaimIDToDependentPersonIDsLookup(hoome);
             } else {
                 throw e;
             }
@@ -3005,20 +3008,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimIDToNonDependentPersonIDsLookup then
      * returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_ID, HashSet<SHBE_PersonID>> getClaimIDToNonDependentPersonIDsLookup(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, HashSet<SHBE_PersonID>> getClaimIDToNonDependentPersonIDsLookup(boolean hoome) {
         try {
             return getClaimIDToNonDependentPersonIDsLookup();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDToNonDependentPersonIDsLookup(handleOutOfMemoryError);
+                return getClaimIDToNonDependentPersonIDsLookup(hoome);
             } else {
                 throw e;
             }
@@ -3049,20 +3052,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim then returns
      * it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(boolean hoome) {
         try {
             return getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(handleOutOfMemoryError);
+                return getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(hoome);
             } else {
                 throw e;
             }
@@ -3094,20 +3097,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim then returns
      * it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim(boolean hoome) {
         try {
             return getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim(handleOutOfMemoryError);
+                return getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim(hoome);
             } else {
                 throw e;
             }
@@ -3139,20 +3142,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim then returns
      * it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(boolean hoome) {
         try {
             return getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(handleOutOfMemoryError);
+                return getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(hoome);
             } else {
                 throw e;
             }
@@ -3184,20 +3187,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim then returns
      * it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim(boolean hoome) {
         try {
             return getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim(handleOutOfMemoryError);
+                return getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim(hoome);
             } else {
                 throw e;
             }
@@ -3229,20 +3232,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim
      * then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(boolean hoome) {
         try {
             return getClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(handleOutOfMemoryError);
+                return getClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(hoome);
             } else {
                 throw e;
             }
@@ -3274,20 +3277,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim
      * then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(boolean hoome) {
         try {
             return getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(handleOutOfMemoryError);
+                return getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(hoome);
             } else {
                 throw e;
             }
@@ -3318,20 +3321,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(boolean hoome) {
         try {
             return getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(handleOutOfMemoryError);
+                return getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(hoome);
             } else {
                 throw e;
             }
@@ -3362,20 +3365,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup then
      * returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(boolean hoome) {
         try {
             return getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(handleOutOfMemoryError);
+                return getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(hoome);
             } else {
                 throw e;
             }
@@ -3405,20 +3408,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * If not initialised, initialises ClaimIDToPostcodeLookup then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_ID, ONSPD_ID> getClaimIDToPostcodeIDLookup(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, ONSPD_ID> getClaimIDToPostcodeIDLookup(boolean hoome) {
         try {
             return getClaimIDToPostcodeIDLookup();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDToPostcodeIDLookup(handleOutOfMemoryError);
+                return getClaimIDToPostcodeIDLookup(hoome);
             } else {
                 throw e;
             }
@@ -3445,20 +3448,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture(boolean hoome) {
         try {
             return getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture(handleOutOfMemoryError);
+                return getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture(hoome);
             } else {
                 throw e;
             }
@@ -3488,20 +3491,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimIDToTenancyTypeLookup then returns
      * it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return ClaimIDToTenancyTypeLookup
      */
-    public final HashMap<SHBE_ID, Integer> getClaimIDToTenancyTypeLookup(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, Integer> getClaimIDToTenancyTypeLookup(boolean hoome) {
         try {
             return getClaimIDToTenancyTypeLookup();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDToTenancyTypeLookup(handleOutOfMemoryError);
+                return getClaimIDToTenancyTypeLookup(hoome);
             } else {
                 throw e;
             }
@@ -3530,20 +3533,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * If not initialised, initialises LoadSummary then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return LoadSummary
      */
-    public final HashMap<String, Number> getLoadSummary(boolean handleOutOfMemoryError) {
+    public final HashMap<String, Number> getLoadSummary(boolean hoome) {
         try {
             return getLoadSummary();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getLoadSummary(handleOutOfMemoryError);
+                return getLoadSummary(hoome);
             } else {
                 throw e;
             }
@@ -3571,20 +3574,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * If not initialised, initialises RecordIDsNotLoaded then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return RecordIDsNotLoaded
      */
-    public final ArrayList<Long> getRecordIDsNotLoaded(boolean handleOutOfMemoryError) {
+    public final ArrayList<Long> getRecordIDsNotLoaded(boolean hoome) {
         try {
             return getRecordIDsNotLoaded();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getRecordIDsNotLoaded(handleOutOfMemoryError);
+                return getRecordIDsNotLoaded(hoome);
             } else {
                 throw e;
             }
@@ -3613,20 +3616,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimRefsOfInvalidClaimantNINOClaims then
      * returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return ClaimIDsOfInvalidClaimantNINOClaims
      */
-    public final HashSet<SHBE_ID> getClaimIDsOfInvalidClaimantNINOClaims(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_ID> getClaimIDsOfInvalidClaimantNINOClaims(boolean hoome) {
         try {
             return getClaimIDsOfInvalidClaimantNINOClaims();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimIDsOfInvalidClaimantNINOClaims(handleOutOfMemoryError);
+                return getClaimIDsOfInvalidClaimantNINOClaims(hoome);
             } else {
                 throw e;
             }
@@ -3656,20 +3659,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimantPostcodesUnmappable then returns
      * it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return ClaimantPostcodesUnmappable
      */
-    public final HashMap<SHBE_ID, String> getClaimantPostcodesUnmappable(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, String> getClaimantPostcodesUnmappable(boolean hoome) {
         try {
             return getClaimantPostcodesUnmappable();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimantPostcodesUnmappable(handleOutOfMemoryError);
+                return getClaimantPostcodesUnmappable(hoome);
             } else {
                 throw e;
             }
@@ -3699,20 +3702,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises ClaimantPostcodesModified then returns
      * it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return ClaimantPostcodesModified
      */
-    public final HashMap<SHBE_ID, String[]> getClaimantPostcodesModified(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, String[]> getClaimantPostcodesModified(boolean hoome) {
         try {
             return getClaimantPostcodesModified();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimantPostcodesModified(handleOutOfMemoryError);
+                return getClaimantPostcodesModified(hoome);
             } else {
                 throw e;
             }
@@ -3742,20 +3745,20 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * If not initialised, initialises
      * ClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes then returns it.
      *
-     * @param handleOutOfMemoryError
+     * @param hoome
      * @return
      */
-    public final HashMap<SHBE_ID, String> getClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes(boolean handleOutOfMemoryError) {
+    public final HashMap<SHBE_ID, String> getClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes(boolean hoome) {
         try {
             return getClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes(handleOutOfMemoryError);
+                return getClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes(hoome);
             } else {
                 throw e;
             }
@@ -3786,9 +3789,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     protected final File getFile() {
         if (File == null) {
-            File = getFile(
-                    "SHBE_Records"
-                    + Strings.sBinaryFileExtension);
+            File = getFile("SHBE_Records" + Strings.sBinaryFileExtension);
         }
         return File;
     }
@@ -3799,8 +3800,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getRecordsFile() {
         if (RecordsFile == null) {
             RecordsFile = getFile(Strings.sRecords + Strings.symbol_underscore
-                    + "HashMap_String__SHBE_Record"
-                    + Strings.sBinaryFileExtension);
+                    + "HashMap_String__SHBE_Record" + Strings.sBinaryFileExtension);
         }
         return RecordsFile;
     }
@@ -3913,17 +3913,17 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         return NonDependentPersonIDsFile;
     }
 
-    public final HashSet<SHBE_PersonID> getClaimantPersonIDs(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_PersonID> getClaimantPersonIDs(boolean hoome) {
         try {
             return getClaimantPersonIDs();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getClaimantPersonIDs(handleOutOfMemoryError);
+                return getClaimantPersonIDs(hoome);
             } else {
                 throw e;
             }
@@ -3950,17 +3950,17 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         return ClaimantPersonIDs;
     }
 
-    public final HashSet<SHBE_PersonID> getPartnerPersonIDs(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_PersonID> getPartnerPersonIDs(boolean hoome) {
         try {
             return getPartnerPersonIDs();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getPartnerPersonIDs(handleOutOfMemoryError);
+                return getPartnerPersonIDs(hoome);
             } else {
                 throw e;
             }
@@ -3987,17 +3987,17 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         return PartnerPersonIDs;
     }
 
-    public final HashSet<SHBE_PersonID> getNonDependentPersonIDs(boolean handleOutOfMemoryError) {
+    public final HashSet<SHBE_PersonID> getNonDependentPersonIDs(boolean hoome) {
         try {
             return getNonDependentPersonIDs();
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 Env.clearMemoryReserve();
                 if (!Env.Data.clearSomeCacheExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
-                return getNonDependentPersonIDs(handleOutOfMemoryError);
+                return getNonDependentPersonIDs(hoome);
             } else {
                 throw e;
             }

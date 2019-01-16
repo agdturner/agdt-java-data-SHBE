@@ -54,7 +54,7 @@ public class SHBE_Data extends SHBE_Object {
      * the values are the respective collection.
      */
     protected HashMap<ONSPD_YM3, SHBE_Records> Data;
-    
+
     /**
      * File for storing Data
      */
@@ -252,7 +252,7 @@ public class SHBE_Data extends SHBE_Object {
         if (DataFile == null) {
             String filename = "Data_HashMap_String__SHBE_Records"
                     + Strings.sBinaryFileExtension;
-            DataFile = new File(Files.getGeneratedDataDir(), filename);
+            DataFile = new File(Files.getGeneratedSHBEDir(), filename);
         }
         return DataFile;
     }
@@ -280,8 +280,7 @@ public class SHBE_Data extends SHBE_Object {
      * @param f
      * @return
      */
-    public HashMap<String, SHBE_ID> getStringToIDLookup(
-            File f) {
+    public HashMap<String, SHBE_ID> getStringToIDLookup(            File f) {
         HashMap<String, SHBE_ID> r;
         if (f.exists()) {
             r = (HashMap<String, SHBE_ID>) Generic_IO.readObject(f);
@@ -664,13 +663,13 @@ public class SHBE_Data extends SHBE_Object {
 
     /**
      * {@code if (ClaimRefToClaimIDLookupFile == null) {
- String filename = "ClaimRefToClaimID_HashMap_String__SHBE_ID"
- + Strings.sBinaryFileExtension;
- PostcodeToPostcodeIDLookupFile = new File(
- Files.getGeneratedDataDir(),
- filename);
- }
- return ClaimRefToClaimIDLookupFile;}
+     * String filename = "ClaimRefToClaimID_HashMap_String__SHBE_ID"
+     * + Strings.sBinaryFileExtension;
+     * PostcodeToPostcodeIDLookupFile = new File(
+     * Files.getGeneratedSHBEDir(),
+     * filename);
+     * }
+     * return ClaimRefToClaimIDLookupFile;}
      *
      * @return
      */
@@ -679,20 +678,20 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "ClaimRefToClaimID_HashMap_String__SHBE_ID"
                     + Strings.sBinaryFileExtension;
             ClaimRefToClaimIDLookupFile = new File(
-                    Files.getGeneratedDataDir(),                    filename);
+                    Files.getGeneratedSHBEDir(), filename);
         }
         return ClaimRefToClaimIDLookupFile;
     }
 
     /**
      * {@code if (ClaimIDToClaimRefLookupFile == null) {
- String filename = "ClaimIDToClaimRef_HashMap_SHBE_ID__String"
- + Strings.sBinaryFileExtension;
- ClaimIDToClaimRefLookupFile = new File(
- Files.getGeneratedDataDir(),
- filename);
- }
- return ClaimIDToClaimRefLookupFile;}
+     * String filename = "ClaimIDToClaimRef_HashMap_SHBE_ID__String"
+     * + Strings.sBinaryFileExtension;
+     * ClaimIDToClaimRefLookupFile = new File(
+     * Files.getGeneratedSHBEDir(),
+     * filename);
+     * }
+     * return ClaimIDToClaimRefLookupFile;}
      *
      * @return
      */
@@ -701,20 +700,20 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "ClaimIDToClaimRef_HashMap_SHBE_ID__String"
                     + Strings.sBinaryFileExtension;
             ClaimIDToClaimRefLookupFile = new File(
-                    Files.getGeneratedDataDir(),                    filename);
+                    Files.getGeneratedSHBEDir(), filename);
         }
         return ClaimIDToClaimRefLookupFile;
     }
 
     /**
      * {@code if (PostcodeToPostcodeDWLookupFile == null) {
- String filename = "PostcodeToPostcodeID_HashMap_String__SHBE_ID"
- + Strings.class;
- PostcodeToPostcodeDWLookupFile = new File(
- Files.getGeneratedDataDir(),
- filename);
- }
- return PostcodeToPostcodeDWLookupFile;}
+     * String filename = "PostcodeToPostcodeID_HashMap_String__SHBE_ID"
+     * + Strings.class;
+     * PostcodeToPostcodeDWLookupFile = new File(
+     * Files.getGeneratedSHBEDir(),
+     * filename);
+     * }
+     * return PostcodeToPostcodeDWLookupFile;}
      *
      * @return
      */
@@ -723,20 +722,20 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "PostcodeToPostcodeID_HashMap_String__SHBE_ID"
                     + Strings.sBinaryFileExtension;
             PostcodeToPostcodeIDLookupFile = new File(
-                    Files.getGeneratedDataDir(),                    filename);
+                    Files.getGeneratedSHBEDir(), filename);
         }
         return PostcodeToPostcodeIDLookupFile;
     }
 
     /**
      * {@code if (PostcodeIDToPostcodeLookupFile == null) {
- String filename = "PostcodeIDToPostcode_HashMap_SHBE_ID__String"
- + Strings.sBinaryFileExtension;
- PostcodeIDToPostcodeLookupFile = new File(
- Files.getGeneratedDataDir(),
- filename);
- }
- return PostcodeIDToPostcodeLookupFile;}
+     * String filename = "PostcodeIDToPostcode_HashMap_SHBE_ID__String"
+     * + Strings.sBinaryFileExtension;
+     * PostcodeIDToPostcodeLookupFile = new File(
+     * Files.getGeneratedSHBEDir(),
+     * filename);
+     * }
+     * return PostcodeIDToPostcodeLookupFile;}
      *
      * @return
      */
@@ -745,20 +744,20 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "PostcodeIDToPostcode_HashMap_SHBE_ID__String"
                     + Strings.sBinaryFileExtension;
             PostcodeIDToPostcodeLookupFile = new File(
-                    Files.getGeneratedDataDir(),                    filename);
+                    Files.getGeneratedSHBEDir(), filename);
         }
         return PostcodeIDToPostcodeLookupFile;
     }
 
     /**
      * {@code if (PostcodeIDToAGDT_PointLookupFile == null) {
- String filename = "PostcodeIDToAGDT_Point_HashMap_SHBE_ID__AGDT_Point"
- + Strings.sBinaryFileExtension;
- PostcodeIDToAGDT_PointLookupFile = new File(
- Files.getGeneratedDataDir(),
- filename);
- }
- return PostcodeIDToAGDT_PointLookupFile;}
+     * String filename = "PostcodeIDToAGDT_Point_HashMap_SHBE_ID__AGDT_Point"
+     * + Strings.sBinaryFileExtension;
+     * PostcodeIDToAGDT_PointLookupFile = new File(
+     * Files.getGeneratedSHBEDir(),
+     * filename);
+     * }
+     * return PostcodeIDToAGDT_PointLookupFile;}
      *
      * @return
      */
@@ -767,7 +766,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "PostcodeIDToPoint_HashMap_String__HashMap_SHBE_ID__AGDT_Point"
                     + Strings.sBinaryFileExtension;
             PostcodeIDToPointLookupsFile = new File(
-                    Files.getGeneratedDataDir(),                    filename);
+                    Files.getGeneratedSHBEDir(), filename);
         }
         return PostcodeIDToPointLookupsFile;
     }
@@ -785,13 +784,13 @@ public class SHBE_Data extends SHBE_Object {
 
     /**
      * {@code if (NINOToNINOIDLookupFile == null) {
- String filename = "NINOToNINOID_HashMap_String__SHBE_ID"
- + Strings.sBinaryFileExtension;
- NINOToNINOIDLookupFile = new File(
- Files.getGeneratedDataDir(),
- filename);
- }
- return NINOToNINOIDLookupFile;}
+     * String filename = "NINOToNINOID_HashMap_String__SHBE_ID"
+     * + Strings.sBinaryFileExtension;
+     * NINOToNINOIDLookupFile = new File(
+     * Files.getGeneratedSHBEDir(),
+     * filename);
+     * }
+     * return NINOToNINOIDLookupFile;}
      *
      * @return
      */
@@ -800,20 +799,20 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "NINOToNINOID_HashMap_String__SHBE_ID"
                     + Strings.sBinaryFileExtension;
             NINOToNINOIDLookupFile = new File(
-                    Files.getGeneratedDataDir(),                    filename);
+                    Files.getGeneratedSHBEDir(), filename);
         }
         return NINOToNINOIDLookupFile;
     }
 
     /**
      * {@code if (DOBToSHBE_IDLookupFile == null) {
- String filename = "DOBToID_HashMap_String__SHBE_ID"
- + Strings.sBinaryFileExtension;
- DOBToSHBE_IDLookupFile = new File(
- Files.getGeneratedDataDir(),
- filename);
- }
- return DOBToSHBE_IDLookupFile;}
+     * String filename = "DOBToID_HashMap_String__SHBE_ID"
+     * + Strings.sBinaryFileExtension;
+     * DOBToSHBE_IDLookupFile = new File(
+     * Files.getGeneratedSHBEDir(),
+     * filename);
+     * }
+     * return DOBToSHBE_IDLookupFile;}
      *
      * @return
      */
@@ -821,21 +820,20 @@ public class SHBE_Data extends SHBE_Object {
         if (DOBToDOBIDLookupFile == null) {
             String filename = "DOBToDOBID_HashMap_String__SHBE_ID"
                     + Strings.sBinaryFileExtension;
-            DOBToDOBIDLookupFile = new File(
-                    Files.getGeneratedDataDir(),                    filename);
+            DOBToDOBIDLookupFile = new File(                    Files.getGeneratedSHBEDir(), filename);
         }
         return DOBToDOBIDLookupFile;
     }
 
     /**
      * {@code if (NINOIDToNINOLookupFile == null) {
- String filename = "NINOIDToNINO_HashMap_SHBE_ID__String"
- + Strings.sBinaryFileExtension;
- NINOIDToNINOLookupFile = new File(
- Files.getGeneratedDataDir(),
- filename);
- }
- return NINOIDToNINOLookupFile;}
+     * String filename = "NINOIDToNINO_HashMap_SHBE_ID__String"
+     * + Strings.sBinaryFileExtension;
+     * NINOIDToNINOLookupFile = new File(
+     * Files.getGeneratedSHBEDir(),
+     * filename);
+     * }
+     * return NINOIDToNINOLookupFile;}
      *
      * @return
      */
@@ -843,21 +841,20 @@ public class SHBE_Data extends SHBE_Object {
         if (NINOIDToNINOLookupFile == null) {
             String filename = "NINOIDToNINO_HashMap_SHBE_ID__String"
                     + Strings.sBinaryFileExtension;
-            NINOIDToNINOLookupFile = new File(
-                    Files.getGeneratedDataDir(),                    filename);
+            NINOIDToNINOLookupFile = new File(Files.getGeneratedSHBEDir(), filename);
         }
         return NINOIDToNINOLookupFile;
     }
 
     /**
      * {@code if (DOBIDToDOBLookupFile == null) {
- String filename = "DOBIDToDOB_HashMap_SHBE_ID__String"
- + Strings.sBinaryFileExtension;
- DOBIDToDOBLookupFile = new File(
- Files.getGeneratedDataDir(),
- filename);
- }
- return DOBIDToDOBLookupFile;}
+     * String filename = "DOBIDToDOB_HashMap_SHBE_ID__String"
+     * + Strings.sBinaryFileExtension;
+     * DOBIDToDOBLookupFile = new File(
+     * Files.getGeneratedSHBEDir(),
+     * filename);
+     * }
+     * return DOBIDToDOBLookupFile;}
      *
      * @return
      */
@@ -865,8 +862,7 @@ public class SHBE_Data extends SHBE_Object {
         if (DOBIDToDOBLookupFile == null) {
             String filename = "DOBIDToDOB_HashMap_SHBE_ID__String"
                     + Strings.sBinaryFileExtension;
-            DOBIDToDOBLookupFile = new File(
-                    Files.getGeneratedDataDir(),
+            DOBIDToDOBLookupFile = new File(Files.getGeneratedSHBEDir(),
                     filename);
         }
         return DOBIDToDOBLookupFile;
@@ -876,8 +872,7 @@ public class SHBE_Data extends SHBE_Object {
         if (ClaimantPersonIDsFile == null) {
             String filename = "Claimant_HashSet_SHBE_PersonID"
                     + Strings.sBinaryFileExtension;
-            ClaimantPersonIDsFile = new File(
-                    Files.getGeneratedDataDir(),
+            ClaimantPersonIDsFile = new File(Files.getGeneratedSHBEDir(),
                     filename);
         }
         return ClaimantPersonIDsFile;
@@ -888,7 +883,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "Partner_HashSet_SHBE_PersonID"
                     + Strings.sBinaryFileExtension;
             PartnerPersonIDsFile = new File(
-                    Files.getGeneratedDataDir(),
+                    Files.getGeneratedSHBEDir(),
                     filename);
         }
         return PartnerPersonIDsFile;
@@ -899,7 +894,7 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "NonDependent_HashSet_SHBE_PersonID"
                     + Strings.sBinaryFileExtension;
             NonDependentPersonIDsFile = new File(
-                    Files.getGeneratedDataDir(),
+                    Files.getGeneratedSHBEDir(),
                     filename);
         }
         return NonDependentPersonIDsFile;
@@ -910,10 +905,34 @@ public class SHBE_Data extends SHBE_Object {
             String filename = "PersonIDToClaimIDsLookup_HashMap_SHBE_PersonID__HashSet_SHBE_ID"
                     + Strings.sBinaryFileExtension;
             PersonIDToClaimIDsLookupFile = new File(
-                    Files.getGeneratedDataDir(),
+                    Files.getGeneratedSHBEDir(),
                     filename);
         }
         return PersonIDToClaimIDsLookupFile;
+    }
+
+    /**
+     * If getData().get(YM3) != null then return it.Otherwise try to load it
+     * from file and return it. Failing that return null.
+     *
+     * @param YM3
+     * @param hoome
+     * @return
+     */
+    public SHBE_Records getRecords(ONSPD_YM3 YM3, boolean hoome) {
+        try {
+            return getRecords(YM3);
+        } catch (OutOfMemoryError e) {
+            if (hoome) {
+                Env.clearMemoryReserve();
+                Env.clearAllData();
+                SHBE_Records r = getRecords(YM3, hoome);
+                Env.initMemoryReserve();
+                return r;
+            } else {
+                throw e;
+            }
+        }
     }
 
     /**
@@ -923,62 +942,59 @@ public class SHBE_Data extends SHBE_Object {
      * @param YM3
      * @return
      */
-    public SHBE_Records getSHBE_Records(ONSPD_YM3 YM3) {
-        SHBE_Records SHBE_Records;
-        SHBE_Records = getData().get(YM3);
-        if (SHBE_Records == null) {
+    protected SHBE_Records getRecords(ONSPD_YM3 YM3) {
+        SHBE_Records r;
+        r = getData().get(YM3);
+        if (r == null) {
             File f;
             f = getFile(YM3);
             if (f.exists()) {
-                SHBE_Records = (SHBE_Records) Generic_IO.readObject(f);
-                return SHBE_Records;
+                r = (SHBE_Records) Generic_IO.readObject(f);
+                return r;
             }
         }
-        return SHBE_Records;
+        return r;
     }
 
     /**
      * {@code return new File(
- Files.getGeneratedDataDir(),
- YM3);}
+     * Files.getGeneratedSHBEDir(),
+     * YM3);}
      *
      * @param YM3
      * @return
      */
     protected File getDir(ONSPD_YM3 YM3) {
         return new File(
-                Files.getGeneratedDataDir(),
+                Files.getGeneratedSHBEDir(),
                 YM3.toString());
     }
 
     /**
      * {@code File result;
- File dir;
- dir = getDir(YM3);
- if (!dir.exists()) {
- dir.mkdirs();
- }
- result = new File(
- dir,
- "SHBE_Records"
- + Strings.sBinaryFileExtension);
- return result;}
+     * File dir;
+     * dir = getDir(YM3);
+     * if (!dir.exists()) {
+     * dir.mkdirs();
+     * }
+     * result = new File(
+     * dir,
+     * "SHBE_Records"
+     * + Strings.sBinaryFileExtension);
+     * return result;}
      *
      * @param YM3
      * @return
      */
     protected File getFile(ONSPD_YM3 YM3) {
-        File result;
+        File r;
         File dir;
         dir = getDir(YM3);
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        result = new File(
-                dir,
-                "SHBE_Records"
-                + Strings.sBinaryFileExtension);
-        return result;
+        r = new File(dir, "SHBE_Records" + Strings.sBinaryFileExtension);
+        return r;
     }
 
     /**
@@ -987,6 +1003,8 @@ public class SHBE_Data extends SHBE_Object {
      * @return The number of SHBE_Records cleared.
      */
     public int clearAllCache() {
+        String methodName = "clearAllCache";
+        Env.logO(Env.DEBUG_Level, "<" + methodName + ">");
         int result = 0;
         Iterator<ONSPD_YM3> ite;
         ite = Data.keySet().iterator();
@@ -1000,6 +1018,7 @@ public class SHBE_Data extends SHBE_Object {
                 result++;
             }
         }
+        Env.logO(Env.DEBUG_Level, "</" + methodName + ">");
         return result;
     }
 
@@ -1007,8 +1026,8 @@ public class SHBE_Data extends SHBE_Object {
      * Clears all SHBE_Records in Data from fast access memory with the
      * exception of that for YM3.
      *
-     * @param YM3 The Year_Month key of for the SHBE_Records not to be
-     * cleared from fast access memory.
+     * @param YM3 The Year_Month key of for the SHBE_Records not to be cleared
+     * from fast access memory.
      * @return The number of SHBE_Records cleared.
      */
     public int clearAllCacheExcept(ONSPD_YM3 YM3) {
