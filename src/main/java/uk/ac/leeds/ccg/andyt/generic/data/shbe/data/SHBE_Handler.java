@@ -54,7 +54,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * For convenience, these are initialised in construction from Env.
      */
-    private final transient SHBE_Data SHBE_Data;
+    private final transient SHBE_Data Data;
     private final transient HashMap<String, SHBE_ID> NINOToNINOIDLookup;
     private final transient HashMap<String, SHBE_ID> DOBToDOBIDLookup;
     private final transient ONSPD_Postcode_Handler Postcode_Handler;
@@ -67,10 +67,10 @@ public class SHBE_Handler extends SHBE_Object {
 
     public SHBE_Handler(SHBE_Environment e) {
         super(e);
-        SHBE_Data = e.Data;
+        Data = e.Data;
+        NINOToNINOIDLookup = Data.getNINOToNINOIDLookup();
+        DOBToDOBIDLookup = Data.getDOBToDOBIDLookup();
         Postcode_Handler = e.getPostcode_Handler();
-        NINOToNINOIDLookup = SHBE_Data.getNINOToNINOIDLookup();
-        DOBToDOBIDLookup = SHBE_Data.getDOBToDOBIDLookup();
     }
 
     /**
@@ -83,14 +83,13 @@ public class SHBE_Handler extends SHBE_Object {
         SHBEFilenames = getSHBEFilenamesAll();
         ONSPD_YM3 LastYM3;
         LastYM3 = getYM3(SHBEFilenames[SHBEFilenames.length - 1]);
-        ONSPD_YM3 NearestYM3ForONSPDFormatLookupLastYM3;
-        NearestYM3ForONSPDFormatLookupLastYM3 = Postcode_Handler.getNearestYM3ForONSPDLookup(LastYM3);
+        ONSPD_YM3 nYM3;
+        nYM3 = Postcode_Handler.getNearestYM3ForONSPDLookup(LastYM3);
         File dir;
         dir = Files.getInputSHBEDir();
         for (String SHBEFilename : SHBEFilenames) {
             SHBE_Records recs;
-            recs = new SHBE_Records(Env, dir, SHBEFilename,
-                    NearestYM3ForONSPDFormatLookupLastYM3, logDir);
+            recs = new SHBE_Records(Env, dir, SHBEFilename, nYM3, logDir);
             Generic_IO.writeObject(recs, recs.getFile(), recs.toString());
         }
         writeLookups();
@@ -106,45 +105,32 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     public void writeLookups() {
-        Generic_IO.writeObject(
-                SHBE_Data.getClaimIDToClaimRefLookup(),
-                SHBE_Data.getClaimIDToClaimRefLookupFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getClaimRefToClaimIDLookup(),
-                SHBE_Data.getClaimRefToClaimIDLookupFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getNINOToNINOIDLookup(),
-                SHBE_Data.getNINOToNINOIDLookupFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getNINOIDToNINOLookup(),
-                SHBE_Data.getNINOIDToNINOLookupFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getDOBToDOBIDLookup(),
-                SHBE_Data.getDOBToDOBIDLookupFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getDOBIDToDOBLookup(),
-                SHBE_Data.getDOBIDToDOBLookupFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getPostcodeToPostcodeIDLookup(),
-                SHBE_Data.getPostcodeToPostcodeIDLookupFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getPostcodeIDToPostcodeLookup(),
-                SHBE_Data.getPostcodeIDToPostcodeLookupFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getPostcodeIDToPointLookups(),
-                SHBE_Data.getPostcodeIDToPointLookupsFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getClaimantPersonIDs(),
-                SHBE_Data.getClaimantPersonIDsFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getPartnerPersonIDs(),
-                SHBE_Data.getPartnerPersonIDsFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getNonDependentPersonIDs(),
-                SHBE_Data.getNonDependentPersonIDsFile());
-        Generic_IO.writeObject(
-                SHBE_Data.getPersonIDToClaimIDLookup(),
-                SHBE_Data.getPersonIDToClaimIDLookupFile());
+        Generic_IO.writeObject(Data.getClaimIDToClaimRefLookup(),
+                Data.getClaimIDToClaimRefLookupFile());
+        Generic_IO.writeObject(Data.getClaimRefToClaimIDLookup(),
+                Data.getClaimRefToClaimIDLookupFile());
+        Generic_IO.writeObject(Data.getNINOToNINOIDLookup(),
+                Data.getNINOToNINOIDLookupFile());
+        Generic_IO.writeObject(Data.getNINOIDToNINOLookup(),
+                Data.getNINOIDToNINOLookupFile());
+        Generic_IO.writeObject(Data.getDOBToDOBIDLookup(),
+                Data.getDOBToDOBIDLookupFile());
+        Generic_IO.writeObject(Data.getDOBIDToDOBLookup(),
+                Data.getDOBIDToDOBLookupFile());
+        Generic_IO.writeObject(Data.getPostcodeToPostcodeIDLookup(),
+                Data.getPostcodeToPostcodeIDLookupFile());
+        Generic_IO.writeObject(Data.getPostcodeIDToPostcodeLookup(),
+                Data.getPostcodeIDToPostcodeLookupFile());
+        Generic_IO.writeObject(Data.getPostcodeIDToPointLookups(),
+                Data.getPostcodeIDToPointLookupsFile());
+        Generic_IO.writeObject(Data.getClaimantPersonIDs(),
+                Data.getClaimantPersonIDsFile());
+        Generic_IO.writeObject(Data.getPartnerPersonIDs(),
+                Data.getPartnerPersonIDsFile());
+        Generic_IO.writeObject(Data.getNonDependentPersonIDs(),
+                Data.getNonDependentPersonIDsFile());
+        Generic_IO.writeObject(Data.getPersonIDToClaimIDLookup(),
+                Data.getPersonIDToClaimIDLookupFile());
     }
 
     /**
@@ -179,20 +165,16 @@ public class SHBE_Handler extends SHBE_Object {
         }
         ONSPD_YM3 LastYM3;
         LastYM3 = getYM3(SHBEFilenames[SHBEFilenames.length - 1]);
-        ONSPD_YM3 NearestYM3ForONSPDFormatLookupLastYM3;
-        NearestYM3ForONSPDFormatLookupLastYM3 = Postcode_Handler.getNearestYM3ForONSPDLookup(LastYM3);
+        ONSPD_YM3 nYM3;
+        nYM3 = Postcode_Handler.getNearestYM3ForONSPDLookup(LastYM3);
         if (newFilesToRead.size() > 0) {
             Iterator<String> ite;
             ite = newFilesToRead.iterator();
             while (ite.hasNext()) {
                 String SHBEFilename = ite.next();
                 SHBE_Records SHBE_Records;
-                SHBE_Records = new SHBE_Records(
-                        Env,
-                        dir,
-                        SHBEFilename,
-                        NearestYM3ForONSPDFormatLookupLastYM3,
-                        logDir);
+                SHBE_Records = new SHBE_Records(Env, dir, SHBEFilename,
+                        nYM3, logDir);
                 Generic_IO.writeObject(SHBE_Records, SHBE_Records.getFile());
             }
             writeLookups();
@@ -228,13 +210,12 @@ public class SHBE_Handler extends SHBE_Object {
         boolean modifiedAnyRecs;
         File FutureModifiedPostcodesFile;
         String h;
-        Iterator<String> iteS;
         File f;
 
         // Initialisation
-        PostcodeToPostcodeIDLookup = SHBE_Data.getPostcodeToPostcodeIDLookup();
-        PostcodeIDPointLookups = SHBE_Data.getPostcodeIDToPointLookups();
-        ClaimIDToClaimRefLookup = SHBE_Data.getClaimIDToClaimRefLookup();
+        PostcodeToPostcodeIDLookup = Data.getPostcodeToPostcodeIDLookup();
+        PostcodeIDPointLookups = Data.getPostcodeIDToPointLookups();
+        ClaimIDToClaimRefLookup = Data.getClaimIDToClaimRefLookup();
 
         modifiedAnyRecs = false;
 
@@ -273,11 +254,8 @@ public class SHBE_Handler extends SHBE_Object {
         HashSet<String> UniqueModifiedPostcodes;
         UniqueModifiedPostcodes = new HashSet<>();
         // <writeOutModifiedPostcodes>
-        writeOutModifiedPostcodes(
-                UniqueModifiedPostcodes,
-                logDir, YMN, SHBE_Records1,
-                ClaimIDToClaimRefLookup,
-                hoome);
+        writeOutModifiedPostcodes(UniqueModifiedPostcodes, logDir, YMN,
+                SHBE_Records1, ClaimIDToClaimRefLookup, hoome);
         // </writeOutModifiedPostcodes>
 
         /**
@@ -290,7 +268,9 @@ public class SHBE_Handler extends SHBE_Object {
         try {
             PrintWriter pw2;
             pw2 = new PrintWriter(UnmappablePostcodesFile);
-            pw2.println("Ref,Year_Month,ClaimRef,Recorded Postcode,Correct Postcode,Input To Academy (Y/N)");
+            h = "Ref,Year_Month,ClaimRef,Recorded Postcode,Correct Postcode,"
+                    + "Input To Academy (Y/N)";
+            pw2.println(h);
             int ref2 = 1;
 
             ONSPD_YM3 YM30;
@@ -321,7 +301,9 @@ public class SHBE_Handler extends SHBE_Object {
             try {
                 PrintWriter pw;
                 pw = new PrintWriter(FutureModifiedPostcodesFile);
-                pw.println("ClaimRef,Original Claimant Postcode,Updated from the Future Claimant Postcode");
+                h = "ClaimRef,Original Claimant Postcode,Updated from the "
+                        + "Future Claimant Postcode";
+                pw.println(h);
                 NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
                 System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
                 SHBE_Records0 = new SHBE_Records(Env, YM30);
@@ -432,7 +414,7 @@ public class SHBE_Handler extends SHBE_Object {
         if (modifiedAnyRecs == true) {
             // Write out PostcodeIDPointLookups
             Generic_IO.writeObject(PostcodeIDPointLookups,
-                    SHBE_Data.getPostcodeIDToPointLookupsFile());
+                    Data.getPostcodeIDToPointLookupsFile());
         }
     }
 
@@ -469,9 +451,9 @@ public class SHBE_Handler extends SHBE_Object {
         boolean modifiedAnyRecs;
 
         // Initialisation
-        PostcodeToPostcodeIDLookup = SHBE_Data.getPostcodeToPostcodeIDLookup();
-        PostcodeIDPointLookups = SHBE_Data.getPostcodeIDToPointLookups();
-        ClaimIDToClaimRefLookup = SHBE_Data.getClaimIDToClaimRefLookup();
+        PostcodeToPostcodeIDLookup = Data.getPostcodeToPostcodeIDLookup();
+        PostcodeIDPointLookups = Data.getPostcodeIDToPointLookups();
+        ClaimIDToClaimRefLookup = Data.getClaimIDToClaimRefLookup();
         SHBEFilenames = getSHBEFilenamesAll();
         SHBEFilename1 = SHBEFilenames[SHBEFilenames.length - 1];
         YMN = getYearMonthNumber(SHBEFilename1);
@@ -493,7 +475,8 @@ public class SHBE_Handler extends SHBE_Object {
         while (ite.hasNext()) {
             claimID = ite.next();
             ClaimRef = ClaimIDToClaimRefLookup.get(claimID);
-            UniqueUnmappablePostcodes.add(ClaimRef + "," + ClaimantPostcodesUnmappable.get(claimID));
+            UniqueUnmappablePostcodes.add(ClaimRef + "," 
+                    + ClaimantPostcodesUnmappable.get(claimID));
         }
 
         try {
@@ -644,7 +627,6 @@ public class SHBE_Handler extends SHBE_Object {
         }
         // <Write out UniqueUnmappablePostcodes>
         f = new File(logDir, "UniqueUnmappablePostcodes.csv");
-        Iterator<String> iteS;
         h = "ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,"
                 + "Input To Academy (Y/N)";
         Generic_IO.writeToFile(f, h, UniqueUnmappablePostcodes);
@@ -655,7 +637,8 @@ public class SHBE_Handler extends SHBE_Object {
         // </Write out UniqueModifiedPostcodes>
         if (modifiedAnyRecs == true) {
             // Write out PostcodeIDPointLookups
-            Generic_IO.writeObject(PostcodeIDPointLookups, SHBE_Data.getPostcodeIDToPointLookupsFile());
+            Generic_IO.writeObject(PostcodeIDPointLookups, 
+                    Data.getPostcodeIDToPointLookupsFile());
         }
     }
 
