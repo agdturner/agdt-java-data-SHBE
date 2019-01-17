@@ -35,7 +35,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Point;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 //import uk.ac.leeds.ccg.andyt.generic.math.Generic_BigDecimal;
 import uk.ac.leeds.ccg.andyt.generic.util.Generic_Time;
-import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Postcode_Handler;
+import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.util.ONSPD_YM3;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
@@ -57,7 +57,7 @@ public class SHBE_Handler extends SHBE_Object {
      */
     //private final transient HashMap<String, SHBE_ID> NINOToNINOIDLookup;
     //private final transient HashMap<String, SHBE_ID> DOBToDOBIDLookup;
-    private final transient ONSPD_Postcode_Handler Postcode_Handler;
+    private final transient ONSPD_Handler Postcode_Handler;
 
     /**
      * For a set of expected RecordTypes. ("A", "D", "C", "R", "T", "P", "G",
@@ -217,7 +217,7 @@ public class SHBE_Handler extends SHBE_Object {
         super(e);
 //        NINOToNINOIDLookup = e.getNINOToNINOIDLookup();
 //        DOBToDOBIDLookup = Data.getDOBToDOBIDLookup();
-        Postcode_Handler = e.getPostcode_Handler();
+        Postcode_Handler = e.getONSPD_Handler();
     }
 
     /**

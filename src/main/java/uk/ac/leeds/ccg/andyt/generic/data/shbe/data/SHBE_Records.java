@@ -36,7 +36,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Point;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 import uk.ac.leeds.ccg.andyt.generic.util.Generic_Collections;
 //import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.SHBE_CorrectedPostcodes;
-import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Postcode_Handler;
+import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.util.ONSPD_YM3;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
@@ -54,7 +54,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     // For convenience.
     private transient final SHBE_Handler Handler;
-    private transient final ONSPD_Postcode_Handler Postcode_Handler;
+    private transient final ONSPD_Handler Postcode_Handler;
 
     /**
      * Keys are ClaimIDs, values are SHBE_Record.
@@ -1252,7 +1252,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         super(env);
         this.YM3 = YM3;
         Handler = Env.Handler;
-        Postcode_Handler = Env.getPostcode_Handler();
+        Postcode_Handler = Env.getONSPD_Handler();
         NearestYM3ForONSPDLookup = Postcode_Handler.getNearestYM3ForONSPDLookup(YM3);
         env.logO("YM3 " + YM3, true);
         env.logO("NearestYM3ForONSPDLookup " + NearestYM3ForONSPDLookup, true);
@@ -1310,7 +1310,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         Handler = env.Handler;
         InputFile = new File(inputDirectory, inputFilename);
         YM3 = Handler.getYM3(inputFilename);
-        Postcode_Handler = Env.getPostcode_Handler();
+        Postcode_Handler = Env.getONSPD_Handler();
         NearestYM3ForONSPDLookup = Postcode_Handler.getNearestYM3ForONSPDLookup(YM3);
         Records = new HashMap<>();
         ClaimIDs = new HashSet<>();

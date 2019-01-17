@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import uk.ac.leeds.ccg.andyt.data.format.Generic_ReadCSV;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
-import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Postcode_Handler;
+import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
@@ -37,7 +37,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
  */
 public class SHBE_CorrectedPostcodes extends SHBE_Object {
 
-    protected transient ONSPD_Postcode_Handler Postcode_Handler;
+    protected transient ONSPD_Handler Postcode_Handler;
     protected transient SHBE_Files Files;
     protected transient SHBE_Strings Strings;
 
@@ -51,7 +51,7 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
 
     public SHBE_CorrectedPostcodes(SHBE_Environment env) {
         super(env);
-        Postcode_Handler = env.getPostcode_Handler();
+        Postcode_Handler = env.getONSPD_Handler();
         Files = env.Files;
         Strings = env.Strings;
     }

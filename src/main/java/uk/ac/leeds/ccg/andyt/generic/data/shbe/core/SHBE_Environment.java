@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_Environment;
-import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Postcode_Handler;
+import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.SHBE_Handler;
 //import uk.ac.leeds.ccg.andyt.data.postcode.Generic_UKPostcode_Handler;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
@@ -37,9 +37,10 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
 public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         implements Serializable {
 
-    public transient Generic_Environment ge;
+    protected transient Generic_Environment ge;
 
-    public transient ONSPD_Postcode_Handler Postcode_Handler;
+    // For convenience
+    protected transient ONSPD_Handler ONSPD_Handler;
 
     public transient SHBE_Handler Handler;
     public transient SHBE_Strings Strings;
@@ -186,17 +187,17 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     }
     
     /**
-     * For returning an instance of ONSPD_Postcode_Handler for convenience.
+     * For returning an instance of ONSPD_Handler for convenience.
      *
      * @return
      */
-    public ONSPD_Postcode_Handler getPostcode_Handler() {
-        if (Postcode_Handler == null) {
+    public ONSPD_Handler getONSPD_Handler() {
+        if (ONSPD_Handler == null) {
             ONSPD_Environment ONSPD_Env;
             ONSPD_Env = new ONSPD_Environment(Files.getDataDir());
-            Postcode_Handler = new ONSPD_Postcode_Handler(ONSPD_Env);
+            ONSPD_Handler = new ONSPD_Handler(ONSPD_Env);
         }
-        return Postcode_Handler;
+        return ONSPD_Handler;
     }
     
     /**

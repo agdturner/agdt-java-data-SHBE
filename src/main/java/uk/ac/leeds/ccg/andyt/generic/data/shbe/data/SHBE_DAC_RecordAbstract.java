@@ -19,7 +19,7 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data;
 
 import java.io.Serializable;
-import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Postcode_Handler;
+import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 
 /**
