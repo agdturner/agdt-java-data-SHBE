@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,8 +40,6 @@ import uk.ac.leeds.ccg.andyt.generic.data.onspd.util.ONSPD_YM3;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
 //import uk.ac.leeds.ccg.andyt.math.Generic_BigDecimal;
 //import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.underoccupied.DW_UO_Record;
 //import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.underoccupied.DW_UO_Set;
@@ -265,12 +262,12 @@ public class SHBE_Handler extends SHBE_Object {
         ClaimantPostcodesUnmappable = SHBE_Records1.getClaimantPostcodesUnmappable();
         SHBE_ID claimID;
         Iterator<SHBE_ID> ite;
-        String ClaimRef;
+        String claimRef;
         ite = ClaimantPostcodesUnmappable.keySet().iterator();
         while (ite.hasNext()) {
             claimID = ite.next();
-            ClaimRef = ClaimIDToClaimRefLookup.get(claimID);
-            UniqueUnmappablePostcodes.add(ClaimRef + "," + ClaimantPostcodesUnmappable.get(claimID));
+            claimRef = ClaimIDToClaimRefLookup.get(claimID);
+            UniqueUnmappablePostcodes.add(claimRef + "," + ClaimantPostcodesUnmappable.get(claimID));
         }
 
         HashSet<String> UniqueModifiedPostcodes;
@@ -288,10 +285,10 @@ public class SHBE_Handler extends SHBE_Object {
          * Claimant Postcodes that are not yet mappable by any means.
          */
         File UnmappablePostcodesFile;
-        UnmappablePostcodesFile = new File(                logDir,
+        UnmappablePostcodesFile = new File(logDir,
                 "UnmappablePostcodes" + YMN + ".csv");
-        PrintWriter pw2 = null;
         try {
+            PrintWriter pw2;
             pw2 = new PrintWriter(UnmappablePostcodesFile);
             pw2.println("Ref,Year_Month,ClaimRef,Recorded Postcode,Correct Postcode,Input To Academy (Y/N)");
             int ref2 = 1;
@@ -342,8 +339,8 @@ public class SHBE_Handler extends SHBE_Object {
                 while (ite.hasNext()) {
                     claimID = ite.next();
                     unmappablePostcodef0 = ClaimantPostcodesUnmappable0.get(claimID);
-                    ClaimRef = ClaimIDToClaimRefLookup.get(claimID);
-                    System.out.println(ClaimRef);
+                    claimRef = ClaimIDToClaimRefLookup.get(claimID);
+                    System.out.println(claimRef);
                     rec1 = recs1.get(claimID);
                     rec0 = recs0.get(claimID);
                     postcodef0 = rec0.getClaimPostcodeF();
@@ -374,7 +371,7 @@ public class SHBE_Handler extends SHBE_Object {
                                 modifiedAnyRecs = true;
                                 postcode1 = postcodef1.replaceAll(" ", "");
                                 postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
-                                pw.println(ClaimRef + "," + postcode0 + "," + postcode1);
+                                pw.println(claimRef + "," + postcode0 + "," + postcode1);
                                 ClaimantPostcodesUnmappable0Remove.add(claimID);
                             }
                         } else {
@@ -386,8 +383,8 @@ public class SHBE_Handler extends SHBE_Object {
 //                            postcodef1 = rec1.getClaimPostcodeF();
 //                        }
                             postcode1 = rec1.getDRecord().getClaimantsPostcode();
-                            UniqueUnmappablePostcodes.add(ClaimRef + "," + postcode1 + ",,");
-                            pw2.println("" + ref2 + "," + YM31 + "," + ClaimRef + "," + postcode1 + ",,");
+                            UniqueUnmappablePostcodes.add(claimRef + "," + postcode1 + ",,");
+                            pw2.println("" + ref2 + "," + YM31 + "," + claimRef + "," + postcode1 + ",,");
                             ref2++;
 //                        System.out.println("postcodef1 " + postcodef1 + " is not mappable.");
 //                        UniqueUnmappablePostcodes.add(ClaimRef + "," + postcode0 + ",,");
@@ -395,6 +392,8 @@ public class SHBE_Handler extends SHBE_Object {
 //                        ref2++;
                         }
                     }
+                    // Prepare for next iteration
+                    recs0 = recs1;
                 }
                 ite = ClaimantPostcodesUnmappable0Remove.iterator();
                 while (ite.hasNext()) {
@@ -411,11 +410,6 @@ public class SHBE_Handler extends SHBE_Object {
                     Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
                             SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
                 }
-
-                // Prepare for next iteration
-                recs1 = recs0;
-                ClaimIDToPostcodeIDLookup0 = null;
-                ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
                 pw.close();
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
@@ -441,7 +435,6 @@ public class SHBE_Handler extends SHBE_Object {
                     SHBE_Data.getPostcodeIDToPointLookupsFile());
         }
     }
-
 
     /**
      * For checking postcodes.
