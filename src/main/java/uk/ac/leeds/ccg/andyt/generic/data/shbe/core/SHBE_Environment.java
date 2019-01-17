@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Postcode_Handler;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.SHBE_Data;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.SHBE_Handler;
 //import uk.ac.leeds.ccg.andyt.data.postcode.Generic_UKPostcode_Handler;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
@@ -43,7 +42,6 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public transient ONSPD_Postcode_Handler Postcode_Handler;
 
     public transient SHBE_Handler Handler;
-    public transient SHBE_Data Data;
     public transient SHBE_Strings Strings;
     public transient SHBE_Files Files;
 
@@ -162,29 +160,29 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     }
 
     public boolean clearSomeData() {
-        return Data.clearSomeCache();
+        return Handler.clearSomeCache();
     }
 
     public int clearAllData() {
         int r;
-        r = Data.clearAllCache();
+        r = Handler.clearAllCache();
         return r;
     }
     
     public void cacheData() {
         File f;
         f = Files.getDataFile();
-        System.out.println("<cache data>");
-        Generic_IO.writeObject(Data, f);
-        System.out.println("</cache data>");
+        System.out.println("<cache>");
+        Generic_IO.writeObject(Handler, f);
+        System.out.println("</cache>");
     }
 
     public final void loadData() {
         File f;
         f = Files.getDataFile();
-        System.out.println("<load data>");
-        Data = (SHBE_Data) Generic_IO.readObject(f);
-        System.out.println("<load data>");
+        System.out.println("<load>");
+        Handler = (SHBE_Handler) Generic_IO.readObject(f);
+        System.out.println("</load>");
     }
     
     /**
