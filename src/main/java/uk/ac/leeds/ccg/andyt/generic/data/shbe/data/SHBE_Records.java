@@ -41,7 +41,6 @@ import uk.ac.leeds.ccg.andyt.generic.data.onspd.util.ONSPD_YM3;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.util.SHBE_Collections;
 //import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.util.SHBE_Collections;
 
@@ -56,20 +55,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * For convenience.
      */
-    private transient SHBE_Strings Strings;
     private transient ONSPD_Postcode_Handler Postcode_Handler;
-
-    /**
-     * Call this method to initialise fields declared transient after having
-     * read this back as a Serialized Object.
-     *
-     * @param e
-     */
-    public final void init(SHBE_Environment e) {
-        Env = e;
-        Strings = e.Strings;
-        Postcode_Handler = e.getPostcode_Handler();
-    }
 
     /**
      * Keys are ClaimIDs, values are SHBE_Record.
@@ -542,7 +528,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final HashMap<SHBE_ID, SHBE_Record> getRecords(boolean hoome) {
         try {
             Env.checkAndMaybeFreeMemory();
-            return SHBE_Records.this.getRecords();
+            return getRecords();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
@@ -1268,12 +1254,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     public SHBE_Records(SHBE_Environment env, ONSPD_YM3 YM3) {
         super(env);
-        init(env);
         this.YM3 = YM3;
+        Postcode_Handler = Env.getPostcode_Handler();
         NearestYM3ForONSPDLookup = Postcode_Handler.getNearestYM3ForONSPDLookup(YM3);
         env.logO("YM3 " + YM3, true);
         env.logO("NearestYM3ForONSPDLookup " + NearestYM3ForONSPDLookup, true);
-        Records = SHBE_Records.this.getRecords();
+        Records = getRecords();
         ClaimIDsOfNewSHBEClaims = getClaimIDsOfNewSHBEClaims(env.HOOME);
         ClaimantPersonIDs = getClaimantPersonIDs(env.HOOME);
         PartnerPersonIDs = getPartnerPersonIDs(env.HOOME);
@@ -1324,11 +1310,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             String inputFilename, ONSPD_YM3 LatestYM3ForONSPDFormat, File logDir
     ) {
         super(env);
-        init(env);
         SHBE_Handler handler = env.Handler;
         SHBE_Data Data = env.Data;
         InputFile = new File(inputDirectory, inputFilename);
         YM3 = handler.getYM3(inputFilename);
+        Postcode_Handler = Env.getPostcode_Handler();
         NearestYM3ForONSPDLookup = Postcode_Handler.getNearestYM3ForONSPDLookup(YM3);
         Records = new HashMap<>();
         ClaimIDs = new HashSet<>();
@@ -1481,10 +1467,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         int countSRecords = 0;
         int SRecordNotLoadedCount = 0;
         int NumberOfIncompleteDRecords = 0;
-        long totalIncome = 0;
+        long totalIncome;
         long grandTotalIncome = 0;
         int totalIncomeGreaterThanZeroCount = 0;
-        long totalWeeklyEligibleRentAmount = 0;
+        long totalWeeklyEligibleRentAmount;
         long grandTotalWeeklyEligibleRentAmount = 0;
         int totalWeeklyEligibleRentAmountGreaterThanZeroCount = 0;
         // Read data
@@ -1496,7 +1482,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             Generic_IO.setStreamTokenizerSyntax5(st);
             st.wordChars('`', '`');
             st.wordChars('*', '*');
-            String line = "";
+            String line;
             long RecordID = 0;
             int lineCount = 0;
             // Declare Variables
@@ -1506,7 +1492,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             SHBE_D_Record DRecord;
             int TenancyType;
             boolean doLoop;
-            SHBE_ID ClaimID;
+            SHBE_ID claimID;
             SHBE_Record record;
             int StatusOfHBClaimAtExtractDate;
             int StatusOfCTBClaimAtExtractDate;
@@ -1516,8 +1502,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             SHBE_PersonID ClaimantPersonID;
             boolean addToNew;
             Object key;
-            SHBE_ID otherClaimID = null;
-            String otherClaimRef;
+            SHBE_ID otherClaimID;
             SHBE_Record otherRecord;
             /**
              * There are two types of SHBE data encountered so far. Each has
@@ -1556,15 +1541,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                     RecordIDsNotLoaded.add(RecordID);
                                     SRecordNotLoadedCount++;
                                 } else {
-                                    ClaimID = handler.getIDAddIfNeeded(
+                                    claimID = handler.getIDAddIfNeeded(
                                             ClaimRef,
                                             ClaimRefToClaimIDLookup,
                                             ClaimIDToClaimRefLookup);
                                     ArrayList<SHBE_S_Record> recs;
-                                    recs = SRecordsWithoutDRecords.get(ClaimID);
+                                    recs = SRecordsWithoutDRecords.get(claimID);
                                     if (recs == null) {
                                         recs = new ArrayList<>();
-                                        SRecordsWithoutDRecords.put(ClaimID, recs);
+                                        SRecordsWithoutDRecords.put(claimID, recs);
                                     }
                                     recs.add(SRecord);
                                 }
@@ -1608,7 +1593,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                         RecordIDsNotLoaded.add(RecordID);
                                     } else {
                                         doLoop = false;
-                                        ClaimID = handler.getIDAddIfNeeded(ClaimRef,
+                                        claimID = handler.getIDAddIfNeeded(ClaimRef,
                                                 ClaimRefToClaimIDLookup,
                                                 ClaimIDToClaimRefLookup,
                                                 ClaimIDs,
@@ -1626,11 +1611,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                         /**
                                          * Get or initialise SHBE_Record record
                                          */
-                                        record = Records.get(ClaimID);
+                                        record = Records.get(claimID);
                                         if (record == null) {
                                             record = new SHBE_Record(
-                                                    env, YM3, ClaimID, DRecord);
-                                            Records.put(ClaimID, record);
+                                                    env, claimID, DRecord);
+                                            Records.put(claimID, record);
                                             doLoop = true;
                                         } else {
                                             env.logE("Two records have the same ClaimRef "
@@ -1647,15 +1632,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                          */
                                         switch (StatusOfHBClaimAtExtractDate) {
                                             case 0: {
-                                                ClaimIDsWithStatusOfHBAtExtractDateOther.add(ClaimID);
+                                                ClaimIDsWithStatusOfHBAtExtractDateOther.add(claimID);
                                                 break;
                                             }
                                             case 1: {
-                                                ClaimIDsWithStatusOfHBAtExtractDateInPayment.add(ClaimID);
+                                                ClaimIDsWithStatusOfHBAtExtractDateInPayment.add(claimID);
                                                 break;
                                             }
                                             case 2: {
-                                                ClaimIDsWithStatusOfHBAtExtractDateSuspended.add(ClaimID);
+                                                ClaimIDsWithStatusOfHBAtExtractDateSuspended.add(claimID);
                                                 break;
                                             }
                                             default:
@@ -1673,15 +1658,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                          */
                                         switch (StatusOfCTBClaimAtExtractDate) {
                                             case 0: {
-                                                ClaimIDsWithStatusOfCTBAtExtractDateOther.add(ClaimID);
+                                                ClaimIDsWithStatusOfCTBAtExtractDateOther.add(claimID);
                                                 break;
                                             }
                                             case 1: {
-                                                ClaimIDsWithStatusOfCTBAtExtractDateInPayment.add(ClaimID);
+                                                ClaimIDsWithStatusOfCTBAtExtractDateInPayment.add(claimID);
                                                 break;
                                             }
                                             case 2: {
-                                                ClaimIDsWithStatusOfCTBAtExtractDateSuspended.add(ClaimID);
+                                                ClaimIDsWithStatusOfCTBAtExtractDateSuspended.add(claimID);
                                                 break;
                                             }
                                             default:
@@ -1767,7 +1752,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                         p = new String[2];
                                                         p[0] = Postcode;
                                                         p[1] = claimPostcodeFNoSpaces.substring(0, l - 3) + " " + claimPostcodeFNoSpaces.substring(l - 3);
-                                                        ClaimantPostcodesModified.put(ClaimID, p);
+                                                        ClaimantPostcodesModified.put(claimID, p);
                                                     }
                                                 }
                                             }
@@ -1813,18 +1798,18 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                     CountOfValidFormatClaimantPostcodes++;
                                                 }
                                                 record.ClaimPostcodeFMappable = false;
-                                                ClaimIDsOfClaimsWithoutAMappableClaimantPostcode.add(ClaimID);
-                                                boolean PostcodeCheckedAsMappable = false;
+                                                ClaimIDsOfClaimsWithoutAMappableClaimantPostcode.add(claimID);
+                                                boolean PostcodeCheckedAsMappable;
                                                 PostcodeCheckedAsMappable = PostcodesCheckedAsMappable.contains(record.ClaimPostcodeF);
                                                 if (PostcodeCheckedAsMappable) {
-                                                    ClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes.put(ClaimID, Postcode);
+                                                    ClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes.put(claimID, Postcode);
                                                 } else {
                                                     // Store unmappable claimant postcode.
-                                                    ClaimantPostcodesUnmappable.put(ClaimID, Postcode);
+                                                    ClaimantPostcodesUnmappable.put(claimID, Postcode);
                                                 }
                                             }
-                                            ClaimIDToPostcodeIDLookup.put(ClaimID, record.PostcodeID);
-                                            ClaimIDToTenancyTypeLookup.put(ClaimID, TenancyType);
+                                            ClaimIDToPostcodeIDLookup.put(claimID, record.PostcodeID);
+                                            ClaimIDToTenancyTypeLookup.put(claimID, TenancyType);
                                             totalIncome = handler.getClaimantsAndPartnersIncomeTotal(DRecord);
                                             grandTotalIncome += totalIncome;
                                             if (totalIncome > 0) {
@@ -1842,7 +1827,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                         ClaimantNINO = DRecord.getClaimantsNationalInsuranceNumber();
                                         if (ClaimantNINO.trim().equalsIgnoreCase("")
                                                 || ClaimantNINO.trim().startsWith("XX999")) {
-                                            ClaimIDsOfInvalidClaimantNINOClaims.add(ClaimID);
+                                            ClaimIDsOfInvalidClaimantNINOClaims.add(claimID);
                                         }
                                         ClaimantDOB = DRecord.getClaimantsDateOfBirth();
                                         ClaimantPersonID = handler.getPersonID(
@@ -1859,22 +1844,22 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                          * NonDependent or if the Person is
                                          * "new".
                                          */
-                                        if (ClaimIDsOfNewSHBEClaims.contains(ClaimID)) {
+                                        if (ClaimIDsOfNewSHBEClaims.contains(claimID)) {
                                             addToNew = true;
                                             if (AllClaimantPersonIDs.contains(ClaimantPersonID)) {
-                                                ClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore.add(ClaimID);
+                                                ClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore.add(claimID);
                                                 addToNew = false;
                                             }
                                             if (AllPartnerPersonIDs.contains(ClaimantPersonID)) {
-                                                ClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore.add(ClaimID);
+                                                ClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore.add(claimID);
                                                 addToNew = false;
                                             }
                                             if (AllNonDependentIDs.contains(ClaimantPersonID)) {
-                                                ClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore.add(ClaimID);
+                                                ClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore.add(claimID);
                                                 addToNew = false;
                                             }
                                             if (addToNew) {
-                                                ClaimIDsOfNewSHBEClaimsWhereClaimantIsNew.add(ClaimID);
+                                                ClaimIDsOfNewSHBEClaimsWhereClaimantIsNew.add(claimID);
                                             }
                                         }
                                         /**
@@ -1905,15 +1890,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                             Postcode = DRecord.getClaimantsPostcode();
                                             if (key != null) {
                                                 otherClaimID = (SHBE_ID) key;
-                                                otherClaimRef = ClaimIDToClaimRefLookup.get(otherClaimID);
+                                                //String otherClaimRef = ClaimIDToClaimRefLookup.get(otherClaimID);
                                                 // Treat those paired records for Cottingley Springs Caravan Park differently
                                                 if (Postcode.equalsIgnoreCase(Strings.CottingleySpringsCaravanParkPostcode)) {
 //                                                    Env.logO("Cottingley Springs Caravan Park "
-//                                                            + SHBE_Strings.CottingleySpringsCaravanParkPostcode
+//                                                            + Strings.CottingleySpringsCaravanParkPostcode
 //                                                            + " ClaimRef " + ClaimRef + " paired with " + otherClaimRef
 //                                                            + " one claim is for the pitch, the other is for rent of "
 //                                                            + "a mobile home. ");
-                                                    CottingleySpringsCaravanParkPairedClaimIDs.add(ClaimID);
+                                                    CottingleySpringsCaravanParkPairedClaimIDs.add(claimID);
                                                     CottingleySpringsCaravanParkPairedClaimIDs.add(otherClaimID);
                                                 } else {
 //                                                    Env.logO("!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -1939,7 +1924,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                          * Add to
                                                          * ClaimantsWithMultipleClaimsInAMonth.
                                                          */
-                                                        ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.add(ClaimID);
+                                                        ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.add(claimID);
                                                         ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.add(otherRecord.getClaimID());
                                                         HashSet<SHBE_ID> set;
                                                         if (ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.containsKey(ClaimantPersonID)) {
@@ -1948,7 +1933,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                             set = new HashSet<>();
                                                             ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(ClaimantPersonID, set);
                                                         }
-                                                        set.add(ClaimID);
+                                                        set.add(claimID);
                                                         set.add(otherClaimID);
                                                     }
 //                                                    Env.logO("!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -1972,7 +1957,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                              * shared in these claims, but such
                                              * a thing is ignored for now.
                                              */
-                                            if (!CottingleySpringsCaravanParkPairedClaimIDs.contains(ClaimID)) {
+                                            if (!CottingleySpringsCaravanParkPairedClaimIDs.contains(claimID)) {
                                                 /**
                                                  * If Claimant is a Partner in
                                                  * another claim add to
@@ -1987,7 +1972,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                     HashSet<SHBE_ID> set;
                                                     ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.add(otherClaimID);
                                                 }
-                                                ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.add(ClaimID);
+                                                ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.add(claimID);
 //                                                Env.logO("!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //                                                Env.logO("Claimant with NINO " + ClaimantNINO
 //                                                        + " DOB " + ClaimantDOB
@@ -2022,7 +2007,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                              * It may be that there are partners shared in these claims, but such
                                              * a thing is ignored for now.
                                                  */
-                                                if (!CottingleySpringsCaravanParkPairedClaimIDs.contains(ClaimID)) {
+                                                if (!CottingleySpringsCaravanParkPairedClaimIDs.contains(claimID)) {
                                                     key = Generic_Collections.getKeyFromValue(ClaimIDToPartnerPersonIDLookup,
                                                             PartnerPersonID);
                                                     if (key != null) {
@@ -2034,11 +2019,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                             set = new HashSet<>();
                                                             PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(PartnerPersonID, set);
                                                         }
-                                                        set.add(ClaimID);
+                                                        set.add(claimID);
                                                         set.add(otherClaimID);
                                                         ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim.add(otherClaimID);
                                                     }
-                                                    ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim.add(ClaimID);
+                                                    ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim.add(claimID);
 //                                                    Env.logO("!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //                                                    Env.logO("Partner with NINO " + NINOIDToNINOLookup.get(PartnerPersonID.getNINO_ID())
 //                                                            + " DOB " + DOBIDToDOBLookup.get(PartnerPersonID.getDOB_ID())
@@ -2063,7 +2048,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                  * claims, but such a thing is
                                                  * ignored for now.
                                                  */
-                                                if (!CottingleySpringsCaravanParkPairedClaimIDs.contains(ClaimID)) {
+                                                if (!CottingleySpringsCaravanParkPairedClaimIDs.contains(claimID)) {
                                                     key = Generic_Collections.getKeyFromValue(ClaimIDToClaimantPersonIDLookup,
                                                             PartnerPersonID);
                                                     if (key != null) {
@@ -2076,7 +2061,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                             set = new HashSet<>();
                                                             PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(PartnerPersonID, set);
                                                         }
-                                                        set.add(ClaimID);
+                                                        set.add(claimID);
                                                         set.add(otherClaimID);
                                                         if (ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.containsKey(PartnerPersonID)) {
                                                             set = ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(PartnerPersonID);
@@ -2084,11 +2069,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                             set = new HashSet<>();
                                                             ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(PartnerPersonID, set);
                                                         }
-                                                        set.add(ClaimID);
+                                                        set.add(claimID);
                                                         set.add(otherClaimID);
                                                         ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.add(otherClaimID);
                                                     }
-                                                    ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.add(ClaimID);
+                                                    ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.add(claimID);
 //                                                    Env.logO("!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //                                                    Env.logO("Partner with NINO " + NINOIDToNINOLookup.get(PartnerPersonID.getNINO_ID())
 //                                                            + " DOB " + DOBIDToDOBLookup.get(PartnerPersonID.getDOB_ID())
@@ -2096,14 +2081,14 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 //                                                            + " is a Claimant in " + ClaimIDToClaimRefLookup.get(otherClaimID));
 //                                                    Env.logO("!!!!!!!!!!!!!!!!!!!!!!!!!!");
                                                 }
-                                                ClaimIDToPartnerPersonIDLookup.put(ClaimID, PartnerPersonID);
+                                                ClaimIDToPartnerPersonIDLookup.put(claimID, PartnerPersonID);
                                             }
                                         }
                                         /**
                                          * Add to
                                          * ClaimIDToClaimantPersonIDLookup.
                                          */
-                                        ClaimIDToClaimantPersonIDLookup.put(ClaimID, ClaimantPersonID);
+                                        ClaimIDToClaimantPersonIDLookup.put(claimID, ClaimantPersonID);
 
                                         /**
                                          * Add to AllClaimantPersonIDs and
@@ -2112,15 +2097,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                         AllClaimantPersonIDs.add(ClaimantPersonID);
                                         ClaimantPersonIDs.add(ClaimantPersonID);
                                         addToPersonIDToClaimRefsLookup(
-                                                ClaimID,
+                                                claimID,
                                                 ClaimantPersonID,
                                                 PersonIDToClaimIDsLookup);
                                         if (PartnerPersonID != null) {
                                             AllPartnerPersonIDs.add(PartnerPersonID);
                                             PartnerPersonIDs.add(PartnerPersonID);
-                                            ClaimIDToPartnerPersonIDLookup.put(ClaimID, PartnerPersonID);
+                                            ClaimIDToPartnerPersonIDLookup.put(claimID, PartnerPersonID);
                                             addToPersonIDToClaimRefsLookup(
-                                                    ClaimID,
+                                                    claimID,
                                                     PartnerPersonID,
                                                     PersonIDToClaimIDsLookup);
                                         }
@@ -2591,7 +2576,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                 if (ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.contains(ClaimID)) {
                                     set = true;
                                 } else {
-                                    Env.logO(Env.DEBUG_Level_FINEST,
+                                    Env.logO(SHBE_Environment.DEBUG_Level_FINEST,
                                             "NINO " + NINO + " is not unique for " + ClaimantsNINO
                                             + " and ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim does not contain "
                                             + "ClaimID " + ClaimID + " for ClaimRef "
@@ -2832,22 +2817,25 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 + "333,334,335,336,337,338,339,340,341";
         File inputFile = new File(directory, filename);
         try {
-            BufferedReader br = Generic_IO.getBufferedReader(inputFile);
-            StreamTokenizer st = new StreamTokenizer(br);
-            Generic_IO.setStreamTokenizerSyntax5(st);
-            st.wordChars('`', '`');
-            int tokenType;
-            tokenType = st.nextToken();
-            String line = "";
-            while (tokenType != StreamTokenizer.TT_EOL) {
-                switch (tokenType) {
-                    case StreamTokenizer.TT_WORD:
-                        line += st.sval;
-                        break;
-                }
+            String line;
+            //BufferedReader br = Generic_IO.getBufferedReader(inputFile);
+            try (BufferedReader br = Generic_IO.getBufferedReader(inputFile)) {
+                //BufferedReader br = Generic_IO.getBufferedReader(inputFile);
+                StreamTokenizer st = new StreamTokenizer(br);
+                Generic_IO.setStreamTokenizerSyntax5(st);
+                st.wordChars('`', '`');
+                int tokenType;
                 tokenType = st.nextToken();
+                line = "";
+                while (tokenType != StreamTokenizer.TT_EOL) {
+                    switch (tokenType) {
+                        case StreamTokenizer.TT_WORD:
+                            line += st.sval;
+                            break;
+                    }
+                    tokenType = st.nextToken();
+                }
             }
-            br.close();
             if (line.startsWith(type0Header)) {
                 return 0;
             }
@@ -2862,8 +2850,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
             }
         } catch (IOException ex) {
-            Logger.getLogger(SHBE_Handler.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
         return 2;
     }

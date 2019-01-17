@@ -22,11 +22,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_ID;
-import uk.ac.leeds.ccg.andyt.generic.data.onspd.util.ONSPD_YM3;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
 
 /**
  *
@@ -37,21 +35,10 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * SHBE_Strings for convenience. Set from Env.getStrings()
-     */
-    protected transient SHBE_Strings SHBE_Strings;
-
-    /**
      * StatusOfHBClaimAtExtractDate 0 is OtherPaymentType 1 is InPayment 2 is
      * Suspended
      */
     private int StatusOfHBClaimAtExtractDate;
-
-    /**
-     * The Year_Month of the records. This is for retrieving the Year_Month
-     * DW_SHBE_Records which this is part of.
-     */
-    protected ONSPD_YM3 YM3;
 
     /**
      * The ClaimRef SHBE_ID.
@@ -88,8 +75,8 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
     protected boolean ClaimPostcodeFManModified;
 
     /**
-     * For storing if the ClaimPostcodeF has been updated from the future. For 
-     * the time being, this is only allowed for Claimant Postcodes that were 
+     * For storing if the ClaimPostcodeF has been updated from the future. For
+     * the time being, this is only allowed for Claimant Postcodes that were
      * originally blank or that had invalid formats.
      */
     protected boolean ClaimPostcodeFUpdatedFromTheFuture;
@@ -111,46 +98,25 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
 
     /**
      *
-     * @param env
-     * @param YM3 The Year_Month of this.
+     * @param e
      * @param ClaimID The ClaimRef SHBE_ID for this.
      */
-    public SHBE_Record(SHBE_Environment env, ONSPD_YM3 YM3, SHBE_ID ClaimID) {
-        super(env);
-        SHBE_Strings = env.Strings;
-        this.YM3 = YM3;
+    public SHBE_Record(SHBE_Environment e, SHBE_ID ClaimID) {
+        super(e);
         this.ClaimID = ClaimID;
     }
 
     /**
      * Creates a DW_SHBE_Record.
      *
-     * @param env
-     * @param YM3 The Year_Month of this.
-     * @param ClaimID The ClaimRef SHBE_ID for this.
+     * @param e
+     * @param claimID The ClaimRef SHBE_ID for this.
      * @param DRecord
      */
-    public SHBE_Record(
-            SHBE_Environment env,
-            ONSPD_YM3 YM3,
-            SHBE_ID ClaimID,
-            SHBE_D_Record DRecord) {
-        super(env);
-        this.SHBE_Strings = env.Strings;
-        this.YM3 = YM3;
-        this.ClaimID = ClaimID;
+    public SHBE_Record(SHBE_Environment e, SHBE_ID claimID, SHBE_D_Record DRecord) {
+        super(e);
+        this.ClaimID = claimID;
         this.DRecord = DRecord;
-    }
-
-    /**
-     * Call this method to initialise fields declared transient after having
-     * read this back as a Serialized Object.
-     *
-     * @param env
-     */
-    public void init(SHBE_Environment env) {
-        this.Env = env;
-        this.SHBE_Strings = env.Strings;
     }
 
     /**
@@ -159,19 +125,17 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
      * @return
      */
     public String toStringBrief() {
-        String result;
-        result = "YM3 " + YM3;
-        result += SHBE_Strings.special_newLine;
+        String result = "";
         if (DRecord != null) {
             result += "DRecord: " + DRecord.toStringBrief();
-            result += SHBE_Strings.special_newLine;
+            result += Strings.special_newLine;
         }
         SRecords = getSRecords();
         if (SRecords != null) {
             long NumberOfS_Records;
             NumberOfS_Records = SRecords.size();
             result += " Number of SRecords = " + NumberOfS_Records;
-            result += SHBE_Strings.special_newLine;
+            result += Strings.special_newLine;
             if (NumberOfS_Records > 0) {
                 result += ": ";
             }
@@ -181,7 +145,7 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
                 SHBE_S_Record rec;
                 rec = ite.next();
                 result += " SRecord: " + rec.toString();
-                result += SHBE_Strings.special_newLine;
+                result += Strings.special_newLine;
             }
         }
         return result;
@@ -191,21 +155,19 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
     public String toString() {
         String result;
         result = "ClaimRefSHBE_ID " + ClaimID
-                + SHBE_Strings.special_newLine
+                + Strings.special_newLine
                 + "StatusOfHBClaimAtExtractDate " + StatusOfHBClaimAtExtractDate
-                + SHBE_Strings.special_newLine
-                + "YM3 " + YM3
-                + SHBE_Strings.special_newLine;
+                + Strings.special_newLine;
         if (DRecord != null) {
             result += "DRecord: " + DRecord.toString()
-                    + SHBE_Strings.special_newLine;
+                    + Strings.special_newLine;
         }
         SRecords = getSRecords();
         if (SRecords != null) {
             long NumberOfS_Records;
             NumberOfS_Records = SRecords.size();
             result += " Number of SRecords = " + NumberOfS_Records
-                    + SHBE_Strings.special_newLine;
+                    + Strings.special_newLine;
             if (NumberOfS_Records > 0) {
                 result += ": ";
             }
@@ -215,7 +177,7 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
                 SHBE_S_Record rec;
                 rec = ite.next();
                 result += " SRecord: " + rec.toString()
-                        + SHBE_Strings.special_newLine;
+                        + Strings.special_newLine;
             }
         }
         return result;

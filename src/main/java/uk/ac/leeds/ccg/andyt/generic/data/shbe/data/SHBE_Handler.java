@@ -60,8 +60,6 @@ public class SHBE_Handler extends SHBE_Object {
     private final transient SHBE_Data SHBE_Data;
     private final transient HashMap<String, SHBE_ID> NINOToNINOIDLookup;
     private final transient HashMap<String, SHBE_ID> DOBToDOBIDLookup;
-    public final transient SHBE_Strings Strings;
-    public final transient SHBE_Files Files;
     private final transient ONSPD_Postcode_Handler Postcode_Handler;
 
     /**
@@ -70,14 +68,9 @@ public class SHBE_Handler extends SHBE_Object {
      */
     protected HashSet<String> RecordTypes;
 
-//    
-//    public SHBE_Handler() {
-//    }
     public SHBE_Handler(SHBE_Environment e) {
         super(e);
         SHBE_Data = e.Data;
-        Strings = e.Strings;
-        Files = e.Files;
         Postcode_Handler = e.getPostcode_Handler();
         NINOToNINOIDLookup = SHBE_Data.getNINOToNINOIDLookup();
         DOBToDOBIDLookup = SHBE_Data.getDOBToDOBIDLookup();
@@ -224,25 +217,32 @@ public class SHBE_Handler extends SHBE_Object {
      * @param logDir
      */
     public void runPostcodeCheckLatest(File logDir) {
-        boolean handleOutOfMemoryError;
-        handleOutOfMemoryError = true;
-        File dir;
-        dir = Files.getInputSHBEDir();
+        boolean hoome;
+        hoome = true;
+
+        // Declaration
         HashMap<String, ONSPD_ID> PostcodeToPostcodeIDLookup;
-        PostcodeToPostcodeIDLookup = SHBE_Data.getPostcodeToPostcodeIDLookup();
         HashMap<ONSPD_YM3, HashMap<ONSPD_ID, ONSPD_Point>> PostcodeIDPointLookups;
-        PostcodeIDPointLookups = SHBE_Data.getPostcodeIDToPointLookups();
         HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup;
+        String YMN;
+        String[] SHBEFilenames;
+        String SHBEFilename1;
+
+        boolean modifiedAnyRecs;
+        File FutureModifiedPostcodesFile;
+        String h;
+        Iterator<String> iteS;
+        File f;
+
+        // Initialisation
+        PostcodeToPostcodeIDLookup = SHBE_Data.getPostcodeToPostcodeIDLookup();
+        PostcodeIDPointLookups = SHBE_Data.getPostcodeIDToPointLookups();
         ClaimIDToClaimRefLookup = SHBE_Data.getClaimIDToClaimRefLookup();
 
-        // Prepare for output
-        PrintWriter pw = null;
-        String YMN;
+        modifiedAnyRecs = false;
 
-        // Get latest SHBE.
-        String[] SHBEFilenames;
+        // Prepare for output
         SHBEFilenames = getSHBEFilenamesAll();
-        String SHBEFilename1;
         SHBEFilename1 = SHBEFilenames[SHBEFilenames.length - 1];
         YMN = getYearMonthNumber(SHBEFilename1);
         ONSPD_YM3 YM31;
@@ -254,7 +254,7 @@ public class SHBE_Handler extends SHBE_Object {
         SHBE_Records SHBE_Records1;
         SHBE_Records1 = new SHBE_Records(Env, YM31);
         HashMap<SHBE_ID, SHBE_Record> recs1;
-        recs1 = SHBE_Records1.getRecords(handleOutOfMemoryError);
+        recs1 = SHBE_Records1.getRecords(hoome);
         SHBE_Record rec1;
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup1;
         PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM31);
@@ -280,7 +280,7 @@ public class SHBE_Handler extends SHBE_Object {
                 UniqueModifiedPostcodes,
                 logDir, YMN, SHBE_Records1,
                 ClaimIDToClaimRefLookup,
-                handleOutOfMemoryError);
+                hoome);
         // </writeOutModifiedPostcodes>
 
         /**
@@ -288,184 +288,160 @@ public class SHBE_Handler extends SHBE_Object {
          * Claimant Postcodes that are not yet mappable by any means.
          */
         File UnmappablePostcodesFile;
-        UnmappablePostcodesFile = new File(
-                logDir,
+        UnmappablePostcodesFile = new File(                logDir,
                 "UnmappablePostcodes" + YMN + ".csv");
         PrintWriter pw2 = null;
         try {
             pw2 = new PrintWriter(UnmappablePostcodesFile);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        pw2.println("Ref,Year_Month,ClaimRef,Recorded Postcode,Correct Postcode,Input To Academy (Y/N)");
-        int ref2 = 1;
+            pw2.println("Ref,Year_Month,ClaimRef,Recorded Postcode,Correct Postcode,Input To Academy (Y/N)");
+            int ref2 = 1;
 
-        ONSPD_YM3 YM30;
-        ONSPD_YM3 NearestYM3ForONSPDLookupYM30;
-        HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable0;
-        SHBE_Records SHBE_Records0;
-        HashMap<SHBE_ID, SHBE_Record> recs0;
-        SHBE_Record rec0;
-        String postcode0;
-        String postcode1;
-        String postcodef0;
-        String unmappablePostcodef0;
-        String postcodef1;
+            ONSPD_YM3 YM30;
+            ONSPD_YM3 NearestYM3ForONSPDLookupYM30;
+            HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable0;
+            SHBE_Records SHBE_Records0;
+            HashMap<SHBE_ID, SHBE_Record> recs0;
+            SHBE_Record rec0;
+            String postcode0;
+            String postcode1;
+            String postcodef0;
+            String unmappablePostcodef0;
+            String postcodef1;
 
-        HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup0;
-        HashMap<SHBE_ID, ONSPD_ID> ClaimIDToPostcodeIDLookup0 = null;
-        HashSet<SHBE_ID> ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
-        boolean modifiedAnyRecs = false;
+            HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup0;
+            HashMap<SHBE_ID, ONSPD_ID> ClaimIDToPostcodeIDLookup0 = null;
+            HashSet<SHBE_ID> ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
 
-        File FutureModifiedPostcodesFile;
-
-        //for (int i = SHBEFilenames.length - 2; i >= 0; i--) {
-        int i = SHBEFilenames.length - 2;
-        // Get previous SHBE.
-        YM30 = getYM3(SHBEFilenames[i]);
-        System.out.println("YM30 " + YM30);
-        YMN = getYearMonthNumber(SHBEFilenames[i]);
-        // Set up to write FutureModifiedPostcodes
-        FutureModifiedPostcodesFile = new File(logDir,
-                "FutureModifiedPostcodes" + YMN + ".csv");
-        try {
-            pw = new PrintWriter(FutureModifiedPostcodesFile);
-            pw.println("ClaimRef,Original Claimant Postcode,Updated from the Future Claimant Postcode");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
-        System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
-        SHBE_Records0 = new SHBE_Records(Env, YM30);
-        recs0 = SHBE_Records0.getRecords(handleOutOfMemoryError);
-        // <writeOutModifiedPostcodes>
-        writeOutModifiedPostcodes(
-                UniqueModifiedPostcodes,
-                logDir, YMN, SHBE_Records0,
-                ClaimIDToClaimRefLookup,
-                handleOutOfMemoryError);
-        // </writeOutModifiedPostcodes>
-        PostcodeIDToPointLookup0 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM30);
-        // Get previously unmappable postcodes
-        ClaimantPostcodesUnmappable0 = SHBE_Records0.getClaimantPostcodesUnmappable(handleOutOfMemoryError);
-        boolean modifiedRecs = false;
-        ite = ClaimantPostcodesUnmappable0.keySet().iterator();
-        HashSet<SHBE_ID> ClaimantPostcodesUnmappable0Remove = new HashSet<>();
-        while (ite.hasNext()) {
-            claimID = ite.next();
-            unmappablePostcodef0 = ClaimantPostcodesUnmappable0.get(claimID);
-            ClaimRef = ClaimIDToClaimRefLookup.get(claimID);
-            System.out.println(ClaimRef);
-            rec1 = recs1.get(claimID);
-            rec0 = recs0.get(claimID);
-            postcodef0 = rec0.getClaimPostcodeF();
-            postcode0 = rec0.getDRecord().getClaimantsPostcode();
-            if (rec1 != null) {
-                postcodef1 = rec1.getClaimPostcodeF();
-                if (rec1.isClaimPostcodeFMappable()) {
-                    System.out.println("Claimants Postcode 0 \"" + postcode0 + "\" unmappablePostcodef0 \"" + unmappablePostcodef0 + "\" postcodef0 \"" + postcodef0 + "\" changed to " + postcodef1 + " which is mappable.");
-                    if (!rec0.ClaimPostcodeFValidPostcodeFormat) {
-                        rec0.ClaimPostcodeFUpdatedFromTheFuture = true;
-                        rec0.ClaimPostcodeF = postcodef1;
-                        rec0.ClaimPostcodeFMappable = true;
-                        rec0.ClaimPostcodeFValidPostcodeFormat = true;
-                        if (ClaimIDToPostcodeIDLookup0 == null) {
-                            ClaimIDToPostcodeIDLookup0 = SHBE_Records0.getClaimIDToPostcodeIDLookup();
-                        }
-                        ClaimIDToPostcodeIDLookup0.put(claimID, PostcodeToPostcodeIDLookup.get(postcodef1));
-                        if (ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 == null) {
-                            ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
-                        }
-                        ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0.add(claimID);
-                        ONSPD_ID postcodeID;
-                        postcodeID = ClaimIDToPostcodeIDLookup0.get(claimID);
-                        ONSPD_Point p;
-                        p = PostcodeIDToPointLookup1.get(postcodeID);
-                        PostcodeIDToPointLookup0.put(postcodeID, p);
-                        modifiedRecs = true;
-                        modifiedAnyRecs = true;
-                        postcode1 = postcodef1.replaceAll(" ", "");
-                        postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
-                        pw.println(ClaimRef + "," + postcode0 + "," + postcode1);
-                        ClaimantPostcodesUnmappable0Remove.add(claimID);
-                    }
-                } else {
-                    System.out.println("postcodef1 " + postcodef1 + " is not mappable.");
+            //for (int i = SHBEFilenames.length - 2; i >= 0; i--) {
+            int i = SHBEFilenames.length - 2;
+            // Get previous SHBE.
+            YM30 = getYM3(SHBEFilenames[i]);
+            System.out.println("YM30 " + YM30);
+            YMN = getYearMonthNumber(SHBEFilenames[i]);
+            // Set up to write FutureModifiedPostcodes
+            FutureModifiedPostcodesFile = new File(logDir,
+                    "FutureModifiedPostcodes" + YMN + ".csv");
+            try {
+                PrintWriter pw;
+                pw = new PrintWriter(FutureModifiedPostcodesFile);
+                pw.println("ClaimRef,Original Claimant Postcode,Updated from the Future Claimant Postcode");
+                NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
+                System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
+                SHBE_Records0 = new SHBE_Records(Env, YM30);
+                recs0 = SHBE_Records0.getRecords(hoome);
+                // <writeOutModifiedPostcodes>
+                writeOutModifiedPostcodes(UniqueModifiedPostcodes, logDir, YMN,
+                        SHBE_Records0, ClaimIDToClaimRefLookup, hoome);
+                // </writeOutModifiedPostcodes>
+                PostcodeIDToPointLookup0 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM30);
+                // Get previously unmappable postcodes
+                ClaimantPostcodesUnmappable0 = SHBE_Records0.getClaimantPostcodesUnmappable(hoome);
+                boolean modifiedRecs = false;
+                ite = ClaimantPostcodesUnmappable0.keySet().iterator();
+                HashSet<SHBE_ID> ClaimantPostcodesUnmappable0Remove = new HashSet<>();
+                while (ite.hasNext()) {
+                    claimID = ite.next();
+                    unmappablePostcodef0 = ClaimantPostcodesUnmappable0.get(claimID);
+                    ClaimRef = ClaimIDToClaimRefLookup.get(claimID);
+                    System.out.println(ClaimRef);
+                    rec1 = recs1.get(claimID);
+                    rec0 = recs0.get(claimID);
+                    postcodef0 = rec0.getClaimPostcodeF();
+                    postcode0 = rec0.getDRecord().getClaimantsPostcode();
+                    if (rec1 != null) {
+                        postcodef1 = rec1.getClaimPostcodeF();
+                        if (rec1.isClaimPostcodeFMappable()) {
+                            System.out.println("Claimants Postcode 0 \"" + postcode0 + "\" unmappablePostcodef0 \"" + unmappablePostcodef0 + "\" postcodef0 \"" + postcodef0 + "\" changed to " + postcodef1 + " which is mappable.");
+                            if (!rec0.ClaimPostcodeFValidPostcodeFormat) {
+                                rec0.ClaimPostcodeFUpdatedFromTheFuture = true;
+                                rec0.ClaimPostcodeF = postcodef1;
+                                rec0.ClaimPostcodeFMappable = true;
+                                rec0.ClaimPostcodeFValidPostcodeFormat = true;
+                                if (ClaimIDToPostcodeIDLookup0 == null) {
+                                    ClaimIDToPostcodeIDLookup0 = SHBE_Records0.getClaimIDToPostcodeIDLookup();
+                                }
+                                ClaimIDToPostcodeIDLookup0.put(claimID, PostcodeToPostcodeIDLookup.get(postcodef1));
+                                if (ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 == null) {
+                                    ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
+                                }
+                                ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0.add(claimID);
+                                ONSPD_ID postcodeID;
+                                postcodeID = ClaimIDToPostcodeIDLookup0.get(claimID);
+                                ONSPD_Point p;
+                                p = PostcodeIDToPointLookup1.get(postcodeID);
+                                PostcodeIDToPointLookup0.put(postcodeID, p);
+                                modifiedRecs = true;
+                                modifiedAnyRecs = true;
+                                postcode1 = postcodef1.replaceAll(" ", "");
+                                postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
+                                pw.println(ClaimRef + "," + postcode0 + "," + postcode1);
+                                ClaimantPostcodesUnmappable0Remove.add(claimID);
+                            }
+                        } else {
+                            System.out.println("postcodef1 " + postcodef1 + " is not mappable.");
 //                        postcode1 = postcodef1.replaceAll(" ", "");
 //                        if (postcode1.length() > 3) {
 //                        postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
 //                        } else {
 //                            postcodef1 = rec1.getClaimPostcodeF();
 //                        }
-                    postcode1 = rec1.getDRecord().getClaimantsPostcode();
-                    UniqueUnmappablePostcodes.add(ClaimRef + "," + postcode1 + ",,");
-                    pw2.println("" + ref2 + "," + YM31 + "," + ClaimRef + "," + postcode1 + ",,");
-                    ref2++;
+                            postcode1 = rec1.getDRecord().getClaimantsPostcode();
+                            UniqueUnmappablePostcodes.add(ClaimRef + "," + postcode1 + ",,");
+                            pw2.println("" + ref2 + "," + YM31 + "," + ClaimRef + "," + postcode1 + ",,");
+                            ref2++;
 //                        System.out.println("postcodef1 " + postcodef1 + " is not mappable.");
 //                        UniqueUnmappablePostcodes.add(ClaimRef + "," + postcode0 + ",,");
 //                        pw2.println("" + ref2 + "," + YM30 + "," + ClaimRef + "," + postcode0 + ",,");
 //                        ref2++;
+                        }
+                    }
                 }
+                ite = ClaimantPostcodesUnmappable0Remove.iterator();
+                while (ite.hasNext()) {
+                    claimID = ite.next();
+                    ClaimantPostcodesUnmappable0.remove(claimID);
+                }
+                if (modifiedRecs == true) {
+                    // Write out recs0
+                    Generic_IO.writeObject(ClaimantPostcodesUnmappable0,
+                            SHBE_Records0.getClaimantPostcodesUnmappableFile());
+                    Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0,
+                            SHBE_Records0.getClaimIDToPostcodeIDLookupFile());
+                    Generic_IO.writeObject(recs0, SHBE_Records0.getRecordsFile());
+                    Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
+                            SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
+                }
+
+                // Prepare for next iteration
+                recs1 = recs0;
+                ClaimIDToPostcodeIDLookup0 = null;
+                ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
+                pw.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        ite = ClaimantPostcodesUnmappable0Remove.iterator();
-        while (ite.hasNext()) {
-            claimID = ite.next();
-            ClaimantPostcodesUnmappable0.remove(claimID);
-        }
-        if (modifiedRecs == true) {
-            // Write out recs0
-            Generic_IO.writeObject(ClaimantPostcodesUnmappable0, SHBE_Records0.getClaimantPostcodesUnmappableFile());
-            Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0, SHBE_Records0.getClaimIDToPostcodeIDLookupFile());
-            Generic_IO.writeObject(recs0, SHBE_Records0.getRecordsFile());
-            Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0, SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
+            pw2.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // Prepare for next iteration
-        recs1 = recs0;
-        ClaimIDToPostcodeIDLookup0 = null;
-        ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
-        pw.close();
-        //}
-        pw2.close();
+        h = "ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,"
+                + "Input To Academy (Y/N)";
         // <Write out UniqueUnmappablePostcodes>
-        File UniqueUnmappablePostcodesFile = new File(
-                logDir,
-                "UniqueUnmappablePostcodes.csv");
-        try {
-            pw = new PrintWriter(UniqueUnmappablePostcodesFile);
-            pw.println("ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,Input To Academy (Y/N)");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Iterator<String> iteS;
-        iteS = UniqueUnmappablePostcodes.iterator();
-        while (iteS.hasNext()) {
-            pw.println(iteS.next());
-        }
-        pw.close();
+        f = new File(logDir, "UniqueUnmappablePostcodes.csv");
+        Generic_IO.writeToFile(f, h, UniqueUnmappablePostcodes);
         // </Write out UniqueUnmappablePostcodes>
         // <Write out UniqueModifiedPostcodes>
-        File UniqueModifiedPostcodesFile = new File(
-                logDir,
-                "UniqueModifiedPostcodes.csv");
-        try {
-            pw = new PrintWriter(UniqueModifiedPostcodesFile);
-            pw.println("ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,Input To Academy (Y/N)");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        iteS = UniqueModifiedPostcodes.iterator();
-        while (iteS.hasNext()) {
-            pw.println(iteS.next());
-        }
-        pw.close();
+        f = new File(logDir, "UniqueModifiedPostcodes.csv");
+        Generic_IO.writeToFile(f, h, UniqueModifiedPostcodes);
         // </Write out UniqueModifiedPostcodes>
         if (modifiedAnyRecs == true) {
             // Write out PostcodeIDPointLookups
-            Generic_IO.writeObject(PostcodeIDPointLookups, SHBE_Data.getPostcodeIDToPointLookupsFile());
+            Generic_IO.writeObject(PostcodeIDPointLookups,
+                    SHBE_Data.getPostcodeIDToPointLookupsFile());
         }
     }
+
 
     /**
      * For checking postcodes.
@@ -473,50 +449,53 @@ public class SHBE_Handler extends SHBE_Object {
      * @param logDir
      */
     public void runPostcodeCheck(File logDir) {
-        boolean handleOutOfMemoryError;
-        handleOutOfMemoryError = true;
-        File dir;
-        dir = Files.getInputSHBEDir();
+        boolean hoome;
+        hoome = true;
+
+        // Declaration
         HashMap<String, ONSPD_ID> PostcodeToPostcodeIDLookup;
-        PostcodeToPostcodeIDLookup = SHBE_Data.getPostcodeToPostcodeIDLookup();
         HashMap<ONSPD_YM3, HashMap<ONSPD_ID, ONSPD_Point>> PostcodeIDPointLookups;
-        PostcodeIDPointLookups = SHBE_Data.getPostcodeIDToPointLookups();
         HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup;
-        ClaimIDToClaimRefLookup = SHBE_Data.getClaimIDToClaimRefLookup();
-
-        // Prepare for output
-        PrintWriter pw = null;
-        String YMN;
-
-        // Get latest SHBE.
         String[] SHBEFilenames;
-        SHBEFilenames = getSHBEFilenamesAll();
         String SHBEFilename1;
-        SHBEFilename1 = SHBEFilenames[SHBEFilenames.length - 1];
-        YMN = getYearMonthNumber(SHBEFilename1);
+        String YMN;
         ONSPD_YM3 YM31;
-        YM31 = getYM3(SHBEFilename1);
-        System.out.println("YM31 " + YM31);
         ONSPD_YM3 NearestYM3ForONSPDLookupYM31;
-        NearestYM3ForONSPDLookupYM31 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM31);
-        System.out.println("NearestYM3ForONSPDLookupYM31 " + NearestYM3ForONSPDLookupYM31);
         SHBE_Records SHBE_Records1;
-        SHBE_Records1 = new SHBE_Records(
-                Env,
-                YM31);
         HashMap<SHBE_ID, SHBE_Record> recs1;
-        recs1 = SHBE_Records1.getRecords(handleOutOfMemoryError);
         SHBE_Record rec1;
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup1;
-        PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM31);
-
         HashSet<String> UniqueUnmappablePostcodes;
-        UniqueUnmappablePostcodes = new HashSet<>();
         HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable;
-        ClaimantPostcodesUnmappable = SHBE_Records1.getClaimantPostcodesUnmappable();
         SHBE_ID claimID;
         Iterator<SHBE_ID> ite;
         String ClaimRef;
+        HashSet<String> UniqueModifiedPostcodes;
+        File f;
+        String h;
+        boolean modifiedAnyRecs;
+
+        // Initialisation
+        PostcodeToPostcodeIDLookup = SHBE_Data.getPostcodeToPostcodeIDLookup();
+        PostcodeIDPointLookups = SHBE_Data.getPostcodeIDToPointLookups();
+        ClaimIDToClaimRefLookup = SHBE_Data.getClaimIDToClaimRefLookup();
+        SHBEFilenames = getSHBEFilenamesAll();
+        SHBEFilename1 = SHBEFilenames[SHBEFilenames.length - 1];
+        YMN = getYearMonthNumber(SHBEFilename1);
+        YM31 = getYM3(SHBEFilename1);
+//        System.out.println("YM31 " + YM31);
+        NearestYM3ForONSPDLookupYM31 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM31);
+//        System.out.println("NearestYM3ForONSPDLookupYM31 "
+//                + NearestYM3ForONSPDLookupYM31);
+        SHBE_Records1 = new SHBE_Records(Env, YM31);
+        recs1 = SHBE_Records1.getRecords(hoome);
+        PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM31);
+        UniqueUnmappablePostcodes = new HashSet<>();
+        ClaimantPostcodesUnmappable = SHBE_Records1.getClaimantPostcodesUnmappable();
+        UniqueModifiedPostcodes = new HashSet<>();
+        modifiedAnyRecs = false;
+
+        // Add to UniqueUnmappablePostcodes
         ite = ClaimantPostcodesUnmappable.keySet().iterator();
         while (ite.hasNext()) {
             claimID = ite.next();
@@ -524,195 +503,162 @@ public class SHBE_Handler extends SHBE_Object {
             UniqueUnmappablePostcodes.add(ClaimRef + "," + ClaimantPostcodesUnmappable.get(claimID));
         }
 
-        HashSet<String> UniqueModifiedPostcodes;
-        UniqueModifiedPostcodes = new HashSet<>();
-        // <writeOutModifiedPostcodes>
-        writeOutModifiedPostcodes(
-                UniqueModifiedPostcodes,
-                logDir, YMN, SHBE_Records1,
-                ClaimIDToClaimRefLookup,
-                handleOutOfMemoryError);
-        // </writeOutModifiedPostcodes>
-
-        /**
-         * Set up PrintWriter to write out some basic details of Claims with
-         * Claimant Postcodes that are not yet mappable by any means.
-         */
-        File UnmappablePostcodesFile;
-        UnmappablePostcodesFile = new File(logDir,
-                "UnmappablePostcodes" + YMN + ".csv");
-        PrintWriter pw2 = null;
         try {
-            pw2 = new PrintWriter(UnmappablePostcodesFile);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        pw2.println("Ref,Year_Month,ClaimRef,Recorded Postcode,Correct Postcode,Input To Academy (Y/N)");
-        int ref2 = 1;
+            /**
+             * PrintWriter pw2 is to write out some basic details of Claims with
+             * Claimant Postcodes that are not yet mappable by any means.
+             */
+            PrintWriter pw2;
+            f = new File(logDir, "UnmappablePostcodes" + YMN + ".csv");
+            pw2 = new PrintWriter(f);
+            h = "Ref,Year_Month,ClaimRef,Recorded Postcode,Correct Postcode,"
+                    + "Input To Academy (Y/N)";
+            pw2.println(h);
+            int ref2 = 1;
 
-        ONSPD_YM3 YM30;
-        ONSPD_YM3 NearestYM3ForONSPDLookupYM30;
-        HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable0;
-        SHBE_Records SHBE_Records0;
-        HashMap<SHBE_ID, SHBE_Record> recs0;
-        SHBE_Record rec0;
-        String postcode0;
-        String postcode1;
-        String postcodef0;
-        String unmappablePostcodef0;
-        String postcodef1;
+            // More declaration
+            ONSPD_YM3 YM30;
+            ONSPD_YM3 NearestYM3ForONSPDLookupYM30;
+            HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable0;
+            SHBE_Records SHBE_Records0;
+            HashMap<SHBE_ID, SHBE_Record> recs0;
+            SHBE_Record rec0;
+            String postcode0;
+            String postcode1;
+            String postcodef0;
+            String unmappablePostcodef0;
+            String postcodef1;
 
-        HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup0;
-        HashMap<SHBE_ID, ONSPD_ID> ClaimIDToPostcodeIDLookup0 = null;
-        HashSet<SHBE_ID> ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
-        boolean modifiedAnyRecs = false;
+            HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup0;
+            HashMap<SHBE_ID, ONSPD_ID> ClaimIDToPostcodeIDLookup0 = null;
+            HashSet<SHBE_ID> ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
 
-        File FutureModifiedPostcodesFile;
+            File FutureModifiedPostcodesFile;
+            h = "ClaimRef,Original Claimant Postcode,Updated from the Future "
+                    + "Claimant Postcode";
+            for (int i = SHBEFilenames.length - 2; i >= 0; i--) {
+                // Get previous SHBE.
+                YM30 = getYM3(SHBEFilenames[i]);
+                System.out.println("YM30 " + YM30);
+                YMN = getYearMonthNumber(SHBEFilenames[i]);
+                // Set up to write FutureModifiedPostcodes
+                FutureModifiedPostcodesFile = new File(logDir,
+                        "FutureModifiedPostcodes" + YMN + ".csv");
+                try {
+                    PrintWriter pw;
+                    pw = new PrintWriter(FutureModifiedPostcodesFile);
+                    pw.println(h);
+                    NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
+                    System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
+                    SHBE_Records0 = new SHBE_Records(Env, YM30);
+                    recs0 = SHBE_Records0.getRecords(hoome);
+                    // <writeOutModifiedPostcodes>
+                    writeOutModifiedPostcodes(UniqueModifiedPostcodes, logDir,
+                            YMN, SHBE_Records0, ClaimIDToClaimRefLookup, hoome);
+                    // </writeOutModifiedPostcodes>
+                    PostcodeIDToPointLookup0 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM30);
+                    // Get previously unmappable postcodes
+                    ClaimantPostcodesUnmappable0 = SHBE_Records0.getClaimantPostcodesUnmappable(hoome);
+                    boolean modifiedRecs = false;
+                    ite = ClaimantPostcodesUnmappable0.keySet().iterator();
+                    HashSet<SHBE_ID> ClaimantPostcodesUnmappable0Remove = new HashSet<>();
+                    while (ite.hasNext()) {
+                        claimID = ite.next();
+                        unmappablePostcodef0 = ClaimantPostcodesUnmappable0.get(claimID);
+                        ClaimRef = ClaimIDToClaimRefLookup.get(claimID);
+                        System.out.println(ClaimRef);
+                        rec1 = recs1.get(claimID);
+                        rec0 = recs0.get(claimID);
+                        postcodef0 = rec0.getClaimPostcodeF();
+                        postcode0 = rec0.getDRecord().getClaimantsPostcode();
+                        if (rec1 != null) {
+                            postcodef1 = rec1.getClaimPostcodeF();
 
-        for (int i = SHBEFilenames.length - 2; i >= 0; i--) {
-            // Get previous SHBE.
-            YM30 = getYM3(SHBEFilenames[i]);
-            System.out.println("YM30 " + YM30);
-            YMN = getYearMonthNumber(SHBEFilenames[i]);
-            // Set up to write FutureModifiedPostcodes
-            FutureModifiedPostcodesFile = new File(
-                    logDir,
-                    "FutureModifiedPostcodes" + YMN + ".csv");
-            try {
-                pw = new PrintWriter(FutureModifiedPostcodesFile);
-                pw.println("ClaimRef,Original Claimant Postcode,Updated from the Future Claimant Postcode");
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
-            System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
-            SHBE_Records0 = new SHBE_Records(
-                    Env,
-                    YM30);
-            recs0 = SHBE_Records0.getRecords(handleOutOfMemoryError);
-            // <writeOutModifiedPostcodes>
-            writeOutModifiedPostcodes(
-                    UniqueModifiedPostcodes,
-                    logDir, YMN, SHBE_Records0,
-                    ClaimIDToClaimRefLookup,
-                    handleOutOfMemoryError);
-            // </writeOutModifiedPostcodes>
-            PostcodeIDToPointLookup0 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM30);
-            // Get previously unmappable postcodes
-            ClaimantPostcodesUnmappable0 = SHBE_Records0.getClaimantPostcodesUnmappable(handleOutOfMemoryError);
-            boolean modifiedRecs = false;
-            ite = ClaimantPostcodesUnmappable0.keySet().iterator();
-            HashSet<SHBE_ID> ClaimantPostcodesUnmappable0Remove = new HashSet<>();
-            while (ite.hasNext()) {
-                claimID = ite.next();
-                unmappablePostcodef0 = ClaimantPostcodesUnmappable0.get(claimID);
-                ClaimRef = ClaimIDToClaimRefLookup.get(claimID);
-                System.out.println(ClaimRef);
-                rec1 = recs1.get(claimID);
-                rec0 = recs0.get(claimID);
-                postcodef0 = rec0.getClaimPostcodeF();
-                postcode0 = rec0.getDRecord().getClaimantsPostcode();
-                if (rec1 != null) {
-                    postcodef1 = rec1.getClaimPostcodeF();
-
-                    if (rec1.isClaimPostcodeFMappable()) {
-                        System.out.println("Claimants Postcode 0 \"" + postcode0 + "\" unmappablePostcodef0 \"" + unmappablePostcodef0 + "\" postcodef0 \"" + postcodef0 + "\" changed to " + postcodef1 + " which is mappable.");
-                        if (!rec0.ClaimPostcodeFValidPostcodeFormat) {
-                            rec0.ClaimPostcodeFUpdatedFromTheFuture = true;
-                            rec0.ClaimPostcodeF = postcodef1;
-                            rec0.ClaimPostcodeFMappable = true;
-                            rec0.ClaimPostcodeFValidPostcodeFormat = true;
-                            if (ClaimIDToPostcodeIDLookup0 == null) {
-                                ClaimIDToPostcodeIDLookup0 = SHBE_Records0.getClaimIDToPostcodeIDLookup();
-                            }
-                            ONSPD_ID postcodeID = PostcodeToPostcodeIDLookup.get(postcodef1);
-                            ClaimIDToPostcodeIDLookup0.put(claimID, postcodeID);
-                            if (ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 == null) {
-                                ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
-                            }
-                            ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0.add(claimID);
-                            ONSPD_Point p;
-                            p = PostcodeIDToPointLookup1.get(postcodeID);
-                            PostcodeIDToPointLookup0.put(postcodeID, p);
-                            modifiedRecs = true;
-                            modifiedAnyRecs = true;
-                            postcode1 = postcodef1.replaceAll(" ", "");
-                            postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
-                            pw.println(ClaimRef + "," + postcode0 + "," + postcode1);
-                            ClaimantPostcodesUnmappable0Remove.add(claimID);
-                        }
-                    } else {
-                        System.out.println("postcodef1 " + postcodef1 + " is not mappable.");
+                            if (rec1.isClaimPostcodeFMappable()) {
+                                System.out.println("Claimants Postcode 0 \"" + postcode0 + "\" unmappablePostcodef0 \"" + unmappablePostcodef0 + "\" postcodef0 \"" + postcodef0 + "\" changed to " + postcodef1 + " which is mappable.");
+                                if (!rec0.ClaimPostcodeFValidPostcodeFormat) {
+                                    rec0.ClaimPostcodeFUpdatedFromTheFuture = true;
+                                    rec0.ClaimPostcodeF = postcodef1;
+                                    rec0.ClaimPostcodeFMappable = true;
+                                    rec0.ClaimPostcodeFValidPostcodeFormat = true;
+                                    if (ClaimIDToPostcodeIDLookup0 == null) {
+                                        ClaimIDToPostcodeIDLookup0 = SHBE_Records0.getClaimIDToPostcodeIDLookup();
+                                    }
+                                    ONSPD_ID postcodeID = PostcodeToPostcodeIDLookup.get(postcodef1);
+                                    ClaimIDToPostcodeIDLookup0.put(claimID, postcodeID);
+                                    if (ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 == null) {
+                                        ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
+                                    }
+                                    ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0.add(claimID);
+                                    ONSPD_Point p;
+                                    p = PostcodeIDToPointLookup1.get(postcodeID);
+                                    PostcodeIDToPointLookup0.put(postcodeID, p);
+                                    modifiedRecs = true;
+                                    modifiedAnyRecs = true;
+                                    postcode1 = postcodef1.replaceAll(" ", "");
+                                    postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
+                                    pw.println(ClaimRef + "," + postcode0 + "," + postcode1);
+                                    ClaimantPostcodesUnmappable0Remove.add(claimID);
+                                }
+                            } else {
+                                System.out.println("postcodef1 " + postcodef1 + " is not mappable.");
 //                        postcode1 = postcodef1.replaceAll(" ", "");
 //                        if (postcode1.length() > 3) {
 //                        postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
 //                        } else {
 //                            postcodef1 = rec1.getClaimPostcodeF();
 //                        }
-                        postcode1 = rec1.getDRecord().getClaimantsPostcode();
-                        UniqueUnmappablePostcodes.add(ClaimRef + "," + postcode1 + ",,");
-                        pw2.println("" + ref2 + "," + YM31 + "," + ClaimRef + "," + postcode1 + ",,");
-                        ref2++;
+                                postcode1 = rec1.getDRecord().getClaimantsPostcode();
+                                UniqueUnmappablePostcodes.add(ClaimRef + "," + postcode1 + ",,");
+                                pw2.println("" + ref2 + "," + YM31 + "," + ClaimRef + "," + postcode1 + ",,");
+                                ref2++;
 //                        System.out.println("postcodef1 " + postcodef1 + " is not mappable.");
 //                        UniqueUnmappablePostcodes.add(ClaimRef + "," + postcode0 + ",,");
 //                        pw2.println("" + ref2 + "," + YM30 + "," + ClaimRef + "," + postcode0 + ",,");
 //                        ref2++;
+                            }
+                        }
                     }
+                    Iterator<SHBE_ID> ite2;
+                    ite2 = ClaimantPostcodesUnmappable0Remove.iterator();
+                    while (ite2.hasNext()) {
+                        claimID = ite2.next();
+                        ClaimantPostcodesUnmappable0.remove(claimID);
+                    }
+                    if (modifiedRecs == true) {
+                        // Write out recs0
+                        Generic_IO.writeObject(ClaimantPostcodesUnmappable0,
+                                SHBE_Records0.getClaimantPostcodesUnmappableFile());
+                        Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0,
+                                SHBE_Records0.getClaimIDToPostcodeIDLookupFile());
+                        Generic_IO.writeObject(recs0, SHBE_Records0.getRecordsFile());
+                        Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
+                                SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
+                    }
+                    // Prepare for next iteration
+                    recs1 = recs0;
+                    ClaimIDToPostcodeIDLookup0 = null;
+                    ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
+                    pw.close();
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            Iterator<SHBE_ID> ite2;
-            ite2 = ClaimantPostcodesUnmappable0Remove.iterator();
-            while (ite2.hasNext()) {
-                claimID = ite2.next();
-                ClaimantPostcodesUnmappable0.remove(claimID);
-            }
-            if (modifiedRecs == true) {
-                // Write out recs0
-                Generic_IO.writeObject(ClaimantPostcodesUnmappable0, SHBE_Records0.getClaimantPostcodesUnmappableFile());
-                Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0, SHBE_Records0.getClaimIDToPostcodeIDLookupFile());
-                Generic_IO.writeObject(recs0, SHBE_Records0.getRecordsFile());
-                Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0, SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
-            }
 
-            // Prepare for next iteration
-            recs1 = recs0;
-            ClaimIDToPostcodeIDLookup0 = null;
-            ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
-            pw.close();
-        }
-        pw2.close();
-        // <Write out UniqueUnmappablePostcodes>
-        File UniqueUnmappablePostcodesFile = new File(
-                logDir,
-                "UniqueUnmappablePostcodes.csv");
-        try {
-            pw = new PrintWriter(UniqueUnmappablePostcodesFile);
-            pw.println("ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,Input To Academy (Y/N)");
+            }
+            pw2.close();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // <Write out UniqueUnmappablePostcodes>
+        f = new File(logDir, "UniqueUnmappablePostcodes.csv");
         Iterator<String> iteS;
-        iteS = UniqueUnmappablePostcodes.iterator();
-        while (iteS.hasNext()) {
-            pw.println(iteS.next());
-        }
-        pw.close();
+        h = "ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,"
+                + "Input To Academy (Y/N)";
+        Generic_IO.writeToFile(f, h, UniqueUnmappablePostcodes);
         // </Write out UniqueUnmappablePostcodes>
         // <Write out UniqueModifiedPostcodes>
-        File UniqueModifiedPostcodesFile = new File(
-                logDir,
-                "UniqueModifiedPostcodes.csv");
-        try {
-            pw = new PrintWriter(UniqueModifiedPostcodesFile);
-            pw.println("ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,Input To Academy (Y/N)");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        iteS = UniqueModifiedPostcodes.iterator();
-        while (iteS.hasNext()) {
-            pw.println(iteS.next());
-        }
-        pw.close();
+        f = new File(logDir, "UniqueModifiedPostcodes.csv");
+        Generic_IO.writeToFile(f, h, UniqueModifiedPostcodes);
         // </Write out UniqueModifiedPostcodes>
         if (modifiedAnyRecs == true) {
             // Write out PostcodeIDPointLookups
@@ -732,44 +678,47 @@ public class SHBE_Handler extends SHBE_Object {
      * @param UniqueModifiedPostcodes
      * @param dir
      * @param YMN
-     * @param SHBE_Records
+     * @param records
      * @param ClaimIDToClaimRefLookup
-     * @param handleOutOfMemoryError
+     * @param hoome
      */
     protected void writeOutModifiedPostcodes(
             HashSet<String> UniqueModifiedPostcodes,
-            File dir, String YMN, SHBE_Records SHBE_Records,
+            File dir, String YMN, SHBE_Records records,
             HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup,
-            boolean handleOutOfMemoryError) {
+            boolean hoome) {
         File ModifiedPostcodesFile;
         int ref;
         HashMap<SHBE_ID, String[]> ClaimantPostcodesModified;
         Iterator<SHBE_ID> ite;
         SHBE_ID SHBE_ID;
         String[] postcodes;
-        String ClaimRef;
-        ModifiedPostcodesFile = new File(
-                dir,
-                "ModifiedPostcodes" + YMN + ".csv");
-        PrintWriter pw = null;
+        String claimRef;
+        ModifiedPostcodesFile = new File(dir, "ModifiedPostcodes" + YMN + ".csv");
+        PrintWriter pw;
         try {
             pw = new PrintWriter(ModifiedPostcodesFile);
+            String s;
+            s = "Ref,ClaimRef,Recorded Postcode,Modified Postcode,"
+                    + "Input To Academy (Y/N)";
+            pw.println(s);
+            ref = 1;
+            ClaimantPostcodesModified = records.getClaimantPostcodesModified(hoome);
+            ite = ClaimantPostcodesModified.keySet().iterator();
+            while (ite.hasNext()) {
+                SHBE_ID = ite.next();
+                postcodes = ClaimantPostcodesModified.get(SHBE_ID);
+                claimRef = ClaimIDToClaimRefLookup.get(SHBE_ID);
+                s = claimRef + "," + postcodes[0] + "," + postcodes[1] + ",";
+                pw.println("" + ref + "," + s);
+                UniqueModifiedPostcodes.add(s);
+                ref++;
+            }
+            pw.close();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SHBE_Handler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        pw.println("Ref,ClaimRef,Recorded Postcode,Modified Postcode,Input To Academy (Y/N)");
-        ref = 1;
-        ClaimantPostcodesModified = SHBE_Records.getClaimantPostcodesModified(handleOutOfMemoryError);
-        ite = ClaimantPostcodesModified.keySet().iterator();
-        while (ite.hasNext()) {
-            SHBE_ID = ite.next();
-            postcodes = ClaimantPostcodesModified.get(SHBE_ID);
-            ClaimRef = ClaimIDToClaimRefLookup.get(SHBE_ID);
-            pw.println("" + ref + "," + ClaimRef + "," + postcodes[0] + "," + postcodes[1] + ",");
-            UniqueModifiedPostcodes.add(ClaimRef + "," + postcodes[0] + "," + postcodes[1] + ",");
-            ref++;
-        }
-        pw.close();
+
     }
 
     /**
@@ -1054,12 +1003,10 @@ public class SHBE_Handler extends SHBE_Object {
      * @param PostcodeIDToPostcodeLookup
      * @return
      */
-    public ONSPD_ID getPostcodeIDAddIfNeeded(
-            String PostcodeF,
+    public ONSPD_ID getPostcodeIDAddIfNeeded(String PostcodeF,
             HashMap<String, ONSPD_ID> PostcodeToPostcodeIDLookup,
             HashMap<ONSPD_ID, String> PostcodeIDToPostcodeLookup) {
         ONSPD_ID r;
-        r = null;
         if (PostcodeToPostcodeIDLookup.containsKey(PostcodeF)) {
             r = PostcodeToPostcodeIDLookup.get(PostcodeF);
         } else {
@@ -1990,82 +1937,74 @@ public class SHBE_Handler extends SHBE_Object {
      * result[1] = fileLabelValue;
      * }
      */
-    public Object[] getTreeMapDateLabelSHBEFilenames(
-            String[] tSHBEFilenames,
-            ArrayList<Integer> include) {
-        Object[] result;
-        result = new Object[2];
+    public Object[] getTreeMapDateLabelSHBEFilenames(String[] tSHBEFilenames,
+            ArrayList<Integer> include
+    ) {
+        // Initialise result r
+        Object[] r;
+        r = new Object[2];
         TreeMap<BigDecimal, String> valueLabel;
         valueLabel = new TreeMap<>();
         TreeMap<String, BigDecimal> fileLabelValue;
         fileLabelValue = new TreeMap<>();
-        result[0] = valueLabel;
-        result[1] = fileLabelValue;
+        r[0] = valueLabel;
+        r[1] = fileLabelValue;
 
+        // Get month3Letters lookup
         ArrayList<String> month3Letters;
         month3Letters = Generic_Time.getMonths3Letters();
 
-        int startMonth = 0;
-        int startYear = 0;
-        int yearInt0 = 0;
-        int month0Int = 0;
-        String month0 = "";
-        String m30 = "";
-        ONSPD_YM3 yM30 = null;
-
-        boolean first = true;
+        // Declare variables
+        int startMonth;
+        int startYear;
+        int yearInt0;
+        int month0Int;
+        String month0;
+        String m30;
+        ONSPD_YM3 yM30;
+        int i;
         Iterator<Integer> ite;
-        ite = include.iterator();
-        while (ite.hasNext()) {
-            int i = ite.next();
-            if (first) {
-                yM30 = getYM3(tSHBEFilenames[i]);
-                yearInt0 = Integer.valueOf(getYear(tSHBEFilenames[i]));
-                month0 = getMonth(tSHBEFilenames[i]);
-                m30 = month0.substring(0, 3);
-                month0Int = month3Letters.indexOf(m30) + 1;
-                startMonth = month0Int;
-                startYear = yearInt0;
-                first = false;
-            } else {
-                ONSPD_YM3 yM31;
-                yM31 = getYM3(tSHBEFilenames[i]);
-                int yearInt;
-                String month;
-                int monthInt;
-                String m3;
-                month = getMonth(tSHBEFilenames[i]);
-                yearInt = Integer.valueOf(getYear(tSHBEFilenames[i]));
-                m3 = month.substring(0, 3);
-                monthInt = month3Letters.indexOf(m3) + 1;
-                BigDecimal timeSinceStart;
-                timeSinceStart = BigDecimal.valueOf(
-                        Generic_Time.getMonthDiff(
-                                startYear, yearInt, startMonth, monthInt));
-                //System.out.println(timeSinceStart);
-//                valueLabel.put(
-//                        timeSinceStart,
-//                        yearInt0 + " " + m30 + " - " + yearInt + " " + m3);
-                String label;
-                label = yM30.toString() + "-" + yM31.toString();
-                valueLabel.put(
-                        timeSinceStart,
-                        label);
-//                String fileLabel;
-//                fileLabel = yearInt0 + " " + month0 + "_" + yearInt + " " + month;
-                fileLabelValue.put(
-                        label,
-                        timeSinceStart);
 
-                //System.out.println(fileLabel);
-                yearInt0 = yearInt;
-                month0 = month;
-                m30 = m3;
-                month0Int = monthInt;
-                yM30 = yM31;
-            }
+        // Iterate
+        ite = include.iterator();
+
+        // Initialise first
+        i = ite.next();
+        yM30 = getYM3(tSHBEFilenames[i]);
+        yearInt0 = Integer.valueOf(getYear(tSHBEFilenames[i]));
+        month0 = getMonth(tSHBEFilenames[i]);
+        m30 = month0.substring(0, 3);
+        month0Int = month3Letters.indexOf(m30) + 1;
+        startMonth = month0Int;
+        startYear = yearInt0;
+
+        // Iterate through rest
+        while (ite.hasNext()) {
+            i = ite.next();
+            ONSPD_YM3 yM31;
+            yM31 = getYM3(tSHBEFilenames[i]);
+            int yearInt;
+            String month;
+            int monthInt;
+            String m3;
+            month = getMonth(tSHBEFilenames[i]);
+            yearInt = Integer.valueOf(getYear(tSHBEFilenames[i]));
+            m3 = month.substring(0, 3);
+            monthInt = month3Letters.indexOf(m3) + 1;
+            BigDecimal timeSinceStart;
+            timeSinceStart = BigDecimal.valueOf(Generic_Time.getMonthDiff(
+                    startYear, yearInt, startMonth, monthInt));
+            //System.out.println(timeSinceStart);
+            String label;
+            label = yM30.toString() + "-" + yM31.toString();
+            //System.out.println(label);
+            valueLabel.put(timeSinceStart, label);
+            fileLabelValue.put(label, timeSinceStart);
+
+            // Prepare variables for next iteration
+            yM30 = yM31;
         }
-        return result;
+        return r;
     }
 
     /**
@@ -2084,60 +2023,59 @@ public class SHBE_Handler extends SHBE_Object {
      * }
      */
     public Object[] getTreeMapDateLabelSHBEFilenamesSingle(
-            String[] SHBEFilenames,
-            ArrayList<Integer> include) {
-        Object[] result;
-        result = new Object[2];
+            String[] SHBEFilenames, ArrayList<Integer> include
+    ) {
+        // Initiailise result r
+        Object[] r;
+        r = new Object[2];
         TreeMap<BigDecimal, ONSPD_YM3> valueLabel;
         valueLabel = new TreeMap<>();
         TreeMap<ONSPD_YM3, BigDecimal> fileLabelValue;
         fileLabelValue = new TreeMap<>();
-        result[0] = valueLabel;
-        result[1] = fileLabelValue;
+        r[0] = valueLabel;
+        r[1] = fileLabelValue;
 
+        // Get month3Letters lookup
         ArrayList<String> month3Letters;
         month3Letters = Generic_Time.getMonths3Letters();
 
-        int startMonth = 0;
-        int startYear = 0;
-
-        boolean first = true;
-        Iterator<Integer> ite;
-        ite = include.iterator();
+        // Declare variables
+        int startMonth;
+        int startYear;
         ONSPD_YM3 YM3;
         int yearInt;
         String month;
         int monthInt;
         String m3;
+        Iterator<Integer> ite;
+        int i;
+
+        // Iterate
+        ite = include.iterator();
+
+        // Initialise first
+        i = ite.next();
+        int yearInt0 = Integer.valueOf(getYear(SHBEFilenames[i]));
+        String m30 = getMonth3(SHBEFilenames[i]);
+        int month0Int = month3Letters.indexOf(m30) + 1;
+        startMonth = month0Int;
+        startYear = yearInt0;
+
+        // Iterate through rest
         while (ite.hasNext()) {
-            int i = ite.next();
-            if (first) {
-                YM3 = getYM3(SHBEFilenames[i]);
-                int yearInt0 = Integer.valueOf(getYear(SHBEFilenames[i]));
-                String m30 = getMonth3(SHBEFilenames[i]);
-                int month0Int = month3Letters.indexOf(m30) + 1;
-                startMonth = month0Int;
-                startYear = yearInt0;
-                first = false;
-            } else {
-                YM3 = getYM3(SHBEFilenames[i]);
-                month = getMonth(SHBEFilenames[i]);
-                yearInt = Integer.valueOf(getYear(SHBEFilenames[i]));
-                m3 = month.substring(0, 3);
-                monthInt = month3Letters.indexOf(m3) + 1;
-                BigDecimal timeSinceStart;
-                timeSinceStart = BigDecimal.valueOf(
-                        Generic_Time.getMonthDiff(
-                                startYear, yearInt, startMonth, monthInt));
-                valueLabel.put(
-                        timeSinceStart,
-                        YM3);
-                fileLabelValue.put(
-                        YM3,
-                        timeSinceStart);
-            }
+            i = ite.next();
+            YM3 = getYM3(SHBEFilenames[i]);
+            month = getMonth(SHBEFilenames[i]);
+            yearInt = Integer.valueOf(getYear(SHBEFilenames[i]));
+            m3 = month.substring(0, 3);
+            monthInt = month3Letters.indexOf(m3) + 1;
+            BigDecimal timeSinceStart;
+            timeSinceStart = BigDecimal.valueOf(Generic_Time.getMonthDiff(
+                    startYear, yearInt, startMonth, monthInt));
+            valueLabel.put(timeSinceStart, YM3);
+            fileLabelValue.put(YM3, timeSinceStart);
         }
-        return result;
+        return r;
     }
 
 //    /**

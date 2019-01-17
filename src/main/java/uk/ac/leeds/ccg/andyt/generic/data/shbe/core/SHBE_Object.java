@@ -16,24 +16,25 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.core;
 
 import java.io.Serializable;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
 
 /**
  * @author Andy Turner
  */
 public abstract class SHBE_Object implements Serializable {
 
-    /**
-     * A reference to LR_Environment
-     */
     public transient SHBE_Environment Env;
+    
+    // For convenience.
+    public transient SHBE_Strings Strings;
+    public transient SHBE_Files Files;
 
-//    public LR_Object(){
-//        Env = new LR_Environment();
-//    }
     protected SHBE_Object() {
     }
 
-    public SHBE_Object(SHBE_Environment env) {
-        Env = env;
+    public SHBE_Object(SHBE_Environment e) {
+        Env = e;
+        Strings = e.Strings;
+        Files = e.Files;
     }
 }

@@ -46,9 +46,7 @@ public class SHBE_Data extends SHBE_Object {
      * For convenience
      */
     transient ONSPD_Postcode_Handler Postcode_Handler;
-    transient SHBE_Files Files;
-    transient SHBE_Strings Strings;
-
+    
     /**
      * A reference to all the Data for this Payment Type. The keys are YM3 and
      * the values are the respective collection.
