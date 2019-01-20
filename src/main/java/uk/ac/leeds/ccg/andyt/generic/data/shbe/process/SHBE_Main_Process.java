@@ -16,31 +16,14 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.process;
 
 import java.io.File;
-import java.io.PrintWriter;
-import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
+import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
-//import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.ONSPD_Collection;
-//import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.ONSPD_Combined_Record;
-//import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.ONSPD_Data;
 /**
  *
  * @author geoagdt
  */
 public class SHBE_Main_Process extends SHBE_Object {
-
-    // For convenience
-//    protected final ONSPD_Data data;
-    protected final SHBE_Strings Strings;
-    protected final SHBE_Files Files;
-
-    // For logging.
-    File logF;
-    public static transient PrintWriter logPW;
-    File logF0;
-    public static transient PrintWriter logPW0;
 
     public SHBE_Main_Process(SHBE_Environment env) {
         super(env);
@@ -50,53 +33,17 @@ public class SHBE_Main_Process extends SHBE_Object {
     }
 
     public static void main(String[] args) {
-        SHBE_Main_Process p;
-        SHBE_Environment env;
         File dataDir = new File(System.getProperty("user.dir"), "data");
-        env = new SHBE_Environment(dataDir, SHBE_Environment.DEBUG_Level_FINE);
+        Generic_Environment ge = new Generic_Environment(dataDir);
+        SHBE_Environment env;
+        env = new SHBE_Environment(ge, Generic_Environment.DEBUG_Level_FINE);
+        SHBE_Main_Process p;
         p = new SHBE_Main_Process(env);
         // Main switches
-        p.doLoadDataIntoCaches = true; // rename/reuse just left here for convenience...
         p.run();
     }
 
     public void run() {
-        logF0 = new File(Files.getOutputDataDir(), "log0.txt");
-        logPW0 = Generic_IO.getPrintWriter(logF0, false); // Overwrite log file.
-
-        File indir;
-        File outdir;
-        File generateddir;
-
-        logPW.close();
     }
-
-    public static void log0(String s) {
-        logPW.println(s);
-    }
-
-    public static void log1(String s) {
-        System.out.println(s);
-    }
-
-    public static void log(String s) {
-        logPW.println(s);
-        System.out.println(s);
-    }
-
-    public static void logStart(String s) {
-        s = "<" + s + ">";
-        logPW.println(s);
-        System.out.println(s);
-    }
-
-    public static void logEnd(String s) {
-        s = "</" + s + ">";
-        logPW.println(s);
-        System.out.println(s);
-    }
-
-    boolean doJavaCodeGeneration = false;
-    boolean doLoadDataIntoCaches = false;
 
 }

@@ -16,11 +16,7 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.core;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
@@ -37,33 +33,14 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
 public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         implements Serializable {
 
-    protected transient Generic_Environment ge;
-
-    // For convenience
-    protected transient ONSPD_Handler ONSPD_Handler;
-
+    public final int DEBUG_Level;
+    public final transient Generic_Environment ge;
+    public final transient ONSPD_Environment ONSPD_Env;
+    public final transient SHBE_Strings Strings;
+    public final transient SHBE_Files Files;
+//    public transient ONSPD_Handler ONSPD_Handler;
     public transient SHBE_Handler Handler;
-    public transient SHBE_Strings Strings;
-    public transient SHBE_Files Files;
-
-    /**
-     * Logging levels.
-     */
-    public int DEBUG_Level;
-    public static final int DEBUG_Level_FINEST = 0;
-    public static final int DEBUG_Level_FINE = 1;
-    public static final int DEBUG_Level_NORMAL = 2;
     
-/**
-     * For writing output messages to.
-     */
-    private PrintWriter PrintWriterOut;
-
-    /**
-     * For writing error messages to.
-     */
-    private PrintWriter PrintWriterErr;
-
     /**
      * Data.
      */
@@ -71,36 +48,19 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
 
     public transient static final String EOL = System.getProperty("line.separator");
 
-    public SHBE_Environment(File dataDir, int DEBUG_Level) {
+    /**
+     * 
+     * @param ge
+     * @param DEBUG_Level 
+     */
+    public SHBE_Environment(Generic_Environment ge, int DEBUG_Level) {
         //Memory_Threshold = 3000000000L;
-        Strings = new SHBE_Strings();
-        Files = new SHBE_Files(Strings, dataDir);
-        ge = new Generic_Environment(Files, Strings);
-        File outDir = Files.getOutputDataDir();
+        this.ge = ge;
+            ONSPD_Env = new ONSPD_Environment(ge, 
+                    Generic_Environment.DEBUG_Level_FINE);
         this.DEBUG_Level = DEBUG_Level;
-        File f;
-        f = new File(outDir, "Out.txt");
-        try {
-            PrintWriterOut = new PrintWriter(f);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SHBE_Environment.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        f = new File(outDir, "Err.txt");
-        try {
-            PrintWriterErr = new PrintWriter(f);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SHBE_Environment.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//        File f;
-//        f = Files.getEnvDataFile();
-//        if (f.exists()) {
-//            loadData();
-//            data.Files = Files;
-//            data.Files.Strings = Strings;
-//            data.Strings = Strings;
-//        } else {
-//            data = new ONSPD_Data(Files, Strings);
-//        }
+        Strings = new SHBE_Strings();
+        Files = new SHBE_Files(Strings, ge.getFiles().getDataDir());
     }
 
     /**
@@ -187,29 +147,19 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     }
     
     /**
-     * For returning an instance of ONSPD_Handler for convenience.
+     * Writes s to a new line of the output log and also prints it to std.out if
+     * {@code this.DEBUG_Level <= DEBUG_Level}.
      *
-     * @return
-     */
-    public ONSPD_Handler getONSPD_Handler() {
-        if (ONSPD_Handler == null) {
-            ONSPD_Environment ONSPD_Env;
-            ONSPD_Env = new ONSPD_Environment(Files.getDataDir());
-            ONSPD_Handler = new ONSPD_Handler(ONSPD_Env);
-        }
-        return ONSPD_Handler;
-    }
-    
-    /**
-     * Writes s to a new line of the output log and error log and also prints it
-     * to std.out.
-     *
+     * @param DEBUG_Level
      * @param s
      */
-    public void logEO(String s) {
-        logO(s, false);
-        logE(s);
+    public void logO(int DEBUG_Level, String s) {
+        if (this.DEBUG_Level <= DEBUG_Level) {
+            ge.logO(s, true);
+        }
     }
+
+    
 
 //    private static void log(
 //            String message) {
@@ -221,71 +171,5 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
 //            String message) {
 //        Logger.getLogger(DW_Log.DW_DefaultLoggerName).log(level, message);
 //    }
-    /**
-     * Writes s to a new line of the output log and also prints it to std.out.
-     *
-     * @param s
-     * @param println
-     */
-    public void logO(String s, boolean println) {
-        if (PrintWriterOut != null) {
-            PrintWriterOut.println(s);
-        }
-        if (println) {
-            System.out.println(s);
-        }
-    }
-
-    /**
-     * Writes s to a new line of the output log and also prints it to std.out if
-     * {@code this.DEBUG_Level <= DEBUG_Level}.
-     *
-     * @param DEBUG_Level
-     * @param s
-     */
-    public void logO(int DEBUG_Level, String s) {
-        if (this.DEBUG_Level <= DEBUG_Level) {
-            PrintWriterOut.println(s);
-            System.out.println(s);
-        }
-    }
-
-    /**
-     * Writes s to a new line of the error log and also prints it to std.err.
-     *
-     * @param s
-     */
-    public void logE(String s) {
-        if (PrintWriterErr != null) {
-            PrintWriterErr.println(s);
-        }
-        System.err.println(s);
-    }
-
-    /**
-     * Writes {@code e.getStackTrace()} to the error log and also prints it to
-     * std.err.
-     *
-     * @param e
-     */
-    public void logE(Exception e) {
-        StackTraceElement[] st;
-        st = e.getStackTrace();
-        for (StackTraceElement st1 : st) {
-            logE(st1.toString());
-        }
-    }
-
-    /**
-     * Writes e StackTrace to the error log and also prints it to std.err.
-     *
-     * @param e
-     */
-    public void logE(Error e) {
-        StackTraceElement[] st;
-        st = e.getStackTrace();
-        for (StackTraceElement st1 : st) {
-            logE(st1.toString());
-        }
-    }
+    
 }

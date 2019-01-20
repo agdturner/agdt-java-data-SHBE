@@ -74,7 +74,8 @@ public class SHBE_Files extends Generic_Files implements Serializable {
 
     public File getGeneratedSHBEDir() {
         if (generatedSHBEDir == null) {
-            generatedSHBEDir = new File(getGeneratedLCCDir(), getStrings().sSHBE);
+            generatedSHBEDir = new File(getGeneratedLCCDir(), 
+                    getStrings().sSHBE);
         }
         return generatedSHBEDir;
     }

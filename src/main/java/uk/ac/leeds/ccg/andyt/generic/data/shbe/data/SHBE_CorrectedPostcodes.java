@@ -28,8 +28,6 @@ import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
 
 /**
  *
@@ -37,21 +35,16 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
  */
 public class SHBE_CorrectedPostcodes extends SHBE_Object {
 
-    protected transient ONSPD_Handler Postcode_Handler;
-    protected transient SHBE_Files Files;
-    protected transient SHBE_Strings Strings;
+    protected final transient ONSPD_Handler Postcode_Handler;
 
     private HashMap<String, HashSet<String>> UnmappableToMappablePostcodes;
     private HashMap<String, ArrayList<String>> ClaimRefToOriginalPostcodes;
     private HashMap<String, ArrayList<String>> ClaimRefToCorrectedPostcodes;
     private HashSet<String> PostcodesCheckedAsMappable;
 
-    public SHBE_CorrectedPostcodes() {
-    }
-
     public SHBE_CorrectedPostcodes(SHBE_Environment env) {
         super(env);
-        Postcode_Handler = env.getONSPD_Handler();
+        Postcode_Handler = env.ONSPD_Env.getHandler();
         Files = env.Files;
         Strings = env.Strings;
     }

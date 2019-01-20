@@ -57,7 +57,7 @@ public class SHBE_Handler extends SHBE_Object {
      */
     //private final transient HashMap<String, SHBE_ID> NINOToNINOIDLookup;
     //private final transient HashMap<String, SHBE_ID> DOBToDOBIDLookup;
-    private final transient ONSPD_Handler Postcode_Handler;
+    private final transient ONSPD_Handler ONSPD_Handler;
 
     /**
      * For a set of expected RecordTypes. ("A", "D", "C", "R", "T", "P", "G",
@@ -217,7 +217,7 @@ public class SHBE_Handler extends SHBE_Object {
         super(e);
 //        NINOToNINOIDLookup = e.getNINOToNINOIDLookup();
 //        DOBToDOBIDLookup = Data.getDOBToDOBIDLookup();
-        Postcode_Handler = e.getONSPD_Handler();
+        ONSPD_Handler = e.ONSPD_Env.getHandler();
     }
 
     /**
@@ -231,7 +231,7 @@ public class SHBE_Handler extends SHBE_Object {
         ONSPD_YM3 LastYM3;
         LastYM3 = getYM3(SHBEFilenames[SHBEFilenames.length - 1]);
         ONSPD_YM3 nYM3;
-        nYM3 = Postcode_Handler.getNearestYM3ForONSPDLookup(LastYM3);
+        nYM3 = ONSPD_Handler.getNearestYM3ForONSPDLookup(LastYM3);
         File dir;
         dir = Files.getInputSHBEDir();
         for (String SHBEFilename : SHBEFilenames) {
@@ -693,7 +693,7 @@ public class SHBE_Handler extends SHBE_Object {
      */
     public HashMap<ONSPD_ID, ONSPD_Point> getPostcodeIDToPointLookup(ONSPD_YM3 YM3) {
         ONSPD_YM3 NearestYM3ForONSPDLookup;
-        NearestYM3ForONSPDLookup = Postcode_Handler.getNearestYM3ForONSPDLookup(YM3);
+        NearestYM3ForONSPDLookup = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM3);
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup;
         PostcodeIDToPointLookups = getPostcodeIDToPointLookups();
         if (PostcodeIDToPointLookups.containsKey(NearestYM3ForONSPDLookup)) {
@@ -994,6 +994,7 @@ public class SHBE_Handler extends SHBE_Object {
             f = getFile(YM3);
             if (f.exists()) {
                 r = (SHBE_Records) Generic_IO.readObject(f);
+                r.Env = Env;
                 return r;
             }
         }
@@ -1022,7 +1023,8 @@ public class SHBE_Handler extends SHBE_Object {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        r = new File(dir, Strings.sRecords + Strings.sBinaryFileExtension);
+        //r = new File(dir, Strings.sRecords + Strings.sBinaryFileExtension);
+        r = new File(dir, Strings.sSHBE + "_" + Strings.sRecords + Strings.sBinaryFileExtension);
         return r;
     }
 
@@ -1205,7 +1207,7 @@ public class SHBE_Handler extends SHBE_Object {
         ONSPD_YM3 LastYM3;
         LastYM3 = getYM3(SHBEFilenames[SHBEFilenames.length - 1]);
         ONSPD_YM3 nYM3;
-        nYM3 = Postcode_Handler.getNearestYM3ForONSPDLookup(LastYM3);
+        nYM3 = ONSPD_Handler.getNearestYM3ForONSPDLookup(LastYM3);
         if (newFilesToRead.size() > 0) {
             Iterator<String> ite;
             ite = newFilesToRead.iterator();
@@ -1264,7 +1266,7 @@ public class SHBE_Handler extends SHBE_Object {
         YM31 = getYM3(SHBEFilename1);
         System.out.println("YM31 " + YM31);
         ONSPD_YM3 NearestYM3ForONSPDLookupYM31;
-        NearestYM3ForONSPDLookupYM31 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM31);
+        NearestYM3ForONSPDLookupYM31 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM31);
         System.out.println("NearestYM3ForONSPDLookupYM31 " + NearestYM3ForONSPDLookupYM31);
         SHBE_Records SHBE_Records1;
         SHBE_Records1 = new SHBE_Records(Env, YM31);
@@ -1341,7 +1343,7 @@ public class SHBE_Handler extends SHBE_Object {
                 h = "ClaimRef,Original Claimant Postcode,Updated from the "
                         + "Future Claimant Postcode";
                 pw.println(h);
-                NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
+                NearestYM3ForONSPDLookupYM30 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM30);
                 System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
                 SHBE_Records0 = new SHBE_Records(Env, YM30);
                 recs0 = SHBE_Records0.getRecords(hoome);
@@ -1494,7 +1496,7 @@ public class SHBE_Handler extends SHBE_Object {
         YMN = getYearMonthNumber(SHBEFilename1);
         YM31 = getYM3(SHBEFilename1);
 //        System.out.println("YM31 " + YM31);
-        NearestYM3ForONSPDLookupYM31 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM31);
+        NearestYM3ForONSPDLookupYM31 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM31);
 //        System.out.println("NearestYM3ForONSPDLookupYM31 "
 //                + NearestYM3ForONSPDLookupYM31);
         SHBE_Records1 = new SHBE_Records(Env, YM31);
@@ -1559,7 +1561,7 @@ public class SHBE_Handler extends SHBE_Object {
                     PrintWriter pw;
                     pw = new PrintWriter(FutureModifiedPostcodesFile);
                     pw.println(h);
-                    NearestYM3ForONSPDLookupYM30 = Postcode_Handler.getNearestYM3ForONSPDLookup(YM30);
+                    NearestYM3ForONSPDLookupYM30 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM30);
                     System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
                     SHBE_Records0 = new SHBE_Records(Env, YM30);
                     recs0 = SHBE_Records0.getRecords(hoome);
@@ -3922,7 +3924,7 @@ public class SHBE_Handler extends SHBE_Object {
         ClaimantsNINO = S_Record.getClaimantsNationalInsuranceNumber();
         if (ClaimantsNINO.trim().isEmpty()) {
             ClaimantsNINO = Strings.sDefaultNINO;
-            Env.logE("ClaimantsNINO is empty for "
+            Env.ge.logE("ClaimantsNINO is empty for "
                     + "ClaimRef " + S_Record.getCouncilTaxBenefitClaimReferenceNumber()
                     + " Setting as default NINO " + ClaimantsNINO);
         }

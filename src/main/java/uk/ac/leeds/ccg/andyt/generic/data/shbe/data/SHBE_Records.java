@@ -31,6 +31,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Point;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
@@ -1252,10 +1253,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         super(env);
         this.YM3 = YM3;
         Handler = Env.Handler;
-        Postcode_Handler = Env.getONSPD_Handler();
+        Postcode_Handler = Env.ONSPD_Env.getHandler();
         NearestYM3ForONSPDLookup = Postcode_Handler.getNearestYM3ForONSPDLookup(YM3);
-        env.logO("YM3 " + YM3, true);
-        env.logO("NearestYM3ForONSPDLookup " + NearestYM3ForONSPDLookup, true);
+        env.ge.logO("YM3 " + YM3, true);
+        env.ge.logO("NearestYM3ForONSPDLookup " + NearestYM3ForONSPDLookup, true);
         Records = getRecords();
         ClaimIDsOfNewSHBEClaims = getClaimIDsOfNewSHBEClaims(env.HOOME);
         ClaimantPersonIDs = getClaimantPersonIDs(env.HOOME);
@@ -1310,7 +1311,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         Handler = env.Handler;
         InputFile = new File(inputDirectory, inputFilename);
         YM3 = Handler.getYM3(inputFilename);
-        Postcode_Handler = Env.getONSPD_Handler();
+        Postcode_Handler = Env.ONSPD_Env.getHandler();
         NearestYM3ForONSPDLookup = Postcode_Handler.getNearestYM3ForONSPDLookup(YM3);
         Records = new HashMap<>();
         ClaimIDs = new HashSet<>();
@@ -1353,13 +1354,13 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         ClaimantPostcodesModified = new HashMap<>();
         ClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes = new HashMap<>();
         ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture = new HashSet<>();
-        env.logO("----------------------", true);
-        env.logO("Load " + YM3, true);
-        env.logO("----------------------", true);
-        env.logO("NearestYM3ForONSPDLookup " + NearestYM3ForONSPDLookup, true);
-        env.logO("LatestYM3ForONSPDLookup " + LatestYM3ForONSPDFormat, true);
+        env.ge.logO("----------------------", true);
+        env.ge.logO("Load " + YM3, true);
+        env.ge.logO("----------------------", true);
+        env.ge.logO("NearestYM3ForONSPDLookup " + NearestYM3ForONSPDLookup, true);
+        env.ge.logO("LatestYM3ForONSPDLookup " + LatestYM3ForONSPDFormat, true);
         if (!LatestYM3ForONSPDFormat.equals(NearestYM3ForONSPDLookup)) {
-            env.logO("The " + LatestYM3ForONSPDFormat + " ONSPD may be used "
+            env.ge.logO("The " + LatestYM3ForONSPDFormat + " ONSPD may be used "
                     + "if the Claimant Postcode does not have a lookup in the "
                     + NearestYM3ForONSPDLookup + " ONSPD.", true);
         }
@@ -1470,7 +1471,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         long grandTotalWeeklyEligibleRentAmount = 0;
         int totalWeeklyEligibleRentAmountGreaterThanZeroCount = 0;
         // Read data
-        env.logO("<Read data>", true);
+        env.ge.logO("<Read data>", true);
         try {
             BufferedReader br;
             br = Generic_IO.getBufferedReader(InputFile);
@@ -1515,8 +1516,8 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 switch (tokenType) {
                     case StreamTokenizer.TT_EOL:
                         if (counter % 10000 == 0) {
-                            //env.logO(line);
-                            env.logO("Read line " + counter, true);
+                            //env.ge.logO(line);
+                            env.ge.logO("Read line " + counter, true);
                         }
                         counter++;
                         break;
@@ -1528,12 +1529,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                         env, RecordID, type, line);
                                 ClaimRef = SRecord.getClaimRef();
                                 if (ClaimRef == null) {
-                                    env.logE("SRecord without a ClaimRef "
+                                    env.ge.logE("SRecord without a ClaimRef "
                                             + this.getClass().getName()
                                             + ".SHBE_Records(SHBE_Environment, File, String)");
-                                    env.logE("SRecord: " + SRecord.toString());
-                                    env.logE("Line: " + line);
-                                    env.logE("RecordID " + RecordID);
+                                    env.ge.logE("SRecord: " + SRecord.toString());
+                                    env.ge.logE("Line: " + line);
+                                    env.ge.logE("RecordID " + RecordID);
                                     RecordIDsNotLoaded.add(RecordID);
                                     SRecordNotLoadedCount++;
                                 } else {
@@ -1549,13 +1550,13 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                     recs.add(SRecord);
                                 }
                             } catch (Exception e) {
-                                env.logE("Line not loaded in "
+                                env.ge.logE("Line not loaded in "
                                         + this.getClass().getName()
                                         + ".SHBE_Records(SHBE_Environment, File, String)");
-                                env.logE("Line: " + line);
-                                env.logE("RecordID " + RecordID);
-                                env.logE(e.getLocalizedMessage());
-                                env.logE(e);
+                                env.ge.logE("Line: " + line);
+                                env.ge.logE("RecordID " + RecordID);
+                                env.ge.logE(e.getLocalizedMessage());
+                                env.ge.logE(e);
                                 RecordIDsNotLoaded.add(RecordID);
                             }
                             countSRecords++;
@@ -1572,11 +1573,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                  */
                                 TenancyType = DRecord.getTenancyType();
                                 if (TenancyType == 0) {
-                                    env.logE("Incomplete record "
+                                    env.ge.logE("Incomplete record "
                                             + this.getClass().getName()
                                             + ".SHBE_Records(SHBE_Environment, File, String)");
-                                    env.logE("Line: " + line);
-                                    env.logE("RecordID " + RecordID);
+                                    env.ge.logE("Line: " + line);
+                                    env.ge.logE("RecordID " + RecordID);
                                     NumberOfIncompleteDRecords++;
                                     RecordIDsNotLoaded.add(RecordID);
                                     lineCount++;
@@ -1613,12 +1614,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                             Records.put(claimID, record);
                                             doLoop = true;
                                         } else {
-                                            env.logE("Two records have the same ClaimRef "
+                                            env.ge.logE("Two records have the same ClaimRef "
                                                     + this.getClass().getName()
                                                     + ".SHBE_Records(SHBE_Environment, File, String)");
-                                            env.logE("Line: " + line);
-                                            env.logE("RecordID " + RecordID);
-                                            env.logE("ClaimRef " + ClaimRef);
+                                            env.ge.logE("Line: " + line);
+                                            env.ge.logE("RecordID " + RecordID);
+                                            env.ge.logE("ClaimRef " + ClaimRef);
                                         }
                                         StatusOfHBClaimAtExtractDate = DRecord.getStatusOfHBClaimAtExtractDate();
                                         /**
@@ -1639,11 +1640,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                 break;
                                             }
                                             default:
-                                                env.logE("Unexpected StatusOfHBClaimAtExtractDate "
+                                                env.ge.logE("Unexpected StatusOfHBClaimAtExtractDate "
                                                         + this.getClass().getName()
                                                         + ".SHBE_Records(SHBE_Environment, File, String)");
-                                                env.logE("Line: " + line);
-                                                env.logE("RecordID " + RecordID);
+                                                env.ge.logE("Line: " + line);
+                                                env.ge.logE("RecordID " + RecordID);
                                                 break;
                                         }
                                         StatusOfCTBClaimAtExtractDate = DRecord.getStatusOfCTBClaimAtExtractDate();
@@ -1665,11 +1666,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                 break;
                                             }
                                             default:
-                                                env.logE("Unexpected StatusOfCTBClaimAtExtractDate "
+                                                env.ge.logE("Unexpected StatusOfCTBClaimAtExtractDate "
                                                         + this.getClass().getName()
                                                         + ".SHBE_Records(SHBE_Environment, File, String)");
-                                                env.logE("Line: " + line);
-                                                env.logE("RecordID " + RecordID);
+                                                env.ge.logE("Line: " + line);
+                                                env.ge.logE("RecordID " + RecordID);
                                                 break;
                                         }
                                         if (doLoop) {
@@ -1730,9 +1731,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                             if (!isMappablePostcode) {
                                                 isMappablePostcodeLastestYM3 = Postcode_Handler.isMappablePostcode(LatestYM3ForONSPDFormat, record.ClaimPostcodeF);
                                                 if (isMappablePostcodeLastestYM3) {
-                                                    env.logO(SHBE_Environment.DEBUG_Level_FINEST,
+                                                    env.ge.logO(
                                                             "Postcode " + Postcode + " is not in the " + NearestYM3ForONSPDLookup + " ONSPD, "
-                                                            + "but is in the " + LatestYM3ForONSPDFormat + " ONSPD!");
+                                                            + "but is in the " + LatestYM3ForONSPDFormat + " ONSPD!", true);
                                                     isMappablePostcode = isMappablePostcodeLastestYM3;
                                                 }
                                             }
@@ -1907,7 +1908,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 //                                                    Env.logO("Other ClaimRef " + otherClaimRef);
                                                     otherRecord = Records.get(otherClaimID);
                                                     if (otherRecord == null) {
-                                                        env.logE("Unexpected error xx: This should not happen. "
+                                                        env.ge.logE("Unexpected error xx: This should not happen. "
                                                                 + this.getClass().getName()
                                                                 + ".SHBE_Records(SHBE_Environment, File, String)");
                                                     } else {
@@ -2107,10 +2108,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                     }
                                 }
                             } catch (Exception e) {
-                                env.logE(line);
-                                env.logE("RecordID " + RecordID);
-                                env.logE(e.getLocalizedMessage());
-                                env.logE(e);
+                                env.ge.logE(line);
+                                env.ge.logE("RecordID " + RecordID);
+                                env.ge.logE(e.getLocalizedMessage());
+                                env.ge.logE(e);
                                 RecordIDsNotLoaded.add(RecordID);
                             }
                         }
@@ -2120,7 +2121,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 }
                 tokenType = st.nextToken();
             }
-            env.logO("</Read data>", true);
+            env.ge.logO("</Read data>", true);
 
             br.close();
 
@@ -2130,7 +2131,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             SHBE_ID SHBE_ID;
             SHBE_Record SHBE_Record;
             Iterator<SHBE_ID> ite;
-            env.logO("<Add SRecords>", true);
+            env.ge.logO("<Add SRecords>", true);
             ite = Records.keySet().iterator();
             while (ite.hasNext()) {
                 SHBE_ID = ite.next();
@@ -2140,9 +2141,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                         AllNonDependentIDs, PersonIDToClaimIDsLookup,
                         ClaimIDToClaimRefLookup);
             }
-            env.logO("</Add SRecords>", true);
+            env.ge.logO("</Add SRecords>", true);
 
-            env.logO("<Summary Statistics>", true);
+            env.ge.logO("<Summary Statistics>", true);
             /**
              * Add statistics to LoadSummary.
              */
@@ -2286,7 +2287,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     totalWeeklyEligibleRentAmountGreaterThanZeroCount);
             addLoadSummaryCount(Strings.sAverage_NonZero_WeeklyEligibleRentAmount,
                     grandTotalWeeklyEligibleRentAmount / (double) totalWeeklyEligibleRentAmountGreaterThanZeroCount);
-            env.logO("<Summary Statistics>", true);
+            env.ge.logO("<Summary Statistics>", true);
 
             /**
              * Write out data.
@@ -2409,9 +2410,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(SHBE_Records.class.getName()).log(Level.SEVERE, null, ex);
             }
-            env.logO("----------------------", true);
-            env.logO("Loaded " + YM3, true);
-            env.logO("----------------------", true);
+            env.ge.logO("----------------------", true);
+            env.ge.logO("Loaded " + YM3, true);
+            env.ge.logO("----------------------", true);
         } catch (IOException ex) {
             Logger.getLogger(SHBE_Handler.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -2470,7 +2471,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @param n
      */
     public final void addLoadSummaryCount(String s, Number n) {
-        Env.logO(s + " " + n, true);
+        Env.ge.logO(s + " " + n, true);
         LoadSummary.put(s, n);
     }
 
@@ -2522,7 +2523,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                         ClaimantsNINO = SRecord.getClaimantsNationalInsuranceNumber();
                         if (ClaimantsNINO.trim().isEmpty()) {
                             ClaimantsNINO = Strings.sDefaultNINO;
-                            Env.logE("ClaimantsNINO is empty for "
+                            Env.ge.logE("ClaimantsNINO is empty for "
                                     + "ClaimID " + ClaimID + " ClaimRef "
                                     + Env.Handler.getClaimIDToClaimRefLookup().get(ClaimID)
                                     + " Setting as default NINO " + ClaimantsNINO);
@@ -2536,8 +2537,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                 NINO = "" + i;
                                 NINO += "_" + ClaimantsNINO;
                                 if (NINOToNINOIDLookup.containsKey(NINO)) {
-                                    Env.logO(SHBE_Environment.DEBUG_Level_FINEST,
-                                            "NINO " + NINO + " is not unique for " + ClaimantsNINO);
+                                    Env.ge.logO("NINO " + NINO + " is not unique for " + ClaimantsNINO, true);
                                 } else {
                                     set = true;
                                 }
@@ -2555,11 +2555,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                 if (ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.contains(ClaimID)) {
                                     set = true;
                                 } else {
-                                    Env.logO(SHBE_Environment.DEBUG_Level_FINEST,
-                                            "NINO " + NINO + " is not unique for " + ClaimantsNINO
+                                    Env.ge.logO("NINO " + NINO + " is not unique for " + ClaimantsNINO
                                             + " and ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim does not contain "
                                             + "ClaimID " + ClaimID + " for ClaimRef "
-                                            + Env.Handler.getClaimIDToClaimRefLookup().get(ClaimID));
+                                            + Env.Handler.getClaimIDToClaimRefLookup().get(ClaimID), true);
                                 }
                             } else {
                                 set = true;
@@ -2568,8 +2567,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                 NINO = "" + i;
                                 NINO += "_" + ClaimantsNINO;
                                 if (NINOToNINOIDLookup.containsKey(NINO)) {
-                                    Env.logO(SHBE_Environment.DEBUG_Level_FINEST,
-                                            "NINO " + NINO + " is not unique for " + ClaimantsNINO);
+                                    Env.ge.logO("NINO " + NINO + " is not unique for " + ClaimantsNINO, true);
                                 } else {
                                     set = true;
                                 }
@@ -2709,7 +2707,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                 PersonIDToClaimRefsLookup);
                         break;
                     default:
-                        Env.logE("Unrecognised SubRecordType " + SubRecordType);
+                        Env.ge.logE("Unrecognised SubRecordType " + SubRecordType);
                         break;
                 }
             }
@@ -2822,10 +2820,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 return 1;
             } else {
                 String[] lineSplit = line.split(",");
-                Env.logE("Unrecognised header in SHBE_Records.readAndCheckFirstLine(File,String)");
-                Env.logE("Number of fields in header " + lineSplit.length);
-                Env.logE("header:");
-                Env.logE(line);
+                Env.ge.logE("Unrecognised header in SHBE_Records.readAndCheckFirstLine(File,String)");
+                Env.ge.logE("Number of fields in header " + lineSplit.length);
+                Env.ge.logE("header:");
+                Env.ge.logE(line);
 
             }
         } catch (IOException ex) {
