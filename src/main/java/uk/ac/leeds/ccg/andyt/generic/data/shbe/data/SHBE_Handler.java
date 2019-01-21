@@ -1035,7 +1035,7 @@ public class SHBE_Handler extends SHBE_Object {
      */
     public int clearAllCache() {
         String methodName = "clearAllCache";
-        Env.logO(Env.DEBUG_Level, "<" + methodName + ">");
+        Env.ge.log("<" + methodName + ">", true);
         int result = 0;
         Iterator<ONSPD_YM3> ite;
         ite = Data.keySet().iterator();
@@ -1049,7 +1049,7 @@ public class SHBE_Handler extends SHBE_Object {
                 result++;
             }
         }
-        Env.logO(Env.DEBUG_Level, "</" + methodName + ">");
+        Env.ge.log("</" + methodName + ">", true);
         return result;
     }
 
@@ -3924,9 +3924,9 @@ public class SHBE_Handler extends SHBE_Object {
         ClaimantsNINO = S_Record.getClaimantsNationalInsuranceNumber();
         if (ClaimantsNINO.trim().isEmpty()) {
             ClaimantsNINO = Strings.sDefaultNINO;
-            Env.ge.logE("ClaimantsNINO is empty for "
+            Env.ge.log("ClaimantsNINO is empty for "
                     + "ClaimRef " + S_Record.getCouncilTaxBenefitClaimReferenceNumber()
-                    + " Setting as default NINO " + ClaimantsNINO);
+                    + " Setting as default NINO " + ClaimantsNINO, true);
         }
         if (NINO.isEmpty()) {
             NINO = "" + index;

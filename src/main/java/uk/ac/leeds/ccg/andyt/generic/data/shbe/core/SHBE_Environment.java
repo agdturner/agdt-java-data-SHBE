@@ -33,7 +33,6 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
 public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         implements Serializable {
 
-    public final int DEBUG_Level;
     public final transient Generic_Environment ge;
     public final transient ONSPD_Environment ONSPD_Env;
     public final transient SHBE_Strings Strings;
@@ -51,14 +50,11 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     /**
      * 
      * @param ge
-     * @param DEBUG_Level 
      */
-    public SHBE_Environment(Generic_Environment ge, int DEBUG_Level) {
+    public SHBE_Environment(Generic_Environment ge) {
         //Memory_Threshold = 3000000000L;
         this.ge = ge;
-            ONSPD_Env = new ONSPD_Environment(ge, 
-                    Generic_Environment.DEBUG_Level_FINE);
-        this.DEBUG_Level = DEBUG_Level;
+            ONSPD_Env = new ONSPD_Environment(ge);
         Strings = new SHBE_Strings();
         Files = new SHBE_Files(Strings, ge.getFiles().getDataDir());
     }
@@ -145,31 +141,4 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         Handler = (SHBE_Handler) Generic_IO.readObject(f);
         System.out.println("</load>");
     }
-    
-    /**
-     * Writes s to a new line of the output log and also prints it to std.out if
-     * {@code this.DEBUG_Level <= DEBUG_Level}.
-     *
-     * @param DEBUG_Level
-     * @param s
-     */
-    public void logO(int DEBUG_Level, String s) {
-        if (this.DEBUG_Level <= DEBUG_Level) {
-            ge.logO(s, true);
-        }
-    }
-
-    
-
-//    private static void log(
-//            String message) {
-//        log(DW_Log.DW_DefaultLogLevel, message);
-//    }
-//
-//    private static void log(
-//            Level level,
-//            String message) {
-//        Logger.getLogger(DW_Log.DW_DefaultLoggerName).log(level, message);
-//    }
-    
 }
