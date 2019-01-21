@@ -4,7 +4,7 @@
 
     <groupId>uk.ac.leeds.ccg.andyt</groupId>
     <artifactId>agdt-java-generic-data-SHBE</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>agdt-java-generic-data-SHBE</name>
@@ -41,9 +41,9 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <agdt-java-generic.version>1.0.0</agdt-java-generic.version>
-        <agdt-java-generic-data.version>0.1-SNAPSHOT</agdt-java-generic-data.version>
-        <agdt-java-generic-data-ONSPD.version>0.1-SNAPSHOT</agdt-java-generic-data-ONSPD.version>
+        <agdt-java-generic.version>1.0-SNAPSHOT</agdt-java-generic.version>
+        <agdt-java-generic-data.version>1.0-SNAPSHOT</agdt-java-generic-data.version>
+        <agdt-java-generic-data-ONSPD.version>1.0-SNAPSHOT</agdt-java-generic-data-ONSPD.version>
         <!--
         <agdt-java-generic-math.version>0.1-SNAPSHOT</agdt-java-generic-math.version>
         -->
