@@ -128,14 +128,14 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
         String result = "";
         if (DRecord != null) {
             result += "DRecord: " + DRecord.toStringBrief();
-            result += Strings.special_newLine;
+            result += strings.special_newLine;
         }
         SRecords = getSRecords();
         if (SRecords != null) {
             long NumberOfS_Records;
             NumberOfS_Records = SRecords.size();
             result += " Number of SRecords = " + NumberOfS_Records;
-            result += Strings.special_newLine;
+            result += strings.special_newLine;
             if (NumberOfS_Records > 0) {
                 result += ": ";
             }
@@ -145,7 +145,7 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
                 SHBE_S_Record rec;
                 rec = ite.next();
                 result += " SRecord: " + rec.toString();
-                result += Strings.special_newLine;
+                result += strings.special_newLine;
             }
         }
         return result;
@@ -155,19 +155,19 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
     public String toString() {
         String result;
         result = "ClaimRefSHBE_ID " + ClaimID
-                + Strings.special_newLine
+                + strings.special_newLine
                 + "StatusOfHBClaimAtExtractDate " + StatusOfHBClaimAtExtractDate
-                + Strings.special_newLine;
+                + strings.special_newLine;
         if (DRecord != null) {
             result += "DRecord: " + DRecord.toString()
-                    + Strings.special_newLine;
+                    + strings.special_newLine;
         }
         SRecords = getSRecords();
         if (SRecords != null) {
             long NumberOfS_Records;
             NumberOfS_Records = SRecords.size();
             result += " Number of SRecords = " + NumberOfS_Records
-                    + Strings.special_newLine;
+                    + strings.special_newLine;
             if (NumberOfS_Records > 0) {
                 result += ": ";
             }
@@ -177,7 +177,7 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
                 SHBE_S_Record rec;
                 rec = ite.next();
                 result += " SRecord: " + rec.toString()
-                        + Strings.special_newLine;
+                        + strings.special_newLine;
             }
         }
         return result;
@@ -209,7 +209,7 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
      * @return PaymentType
      */
     public String getPaymentType() {
-        return Env.Strings.getPaymentTypes().get(StatusOfHBClaimAtExtractDate + 1);
+        return Env.strings.getPaymentTypes().get(StatusOfHBClaimAtExtractDate + 1);
     }
 
     /**

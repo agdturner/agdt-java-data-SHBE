@@ -73,12 +73,9 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
     public final String sNoTenancy = "No Tenancy";
     public final String sUnknown = "Unknown";
 
-    protected SHBE_TenancyType_Handler() {
-    }
-
     public SHBE_TenancyType_Handler(SHBE_Environment env) {
         super(env);
-        ds = env.Strings;
+        ds = env.strings;
     }
 
     public String getTenancyTypeName(String tenancyType) {

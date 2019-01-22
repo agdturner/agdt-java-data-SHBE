@@ -26,20 +26,20 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
  */
 public class SHBE_Main_Process extends SHBE_Object {
 
-    public SHBE_Main_Process(SHBE_Environment env) {
-        super(env);
+    public SHBE_Main_Process(SHBE_Environment env, int logID) {
+        super(env, logID);
 //        data = env.data;
-        Strings = env.Strings;
-        Files = env.Files;
+        strings = env.strings;
+        files = env.files;
     }
 
     public static void main(String[] args) {
         File dataDir = new File(System.getProperty("user.dir"), "data");
-        Generic_Environment ge = new Generic_Environment(dataDir, Level.FINE, 100);
+        Generic_Environment ge = new Generic_Environment(dataDir);
         SHBE_Environment env;
         env = new SHBE_Environment(ge);
         SHBE_Main_Process p;
-        p = new SHBE_Main_Process(env);
+        p = new SHBE_Main_Process(env, 0);
         // Main switches
         p.run();
     }

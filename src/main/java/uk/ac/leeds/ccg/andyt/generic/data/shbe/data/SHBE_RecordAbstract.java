@@ -50,9 +50,6 @@ public abstract class SHBE_RecordAbstract extends SHBE_Object implements Seriali
      */
     private String ClaimantsNationalInsuranceNumber;
 
-    public SHBE_RecordAbstract() {
-    }
-
     public SHBE_RecordAbstract(SHBE_Environment env) {
         super(env);
     }

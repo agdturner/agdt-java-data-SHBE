@@ -19,11 +19,8 @@ import java.io.File;
 import java.io.Serializable;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_Environment;
-import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.SHBE_Handler;
-//import uk.ac.leeds.ccg.andyt.data.postcode.Generic_UKPostcode_Handler;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
-//import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.ONSPD_Data;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
 
 /**
@@ -34,11 +31,10 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         implements Serializable {
 
     public final transient Generic_Environment ge;
-    public final transient ONSPD_Environment ONSPD_Env;
-    public final transient SHBE_Strings Strings;
-    public final transient SHBE_Files Files;
-//    public transient ONSPD_Handler ONSPD_Handler;
-    public transient SHBE_Handler Handler;
+    public final transient ONSPD_Environment oe;
+    public final transient SHBE_Strings strings;
+    public final transient SHBE_Files files;
+    public transient SHBE_Handler handler;
     
     /**
      * Data.
@@ -54,9 +50,9 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public SHBE_Environment(Generic_Environment ge) {
         //Memory_Threshold = 3000000000L;
         this.ge = ge;
-            ONSPD_Env = new ONSPD_Environment(ge);
-        Strings = new SHBE_Strings();
-        Files = new SHBE_Files(Strings, ge.getFiles().getDataDir());
+        oe = new ONSPD_Environment(ge);
+        strings = new SHBE_Strings();
+        files = new SHBE_Files(strings, ge.getFiles().getDataDir());
     }
 
     /**
@@ -117,28 +113,28 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     }
 
     public boolean clearSomeData() {
-        return Handler.clearSomeCache();
+        return handler.clearSomeCache();
     }
 
     public int clearAllData() {
         int r;
-        r = Handler.clearAllCache();
+        r = handler.clearAllCache();
         return r;
     }
     
     public void cacheData() {
         File f;
-        f = Files.getDataFile();
+        f = files.getDataFile();
         System.out.println("<cache>");
-        Generic_IO.writeObject(Handler, f);
+        Generic_IO.writeObject(handler, f);
         System.out.println("</cache>");
     }
 
     public final void loadData() {
         File f;
-        f = Files.getDataFile();
+        f = files.getDataFile();
         System.out.println("<load>");
-        Handler = (SHBE_Handler) Generic_IO.readObject(f);
+        handler = (SHBE_Handler) Generic_IO.readObject(f);
         System.out.println("</load>");
     }
 }

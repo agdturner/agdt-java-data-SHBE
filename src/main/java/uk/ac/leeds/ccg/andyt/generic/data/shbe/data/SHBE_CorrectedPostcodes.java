@@ -44,9 +44,9 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
 
     public SHBE_CorrectedPostcodes(SHBE_Environment env) {
         super(env);
-        Postcode_Handler = env.ONSPD_Env.getHandler();
-        Files = env.Files;
-        Strings = env.Strings;
+        Postcode_Handler = env.oe.getHandler();
+        files = env.files;
+        strings = env.strings;
     }
 
     public static void main(String[] args) {
@@ -60,7 +60,7 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
      */
     public void run() {
         File dir;
-        dir = new File(Files.getInputLCCDir(), "AcademyPostcodeCorrections");
+        dir = new File(files.getInputLCCDir(), "AcademyPostcodeCorrections");
         File f;
         f = new File(dir, "Postcodes2016-10.csv");
         //Generic_ReadCSV.testRead(f, dir, 6);
@@ -142,10 +142,10 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
         }
 
         File dirout;
-        dirout = Files.getGeneratedLCCDir();
+        dirout = files.getGeneratedLCCDir();
         File fout;
         fout = new File(dirout,
-                "DW_CorrectedPostcodes" + Strings.sBinaryFileExtension);
+                "DW_CorrectedPostcodes" + strings.sBinaryFileExtension);
         Generic_IO.writeObject(this, fout);
     }
 

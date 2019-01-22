@@ -26,15 +26,27 @@ public abstract class SHBE_Object implements Serializable {
     public transient SHBE_Environment Env;
     
     // For convenience.
-    public transient SHBE_Strings Strings;
-    public transient SHBE_Files Files;
-
-    protected SHBE_Object() {
+    public transient SHBE_Strings strings;
+    public transient SHBE_Files files;
+    public transient int logID;
+    
+    /**
+     * {@link #logID} defaulted to 0.
+     * @param e 
+     */
+    public SHBE_Object(SHBE_Environment e){
+        this(e, 0);
     }
-
-    public SHBE_Object(SHBE_Environment e) {
+            
+    /**
+     * 
+     * @param e
+     * @param i The logID.
+     */
+    public SHBE_Object(SHBE_Environment e, int i) {
         Env = e;
-        Strings = e.Strings;
-        Files = e.Files;
+        strings = e.strings;
+        files = e.files;
+        logID = i;
     }
 }
