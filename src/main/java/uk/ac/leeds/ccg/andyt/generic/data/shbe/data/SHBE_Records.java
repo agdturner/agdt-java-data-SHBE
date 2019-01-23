@@ -529,7 +529,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -571,7 +571,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -615,7 +615,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -659,7 +659,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -704,7 +704,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -748,7 +748,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -791,7 +791,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -834,7 +834,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -877,7 +877,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -920,7 +920,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -963,7 +963,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -1006,7 +1006,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -1049,7 +1049,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -1091,7 +1091,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -1131,7 +1131,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -1155,7 +1155,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -2380,6 +2380,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 SHBE_ID = ite2.next();
                 Env.ge.log(ClaimIDToClaimRefLookup.get(SHBE_ID), logID2);
             }
+            Env.ge.closeLog(logID2);
             env.ge.log("----------------------", logID);
             env.ge.log("Loaded " + YM3, logID);
             env.ge.log("----------------------", logID);
@@ -2389,10 +2390,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         }
     }
 
-    private void writeOut(
-            HashMap<SHBE_PersonID, HashSet<SHBE_ID>> InMultipleClaimsInAMonthPersonIDToClaimIDsLookup,
-            String name, String YMN, HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup,
-            HashMap<SHBE_ID, String> NINOIDToNINOLookup, HashMap<SHBE_ID, String> DOBIDToDOBLookup) {
+    private void writeOut(HashMap<SHBE_PersonID, HashSet<SHBE_ID>> mainLookup,
+            String name, String YMN, 
+            HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup,
+            HashMap<SHBE_ID, String> NINOIDToNINOLookup, 
+            HashMap<SHBE_ID, String> DOBIDToDOBLookup) {
         Iterator<SHBE_PersonID> ite2;
         Iterator<SHBE_ID> ite3;
         String s;
@@ -2402,22 +2404,22 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         String DOB;
         HashSet<SHBE_ID> ClaimRefs;
         int logID2 = Env.ge.initLog(name + YMN, ".csv");
-        Env.ge.log("NINO,DOB,ClaimRefs", logID2);
-        ite2 = InMultipleClaimsInAMonthPersonIDToClaimIDsLookup.keySet().iterator();
+        Env.ge.log("NINO,DOB,ClaimRefs", logID2, false);
+        ite2 = mainLookup.keySet().iterator();
         while (ite2.hasNext()) {
             PersonID = ite2.next();
             NINO = NINOIDToNINOLookup.get(PersonID.getNINO_ID());
             DOB = DOBIDToDOBLookup.get(PersonID.getDOB_ID());
             if (!NINO.trim().equalsIgnoreCase("")) {
                 if (!NINO.trim().startsWith("XX999")) {
-                    ClaimRefs = InMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(PersonID);
+                    ClaimRefs = mainLookup.get(PersonID);
                     ite3 = ClaimRefs.iterator();
                     s = NINO + "," + DOB;
                     while (ite3.hasNext()) {
                         SHBE_ID = ite3.next();
                         s += "," + ClaimIDToClaimRefLookup.get(SHBE_ID);
                     }
-                    Env.ge.log(s, logID2);
+                    Env.ge.log(s, logID2, false);
                 }
             }
         }
@@ -2427,7 +2429,6 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * logs and adds s and n to LoadSummary.
      *
-     * @param logID
      * @param s
      * @param n
      */
@@ -2459,15 +2460,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup
     ) {
         ArrayList<SHBE_S_Record> SRecordsForClaim;
-        SHBE_ID ClaimID;
-        ClaimID = SHBE_Record.ClaimID;
+        SHBE_ID claimID;
+        claimID = SHBE_Record.ClaimID;
         Iterator<SHBE_S_Record> ite;
         SHBE_S_Record SRecord;
-        String ClaimantsNINO;
-        SRecordsForClaim = getSRecordsWithoutDRecords().get(ClaimID);
+        String claimantsNINO;
+        SRecordsForClaim = getSRecordsWithoutDRecords().get(claimID);
         if (SRecordsForClaim != null) {
             // Declare variables
-            SHBE_PersonID SHBE_PersonID;
+            SHBE_PersonID personID;
             String NINO;
             String DOB;
             int SubRecordType;
@@ -2481,13 +2482,13 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 SubRecordType = SRecord.getSubRecordType();
                 switch (SubRecordType) {
                     case 1:
-                        ClaimantsNINO = SRecord.getClaimantsNationalInsuranceNumber();
-                        if (ClaimantsNINO.trim().isEmpty()) {
-                            ClaimantsNINO = strings.sDefaultNINO;
+                        claimantsNINO = SRecord.getClaimantsNationalInsuranceNumber();
+                        if (claimantsNINO.trim().isEmpty()) {
+                            claimantsNINO = strings.sDefaultNINO;
                             Env.ge.log("ClaimantsNINO is empty for "
-                                    + "ClaimID " + ClaimID + " ClaimRef "
-                                    + Env.handler.getClaimIDToClaimRefLookup().get(ClaimID)
-                                    + " Setting as default NINO " + ClaimantsNINO, logID);
+                                    + "ClaimID " + claimID + " ClaimRef "
+                                    + Env.handler.getClaimIDToClaimRefLookup().get(claimID)
+                                    + " Setting as default NINO " + claimantsNINO, logID);
                         }
                         int i;
                         i = 0;
@@ -2496,9 +2497,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                             set = false;
                             while (!set) {
                                 NINO = "" + i;
-                                NINO += "_" + ClaimantsNINO;
+                                NINO += "_" + claimantsNINO;
                                 if (NINOToNINOIDLookup.containsKey(NINO)) {
-                                    Env.ge.log("NINO " + NINO + " is not unique for " + ClaimantsNINO, logID);
+                                    Env.ge.log("NINO " + NINO + " is not unique"
+                                            + " for " + claimantsNINO, logID,
+                                            false);
                                 } else {
                                     set = true;
                                 }
@@ -2507,88 +2510,82 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                         } else {
                             boolean set;
                             set = false;
-                            NINO += "_" + ClaimantsNINO;
+                            NINO += "_" + claimantsNINO;
                             if (NINOToNINOIDLookup.containsKey(NINO)) {
                                 /**
                                  * If the claimant has more than one claim, this
                                  * is fine. Otherwise we have to do something.
                                  */
-                                if (ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.contains(ClaimID)) {
+                                if (ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.contains(claimID)) {
                                     set = true;
                                 } else {
-                                    Env.ge.log("NINO " + NINO + " is not unique for " + ClaimantsNINO
-                                            + " and ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim does not contain "
-                                            + "ClaimID " + ClaimID + " for ClaimRef "
-                                            + Env.handler.getClaimIDToClaimRefLookup().get(ClaimID), logID);
+                                    Env.ge.log("NINO " + NINO + " is not unique"
+                                            + " for " + claimantsNINO + " and "
+                                            + "ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim does not contain "
+                                            + "ClaimID " + claimID + " for ClaimRef "
+                                            + Env.handler.getClaimIDToClaimRefLookup().get(claimID), logID,
+                                            false);
                                 }
                             } else {
                                 set = true;
                             }
                             while (!set) {
                                 NINO = "" + i;
-                                NINO += "_" + ClaimantsNINO;
+                                NINO += "_" + claimantsNINO;
                                 if (NINOToNINOIDLookup.containsKey(NINO)) {
-                                    Env.ge.log("NINO " + NINO + " is not unique for " + ClaimantsNINO, logID);
+                                    Env.ge.log("NINO " + NINO + " is not unique "
+                                            + "for " + claimantsNINO, logID,
+                                            false);
                                 } else {
                                     set = true;
                                 }
                                 i++;
                             }
                         }
-                        SHBE_PersonID = SHBE_Handler.getPersonID(
-                                NINO,
-                                DOB,
-                                NINOToNINOIDLookup,
-                                NINOIDToNINOLookup,
-                                DOBToDOBIDLookup,
-                                DOBIDToDOBLookup);
+                        personID = SHBE_Handler.getPersonID(NINO, DOB,
+                                NINOToNINOIDLookup, NINOIDToNINOLookup,
+                                DOBToDOBIDLookup, DOBIDToDOBLookup);
                         /**
                          * Add to ClaimIDToDependentPersonIDsLookup.
                          */
                         HashSet<SHBE_PersonID> s;
-                        s = ClaimIDToDependentPersonIDsLookup.get(ClaimID);
+                        s = ClaimIDToDependentPersonIDsLookup.get(claimID);
                         if (s == null) {
                             s = new HashSet<>();
-                            ClaimIDToDependentPersonIDsLookup.put(ClaimID, s);
+                            ClaimIDToDependentPersonIDsLookup.put(claimID, s);
                         }
-                        s.add(SHBE_PersonID);
-                        addToPersonIDToClaimRefsLookup(
-                                ClaimID,
-                                SHBE_PersonID,
+                        s.add(personID);
+                        addToPersonIDToClaimRefsLookup(claimID, personID,
                                 PersonIDToClaimRefsLookup);
                         break;
                     case 2:
-                        SHBE_PersonID = SHBE_Handler.getPersonID(
-                                NINO,
-                                DOB,
-                                NINOToNINOIDLookup,
-                                NINOIDToNINOLookup,
-                                DOBToDOBIDLookup,
-                                DOBIDToDOBLookup);
+                        personID = SHBE_Handler.getPersonID(NINO, DOB,
+                                NINOToNINOIDLookup, NINOIDToNINOLookup,
+                                DOBToDOBIDLookup, DOBIDToDOBLookup);
                         /**
                          * Ignore if this is a
                          * CottingleySpringsCaravanParkPairedClaimIDs. It may be
                          * that there are partners shared in these claims, but
                          * such a thing is ignored for now.
                          */
-                        if (!CottingleySpringsCaravanParkPairedClaimIDs.contains(ClaimID)) {
+                        if (!CottingleySpringsCaravanParkPairedClaimIDs.contains(claimID)) {
                             /**
                              * If NonDependent is a NonDependent in another
                              * claim add to
                              * NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.
                              */
-                            key = SHBE_Collections.getKeyOfSetValue(ClaimIDToNonDependentPersonIDsLookup, SHBE_PersonID);
+                            key = SHBE_Collections.getKeyOfSetValue(ClaimIDToNonDependentPersonIDsLookup, personID);
                             if (key != null) {
                                 otherClaimID = (SHBE_ID) key;
                                 HashSet<SHBE_ID> set;
-                                set = NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(SHBE_PersonID);
+                                set = NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(personID);
                                 if (set == null) {
                                     set = new HashSet<>();
-                                    NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(SHBE_PersonID, set);
+                                    NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(personID, set);
                                 }
-                                set.add(ClaimID);
+                                set.add(claimID);
                                 set.add(otherClaimID);
-                                ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(ClaimID);
+                                ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(claimID);
                                 ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(otherClaimID);
 //                                if (!(NINO.trim().equalsIgnoreCase("") || NINO.startsWith("XX999"))) {
 //                                    Env.log("!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -2603,18 +2600,18 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                              * add to
                              * NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.
                              */
-                            if (ClaimIDToClaimantPersonIDLookup.containsValue(SHBE_PersonID)) {
+                            if (ClaimIDToClaimantPersonIDLookup.containsValue(personID)) {
                                 if (key != null) {
                                     otherClaimID = (SHBE_ID) key;
                                     HashSet<SHBE_ID> set;
-                                    set = NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(SHBE_PersonID);
+                                    set = NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(personID);
                                     if (set == null) {
                                         set = new HashSet<>();
-                                        NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(SHBE_PersonID, set);
+                                        NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(personID, set);
                                     }
-                                    set.add(ClaimID);
+                                    set.add(claimID);
                                     set.add(otherClaimID);
-                                    ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(ClaimID);
+                                    ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(claimID);
                                     ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(otherClaimID);
 //                                    if (!(NINO.trim().equalsIgnoreCase("") || NINO.startsWith("XX999"))) {
 //                                        Env.log("!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -2630,18 +2627,18 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                              * to
                              * NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup;
                              */
-                            if (ClaimIDToPartnerPersonIDLookup.containsValue(SHBE_PersonID)) {
+                            if (ClaimIDToPartnerPersonIDLookup.containsValue(personID)) {
                                 if (key != null) {
                                     otherClaimID = (SHBE_ID) key;
                                     HashSet<SHBE_ID> set;
-                                    set = NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(SHBE_PersonID);
+                                    set = NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(personID);
                                     if (set == null) {
                                         set = new HashSet<>();
-                                        NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(SHBE_PersonID, set);
+                                        NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(personID, set);
                                     }
-                                    set.add(ClaimID);
+                                    set.add(claimID);
                                     set.add(otherClaimID);
-                                    ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(ClaimID);
+                                    ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(claimID);
                                     ClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(otherClaimID);
 //                                    if (!(NINO.trim().equalsIgnoreCase("") || NINO.startsWith("XX999"))) {
 //                                        Env.log("!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -2654,17 +2651,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                             }
                         }
                         //HashSet<SHBE_PersonID> s;
-                        s = ClaimIDToNonDependentPersonIDsLookup.get(ClaimID);
+                        s = ClaimIDToNonDependentPersonIDsLookup.get(claimID);
                         if (s == null) {
                             s = new HashSet<>();
-                            ClaimIDToNonDependentPersonIDsLookup.put(ClaimID, s);
+                            ClaimIDToNonDependentPersonIDsLookup.put(claimID, s);
                         }
-                        s.add(SHBE_PersonID);
-                        NonDependentPersonIDs.add(SHBE_PersonID);
-                        AllNonDependentPersonIDs.add(SHBE_PersonID);
-                        addToPersonIDToClaimRefsLookup(
-                                ClaimID,
-                                SHBE_PersonID,
+                        s.add(personID);
+                        NonDependentPersonIDs.add(personID);
+                        AllNonDependentPersonIDs.add(personID);
+                        addToPersonIDToClaimRefsLookup(claimID, personID,
                                 PersonIDToClaimRefsLookup);
                         break;
                     default:
@@ -2673,7 +2668,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 }
             }
             SHBE_Record.SRecords = SRecordsForClaim;
-            ClaimIDAndCountOfRecordsWithSRecords.put(ClaimID, SRecordsForClaim.size());
+            ClaimIDAndCountOfRecordsWithSRecords.put(claimID, SRecordsForClaim.size());
         }
         /**
          * Remove all assigned SRecords from SRecordsWithoutDRecords.
@@ -2813,7 +2808,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -2856,7 +2851,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -2899,7 +2894,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -2942,7 +2937,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -2986,7 +2981,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3031,7 +3026,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3076,7 +3071,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3121,7 +3116,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3166,7 +3161,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3211,7 +3206,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3255,7 +3250,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3299,7 +3294,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3342,7 +3337,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3382,7 +3377,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3425,7 +3420,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3467,7 +3462,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3508,7 +3503,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3550,7 +3545,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3593,7 +3588,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3636,7 +3631,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3679,7 +3674,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3714,7 +3709,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     protected final File getFile() {
         if (File == null) {
-            File = getFile("SHBE_Records" + strings.sBinaryFileExtension);
+            File = getFile("Records" + strings.sBinaryFileExtension);
         }
         return File;
     }
@@ -3844,7 +3839,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3881,7 +3876,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();
@@ -3918,7 +3913,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
-                if (!Env.handler.clearSomeCacheExcept(YM3)) {
+                if (!Env.handler.clearSomeExcept(YM3)) {
                     throw e;
                 }
                 Env.initMemoryReserve();

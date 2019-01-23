@@ -116,30 +116,38 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
                 getClaimRefToCorrectedPostcodes().put(ClaimRef, CorrectedPostcodes);
             }
         }
-        System.out.println("UnmappableToMappablePostcode.size() " + UnmappableToMappablePostcodes.size());
-
-        System.out.println("UnmappableToMappablePostcode");
+        Env.ge.log("UnmappableToMappablePostcode.size() " 
+                + UnmappableToMappablePostcodes.size(), logID, true);
+        String m;
+        m = "UnmappableToMappablePostcode";
+        Env.ge.log("<" + m + ">", logID, false);
+        Env.ge.log("Unmappable,Mappable", logID, false);
         ite = UnmappableToMappablePostcodes.keySet().iterator();
         while (ite.hasNext()) {
             OriginalPostcodeF = ite.next();
-            System.out.print(OriginalPostcodeF);
-            HashSet<String> CorrectedPostcodes = getUnmappableToMappablePostcodes().get(OriginalPostcodeF);
+            s = OriginalPostcodeF;
+            HashSet<String> CorrectedPostcodes;
+            CorrectedPostcodes = getUnmappableToMappablePostcodes().get(
+                    OriginalPostcodeF);
             Iterator<String> ite2;
             ite2 = CorrectedPostcodes.iterator();
             while (ite2.hasNext()) {
                 CorrectedPostcodeF = ite2.next();
-                //System.out.print(", " + CorrectedPostcodeF);
+                s += "," + CorrectedPostcodeF;
             }
-            System.out.println();
+            Env.ge.log(s, logID, false);
         }
-        //System.out.println();
+        Env.ge.log("</" + m + ">", logID, false);
 
-        System.out.println("PostcodesCheckedAsMappable");
+        m = "PostcodesCheckedAsMappable";
+        Env.ge.log("<" + m + ">", logID, false);
+        Env.ge.log("Mappable", logID, false);
         ite = getPostcodesCheckedAsMappable().iterator();
         while (ite.hasNext()) {
             OriginalPostcodeF = ite.next();
-            //System.out.println(OriginalPostcodeF);
+            Env.ge.log(OriginalPostcodeF, logID, false);
         }
+        Env.ge.log("</" + m + ">", logID, false);
 
         File dirout;
         dirout = files.getGeneratedLCCDir();

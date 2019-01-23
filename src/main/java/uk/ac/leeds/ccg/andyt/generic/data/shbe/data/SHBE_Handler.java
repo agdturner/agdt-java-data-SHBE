@@ -1032,8 +1032,8 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @return The number of SHBE_Records cleared.
      */
-    public int clearAllCache() {
-        String methodName = "clearAllCache";
+    public int clearAll() {
+        String methodName = "clearAll";
         Env.ge.log("<" + methodName + ">", true);
         int result = 0;
         Iterator<ONSPD_YM3> ite;
@@ -1060,7 +1060,7 @@ public class SHBE_Handler extends SHBE_Object {
      * from fast access memory.
      * @return The number of SHBE_Records cleared.
      */
-    public int clearAllCacheExcept(ONSPD_YM3 YM3) {
+    public int clearAllExcept(ONSPD_YM3 YM3) {
         int result = 0;
         Iterator<ONSPD_YM3> ite;
         ite = Data.keySet().iterator();
@@ -1084,7 +1084,7 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @return true iff some SHBE_Records were cleared and false otherwise.
      */
-    public boolean clearSomeCache() {
+    public boolean clearSome() {
         Iterator<ONSPD_YM3> ite;
         ite = Data.keySet().iterator();
         ONSPD_YM3 YM3;
@@ -1107,7 +1107,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param YM3
      * @return true iff some SHBE_Records were cleared and false otherwise.
      */
-    public boolean clearSomeCacheExcept(ONSPD_YM3 YM3) {
+    public boolean clearSomeExcept(ONSPD_YM3 YM3) {
         Iterator<ONSPD_YM3> ite;
         ite = Data.keySet().iterator();
         ONSPD_YM3 aYM3;
@@ -1133,7 +1133,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @return true iff the data were cleared and false otherwise (when the data
      * is already cleared).
      */
-    public boolean clearCache(ONSPD_YM3 YM3) {
+    public boolean clear(ONSPD_YM3 YM3) {
         SHBE_Records recs;
         recs = Data.get(YM3);
         if (recs != null) {

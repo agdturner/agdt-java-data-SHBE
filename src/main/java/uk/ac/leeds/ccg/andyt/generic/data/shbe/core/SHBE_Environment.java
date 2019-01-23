@@ -76,17 +76,17 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     }
 
     @Override
-    public boolean swapDataAny(boolean handleOutOfMemoryError) {
+    public boolean swapDataAny(boolean hoome) {
         try {
-            boolean result = swapDataAny();
+            boolean r = swapDataAny();
             checkAndMaybeFreeMemory();
-            return result;
+            return r;
         } catch (OutOfMemoryError e) {
-            if (handleOutOfMemoryError) {
+            if (hoome) {
                 clearMemoryReserve();
-                boolean result = swapDataAny(HOOMEF);
+                boolean r = swapDataAny(HOOMEF);
                 initMemoryReserve();
-                return result;
+                return r;
             } else {
                 throw e;
             }
@@ -105,36 +105,47 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         if (r) {
             return r;
         } else {
-            System.out.println("No ONSPD data to clear. Do some coding to try "
-                    + "to arrange to clear something else if needs be. If the "
-                    + "program fails then try providing more memory...");
+            ge.log("No ONSPD data to clear. Do some coding to try to arrange "
+                    + "to clear something else if needs be. If the program "
+                    + "fails then try providing more memory...");
             return r;
         }
     }
 
     public boolean clearSomeData() {
-        return handler.clearSomeCache();
+        return handler.clearSome();
     }
 
+    /**
+     * Clears all 
+     * @return 
+     */
     public int clearAllData() {
         int r;
-        r = handler.clearAllCache();
+        r = handler.clearAll();
         return r;
     }
     
+    /**
+     * Attempts to write out {@link handler} to 
+     * {@link SHBE_Files#getDataFile()}.
+     */
     public void cacheData() {
         File f;
         f = files.getDataFile();
-        System.out.println("<cache>");
+        ge.log("<cache>", false);
         Generic_IO.writeObject(handler, f);
-        System.out.println("</cache>");
+        ge.log("</cache>", false);
     }
 
+    /**
+     * Attempts to load {@link handler} from a {@link SHBE_Files#getDataFile()}.
+     */
     public final void loadData() {
         File f;
         f = files.getDataFile();
-        System.out.println("<load>");
+        ge.log("<load>", false);
         handler = (SHBE_Handler) Generic_IO.readObject(f);
-        System.out.println("</load>");
+        ge.log("</load>", false);
     }
 }
