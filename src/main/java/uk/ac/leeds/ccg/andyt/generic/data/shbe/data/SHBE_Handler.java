@@ -818,8 +818,7 @@ public class SHBE_Handler extends SHBE_Object {
         if (CorrectedPostcodesFile == null) {
             String filename = "DW_CorrectedPostcodes"
                     + strings.sBinaryFileExtension;
-            CorrectedPostcodesFile = new File(
-                    files.getGeneratedLCCDir(),
+            CorrectedPostcodesFile = new File(files.getGeneratedLCCDir(),
                     filename);
         }
         return CorrectedPostcodesFile;
@@ -863,7 +862,8 @@ public class SHBE_Handler extends SHBE_Object {
         if (DOBToDOBIDLookupFile == null) {
             String filename = "DOBToDOBID_HashMap_String__SHBE_ID"
                     + strings.sBinaryFileExtension;
-            DOBToDOBIDLookupFile = new File(files.getGeneratedSHBEDir(), filename);
+            DOBToDOBIDLookupFile = new File(files.getGeneratedSHBEDir(),
+                    filename);
         }
         return DOBToDOBIDLookupFile;
     }
@@ -884,7 +884,8 @@ public class SHBE_Handler extends SHBE_Object {
         if (NINOIDToNINOLookupFile == null) {
             String filename = "NINOIDToNINO_HashMap_SHBE_ID__String"
                     + strings.sBinaryFileExtension;
-            NINOIDToNINOLookupFile = new File(files.getGeneratedSHBEDir(), filename);
+            NINOIDToNINOLookupFile = new File(files.getGeneratedSHBEDir(),
+                    filename);
         }
         return NINOIDToNINOLookupFile;
     }
@@ -925,8 +926,7 @@ public class SHBE_Handler extends SHBE_Object {
         if (PartnerPersonIDsFile == null) {
             String filename = "Partner_HashSet_SHBE_PersonID"
                     + strings.sBinaryFileExtension;
-            PartnerPersonIDsFile = new File(
-                    files.getGeneratedSHBEDir(),
+            PartnerPersonIDsFile = new File(files.getGeneratedSHBEDir(),
                     filename);
         }
         return PartnerPersonIDsFile;
@@ -936,8 +936,7 @@ public class SHBE_Handler extends SHBE_Object {
         if (NonDependentPersonIDsFile == null) {
             String filename = "NonDependent_HashSet_SHBE_PersonID"
                     + strings.sBinaryFileExtension;
-            NonDependentPersonIDsFile = new File(
-                    files.getGeneratedSHBEDir(),
+            NonDependentPersonIDsFile = new File(files.getGeneratedSHBEDir(),
                     filename);
         }
         return NonDependentPersonIDsFile;
@@ -945,10 +944,10 @@ public class SHBE_Handler extends SHBE_Object {
 
     public final File getPersonIDToClaimIDLookupFile() {
         if (PersonIDToClaimIDsLookupFile == null) {
-            String filename = "PersonIDToClaimIDsLookup_HashMap_SHBE_PersonID__HashSet_SHBE_ID"
+            String filename = "PersonIDToClaimIDsLookup_"
+                    + "HashMap_SHBE_PersonID__HashSet_SHBE_ID"
                     + strings.sBinaryFileExtension;
-            PersonIDToClaimIDsLookupFile = new File(
-                    files.getGeneratedSHBEDir(),
+            PersonIDToClaimIDsLookupFile = new File(files.getGeneratedSHBEDir(),
                     filename);
         }
         return PersonIDToClaimIDsLookupFile;
@@ -958,18 +957,18 @@ public class SHBE_Handler extends SHBE_Object {
      * If getData().get(YM3) != null then return it.Otherwise try to load it
      * from file and return it. Failing that return null.
      *
-     * @param YM3
+     * @param ym3
      * @param hoome
      * @return
      */
-    public SHBE_Records getRecords(ONSPD_YM3 YM3, boolean hoome) {
+    public SHBE_Records getRecords(ONSPD_YM3 ym3, boolean hoome) {
         try {
-            return getRecords(YM3);
+            return getRecords(ym3);
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 Env.clearMemoryReserve();
                 Env.clearAllData();
-                SHBE_Records r = getRecords(YM3, hoome);
+                SHBE_Records r = getRecords(ym3, hoome);
                 Env.initMemoryReserve();
                 return r;
             } else {
@@ -982,15 +981,15 @@ public class SHBE_Handler extends SHBE_Object {
      * If getData().get(YM3) != null then return it. Otherwise try to load it
      * from file and return it. Failing that return null.
      *
-     * @param YM3
+     * @param ym3
      * @return
      */
-    protected SHBE_Records getRecords(ONSPD_YM3 YM3) {
+    protected SHBE_Records getRecords(ONSPD_YM3 ym3) {
         SHBE_Records r;
-        r = getData().get(YM3);
+        r = getData().get(ym3);
         if (r == null) {
             File f;
-            f = getFile(YM3);
+            f = getFile(ym3);
             if (f.exists()) {
                 r = (SHBE_Records) Generic_IO.readObject(f);
                 r.Env = Env;
@@ -1012,18 +1011,18 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      *
-     * @param YM3
+     * @param ym3
      * @return
      */
-    protected File getFile(ONSPD_YM3 YM3) {
+    protected File getFile(ONSPD_YM3 ym3) {
         File r;
         File dir;
-        dir = getDir(YM3);
+        dir = getDir(ym3);
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        //r = new File(dir, strings.sRecords + strings.sBinaryFileExtension);
-        r = new File(dir, strings.sSHBE + "_" + strings.sRecords + strings.sBinaryFileExtension);
+        r = new File(dir, strings.sRecords + strings.sBinaryFileExtension);
+        //r = new File(dir, strings.sSHBE + "_" + strings.sRecords + strings.sBinaryFileExtension);
         return r;
     }
 
@@ -1034,8 +1033,8 @@ public class SHBE_Handler extends SHBE_Object {
      */
     public int clearAll() {
         String methodName = "clearAll";
-        Env.ge.log("<" + methodName + ">", true);
-        int result = 0;
+        Env.ge.log("<" + methodName + ">");
+        int r = 0;
         Iterator<ONSPD_YM3> ite;
         ite = Data.keySet().iterator();
         ONSPD_YM3 YM3;
@@ -1045,38 +1044,35 @@ public class SHBE_Handler extends SHBE_Object {
             recs = Data.get(YM3);
             if (recs != null) {
                 recs = null;
-                result++;
+                r++;
             }
         }
-        Env.ge.log("</" + methodName + ">", true);
-        return result;
+        Env.ge.log("</" + methodName + ">");
+        return r;
     }
 
     /**
      * Clears all SHBE_Records in Data from fast access memory with the
      * exception of that for YM3.
      *
-     * @param YM3 The Year_Month key of for the SHBE_Records not to be cleared
-     * from fast access memory.
+     * @param ym3 The Year_Month key of the SHBE_Records not to be cleared from
+     * fast access memory.
      * @return The number of SHBE_Records cleared.
      */
-    public int clearAllExcept(ONSPD_YM3 YM3) {
-        int result = 0;
-        Iterator<ONSPD_YM3> ite;
-        ite = Data.keySet().iterator();
-        ONSPD_YM3 aYM3;
-        SHBE_Records recs;
+    public int clearAllExcept(ONSPD_YM3 ym3) {
+        int r = 0;
+        Iterator<ONSPD_YM3> ite = Data.keySet().iterator();
         while (ite.hasNext()) {
-            aYM3 = ite.next();
-            if (!aYM3.equals(YM3)) {
-                recs = Data.get(YM3);
+            ONSPD_YM3 y = ite.next();
+            if (!y.equals(ym3)) {
+                SHBE_Records recs = Data.get(ym3);
                 if (recs != null) {
                     recs = null;
-                    result++;
+                    r++;
                 }
             }
         }
-        return result;
+        return r;
     }
 
     /**
@@ -1085,13 +1081,10 @@ public class SHBE_Handler extends SHBE_Object {
      * @return true iff some SHBE_Records were cleared and false otherwise.
      */
     public boolean clearSome() {
-        Iterator<ONSPD_YM3> ite;
-        ite = Data.keySet().iterator();
-        ONSPD_YM3 YM3;
-        SHBE_Records recs;
+        Iterator<ONSPD_YM3> ite = Data.keySet().iterator();
         while (ite.hasNext()) {
-            YM3 = ite.next();
-            recs = Data.get(YM3);
+            ONSPD_YM3 y = ite.next();
+            SHBE_Records recs = Data.get(y);
             if (recs != null) {
                 recs = null;
                 return true;
@@ -1104,18 +1097,15 @@ public class SHBE_Handler extends SHBE_Object {
      * Clears some SHBE_Records in Data from fast access memory except the
      * SHBE_Records in Data indexed by YM3.
      *
-     * @param YM3
+     * @param ym3
      * @return true iff some SHBE_Records were cleared and false otherwise.
      */
-    public boolean clearSomeExcept(ONSPD_YM3 YM3) {
-        Iterator<ONSPD_YM3> ite;
-        ite = Data.keySet().iterator();
-        ONSPD_YM3 aYM3;
-        SHBE_Records recs;
+    public boolean clearSomeExcept(ONSPD_YM3 ym3) {
+        Iterator<ONSPD_YM3> ite = Data.keySet().iterator();
         while (ite.hasNext()) {
-            aYM3 = ite.next();
-            if (!YM3.equals(aYM3)) {
-                recs = Data.get(YM3);
+            ONSPD_YM3 y = ite.next();
+            if (!ym3.equals(y)) {
+                SHBE_Records recs = Data.get(ym3);
                 if (recs != null) {
                     recs = null;
                     return true;
@@ -1128,14 +1118,13 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * Clears SHBE_Records for YM3 in Data from fast access memory.
      *
-     * @param YM3 The Year_Month key for accessing the SHBE_Records to be
+     * @param ym3 The Year_Month key for accessing the SHBE_Records to be
      * cleared from fast access memory.
      * @return true iff the data were cleared and false otherwise (when the data
      * is already cleared).
      */
-    public boolean clear(ONSPD_YM3 YM3) {
-        SHBE_Records recs;
-        recs = Data.get(YM3);
+    public boolean clear(ONSPD_YM3 ym3) {
+        SHBE_Records recs = Data.get(ym3);
         if (recs != null) {
             recs = null;
             return true;
@@ -1180,51 +1169,45 @@ public class SHBE_Handler extends SHBE_Object {
         File dir;
         dir = Env.files.getInputSHBEDir();
         // Ascertain which files are new and need loading
-        // Get all filenames
-        String[] SHBEFilenames;
-        SHBEFilenames = getSHBEFilenamesAll();
-        ArrayList<String> newFilesToRead;
-        newFilesToRead = new ArrayList<>();
-        File[] FormattedSHBEFiles;
-        FormattedSHBEFiles = files.getGeneratedSHBEDir().listFiles();
-        HashSet<ONSPD_YM3> FormattedYM3s;
-        FormattedYM3s = new HashSet<>();
-        for (File FormattedSHBEFile : FormattedSHBEFiles) {
-            if (FormattedSHBEFile.isDirectory()) {
-                FormattedYM3s.add(new ONSPD_YM3(FormattedSHBEFile.getName()));
+        String[] SHBEFilenames = getSHBEFilenamesAll();
+        ArrayList<String> newFilesToRead = new ArrayList<>();
+        // Formatted/loaded SHBE files.
+        File[] ff = files.getGeneratedSHBEDir().listFiles();
+        // Formatted Year Month
+        HashSet<ONSPD_YM3> fym3s = new HashSet<>();
+        for (File f : ff) {
+            if (f.isDirectory()) {
+                fym3s.add(new ONSPD_YM3(f.getName()));
             }
         }
-        ONSPD_YM3 YM3;
+        ONSPD_YM3 ym3;
         for (String SHBEFilename : SHBEFilenames) {
-            YM3 = getYM3(SHBEFilename);
-            if (!FormattedYM3s.contains(YM3)) {
+            ym3 = getYM3(SHBEFilename);
+            if (!fym3s.contains(ym3)) {
                 newFilesToRead.add(SHBEFilename);
             }
         }
-        ONSPD_YM3 LastYM3;
-        LastYM3 = getYM3(SHBEFilenames[SHBEFilenames.length - 1]);
-        ONSPD_YM3 nYM3;
-        nYM3 = ONSPD_Handler.getNearestYM3ForONSPDLookup(LastYM3);
+        ONSPD_YM3 ym30 = getYM3(SHBEFilenames[SHBEFilenames.length - 1]);
+        ONSPD_YM3 nYM3 = ONSPD_Handler.getNearestYM3ForONSPDLookup(ym30);
         if (newFilesToRead.size() > 0) {
-            Iterator<String> ite;
-            ite = newFilesToRead.iterator();
+            Iterator<String> ite = newFilesToRead.iterator();
             while (ite.hasNext()) {
                 String SHBEFilename = ite.next();
-                SHBE_Records SHBE_Records;
-                SHBE_Records = new SHBE_Records(Env, logID, dir, SHBEFilename, nYM3);
-                Generic_IO.writeObject(SHBE_Records, SHBE_Records.getFile());
+                SHBE_Records recs;
+                recs = new SHBE_Records(Env, logID, dir, SHBEFilename, nYM3);
+                Generic_IO.writeObject(recs, recs.getFile());
             }
             writeLookups();
         }
         // Make a backup copy
-        File SHBEbackup;
-        SHBEbackup = new File(files.getGeneratedLCCDir(), "SHBEBackup");
-        if (SHBEbackup.isDirectory()) {
-            SHBEbackup = Generic_IO.addToArchive(SHBEbackup, 100);
+        File f;
+        f = new File(files.getGeneratedLCCDir(), "SHBEBackup");
+        if (f.isDirectory()) {
+            f = Generic_IO.addToArchive(f, 100);
         } else {
-            SHBEbackup = Generic_IO.initialiseArchive(SHBEbackup, 100);
+            f = Generic_IO.initialiseArchive(f, 100);
         }
-        Generic_IO.copy(files.getGeneratedSHBEDir(), SHBEbackup);
+        Generic_IO.copy(files.getGeneratedSHBEDir(), f);
     }
 
     /**
@@ -1242,9 +1225,7 @@ public class SHBE_Handler extends SHBE_Object {
         String SHBEFilename1;
 
         boolean modifiedAnyRecs;
-        File FutureModifiedPostcodesFile;
         String h;
-        File f;
 
         // Initialisation
         PostcodeToPostcodeIDLookup = getPostcodeToPostcodeIDLookup();
@@ -1260,37 +1241,31 @@ public class SHBE_Handler extends SHBE_Object {
         ONSPD_YM3 YM31;
         YM31 = getYM3(SHBEFilename1);
         System.out.println("YM31 " + YM31);
-        ONSPD_YM3 NearestYM3ForONSPDLookupYM31;
-        NearestYM3ForONSPDLookupYM31 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM31);
-        System.out.println("NearestYM3ForONSPDLookupYM31 " + NearestYM3ForONSPDLookupYM31);
-        SHBE_Records SHBE_Records1;
-        SHBE_Records1 = new SHBE_Records(Env, logID, YM31);
+        // Nearest YM3 For ONSPD Lookup YM31
+        ONSPD_YM3 nyfoly1 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM31);
+        System.out.println("NearestYM3ForONSPDLookupYM31 " + nyfoly1);
+        SHBE_Records s1 = new SHBE_Records(Env, logID, YM31);
         HashMap<SHBE_ID, SHBE_Record> recs1;
-        recs1 = SHBE_Records1.getRecords(hoome);
+        recs1 = s1.getRecords(hoome);
         SHBE_Record rec1;
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup1;
-        PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM31);
-
-        HashSet<String> UniqueUnmappablePostcodes;
-        UniqueUnmappablePostcodes = new HashSet<>();
-        HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable;
-        ClaimantPostcodesUnmappable = SHBE_Records1.getClaimantPostcodesUnmappable();
+        PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(nyfoly1);
+        // Unique Unmappable Postcodes
+        HashSet<String> uup = new HashSet<>();
+        // Claimant Postcodes Unmappable
+        HashMap<SHBE_ID, String> cpu = s1.getClaimantPostcodesUnmappable();
         SHBE_ID claimID;
         Iterator<SHBE_ID> ite;
         String claimRef;
-        ite = ClaimantPostcodesUnmappable.keySet().iterator();
+        ite = cpu.keySet().iterator();
         while (ite.hasNext()) {
             claimID = ite.next();
             claimRef = ClaimIDToClaimRefLookup.get(claimID);
-            UniqueUnmappablePostcodes.add(claimRef + "," + ClaimantPostcodesUnmappable.get(claimID));
+            uup.add(claimRef + "," + cpu.get(claimID));
         }
-
-        HashSet<String> UniqueModifiedPostcodes;
-        UniqueModifiedPostcodes = new HashSet<>();
-        // <writeOutModifiedPostcodes>
-        writeOutModifiedPostcodes(UniqueModifiedPostcodes, YMN, SHBE_Records1,
-                ClaimIDToClaimRefLookup, hoome);
-        // </writeOutModifiedPostcodes>
+        // Unique Modified Postcodes
+        HashSet<String> ump = new HashSet<>();
+        writeOutModifiedPostcodes(ump, YMN, s1,                hoome);
 
         /**
          * Set up log to write out some basic details of Claims with Claimant
@@ -1303,9 +1278,11 @@ public class SHBE_Handler extends SHBE_Object {
         int ref2 = 1;
 
         ONSPD_YM3 YM30;
-        ONSPD_YM3 NearestYM3ForONSPDLookupYM30;
-        HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable0;
-        SHBE_Records SHBE_Records0;
+        // Nearest YM3 For ONSPD Lookup YM30
+        ONSPD_YM3 nyfolYM30;
+        // Claimant Postcodes Unmappable 0
+        HashMap<SHBE_ID, String> cpu0;
+        SHBE_Records s0;
         HashMap<SHBE_ID, SHBE_Record> recs0;
         SHBE_Record rec0;
         String postcode0;
@@ -1328,23 +1305,19 @@ public class SHBE_Handler extends SHBE_Object {
         h = "ClaimRef,Original Claimant Postcode,Updated from the "
                 + "Future Claimant Postcode";
         Env.ge.log(h, logID2);
-        NearestYM3ForONSPDLookupYM30 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM30);
-        Env.ge.log("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
-        SHBE_Records0 = new SHBE_Records(Env, logID, YM30);
-        recs0 = SHBE_Records0.getRecords(hoome);
-        // <writeOutModifiedPostcodes>
-        writeOutModifiedPostcodes(UniqueModifiedPostcodes, YMN,
-                SHBE_Records0, ClaimIDToClaimRefLookup, hoome);
-        // </writeOutModifiedPostcodes>
-        PostcodeIDToPointLookup0 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM30);
-        // Get previously unmappable postcodes
-        ClaimantPostcodesUnmappable0 = SHBE_Records0.getClaimantPostcodesUnmappable(hoome);
+        nyfolYM30 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM30);
+        Env.ge.log("NearestYM3ForONSPDLookupYM30 " + nyfolYM30);
+        s0 = new SHBE_Records(Env, logID, YM30);
+        recs0 = s0.getRecords(hoome);
+        writeOutModifiedPostcodes(ump, YMN,                s0, hoome);
+        PostcodeIDToPointLookup0 = PostcodeIDPointLookups.get(nyfolYM30);
+        cpu0 = s0.getClaimantPostcodesUnmappable(hoome);
         boolean modifiedRecs = false;
-        ite = ClaimantPostcodesUnmappable0.keySet().iterator();
+        ite = cpu0.keySet().iterator();
         HashSet<SHBE_ID> ClaimantPostcodesUnmappable0Remove = new HashSet<>();
         while (ite.hasNext()) {
             claimID = ite.next();
-            unmappablePostcodef0 = ClaimantPostcodesUnmappable0.get(claimID);
+            unmappablePostcodef0 = cpu0.get(claimID);
             claimRef = ClaimIDToClaimRefLookup.get(claimID);
             System.out.println(claimRef);
             rec1 = recs1.get(claimID);
@@ -1364,11 +1337,11 @@ public class SHBE_Handler extends SHBE_Object {
                         rec0.ClaimPostcodeFMappable = true;
                         rec0.ClaimPostcodeFValidPostcodeFormat = true;
                         if (ClaimIDToPostcodeIDLookup0 == null) {
-                            ClaimIDToPostcodeIDLookup0 = SHBE_Records0.getClaimIDToPostcodeIDLookup();
+                            ClaimIDToPostcodeIDLookup0 = s0.getClaimIDToPostcodeIDLookup();
                         }
                         ClaimIDToPostcodeIDLookup0.put(claimID, PostcodeToPostcodeIDLookup.get(postcodef1));
                         if (ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 == null) {
-                            ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
+                            ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = s0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
                         }
                         ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0.add(claimID);
                         ONSPD_ID postcodeID;
@@ -1392,7 +1365,7 @@ public class SHBE_Handler extends SHBE_Object {
 //                            postcodef1 = rec1.getClaimPostcodeF();
 //                        }
                     postcode1 = rec1.getDRecord().getClaimantsPostcode();
-                    UniqueUnmappablePostcodes.add(claimRef + "," + postcode1 + ",,");
+                    uup.add(claimRef + "," + postcode1 + ",,");
                     Env.ge.log("" + ref2 + "," + YM31 + "," + claimRef + ","
                             + postcode1 + ",,", logIDUP);
                     ref2++;
@@ -1408,27 +1381,27 @@ public class SHBE_Handler extends SHBE_Object {
         ite = ClaimantPostcodesUnmappable0Remove.iterator();
         while (ite.hasNext()) {
             claimID = ite.next();
-            ClaimantPostcodesUnmappable0.remove(claimID);
+            cpu0.remove(claimID);
         }
         if (modifiedRecs == true) {
             // Write out recs0
-            Generic_IO.writeObject(ClaimantPostcodesUnmappable0,
-                    SHBE_Records0.getClaimantPostcodesUnmappableFile());
+            Generic_IO.writeObject(cpu0,
+                    s0.getClaimantPostcodesUnmappableFile());
             Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0,
-                    SHBE_Records0.getClaimIDToPostcodeIDLookupFile());
-            Generic_IO.writeObject(recs0, SHBE_Records0.getRecordsFile());
+                    s0.getClaimIDToPostcodeIDLookupFile());
+            Generic_IO.writeObject(recs0, s0.getRecordsFile());
             Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
-                    SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
+                    s0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
         }
         Env.ge.closeLog(logIDUP);
 
         // Write out UniqueUnmappablePostcodes
         h = "ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,"
                 + "Input To Academy (Y/N)";
-        writeLog("UniqueUnmappablePostcodes", ".csv", h, UniqueUnmappablePostcodes);
+        writeLog("UniqueUnmappablePostcodes", ".csv", h, uup);
 
         // Write out UniqueModifiedPostcodes
-        writeLog("UniqueModifiedPostcodes", ".csv", h, UniqueModifiedPostcodes);
+        writeLog("UniqueModifiedPostcodes", ".csv", h, ump);
 
         // Write out PostcodeIDPointLookups
         if (modifiedAnyRecs == true) {
@@ -1465,7 +1438,8 @@ public class SHBE_Handler extends SHBE_Object {
         String SHBEFilename1;
         String YMN;
         ONSPD_YM3 YM31;
-        ONSPD_YM3 NearestYM3ForONSPDLookupYM31;
+        // Nearest YM3 For ONSPD Lookup YM31
+        ONSPD_YM3 nyol;
         SHBE_Records SHBE_Records1;
         HashMap<SHBE_ID, SHBE_Record> recs1;
         SHBE_Record rec1;
@@ -1474,9 +1448,9 @@ public class SHBE_Handler extends SHBE_Object {
         HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable;
         SHBE_ID claimID;
         Iterator<SHBE_ID> ite;
-        String ClaimRef;
-        HashSet<String> UniqueModifiedPostcodes;
-        File f;
+        String claimRef;
+        // UniqueModifiedPostcodes
+        HashSet<String> ump;
         String h;
         boolean modifiedAnyRecs;
 
@@ -1489,23 +1463,23 @@ public class SHBE_Handler extends SHBE_Object {
         YMN = getYearMonthNumber(SHBEFilename1);
         YM31 = getYM3(SHBEFilename1);
 //        System.out.println("YM31 " + YM31);
-        NearestYM3ForONSPDLookupYM31 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM31);
+        nyol = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM31);
 //        System.out.println("NearestYM3ForONSPDLookupYM31 "
 //                + NearestYM3ForONSPDLookupYM31);
         SHBE_Records1 = new SHBE_Records(Env, logID, YM31);
         recs1 = SHBE_Records1.getRecords(hoome);
-        PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM31);
+        PostcodeIDToPointLookup1 = PostcodeIDPointLookups.get(nyol);
         UniqueUnmappablePostcodes = new HashSet<>();
         ClaimantPostcodesUnmappable = SHBE_Records1.getClaimantPostcodesUnmappable();
-        UniqueModifiedPostcodes = new HashSet<>();
+        ump = new HashSet<>();
         modifiedAnyRecs = false;
 
         // Add to UniqueUnmappablePostcodes
         ite = ClaimantPostcodesUnmappable.keySet().iterator();
         while (ite.hasNext()) {
             claimID = ite.next();
-            ClaimRef = ClaimIDToClaimRefLookup.get(claimID);
-            UniqueUnmappablePostcodes.add(ClaimRef + ","
+            claimRef = ClaimIDToClaimRefLookup.get(claimID);
+            UniqueUnmappablePostcodes.add(claimRef + ","
                     + ClaimantPostcodesUnmappable.get(claimID));
         }
 
@@ -1545,8 +1519,8 @@ public class SHBE_Handler extends SHBE_Object {
             SHBE_Records0 = new SHBE_Records(Env, YM30);
             recs0 = SHBE_Records0.getRecords(hoome);
             // <writeOutModifiedPostcodes>
-            writeOutModifiedPostcodes(UniqueModifiedPostcodes, YMN,
-                    SHBE_Records0, ClaimIDToClaimRefLookup, hoome);
+            writeOutModifiedPostcodes(ump, YMN,
+                    SHBE_Records0, hoome);
             // </writeOutModifiedPostcodes>
             PostcodeIDToPointLookup0 = PostcodeIDPointLookups.get(NearestYM3ForONSPDLookupYM30);
             // Get previously unmappable postcodes
@@ -1557,7 +1531,7 @@ public class SHBE_Handler extends SHBE_Object {
             while (ite.hasNext()) {
                 claimID = ite.next();
                 unmappablePostcodef0 = ClaimantPostcodesUnmappable0.get(claimID);
-                ClaimRef = ClaimIDToClaimRefLookup.get(claimID);
+                claimRef = ClaimIDToClaimRefLookup.get(claimID);
                 //System.out.println(ClaimRef);
                 rec1 = recs1.get(claimID);
                 rec0 = recs0.get(claimID);
@@ -1592,7 +1566,7 @@ public class SHBE_Handler extends SHBE_Object {
                             modifiedAnyRecs = true;
                             postcode1 = postcodef1.replaceAll(" ", "");
                             postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
-                            Env.ge.log(ClaimRef + "," + postcode0 + "," + postcode1, logID2);
+                            Env.ge.log(claimRef + "," + postcode0 + "," + postcode1, logID2);
                             ClaimantPostcodesUnmappable0Remove.add(claimID);
                         }
                     } else {
@@ -1604,8 +1578,8 @@ public class SHBE_Handler extends SHBE_Object {
 //                            postcodef1 = rec1.getClaimPostcodeF();
 //                        }
                         postcode1 = rec1.getDRecord().getClaimantsPostcode();
-                        UniqueUnmappablePostcodes.add(ClaimRef + "," + postcode1 + ",,");
-                        Env.ge.log("" + ref2 + "," + YM31 + "," + ClaimRef
+                        UniqueUnmappablePostcodes.add(claimRef + "," + postcode1 + ",,");
+                        Env.ge.log("" + ref2 + "," + YM31 + "," + claimRef
                                 + "," + postcode1 + ",,", logID2);
                         ref2++;
 //                        System.out.println("postcodef1 " + postcodef1 + " is not mappable.");
@@ -1643,7 +1617,7 @@ public class SHBE_Handler extends SHBE_Object {
             writeLog("UniqueUnmappablePostcodes", ".csv", h, UniqueUnmappablePostcodes);
 
             // Write out UniqueModifiedPostcodes
-            writeLog("UniqueModifiedPostcodes", ".csv", h, UniqueModifiedPostcodes);
+            writeLog("UniqueModifiedPostcodes", ".csv", h, ump);
 
             // Write out PostcodeIDPointLookups
             if (modifiedAnyRecs == true) {
@@ -1662,24 +1636,20 @@ public class SHBE_Handler extends SHBE_Object {
      * removing an additional "0" in the first part of the postcode for example
      * where "LS06" should be "LS6".
      *
-     * @param UniqueModifiedPostcodes
-     * @param YMN
+     * @param ump Unique Modified Postcodes.
+     * @param ymn YearMonthNumber.
      * @param records
-     * @param ClaimIDToClaimRefLookup
      * @param hoome
      */
-    protected void writeOutModifiedPostcodes(
-            HashSet<String> UniqueModifiedPostcodes, String YMN,
-            SHBE_Records records,
-            HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup,
-            boolean hoome) {
+    protected void writeOutModifiedPostcodes(HashSet<String> ump, String ymn,
+            SHBE_Records records, boolean hoome) {
         int ref;
         HashMap<SHBE_ID, String[]> ClaimantPostcodesModified;
         Iterator<SHBE_ID> ite;
         SHBE_ID SHBE_ID;
         String[] postcodes;
         String claimRef;
-        int logID2 = Env.ge.initLog("ModifiedPostcodes" + YMN, ".csv");
+        int logID2 = Env.ge.initLog("ModifiedPostcodes" + ymn, ".csv");
         String s;
         s = "Ref,ClaimRef,Recorded Postcode,Modified Postcode,Input To Academy (Y/N)";
         Env.ge.log(s);
@@ -1692,7 +1662,7 @@ public class SHBE_Handler extends SHBE_Object {
             claimRef = ClaimIDToClaimRefLookup.get(SHBE_ID);
             s = claimRef + "," + postcodes[0] + "," + postcodes[1] + ",";
             Env.ge.log("" + ref + "," + s);
-            UniqueModifiedPostcodes.add(s);
+            ump.add(s);
             ref++;
         }
         Env.ge.closeLog(logID2);
@@ -3636,9 +3606,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param D_Record
      * @return
      */
-    public String getClaimantsAge(
-            String yM3,
-            SHBE_D_Record D_Record) {
+    public String getClaimantsAge(String yM3, SHBE_D_Record D_Record) {
         String result;
         String[] syM3;
         syM3 = yM3.split(strings.symbol_underscore);
@@ -3653,9 +3621,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param D_Record
      * @return
      */
-    public String getClaimantsAge(
-            String year,
-            String month,
+    public String getClaimantsAge(String year, String month,
             SHBE_D_Record D_Record) {
         String result;
         String DoB = D_Record.getClaimantsDateOfBirth();
@@ -3670,9 +3636,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param D_Record
      * @return
      */
-    public String getPartnersAge(
-            String year,
-            String month,
+    public String getPartnersAge(String year, String month,
             SHBE_D_Record D_Record) {
         String result;
         String DoB = D_Record.getPartnersDateOfBirth();
@@ -3693,15 +3657,10 @@ public class SHBE_Handler extends SHBE_Object {
         String result;
         String[] sDoB = DoB.split("/");
         Generic_Time tDoB;
-        tDoB = new Generic_Time(
-                Integer.valueOf(sDoB[0]),
-                Integer.valueOf(sDoB[1]),
-                Integer.valueOf(sDoB[2]));
+        tDoB = new Generic_Time(Integer.valueOf(sDoB[0]),
+                Integer.valueOf(sDoB[1]), Integer.valueOf(sDoB[2]));
         Generic_Time tNow;
-        tNow = new Generic_Time(
-                0,
-                Integer.valueOf(month),
-                Integer.valueOf(year));
+        tNow = new Generic_Time(0, Integer.valueOf(month), Integer.valueOf(year));
         result = Integer.toString(Generic_Time.getAgeInYears(tNow, tDoB));
         return result;
     }
@@ -3829,32 +3788,32 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      *
-     * @param D_Record
+     * @param d
      * @return
      */
-    public SHBE_PersonID getClaimantPersonID(SHBE_D_Record D_Record) {
+    public SHBE_PersonID getClaimantPersonID(SHBE_D_Record d) {
         SHBE_PersonID result;
         SHBE_ID NINO_ID;
-        NINO_ID = NINOToNINOIDLookup.get(D_Record.getClaimantsNationalInsuranceNumber());
+        NINO_ID = getNINOToNINOIDLookup().get(d.getClaimantsNationalInsuranceNumber());
         SHBE_ID DOB_ID;
-        DOB_ID = DOBToDOBIDLookup.get(D_Record.getClaimantsDateOfBirth());
+        DOB_ID = getDOBToDOBIDLookup().get(d.getClaimantsDateOfBirth());
         result = new SHBE_PersonID(NINO_ID, DOB_ID);
         return result;
     }
 
     /**
      *
-     * @param D_Record
+     * @param d
      * @return
      */
-    public SHBE_PersonID getPartnerPersonID(SHBE_D_Record D_Record) {
-        SHBE_PersonID result;
+    public SHBE_PersonID getPartnerPersonID(SHBE_D_Record d) {
+        SHBE_PersonID r;
         SHBE_ID NINO_ID;
-        NINO_ID = NINOToNINOIDLookup.get(D_Record.getPartnersNationalInsuranceNumber());
+        NINO_ID = getNINOToNINOIDLookup().get(d.getPartnersNationalInsuranceNumber());
         SHBE_ID DOB_ID;
-        DOB_ID = DOBToDOBIDLookup.get(D_Record.getPartnersDateOfBirth());
-        result = new SHBE_PersonID(NINO_ID, DOB_ID);
-        return result;
+        DOB_ID = getDOBToDOBIDLookup().get(d.getPartnersDateOfBirth());
+        r = new SHBE_PersonID(NINO_ID, DOB_ID);
+        return r;
     }
 
     /**
@@ -3865,9 +3824,10 @@ public class SHBE_Handler extends SHBE_Object {
     public SHBE_PersonID getNonDependentPersonID(SHBE_S_Record S_Record) {
         SHBE_PersonID result;
         SHBE_ID NINO_ID;
-        NINO_ID = NINOToNINOIDLookup.get(S_Record.getSubRecordChildReferenceNumberOrNINO());
+        NINO_ID = getNINOToNINOIDLookup().get(
+                S_Record.getSubRecordChildReferenceNumberOrNINO());
         SHBE_ID DOB_ID;
-        DOB_ID = DOBToDOBIDLookup.get(S_Record.getSubRecordDateOfBirth());
+        DOB_ID = getDOBToDOBIDLookup().get(S_Record.getSubRecordDateOfBirth());
         result = new SHBE_PersonID(NINO_ID, DOB_ID);
         return result;
     }
@@ -3878,7 +3838,8 @@ public class SHBE_Handler extends SHBE_Object {
      * @param index
      * @return
      */
-    public SHBE_PersonID getDependentPersonID(SHBE_S_Record S_Record, int index) {
+    public SHBE_PersonID getDependentPersonID(SHBE_S_Record S_Record,
+            int index) {
         SHBE_PersonID result;
         String NINO;
         String ClaimantsNINO;
@@ -3898,8 +3859,8 @@ public class SHBE_Handler extends SHBE_Object {
         } else {
             NINO += "_" + ClaimantsNINO;
         }
-        NINO_ID = NINOToNINOIDLookup.get(NINO);
-        DOB_ID = DOBToDOBIDLookup.get(S_Record.getSubRecordDateOfBirth());
+        NINO_ID = getNINOToNINOIDLookup().get(NINO);
+        DOB_ID = getDOBToDOBIDLookup().get(S_Record.getSubRecordDateOfBirth());
         result = new SHBE_PersonID(NINO_ID, DOB_ID);
         return result;
     }
@@ -3909,7 +3870,8 @@ public class SHBE_Handler extends SHBE_Object {
      * @param S_Records
      * @return
      */
-    public HashSet<SHBE_PersonID> getPersonIDs(ArrayList<SHBE_S_Record> S_Records) {
+    public HashSet<SHBE_PersonID> getPersonIDs(
+            ArrayList<SHBE_S_Record> S_Records) {
         HashSet<SHBE_PersonID> result;
         result = new HashSet<>();
         SHBE_S_Record S_Record;
@@ -3919,8 +3881,10 @@ public class SHBE_Handler extends SHBE_Object {
         ite = S_Records.iterator();
         while (ite.hasNext()) {
             S_Record = ite.next();
-            NINO_ID = NINOToNINOIDLookup.get(S_Record.getSubRecordChildReferenceNumberOrNINO());
-            DOB_ID = DOBToDOBIDLookup.get(S_Record.getSubRecordDateOfBirth());
+            NINO_ID = getNINOToNINOIDLookup().get(
+                    S_Record.getSubRecordChildReferenceNumberOrNINO());
+            DOB_ID = getDOBToDOBIDLookup().get(
+                    S_Record.getSubRecordDateOfBirth());
 
             result.add(new SHBE_PersonID(NINO_ID, DOB_ID));
         }
@@ -3936,8 +3900,9 @@ public class SHBE_Handler extends SHBE_Object {
         SHBE_PersonID result;
         SHBE_ID NINO_ID;
         SHBE_ID DOB_ID;
-        NINO_ID = NINOToNINOIDLookup.get(S_Record.getSubRecordChildReferenceNumberOrNINO());
-        DOB_ID = DOBToDOBIDLookup.get(S_Record.getSubRecordDateOfBirth());
+        NINO_ID = getNINOToNINOIDLookup().get(
+                S_Record.getSubRecordChildReferenceNumberOrNINO());
+        DOB_ID = getDOBToDOBIDLookup().get(S_Record.getSubRecordDateOfBirth());
         result = new SHBE_PersonID(NINO_ID, DOB_ID);
         return result;
     }
@@ -3956,9 +3921,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param DOBIDToDOBLookup
      * @return
      */
-    SHBE_PersonID getPersonID(
-            String NINO,
-            String DOB,
+    SHBE_PersonID getPersonID(String NINO, String DOB,
             HashMap<String, SHBE_ID> NINOToNINOIDLookup,
             HashMap<SHBE_ID, String> NINOIDToNINOLookup,
             HashMap<String, SHBE_ID> DOBToDOBIDLookup,
@@ -3983,8 +3946,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param DOBIDToDOBLookup
      * @return
      */
-    SHBE_PersonID getPersonID(
-            SHBE_D_Record DRecord,
+    SHBE_PersonID getPersonID(SHBE_D_Record DRecord,
             HashMap<String, SHBE_ID> NINOToNINOIDLookup,
             HashMap<SHBE_ID, String> NINOIDToNINOLookup,
             HashMap<String, SHBE_ID> DOBToDOBIDLookup,
@@ -3993,8 +3955,8 @@ public class SHBE_Handler extends SHBE_Object {
         NINO = DRecord.getPartnersNationalInsuranceNumber();
         String DOB;
         DOB = DRecord.getPartnersDateOfBirth();
-        return SHBE_Handler.this.getPersonID(NINO, DOB, NINOToNINOIDLookup, NINOIDToNINOLookup,
-                DOBToDOBIDLookup, DOBIDToDOBLookup);
+        return SHBE_Handler.this.getPersonID(NINO, DOB, NINOToNINOIDLookup,
+                NINOIDToNINOLookup, DOBToDOBIDLookup, DOBIDToDOBLookup);
     }
 
     public HashSet<SHBE_PersonID> getUniquePersonIDs(
