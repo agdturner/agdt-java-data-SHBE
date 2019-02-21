@@ -84,7 +84,8 @@ public class SHBE_Files extends Generic_Files implements Serializable {
         return new File(getDataDir(), "SHBE_Data.dat");
     }
     
+    @Override
     public SHBE_Strings getStrings(){
-        return (SHBE_Strings) Strings;
+        return (SHBE_Strings) strings;
     }
 }

@@ -34,8 +34,7 @@ public class SHBE_Main_Process extends SHBE_Object {
     }
 
     public static void main(String[] args) {
-        File dataDir = new File(System.getProperty("user.dir"), "data");
-        Generic_Environment ge = new Generic_Environment(dataDir);
+        Generic_Environment ge = new Generic_Environment();
         SHBE_Environment env;
         env = new SHBE_Environment(ge);
         SHBE_Main_Process p;

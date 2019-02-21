@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import uk.ac.leeds.ccg.andyt.data.format.Generic_ReadCSV;
+import uk.ac.leeds.ccg.andyt.data.format.Data_ReadCSV;
 import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
@@ -65,7 +65,7 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
         f = new File(dir, "Postcodes2016-10.csv");
         //Generic_ReadCSV.testRead(f, dir, 6);
         ArrayList<String> lines;
-        lines = Generic_ReadCSV.read(f, dir, 6);
+        lines = Data_ReadCSV.read(f, dir, 6);
         Iterator<String> ite;
         ite = lines.iterator();
         String s;
