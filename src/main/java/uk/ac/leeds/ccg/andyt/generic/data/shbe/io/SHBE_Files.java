@@ -27,21 +27,16 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
 public class SHBE_Files extends Generic_Files implements Serializable {
 
     /**
-     *
-     * @param s
      */
-    public SHBE_Files(SHBE_Strings s) {
-        super(s);
+    public SHBE_Files() {
+        super();
     }
 
     /**
-     *
-     * @param s
      * @param dir
      */
-    public SHBE_Files(SHBE_Strings s, File dir) {
-        super(s);
-        setDataDirectory(dir);
+    public SHBE_Files(File dir) {
+        super(dir);
     }
 
     private File inputLCCDir;
@@ -51,14 +46,14 @@ public class SHBE_Files extends Generic_Files implements Serializable {
 
     public File getInputLCCDir() {
         if (inputLCCDir == null) {
-            inputLCCDir = new File(getInputDataDir(), getStrings().sLCC);
+            inputLCCDir = new File(getInputDataDir(), SHBE_Strings.s_LCC);
         }
         return inputLCCDir;
     }
 
     public File getInputSHBEDir() {
         if (inputSHBEDir == null) {
-            inputSHBEDir = new File(getInputLCCDir(), getStrings().sSHBE);
+            inputSHBEDir = new File(getInputLCCDir(), SHBE_Strings.s_SHBE);
         }
         return inputSHBEDir;
     }
@@ -66,7 +61,7 @@ public class SHBE_Files extends Generic_Files implements Serializable {
     public File getGeneratedLCCDir() {
         if (generatedLCCDir == null) {
             generatedLCCDir = new File(getGeneratedDataDir(), 
-                    getStrings().sLCC);
+                    SHBE_Strings.s_LCC);
             generatedLCCDir.mkdirs();
         }
         return generatedLCCDir;
@@ -75,17 +70,12 @@ public class SHBE_Files extends Generic_Files implements Serializable {
     public File getGeneratedSHBEDir() {
         if (generatedSHBEDir == null) {
             generatedSHBEDir = new File(getGeneratedLCCDir(), 
-                    getStrings().sSHBE);
+                    SHBE_Strings.s_SHBE);
         }
         return generatedSHBEDir;
     }
 
     public File getDataFile() {
         return new File(getDataDir(), "SHBE_Data.dat");
-    }
-    
-    @Override
-    public SHBE_Strings getStrings(){
-        return (SHBE_Strings) strings;
     }
 }

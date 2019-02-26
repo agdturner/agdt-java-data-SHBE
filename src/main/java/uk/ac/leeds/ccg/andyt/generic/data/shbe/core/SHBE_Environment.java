@@ -32,7 +32,6 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
 
     public final transient Generic_Environment ge;
     public final transient ONSPD_Environment oe;
-    public final transient SHBE_Strings strings;
     public final transient SHBE_Files files;
     public transient SHBE_Handler handler;
     
@@ -51,8 +50,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         //Memory_Threshold = 3000000000L;
         this.ge = ge;
         oe = new ONSPD_Environment(ge);
-        strings = new SHBE_Strings();
-        files = new SHBE_Files(strings, ge.getFiles().getDataDir());
+        files = new SHBE_Files(ge.getFiles().getDataDir());
     }
 
     /**

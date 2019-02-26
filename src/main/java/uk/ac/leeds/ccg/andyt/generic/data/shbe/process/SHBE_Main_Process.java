@@ -15,8 +15,6 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.process;
 
-import java.io.File;
-import java.util.logging.Level;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
@@ -28,8 +26,6 @@ public class SHBE_Main_Process extends SHBE_Object {
 
     public SHBE_Main_Process(SHBE_Environment env, int logID) {
         super(env, logID);
-//        data = env.data;
-        strings = env.strings;
         files = env.files;
     }
 

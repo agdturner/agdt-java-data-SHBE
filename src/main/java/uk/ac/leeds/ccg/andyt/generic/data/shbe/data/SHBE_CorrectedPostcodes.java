@@ -28,6 +28,7 @@ import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
 
 /**
  *
@@ -46,7 +47,6 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
         super(env);
         Postcode_Handler = env.oe.getHandler();
         files = env.files;
-        strings = env.strings;
     }
 
     public static void main(String[] args) {
@@ -153,7 +153,7 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
         dirout = files.getGeneratedLCCDir();
         File fout;
         fout = new File(dirout,
-                "DW_CorrectedPostcodes" + strings.sBinaryFileExtension);
+                "DW_CorrectedPostcodes" + SHBE_Strings.s_BinaryFileExtension);
         Generic_IO.writeObject(this, fout);
     }
 

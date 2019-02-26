@@ -31,9 +31,6 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
  */
 public class SHBE_TenancyType_Handler extends SHBE_Object {
 
-    // For convenience
-    SHBE_Strings ds;
-
     public final int iMinus999 = -999;
     public final int zero = 0;
     public final int i1 = 1;
@@ -75,7 +72,6 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
 
     public SHBE_TenancyType_Handler(SHBE_Environment env) {
         super(env);
-        ds = env.strings;
     }
 
     public String getTenancyTypeName(String tenancyType) {
@@ -246,8 +242,8 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
      * contains the unregulated tenancy types.
      */
     public Object[] getTenancyTypeGroups() {
-        Object[] result;
-        result = new Object[4];
+        Object[] r;
+        r = new Object[4];
         Boolean underOccupied;
         HashMap<Boolean, TreeMap<String, ArrayList<String>>> tenancyTypeGroups;
         tenancyTypeGroups = new HashMap<>();
@@ -269,14 +265,14 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
         all = getTenancyTypeAll(underOccupied);
         ttgs.put(sall, all);
         regulated = getTenancyTypeRegulated(underOccupied);
-        ttgs.put(ds.sRegulated, regulated);
+        ttgs.put(SHBE_Strings.s_Regulated, regulated);
         unregulated = getTenancyTypeUnregulated();
-        ttgs.put(ds.sUnregulated, unregulated);
+        ttgs.put(SHBE_Strings.s_Unregulated, unregulated);
         tenancyTypeGroups.put(underOccupied, ttgs);
         ttg = new ArrayList<>();
-        ttg.add(ds.sRegulated);
-        ttg.add(ds.sUnregulated);
-        ttg.add(ds.sUngrouped);
+        ttg.add(SHBE_Strings.s_Regulated);
+        ttg.add(SHBE_Strings.s_Unregulated);
+        ttg.add(SHBE_Strings.s_Ungrouped);
         ttg.add(sMinus999);
         tenancyTypesGrouped.put(underOccupied, ttg);
         rg = getTenancyTypeRegulated(underOccupied);
@@ -288,53 +284,53 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
         all = getTenancyTypeAll(underOccupied);
         ttgs.put(sall, all);
         regulated = getTenancyTypeRegulated(underOccupied);
-        ttgs.put(ds.sRegulated, regulated);
+        ttgs.put(SHBE_Strings.s_Regulated, regulated);
         unregulated = getTenancyTypeUnregulated();
-        ttgs.put(ds.sUnregulated, unregulated);
+        ttgs.put(SHBE_Strings.s_Unregulated, unregulated);
         tenancyTypeGroups.put(underOccupied, ttgs);
         ttg = new ArrayList<>();
-        ttg.add(ds.sRegulated);
-        ttg.add(ds.sRegulated + ds.sU);
-        ttg.add(ds.sUnregulated);
-        ttg.add(ds.sUnregulated + ds.sU);
-        ttg.add(ds.sUngrouped);
-        ttg.add(ds.sUngrouped + ds.sU);
+        ttg.add(SHBE_Strings.s_Regulated);
+        ttg.add(SHBE_Strings.s_Regulated + SHBE_Strings.s_U);
+        ttg.add(SHBE_Strings.s_Unregulated);
+        ttg.add(SHBE_Strings.s_Unregulated + SHBE_Strings.s_U);
+        ttg.add(SHBE_Strings.s_Ungrouped);
+        ttg.add(SHBE_Strings.s_Ungrouped + SHBE_Strings.s_U);
         ttg.add(sMinus999);
-        ttg.add(sMinus999 + ds.sU);
+        ttg.add(sMinus999 + SHBE_Strings.s_U);
         tenancyTypesGrouped.put(underOccupied, ttg);
         rg = getTenancyTypeRegulated(underOccupied);
         regulatedGroups.put(underOccupied, rg);
         ug = getTenancyTypeUnregulated();
         unregulatedGroups.put(underOccupied, ug);
-        result[0] = tenancyTypeGroups;
-        result[1] = tenancyTypesGrouped;
-        result[2] = regulatedGroups;
-        result[3] = unregulatedGroups;
-        return result;
+        r[0] = tenancyTypeGroups;
+        r[1] = tenancyTypesGrouped;
+        r[2] = regulatedGroups;
+        r[3] = unregulatedGroups;
+        return r;
     }
     
     public HashMap<String, String> getTenancyTypeGroupLookup() {
-        HashMap<String, String> result;
-        result = new HashMap<>();
-        result.put(s1, ds.sRegulated);
-        result.put(s2, ds.sRegulated);
-        result.put(s3, ds.sUnregulated);
-        result.put(s4, ds.sRegulated);
-        result.put(s5, ds.sUngrouped);
-        result.put(s6, ds.sUnregulated);
-        result.put(s7, ds.sUngrouped);
-        result.put(s8, ds.sUngrouped);
-        result.put(s9, ds.sUngrouped);
-        result.put(s1 + ds.sU, ds.sRegulated + ds.sU);
-        result.put(s2 + ds.sU, ds.sRegulated + ds.sU);
-        result.put(s3 + ds.sU, ds.sUnregulated + ds.sU);
-        result.put(s4 + ds.sU, ds.sRegulated + ds.sU);
-        result.put(s5 + ds.sU, ds.sUngrouped + ds.sU);
-        result.put(s6 + ds.sU, ds.sUnregulated + ds.sU);
-        result.put(s7 + ds.sU, ds.sUngrouped + ds.sU);
-        result.put(s8 + ds.sU, ds.sUngrouped + ds.sU);
-        result.put(s9 + ds.sU, ds.sUngrouped + ds.sU);
-        return result;
+        HashMap<String, String> r;
+        r = new HashMap<>();
+        r.put(s1, SHBE_Strings.s_Regulated);
+        r.put(s2, SHBE_Strings.s_Regulated);
+        r.put(s3, SHBE_Strings.s_Unregulated);
+        r.put(s4, SHBE_Strings.s_Regulated);
+        r.put(s5, SHBE_Strings.s_Ungrouped);
+        r.put(s6, SHBE_Strings.s_Unregulated);
+        r.put(s7, SHBE_Strings.s_Ungrouped);
+        r.put(s8, SHBE_Strings.s_Ungrouped);
+        r.put(s9, SHBE_Strings.s_Ungrouped);
+        r.put(s1 + SHBE_Strings.s_U, SHBE_Strings.s_Regulated + SHBE_Strings.s_U);
+        r.put(s2 + SHBE_Strings.s_U, SHBE_Strings.s_Regulated + SHBE_Strings.s_U);
+        r.put(s3 + SHBE_Strings.s_U, SHBE_Strings.s_Unregulated + SHBE_Strings.s_U);
+        r.put(s4 + SHBE_Strings.s_U, SHBE_Strings.s_Regulated + SHBE_Strings.s_U);
+        r.put(s5 + SHBE_Strings.s_U, SHBE_Strings.s_Ungrouped + SHBE_Strings.s_U);
+        r.put(s6 + SHBE_Strings.s_U, SHBE_Strings.s_Unregulated + SHBE_Strings.s_U);
+        r.put(s7 + SHBE_Strings.s_U, SHBE_Strings.s_Ungrouped + SHBE_Strings.s_U);
+        r.put(s8 + SHBE_Strings.s_U, SHBE_Strings.s_Ungrouped + SHBE_Strings.s_U);
+        r.put(s9 + SHBE_Strings.s_U, SHBE_Strings.s_Ungrouped + SHBE_Strings.s_U);
+        return r;
     }
 
 }

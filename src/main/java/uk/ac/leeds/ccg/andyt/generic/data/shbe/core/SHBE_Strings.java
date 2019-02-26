@@ -15,7 +15,6 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.core;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Strings;
 
@@ -23,98 +22,99 @@ import uk.ac.leeds.ccg.andyt.generic.core.Generic_Strings;
  *
  * @author Andy Turner.
  */
-public class SHBE_Strings extends Generic_Strings implements Serializable {
+public class SHBE_Strings extends Generic_Strings {
 
-    public final String CottingleySpringsCaravanParkPostcode = "LS27 7NS";
-    public final String sCottingleySpringsCaravanPark = "CottingleySpringsCaravanPark";
+    // special
+    public static final String CottingleySpringsCaravanParkPostcode = "LS27 7NS";
+    public static final String s_CottingleySpringsCaravanPark = "CottingleySpringsCaravanPark";
 
-    public final String sCountOfCTBAndHBClaims = "CountOfCTBAndHBClaims";
-    public final String sCountOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = "CountOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim";
-    public final String sCountOfClaimsWithClaimantsThatArePartnersInAnotherClaim = "CountOfClaimsWithClaimantsThatArePartnersInAnotherClaim";
-    public final String sCountOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = "CountOfClaimsWithPartnersThatAreClaimantsInAnotherClaim";
-    public final String sCountOfClaimsWithPartnersThatArePartnersInAnotherClaim = "CountOfClaimsWithPartnersThatArePartnersInAnotherClaim";
-    public final String sCountOfClaimantsInMultipleClaimsInAMonth = "CountOfClaimantsInMultipleClaimsInAMonth";
-    public final String sCountOfDependentsInAllClaims = "CountOfDependentsInAllClaims";
-    public final String sCountOfPartnersInMultipleClaimsInAMonth = "CountOfPartnersInMultipleClaimsInAMonth";
-    public final String sCountOfNonDependentsInMultipleClaimsInAMonth = "CountOfNonDependentsInMultipleClaimsInAMonth";
-    public final String sCountOfNewClaimantPostcodes = "CountOfNewClaimantPostcodes";
-    public final String sCountOfNewValidMappableClaimantPostcodes = "CountOfNewValidMappableClaimantPostcodes";
-    public final String sCountOfMappableClaimantPostcodes = "CountOfMappableClaimantPostcodes";
-    public final String sCountOfNonMappableClaimantPostcodes = "CountOfNonMappableClaimantPostcodes";
-    public final String sCountOfInvalidFormatClaimantPostcodes = "CountOfInvalidFormatClaimantPostcodes";
-    public final String sCountOfClaims = "CountOfClaims";
-    public final String sCountOfClaimsWithPartners = "CountOfClaimsWithPartners";
-    public final String sCountOfCTBClaims = "CountOfCTBClaims";
-    public final String sCountOfRecords = "CountOfRecords";
-    public final String sCountOfHBClaims = "CountOfHBClaims";
-    public final String sCountOfIncompleteDRecords = "CountOfIncompleteDRecords";
-    public final String sCountOfNonDependentsInAllClaims = "CountOfNonDependentsInAllClaims";
-    public final String sCountOfUniqueDependents = "CountOfUniqueDependents";
-    public final String sCountOfUniqueNonDependents = "CountOfUniqueNonDependents";
-    public final String sCountOfUniqueClaimants = "CountOfUniqueClaimants";
-    public final String sCountOfUniquePartners = "CountOfUniquePartners";
-    public final String sCountOfSRecords = "CountOfSRecords";
-    public final String sCountOfSRecordsWithoutDRecord = "CountOfSRecordsWithoutDRecord";
-    public final String sCountOfRecordIDsNotLoaded = "CountOfRecordIDsNotLoaded";
-    public final String sCountOfSRecordsNotLoaded = "CountOfSRecordsNotLoaded";
+    public static final String s_CountOfCTBAndHBClaims = "CountOfCTBAndHBClaims";
+    public static final String s_CountOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = "CountOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim";
+    public static final String s_CountOfClaimsWithClaimantsThatArePartnersInAnotherClaim = "CountOfClaimsWithClaimantsThatArePartnersInAnotherClaim";
+    public static final String s_CountOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = "CountOfClaimsWithPartnersThatAreClaimantsInAnotherClaim";
+    public static final String s_CountOfClaimsWithPartnersThatArePartnersInAnotherClaim = "CountOfClaimsWithPartnersThatArePartnersInAnotherClaim";
+    public static final String s_CountOfClaimantsInMultipleClaimsInAMonth = "CountOfClaimantsInMultipleClaimsInAMonth";
+    public static final String s_CountOfDependentsInAllClaims = "CountOfDependentsInAllClaims";
+    public static final String s_CountOfPartnersInMultipleClaimsInAMonth = "CountOfPartnersInMultipleClaimsInAMonth";
+    public static final String s_CountOfNonDependentsInMultipleClaimsInAMonth = "CountOfNonDependentsInMultipleClaimsInAMonth";
+    public static final String s_CountOfNewClaimantPostcodes = "CountOfNewClaimantPostcodes";
+    public static final String s_CountOfNewValidMappableClaimantPostcodes = "CountOfNewValidMappableClaimantPostcodes";
+    public static final String s_CountOfMappableClaimantPostcodes = "CountOfMappableClaimantPostcodes";
+    public static final String s_CountOfNonMappableClaimantPostcodes = "CountOfNonMappableClaimantPostcodes";
+    public static final String s_CountOfInvalidFormatClaimantPostcodes = "CountOfInvalidFormatClaimantPostcodes";
+    public static final String s_CountOfClaims = "CountOfClaims";
+    public static final String s_CountOfClaimsWithPartners = "CountOfClaimsWithPartners";
+    public static final String s_CountOfCTBClaims = "CountOfCTBClaims";
+    public static final String s_CountOfRecords = "CountOfRecords";
+    public static final String s_CountOfHBClaims = "CountOfHBClaims";
+    public static final String s_CountOfIncompleteDRecords = "CountOfIncompleteDRecords";
+    public static final String s_CountOfNonDependentsInAllClaims = "CountOfNonDependentsInAllClaims";
+    public static final String s_CountOfUniqueDependents = "CountOfUniqueDependents";
+    public static final String s_CountOfUniqueNonDependents = "CountOfUniqueNonDependents";
+    public static final String s_CountOfUniqueClaimants = "CountOfUniqueClaimants";
+    public static final String s_CountOfUniquePartners = "CountOfUniquePartners";
+    public static final String s_CountOfSRecords = "CountOfSRecords";
+    public static final String s_CountOfSRecordsWithoutDRecord = "CountOfSRecordsWithoutDRecord";
+    public static final String s_CountOfRecordIDsNotLoaded = "CountOfRecordIDsNotLoaded";
+    public static final String s_CountOfSRecordsNotLoaded = "CountOfSRecordsNotLoaded";
 
     /**
      * Code for a Default National Insurance Number. There are other defaults
      * that appear to be in the source SHBE data that are of a similar form, but
      * this is the default one used by this program.
      */
-    public final String sDefaultNINO = "ZX999999XZ";
+    public static final String s_DefaultNINO = "ZX999999XZ";
 
-    public final String sPaymentTypeOther = "PTO";
-    public final String sPaymentTypeAll = "PTA";
-    public final String sUnregulated = "Unregulated";
-    public final String sRegulated = "Regulated";
-    public final String sPaymentTypeIn = "PTI";
-    public final String sPaymentTypeSuspended = "PTS";
-    public final String sBinaryFileExtension = ".dat";
+    public static final String s_PaymentTypeOther = "PTO";
+    public static final String s_PaymentTypeAll = "PTA";
+    public static final String s_Unregulated = "Unregulated";
+    public static final String s_Regulated = "Regulated";
+    public static final String s_PaymentTypeIn = "PTI";
+    public static final String s_PaymentTypeSuspended = "PTS";
+    public static final String s_BinaryFileExtension = ".dat";
 
-    public final String sIncludeSameTenancy = "IncludeSameTenancy";
-    public final String sNotIncludeSameTenancy = "NotIncludeSameTenancy";
-    public final String sIncludeMonthlySinceApril2013 = "IMU";
-    public final String sInclude2MonthlySinceApril2013Offset0 = "I2MU0";
-    public final String sInclude2MonthlySinceApril2013Offset1 = "I2MU1";
-    public final String sIncludeStartEndSinceApril2013 = "ISEU";
-    public final String sIncludingTenancyTransitionBreaks = "ITTBY";
-    public final String sIncludingTenancyTransitionBreaksNo = "ITTBN";
-    public final String sInclude6Monthly = "I6M";
-    public final String sIncludeMonthly = "IM";
-    public final String sIncludeApril2013May2013 = "IncludeApril2013May2013";
-    public final String sIncludeYearly = "IY";
-    public final String sIncludeAll = "IA";
-    public final String sInclude3Monthly = "I3M";
+    public static final String s_IncludeSameTenancy = "IncludeSameTenancy";
+    public static final String s_NotIncludeSameTenancy = "NotIncludeSameTenancy";
+    public static final String s_IncludeMonthlySinceApril2013 = "IMU";
+    public static final String s_Include2MonthlySinceApril2013Offset0 = "I2MU0";
+    public static final String s_Include2MonthlySinceApril2013Offset1 = "I2MU1";
+    public static final String s_IncludeStartEndSinceApril2013 = "ISEU";
+    public static final String s_IncludingTenancyTransitionBreaks = "ITTBY";
+    public static final String s_IncludingTenancyTransitionBreaksNo = "ITTBN";
+    public static final String s_Include6Monthly = "I6M";
+    public static final String s_IncludeMonthly = "IM";
+    public static final String s_IncludeApril2013May2013 = "IncludeApril2013May2013";
+    public static final String s_IncludeYearly = "IY";
+    public static final String s_IncludeAll = "IA";
+    public static final String s_Include3Monthly = "I3M";
 
-    public final String sHB = "HB";
-    public final String sCTB = "CTB";
+    public static final String s_HB = "HB";
+    public static final String s_CTB = "CTB";
 
-    public final String sLCC = "LCC";
-    public final String sSHBE = "SHBE";
-    public final String sUnit = "Unit";
+    public static final String s_LCC = "LCC";
+    public static final String s_SHBE = "SHBE";
+    public static final String s_Unit = "Unit";
 
-    public final String sU = "U";
+    public static final String s_U = "U";
 
-    public final String sUngrouped = "Ungrouped";
-    public final String sCountOfIndividuals = "CountOfIndividuals";
-    public final String sCountOfNewSHBEClaims = "CountOfNewSHBEClaims";
-    public final String sCountOfNewSHBEClaimsWhereClaimantWasClaimantBefore = "CountOfNewSHBEClaimsWhereClaimantWasClaimantBefore";
-    public final String sCountOfNewSHBEClaimsWhereClaimantWasPartnerBefore = "CountOfNewSHBEClaimsWhereClaimantWasPartnerBefore";
-    public final String sCountOfNewSHBEClaimsWhereClaimantWasNonDependentBefore = "CountOfNewSHBEClaimsWhereClaimantWasNonDependentBefore";
-    public final String sCountOfNewSHBEClaimsWhereClaimantIsNew = "CountOfNewSHBEClaimsWhereClaimantIsNew";
-    public final String sLineCount = "LineCount";
-    public final String sRecords = "Records";
+    public static final String s_Ungrouped = "Ungrouped";
+    public static final String s_CountOfIndividuals = "CountOfIndividuals";
+    public static final String s_CountOfNewSHBEClaims = "CountOfNewSHBEClaims";
+    public static final String s_CountOfNewSHBEClaimsWhereClaimantWasClaimantBefore = "CountOfNewSHBEClaimsWhereClaimantWasClaimantBefore";
+    public static final String s_CountOfNewSHBEClaimsWhereClaimantWasPartnerBefore = "CountOfNewSHBEClaimsWhereClaimantWasPartnerBefore";
+    public static final String s_CountOfNewSHBEClaimsWhereClaimantWasNonDependentBefore = "CountOfNewSHBEClaimsWhereClaimantWasNonDependentBefore";
+    public static final String s_CountOfNewSHBEClaimsWhereClaimantIsNew = "CountOfNewSHBEClaimsWhereClaimantIsNew";
+    public static final String s_LineCount = "LineCount";
+    public static final String s_Records = "Records";
 
-    public final String sTotalIncomeGreaterThanZeroCount = "TotalIncomeGreaterThanZeroCount";
-    public final String sTotalWeeklyEligibleRentAmount = "TotalWeeklyEligibleRentAmount";
-    public final String sTotalWeeklyEligibleRentAmountGreaterThanZeroCount = "TotalWeeklyEligibleRentAmountGreaterThanZeroCount";
-    public final String sTotalIncome = "TotalIncome";
-    public final String sCountOfNewSHBEClaimsPSI = "CountOfNewSHBEClaimsPSI";
+    public static final String s_TotalIncomeGreaterThanZeroCount = "TotalIncomeGreaterThanZeroCount";
+    public static final String s_TotalWeeklyEligibleRentAmount = "TotalWeeklyEligibleRentAmount";
+    public static final String s_TotalWeeklyEligibleRentAmountGreaterThanZeroCount = "TotalWeeklyEligibleRentAmountGreaterThanZeroCount";
+    public static final String s_TotalIncome = "TotalIncome";
+    public static final String s_CountOfNewSHBEClaimsPSI = "CountOfNewSHBEClaimsPSI";
 
-    public final String sAverage_NonZero_Income = "Average_NonZero_Income";
-    public final String sAverage_NonZero_WeeklyEligibleRentAmount = "Average_NonZero_WeeklyEligibleRentAmount";
+    public static final String s_Average_NonZero_Income = "Average_NonZero_Income";
+    public static final String s_Average_NonZero_WeeklyEligibleRentAmount = "Average_NonZero_WeeklyEligibleRentAmount";
 
     public SHBE_Strings() {
         super();
@@ -125,13 +125,13 @@ public class SHBE_Strings extends Generic_Strings implements Serializable {
      *
      * @return
      */
-    public ArrayList<String> getPaymentTypes() {
+    public static ArrayList<String> getPaymentTypes() {
         ArrayList<String> r;
         r = new ArrayList<>();
-        r.add(sPaymentTypeAll);
-        r.add(sPaymentTypeIn);
-        r.add(sPaymentTypeSuspended);
-        r.add(sPaymentTypeOther);
+        r.add(s_PaymentTypeAll);
+        r.add(s_PaymentTypeIn);
+        r.add(s_PaymentTypeSuspended);
+        r.add(s_PaymentTypeOther);
         return r;
     }
 }

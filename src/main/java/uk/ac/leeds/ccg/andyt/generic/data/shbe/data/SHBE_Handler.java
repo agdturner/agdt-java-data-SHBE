@@ -36,6 +36,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.onspd.util.ONSPD_YM3;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.util.SHBE_Collections;
 //import uk.ac.leeds.ccg.andyt.math.Generic_BigDecimal;
 //import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.underoccupied.DW_UO_Record;
@@ -294,7 +295,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getDataFile() {
         if (DataFile == null) {
             String filename = "Data_HashMap_String__SHBE_Records"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             DataFile = new File(files.getGeneratedSHBEDir(), filename);
         }
         return DataFile;
@@ -707,7 +708,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * {@code if (ClaimRefToClaimIDLookupFile == null) {
      * String filename = "ClaimRefToClaimID_HashMap_String__SHBE_ID"
-     * + strings.sBinaryFileExtension;
+     * + SHBE_Strings.s_BinaryFileExtension;
      * PostcodeToPostcodeIDLookupFile = new File(
      * files.getGeneratedSHBEDir(),
      * filename);
@@ -719,7 +720,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getClaimRefToClaimIDLookupFile() {
         if (ClaimRefToClaimIDLookupFile == null) {
             String filename = "ClaimRefToClaimID_HashMap_String__SHBE_ID"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             ClaimRefToClaimIDLookupFile = new File(
                     files.getGeneratedSHBEDir(), filename);
         }
@@ -729,7 +730,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * {@code if (ClaimIDToClaimRefLookupFile == null) {
      * String filename = "ClaimIDToClaimRef_HashMap_SHBE_ID__String"
-     * + strings.sBinaryFileExtension;
+     * + SHBE_Strings.s_BinaryFileExtension;
      * ClaimIDToClaimRefLookupFile = new File(
      * files.getGeneratedSHBEDir(),
      * filename);
@@ -741,7 +742,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getClaimIDToClaimRefLookupFile() {
         if (ClaimIDToClaimRefLookupFile == null) {
             String filename = "ClaimIDToClaimRef_HashMap_SHBE_ID__String"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             ClaimIDToClaimRefLookupFile = new File(
                     files.getGeneratedSHBEDir(), filename);
         }
@@ -763,7 +764,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getPostcodeToPostcodeIDLookupFile() {
         if (PostcodeToPostcodeIDLookupFile == null) {
             String filename = "PostcodeToPostcodeID_HashMap_String__SHBE_ID"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             PostcodeToPostcodeIDLookupFile = new File(
                     files.getGeneratedSHBEDir(), filename);
         }
@@ -773,7 +774,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * {@code if (PostcodeIDToPostcodeLookupFile == null) {
      * String filename = "PostcodeIDToPostcode_HashMap_SHBE_ID__String"
-     * + strings.sBinaryFileExtension;
+     * + SHBE_Strings.s_BinaryFileExtension;
      * PostcodeIDToPostcodeLookupFile = new File(
      * files.getGeneratedSHBEDir(),
      * filename);
@@ -785,7 +786,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getPostcodeIDToPostcodeLookupFile() {
         if (PostcodeIDToPostcodeLookupFile == null) {
             String filename = "PostcodeIDToPostcode_HashMap_SHBE_ID__String"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             PostcodeIDToPostcodeLookupFile = new File(
                     files.getGeneratedSHBEDir(), filename);
         }
@@ -795,7 +796,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * {@code if (PostcodeIDToAGDT_PointLookupFile == null) {
      * String filename = "PostcodeIDToAGDT_Point_HashMap_SHBE_ID__AGDT_Point"
-     * + strings.sBinaryFileExtension;
+     * + SHBE_Strings.s_BinaryFileExtension;
      * PostcodeIDToAGDT_PointLookupFile = new File(
      * files.getGeneratedSHBEDir(),
      * filename);
@@ -807,7 +808,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getPostcodeIDToPointLookupsFile() {
         if (PostcodeIDToPointLookupsFile == null) {
             String filename = "PostcodeIDToPoint_HashMap_String__HashMap_SHBE_ID__AGDT_Point"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             PostcodeIDToPointLookupsFile = new File(
                     files.getGeneratedSHBEDir(), filename);
         }
@@ -817,7 +818,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getCorrectedPostcodesFile() {
         if (CorrectedPostcodesFile == null) {
             String filename = "DW_CorrectedPostcodes"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             CorrectedPostcodesFile = new File(files.getGeneratedLCCDir(),
                     filename);
         }
@@ -827,7 +828,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * {@code if (NINOToNINOIDLookupFile == null) {
      * String filename = "NINOToNINOID_HashMap_String__SHBE_ID"
-     * + strings.sBinaryFileExtension;
+     * + SHBE_Strings.s_BinaryFileExtension;
      * NINOToNINOIDLookupFile = new File(
      * files.getGeneratedSHBEDir(),
      * filename);
@@ -839,7 +840,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getNINOToNINOIDLookupFile() {
         if (NINOToNINOIDLookupFile == null) {
             String filename = "NINOToNINOID_HashMap_String__SHBE_ID"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             NINOToNINOIDLookupFile = new File(
                     files.getGeneratedSHBEDir(), filename);
         }
@@ -849,7 +850,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * {@code if (DOBToSHBE_IDLookupFile == null) {
      * String filename = "DOBToID_HashMap_String__SHBE_ID"
-     * + strings.sBinaryFileExtension;
+     * + SHBE_Strings.s_BinaryFileExtension;
      * DOBToSHBE_IDLookupFile = new File(
      * files.getGeneratedSHBEDir(),
      * filename);
@@ -861,7 +862,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getDOBToDOBIDLookupFile() {
         if (DOBToDOBIDLookupFile == null) {
             String filename = "DOBToDOBID_HashMap_String__SHBE_ID"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             DOBToDOBIDLookupFile = new File(files.getGeneratedSHBEDir(),
                     filename);
         }
@@ -871,7 +872,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * {@code if (NINOIDToNINOLookupFile == null) {
      * String filename = "NINOIDToNINO_HashMap_SHBE_ID__String"
-     * + strings.sBinaryFileExtension;
+     * + SHBE_Strings.s_BinaryFileExtension;
      * NINOIDToNINOLookupFile = new File(
      * files.getGeneratedSHBEDir(),
      * filename);
@@ -883,7 +884,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getNINOIDToNINOLookupFile() {
         if (NINOIDToNINOLookupFile == null) {
             String filename = "NINOIDToNINO_HashMap_SHBE_ID__String"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             NINOIDToNINOLookupFile = new File(files.getGeneratedSHBEDir(),
                     filename);
         }
@@ -893,7 +894,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * {@code if (DOBIDToDOBLookupFile == null) {
      * String filename = "DOBIDToDOB_HashMap_SHBE_ID__String"
-     * + strings.sBinaryFileExtension;
+     * + SHBE_Strings.s_BinaryFileExtension;
      * DOBIDToDOBLookupFile = new File(
      * files.getGeneratedSHBEDir(),
      * filename);
@@ -905,7 +906,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getDOBIDToDOBLookupFile() {
         if (DOBIDToDOBLookupFile == null) {
             String filename = "DOBIDToDOB_HashMap_SHBE_ID__String"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             DOBIDToDOBLookupFile = new File(files.getGeneratedSHBEDir(),
                     filename);
         }
@@ -915,7 +916,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getClaimantPersonIDsFile() {
         if (ClaimantPersonIDsFile == null) {
             String filename = "Claimant_HashSet_SHBE_PersonID"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             ClaimantPersonIDsFile = new File(files.getGeneratedSHBEDir(),
                     filename);
         }
@@ -925,7 +926,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getPartnerPersonIDsFile() {
         if (PartnerPersonIDsFile == null) {
             String filename = "Partner_HashSet_SHBE_PersonID"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             PartnerPersonIDsFile = new File(files.getGeneratedSHBEDir(),
                     filename);
         }
@@ -935,7 +936,7 @@ public class SHBE_Handler extends SHBE_Object {
     public final File getNonDependentPersonIDsFile() {
         if (NonDependentPersonIDsFile == null) {
             String filename = "NonDependent_HashSet_SHBE_PersonID"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             NonDependentPersonIDsFile = new File(files.getGeneratedSHBEDir(),
                     filename);
         }
@@ -946,7 +947,7 @@ public class SHBE_Handler extends SHBE_Object {
         if (PersonIDToClaimIDsLookupFile == null) {
             String filename = "PersonIDToClaimIDsLookup_"
                     + "HashMap_SHBE_PersonID__HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension;
+                    + SHBE_Strings.s_BinaryFileExtension;
             PersonIDToClaimIDsLookupFile = new File(files.getGeneratedSHBEDir(),
                     filename);
         }
@@ -1021,8 +1022,8 @@ public class SHBE_Handler extends SHBE_Object {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        r = new File(dir, strings.sRecords + strings.sBinaryFileExtension);
-        //r = new File(dir, strings.sSHBE + "_" + strings.sRecords + strings.sBinaryFileExtension);
+        r = new File(dir, SHBE_Strings.s_Records + SHBE_Strings.s_BinaryFileExtension);
+        //r = new File(dir, SHBE_Strings.s_SHBE + "_" + SHBE_Strings.s_Records + SHBE_Strings.s_BinaryFileExtension);
         return r;
     }
 
@@ -1679,15 +1680,15 @@ public class SHBE_Handler extends SHBE_Object {
             String PT) {
         HashSet<SHBE_ID> result;
         result = null;
-        if (PT.equalsIgnoreCase(strings.sPaymentTypeAll)) {
+        if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeAll)) {
             result = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
             result.addAll(SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateSuspended());
             result.addAll(SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateOther());
-        } else if (PT.equalsIgnoreCase(strings.sPaymentTypeIn)) {
+        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeIn)) {
             result = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
-        } else if (PT.equalsIgnoreCase(strings.sPaymentTypeSuspended)) {
+        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeSuspended)) {
             result = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateSuspended();
-        } else if (PT.equalsIgnoreCase(strings.sPaymentTypeOther)) {
+        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeOther)) {
             result = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateOther();
         }
         return result;
@@ -1704,15 +1705,15 @@ public class SHBE_Handler extends SHBE_Object {
             String PT) {
         HashSet<SHBE_ID> result;
         result = null;
-        if (PT.equalsIgnoreCase(strings.sPaymentTypeAll)) {
+        if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeAll)) {
             result = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
             result.addAll(SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateSuspended());
             result.addAll(SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateOther());
-        } else if (PT.equalsIgnoreCase(strings.sPaymentTypeIn)) {
+        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeIn)) {
             result = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
-        } else if (PT.equalsIgnoreCase(strings.sPaymentTypeSuspended)) {
+        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeSuspended)) {
             result = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateSuspended();
-        } else if (PT.equalsIgnoreCase(strings.sPaymentTypeOther)) {
+        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeOther)) {
             result = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateOther();
         }
         return result;
@@ -1720,18 +1721,18 @@ public class SHBE_Handler extends SHBE_Object {
 
     public String getClaimantType(SHBE_D_Record D_Record) {
         if (isHBClaim(D_Record)) {
-            return strings.sHB;
+            return SHBE_Strings.s_HB;
         }
         //if (isCTBOnlyClaim(D_Record)) {
-        return strings.sCTB;
+        return SHBE_Strings.s_CTB;
         //}
     }
 
     public ArrayList<String> getClaimantTypes() {
         ArrayList<String> result;
         result = new ArrayList<>();
-        result.add(strings.sHB);
-        result.add(strings.sCTB);
+        result.add(SHBE_Strings.s_HB);
+        result.add(SHBE_Strings.s_CTB);
         return result;
     }
 
@@ -3126,7 +3127,7 @@ public class SHBE_Handler extends SHBE_Object {
         yM = YearMonth.split("-");
         String m3;
         m3 = Generic_Time.getMonth3Letters(yM[1]);
-        result = yM[0] + strings.symbol_underscore + m3;
+        result = yM[0] + SHBE_Strings.symbol_underscore + m3;
         return result;
     }
 
@@ -3558,42 +3559,42 @@ public class SHBE_Handler extends SHBE_Object {
         n = tSHBEFilenames.length;
         String omitKey;
         ArrayList<Integer> omitAll;
-        omitKey = strings.sIncludeAll;
+        omitKey = SHBE_Strings.s_IncludeAll;
         omitAll = getOmitAll();
         result.put(omitKey, omitAll);
-        omitKey = strings.sIncludeYearly;
+        omitKey = SHBE_Strings.s_IncludeYearly;
         ArrayList<Integer> omitYearly;
         omitYearly = getOmitYearly(n);
         result.put(omitKey, omitYearly);
-        omitKey = strings.sInclude6Monthly;
+        omitKey = SHBE_Strings.s_Include6Monthly;
         ArrayList<Integer> omit6Monthly;
         omit6Monthly = getOmit6Monthly(n);
         result.put(omitKey, omit6Monthly);
-        omitKey = strings.sInclude3Monthly;
+        omitKey = SHBE_Strings.s_Include3Monthly;
         ArrayList<Integer> omit3Monthly;
         omit3Monthly = getOmit3Monthly(n);
         result.put(omitKey, omit3Monthly);
-        omitKey = strings.sIncludeMonthly;
+        omitKey = SHBE_Strings.s_IncludeMonthly;
         ArrayList<Integer> omitMonthly;
         omitMonthly = getOmitMonthly();
         result.put(omitKey, omitMonthly);
-        omitKey = strings.sIncludeMonthlySinceApril2013;
+        omitKey = SHBE_Strings.s_IncludeMonthlySinceApril2013;
         ArrayList<Integer> omitMonthlyUO;
         omitMonthlyUO = getOmitMonthlyUO();
         result.put(omitKey, omitMonthlyUO);
-        omitKey = strings.sInclude2MonthlySinceApril2013Offset0;
+        omitKey = SHBE_Strings.s_Include2MonthlySinceApril2013Offset0;
         ArrayList<Integer> omit2MonthlyUO0;
         omit2MonthlyUO0 = getOmit2MonthlyUO0(n);
         result.put(omitKey, omit2MonthlyUO0);
-        omitKey = strings.sInclude2MonthlySinceApril2013Offset1;
+        omitKey = SHBE_Strings.s_Include2MonthlySinceApril2013Offset1;
         ArrayList<Integer> omit2MonthlyUO1;
         omit2MonthlyUO1 = getOmit2MonthlyUO1(n);
         result.put(omitKey, omit2MonthlyUO1);
-        omitKey = strings.sIncludeStartEndSinceApril2013;
+        omitKey = SHBE_Strings.s_IncludeStartEndSinceApril2013;
         ArrayList<Integer> omit2StartEndSinceApril2013;
         omit2StartEndSinceApril2013 = getOmit2StartEndSinceApril2013(n);
         result.put(omitKey, omit2StartEndSinceApril2013);
-        omitKey = strings.sIncludeApril2013May2013;
+        omitKey = SHBE_Strings.s_IncludeApril2013May2013;
         ArrayList<Integer> omit2April2013May2013;
         omit2April2013May2013 = getOmit2April2013May2013(n);
         result.put(omitKey, omit2April2013May2013);
@@ -3609,7 +3610,7 @@ public class SHBE_Handler extends SHBE_Object {
     public String getClaimantsAge(String yM3, SHBE_D_Record D_Record) {
         String result;
         String[] syM3;
-        syM3 = yM3.split(strings.symbol_underscore);
+        syM3 = yM3.split(SHBE_Strings.symbol_underscore);
         result = getClaimantsAge(syM3[0], syM3[1], D_Record);
         return result;
     }
@@ -3848,7 +3849,7 @@ public class SHBE_Handler extends SHBE_Object {
         NINO = S_Record.getSubRecordChildReferenceNumberOrNINO();
         ClaimantsNINO = S_Record.getClaimantsNationalInsuranceNumber();
         if (ClaimantsNINO.trim().isEmpty()) {
-            ClaimantsNINO = strings.sDefaultNINO;
+            ClaimantsNINO = SHBE_Strings.s_DefaultNINO;
             Env.ge.log("ClaimantsNINO is empty for "
                     + "ClaimRef " + S_Record.getCouncilTaxBenefitClaimReferenceNumber()
                     + " Setting as default NINO " + ClaimantsNINO, true);

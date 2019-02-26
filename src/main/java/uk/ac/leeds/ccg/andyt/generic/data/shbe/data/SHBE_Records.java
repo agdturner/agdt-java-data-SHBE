@@ -39,6 +39,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.onspd.util.ONSPD_YM3;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.util.SHBE_Collections;
 //import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.util.SHBE_Collections;
 
@@ -1767,7 +1768,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                 ONSPD_Point AGDT_Point;
                                                 AGDT_Point = Postcode_Handler.getPointFromPostcodeNew(
                                                         NearestYM3ForONSPDLookup,
-                                                        strings.sUnit,
+                                                        SHBE_Strings.s_Unit,
                                                         record.ClaimPostcodeF);
                                                 PostcodeIDToPointLookup.put(record.PostcodeID, AGDT_Point);
                                             } else if (isMappablePostcode) {
@@ -1784,12 +1785,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                 if (isMappablePostcodeLastestYM3) {
                                                     p = Postcode_Handler.getPointFromPostcodeNew(
                                                             LatestYM3ForONSPDFormat,
-                                                            strings.sUnit,
+                                                            SHBE_Strings.s_Unit,
                                                             record.ClaimPostcodeF);
                                                 } else {
                                                     p = Postcode_Handler.getPointFromPostcodeNew(
                                                             NearestYM3ForONSPDLookup,
-                                                            strings.sUnit,
+                                                            SHBE_Strings.s_Unit,
                                                             record.ClaimPostcodeF);
                                                 }
                                                 PostcodeIDToPointLookup.put(record.PostcodeID, p);
@@ -1894,7 +1895,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                 otherClaimID = (SHBE_ID) key;
                                                 //String otherClaimRef = ClaimIDToClaimRefLookup.get(otherClaimID);
                                                 // Treat those paired records for Cottingley Springs Caravan Park differently
-                                                if (Postcode.equalsIgnoreCase(strings.CottingleySpringsCaravanParkPostcode)) {
+                                                if (Postcode.equalsIgnoreCase(SHBE_Strings.CottingleySpringsCaravanParkPostcode)) {
 //                                                    Env.log("Cottingley Springs Caravan Park "
 //                                                            + strings.CottingleySpringsCaravanParkPostcode
 //                                                            + " ClaimRef " + ClaimRef + " paired with " + otherClaimRef
@@ -2155,46 +2156,46 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             /**
              * Statistics on New SHBE Claims
              */
-            addLoadSummaryCount(strings.sCountOfNewSHBEClaims,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfNewSHBEClaims,
                     ClaimIDsOfNewSHBEClaims.size());
-            addLoadSummaryCount(strings.sCountOfNewSHBEClaimsWhereClaimantWasClaimantBefore,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfNewSHBEClaimsWhereClaimantWasClaimantBefore,
                     ClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore.size());
-            addLoadSummaryCount(strings.sCountOfNewSHBEClaimsWhereClaimantWasPartnerBefore,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfNewSHBEClaimsWhereClaimantWasPartnerBefore,
                     ClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore.size());
-            addLoadSummaryCount(strings.sCountOfNewSHBEClaimsWhereClaimantWasNonDependentBefore,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfNewSHBEClaimsWhereClaimantWasNonDependentBefore,
                     ClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore.size());
-            addLoadSummaryCount(strings.sCountOfNewSHBEClaimsWhereClaimantIsNew,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfNewSHBEClaimsWhereClaimantIsNew,
                     ClaimIDsOfNewSHBEClaimsWhereClaimantIsNew.size());
             /**
              * Statistics on Postcodes
              */
-            addLoadSummaryCount(strings.sCountOfNewClaimantPostcodes,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfNewClaimantPostcodes,
                     CountOfNewClaimantPostcodes);
-            addLoadSummaryCount(strings.sCountOfNewValidMappableClaimantPostcodes,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfNewValidMappableClaimantPostcodes,
                     CountOfNewMappableClaimantPostcodes);
-            addLoadSummaryCount(strings.sCountOfMappableClaimantPostcodes,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfMappableClaimantPostcodes,
                     CountOfMappableClaimantPostcodes);
-            addLoadSummaryCount(strings.sCountOfNonMappableClaimantPostcodes,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfNonMappableClaimantPostcodes,
                     CountOfNonMappableClaimantPostcodes);
-            addLoadSummaryCount(strings.sCountOfInvalidFormatClaimantPostcodes,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfInvalidFormatClaimantPostcodes,
                     CountOfValidFormatClaimantPostcodes);
             /**
              * General count statistics
              */
-            addLoadSummaryCount(strings.sCountOfClaims, Records.size());
-            addLoadSummaryCount(strings.sCountOfCTBClaims,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfClaims, Records.size());
+            addLoadSummaryCount(SHBE_Strings.s_CountOfCTBClaims,
                     totalCouncilTaxBenefitClaims);
-            addLoadSummaryCount(strings.sCountOfCTBAndHBClaims,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfCTBAndHBClaims,
                     totalCouncilTaxAndHousingBenefitClaims);
-            addLoadSummaryCount(strings.sCountOfHBClaims,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfHBClaims,
                     totalHousingBenefitClaims);
-            addLoadSummaryCount(strings.sCountOfRecords, Records.size());
-            addLoadSummaryCount(strings.sCountOfSRecords, countSRecords);
-            addLoadSummaryCount(strings.sCountOfSRecordsNotLoaded,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfRecords, Records.size());
+            addLoadSummaryCount(SHBE_Strings.s_CountOfSRecords, countSRecords);
+            addLoadSummaryCount(SHBE_Strings.s_CountOfSRecordsNotLoaded,
                     SRecordNotLoadedCount);
-            addLoadSummaryCount(strings.sCountOfIncompleteDRecords,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfIncompleteDRecords,
                     NumberOfIncompleteDRecords);
-            addLoadSummaryCount(strings.sCountOfRecordIDsNotLoaded,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfRecordIDsNotLoaded,
                     RecordIDsNotLoaded.size());
             HashSet<SHBE_PersonID> set;
             HashSet<SHBE_PersonID> allSet;
@@ -2205,28 +2206,28 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             set = new HashSet<>();
             set.addAll(ClaimIDToClaimantPersonIDLookup.values());
             allSet.addAll(set);
-            addLoadSummaryCount(strings.sCountOfUniqueClaimants, set.size());
+            addLoadSummaryCount(SHBE_Strings.s_CountOfUniqueClaimants, set.size());
             /**
              * Partners
              */
-            addLoadSummaryCount(strings.sCountOfClaimsWithPartners,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfClaimsWithPartners,
                     ClaimIDToPartnerPersonIDLookup.size());
             set = Handler.getUniquePersonIDs0(ClaimIDToPartnerPersonIDLookup);
             allSet.addAll(set);
-            addLoadSummaryCount(strings.sCountOfUniquePartners, set.size());
+            addLoadSummaryCount(SHBE_Strings.s_CountOfUniquePartners, set.size());
             /**
              * Dependents
              */
             int nDependents;
             nDependents = SHBE_Collections.getCountHashMap_SHBE_ID__HashSet_SHBE_PersonID(ClaimIDToDependentPersonIDsLookup);
             addLoadSummaryCount(
-                    strings.sCountOfDependentsInAllClaims,
+                    SHBE_Strings.s_CountOfDependentsInAllClaims,
                     nDependents);
             set = Handler.getUniquePersonIDs(ClaimIDToDependentPersonIDsLookup);
             allSet.addAll(set);
             int CountOfUniqueDependents = set.size();
             addLoadSummaryCount(
-                    strings.sCountOfUniqueDependents,
+                    SHBE_Strings.s_CountOfUniqueDependents,
                     CountOfUniqueDependents);
             /**
              * NonDependents
@@ -2234,18 +2235,18 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             int nNonDependents;
             nNonDependents = SHBE_Collections.getCountHashMap_SHBE_ID__HashSet_SHBE_PersonID(ClaimIDToNonDependentPersonIDsLookup);
             addLoadSummaryCount(
-                    strings.sCountOfNonDependentsInAllClaims,
+                    SHBE_Strings.s_CountOfNonDependentsInAllClaims,
                     nNonDependents);
             set = Handler.getUniquePersonIDs(ClaimIDToNonDependentPersonIDsLookup);
             allSet.addAll(set);
             int CountOfUniqueNonDependents = set.size();
             addLoadSummaryCount(
-                    strings.sCountOfUniqueNonDependents,
+                    SHBE_Strings.s_CountOfUniqueNonDependents,
                     CountOfUniqueNonDependents);
             /**
              * All individuals
              */
-            addLoadSummaryCount(strings.sCountOfIndividuals, allSet.size());
+            addLoadSummaryCount(SHBE_Strings.s_CountOfIndividuals, allSet.size());
             /**
              * Counts of: ClaimsWithClaimantsThatAreClaimantsInAnotherClaim
              * ClaimsWithClaimantsThatArePartnersInAnotherClaim
@@ -2255,31 +2256,31 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
              * PartnersInMultipleClaimsInAMonth
              * NonDependentsInMultipleClaimsInAMonth
              */
-            addLoadSummaryCount(strings.sCountOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim,
                     ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.size());
-            addLoadSummaryCount(strings.sCountOfClaimsWithClaimantsThatArePartnersInAnotherClaim,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfClaimsWithClaimantsThatArePartnersInAnotherClaim,
                     ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.size());
-            addLoadSummaryCount(strings.sCountOfClaimsWithPartnersThatAreClaimantsInAnotherClaim,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfClaimsWithPartnersThatAreClaimantsInAnotherClaim,
                     ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.size());
-            addLoadSummaryCount(strings.sCountOfClaimsWithPartnersThatArePartnersInAnotherClaim,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfClaimsWithPartnersThatArePartnersInAnotherClaim,
                     ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim.size());
-            addLoadSummaryCount(strings.sCountOfClaimantsInMultipleClaimsInAMonth,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfClaimantsInMultipleClaimsInAMonth,
                     ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.size());
-            addLoadSummaryCount(strings.sCountOfPartnersInMultipleClaimsInAMonth,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfPartnersInMultipleClaimsInAMonth,
                     PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.size());
-            addLoadSummaryCount(strings.sCountOfNonDependentsInMultipleClaimsInAMonth,
+            addLoadSummaryCount(SHBE_Strings.s_CountOfNonDependentsInMultipleClaimsInAMonth,
                     NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.size());
-            addLoadSummaryCount(strings.sLineCount, lineCount);
-            addLoadSummaryCount(strings.sTotalIncome, grandTotalIncome);
-            addLoadSummaryCount(strings.sTotalIncomeGreaterThanZeroCount,
+            addLoadSummaryCount(SHBE_Strings.s_LineCount, lineCount);
+            addLoadSummaryCount(SHBE_Strings.s_TotalIncome, grandTotalIncome);
+            addLoadSummaryCount(SHBE_Strings.s_TotalIncomeGreaterThanZeroCount,
                     totalIncomeGreaterThanZeroCount);
-            addLoadSummaryCount(strings.sAverage_NonZero_Income,
+            addLoadSummaryCount(SHBE_Strings.s_Average_NonZero_Income,
                     grandTotalIncome / (double) totalIncomeGreaterThanZeroCount);
-            addLoadSummaryCount(strings.sTotalWeeklyEligibleRentAmount,
+            addLoadSummaryCount(SHBE_Strings.s_TotalWeeklyEligibleRentAmount,
                     grandTotalWeeklyEligibleRentAmount);
-            addLoadSummaryCount(strings.sTotalWeeklyEligibleRentAmountGreaterThanZeroCount,
+            addLoadSummaryCount(SHBE_Strings.s_TotalWeeklyEligibleRentAmountGreaterThanZeroCount,
                     totalWeeklyEligibleRentAmountGreaterThanZeroCount);
-            addLoadSummaryCount(strings.sAverage_NonZero_WeeklyEligibleRentAmount,
+            addLoadSummaryCount(SHBE_Strings.s_Average_NonZero_WeeklyEligibleRentAmount,
                     grandTotalWeeklyEligibleRentAmount / (double) totalWeeklyEligibleRentAmountGreaterThanZeroCount);
             env.ge.log("<Summary Statistics>", logID);
 
@@ -2484,7 +2485,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     case 1:
                         claimantsNINO = SRecord.getClaimantsNationalInsuranceNumber();
                         if (claimantsNINO.trim().isEmpty()) {
-                            claimantsNINO = strings.sDefaultNINO;
+                            claimantsNINO = SHBE_Strings.s_DefaultNINO;
                             Env.ge.log("ClaimantsNINO is empty for "
                                     + "ClaimID " + claimID + " ClaimRef "
                                     + Env.handler.getClaimIDToClaimRefLookup().get(claimID)
@@ -3709,7 +3710,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     protected final File getFile() {
         if (File == null) {
-            File = getFile("Records" + strings.sBinaryFileExtension);
+            File = getFile("Records" + SHBE_Strings.s_BinaryFileExtension);
         }
         return File;
     }
@@ -3719,8 +3720,8 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     protected final File getRecordsFile() {
         if (RecordsFile == null) {
-            RecordsFile = getFile(strings.sRecords + strings.symbol_underscore
-                    + "HashMap_String__SHBE_Record" + strings.sBinaryFileExtension);
+            RecordsFile = getFile(SHBE_Strings.s_Records + SHBE_Strings.symbol_underscore
+                    + "HashMap_String__SHBE_Record" + SHBE_Strings.s_BinaryFileExtension);
         }
         return RecordsFile;
     }
@@ -3733,9 +3734,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         if (ClaimIDsOfNewSHBEClaimsFile == null) {
             ClaimIDsOfNewSHBEClaimsFile = getFile(
                     "ClaimIDsOfNewSHBEClaims"
-                    + strings.symbol_underscore
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfNewSHBEClaimsFile;
     }
@@ -3748,9 +3749,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         if (ClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBeforeFile == null) {
             ClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBeforeFile = getFile(
                     "ClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore"
-                    + strings.symbol_underscore
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBeforeFile;
     }
@@ -3763,9 +3764,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         if (ClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBeforeFile == null) {
             ClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBeforeFile = getFile(
                     "ClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore"
-                    + strings.symbol_underscore
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBeforeFile;
     }
@@ -3778,9 +3779,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         if (ClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBeforeFile == null) {
             ClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBeforeFile = getFile(
                     "ClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore"
-                    + strings.symbol_underscore
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBeforeFile;
     }
@@ -3793,9 +3794,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         if (ClaimIDsOfNewSHBEClaimsWhereClaimantIsNewFile == null) {
             ClaimIDsOfNewSHBEClaimsWhereClaimantIsNewFile = getFile(
                     "ClaimIDsOfNewSHBEClaimsWhereClaimantIsNew"
-                    + strings.symbol_underscore
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfNewSHBEClaimsWhereClaimantIsNewFile;
     }
@@ -3804,9 +3805,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         if (ClaimantPersonIDsFile == null) {
             ClaimantPersonIDsFile = getFile(
                     "Claimant"
-                    + strings.symbol_underscore
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_PersonID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimantPersonIDsFile;
     }
@@ -3815,9 +3816,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         if (PartnerPersonIDsFile == null) {
             PartnerPersonIDsFile = getFile(
                     "Partner"
-                    + strings.symbol_underscore
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_PersonID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return PartnerPersonIDsFile;
     }
@@ -3826,9 +3827,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         if (NonDependentPersonIDsFile == null) {
             NonDependentPersonIDsFile = getFile(
                     "NonDependent"
-                    + strings.symbol_underscore
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_PersonID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return NonDependentPersonIDsFile;
     }
@@ -3951,10 +3952,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getCottingleySpringsCaravanParkPairedClaimIDsFile() {
         if (CottingleySpringsCaravanParkPairedClaimIDsFile == null) {
             CottingleySpringsCaravanParkPairedClaimIDsFile = getFile(
-                    strings.sCottingleySpringsCaravanPark + "PairedClaimIDs"
-                    + strings.symbol_underscore
+                    SHBE_Strings.s_CottingleySpringsCaravanPark + "PairedClaimIDs"
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return CottingleySpringsCaravanParkPairedClaimIDsFile;
     }
@@ -3966,10 +3967,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getClaimIDsWithStatusOfHBAtExtractDateInPaymentFile() {
         if (ClaimIDsWithStatusOfHBAtExtractDateInPaymentFile == null) {
             ClaimIDsWithStatusOfHBAtExtractDateInPaymentFile = getFile(
-                    strings.sHB + strings.sPaymentTypeIn
-                    + strings.symbol_underscore
+                    SHBE_Strings.s_HB + SHBE_Strings.s_PaymentTypeIn
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsWithStatusOfHBAtExtractDateInPaymentFile;
     }
@@ -3981,10 +3982,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getClaimIDsWithStatusOfHBAtExtractDateSuspendedFile() {
         if (ClaimIDsWithStatusOfHBAtExtractDateSuspendedFile == null) {
             ClaimIDsWithStatusOfHBAtExtractDateSuspendedFile = getFile(
-                    strings.sHB + strings.sPaymentTypeSuspended
-                    + strings.symbol_underscore
+                    SHBE_Strings.s_HB + SHBE_Strings.s_PaymentTypeSuspended
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsWithStatusOfHBAtExtractDateSuspendedFile;
     }
@@ -3996,10 +3997,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getClaimIDsWithStatusOfHBAtExtractDateOtherFile() {
         if (ClaimIDsWithStatusOfHBAtExtractDateOtherFile == null) {
             ClaimIDsWithStatusOfHBAtExtractDateOtherFile = getFile(
-                    strings.sHB + strings.sPaymentTypeOther
-                    + strings.symbol_underscore
+                    SHBE_Strings.s_HB + SHBE_Strings.s_PaymentTypeOther
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsWithStatusOfHBAtExtractDateOtherFile;
     }
@@ -4011,10 +4012,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getClaimIDsWithStatusOfCTBAtExtractDateInPaymentFile() {
         if (ClaimIDsWithStatusOfCTBAtExtractDateInPaymentFile == null) {
             ClaimIDsWithStatusOfCTBAtExtractDateInPaymentFile = getFile(
-                    strings.sCTB + strings.sPaymentTypeIn
-                    + strings.symbol_underscore
+                    SHBE_Strings.s_CTB + SHBE_Strings.s_PaymentTypeIn
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsWithStatusOfCTBAtExtractDateInPaymentFile;
     }
@@ -4026,10 +4027,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getClaimIDsWithStatusOfCTBAtExtractDateSuspendedFile() {
         if (ClaimIDsWithStatusOfCTBAtExtractDateSuspendedFile == null) {
             ClaimIDsWithStatusOfCTBAtExtractDateSuspendedFile = getFile(
-                    strings.sCTB + strings.sPaymentTypeSuspended
-                    + strings.symbol_underscore
+                    SHBE_Strings.s_CTB + SHBE_Strings.s_PaymentTypeSuspended
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsWithStatusOfCTBAtExtractDateSuspendedFile;
     }
@@ -4041,10 +4042,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getClaimIDsWithStatusOfCTBAtExtractDateOtherFile() {
         if (ClaimIDsWithStatusOfCTBAtExtractDateOtherFile == null) {
             ClaimIDsWithStatusOfCTBAtExtractDateOtherFile = getFile(
-                    strings.sCTB + strings.sPaymentTypeOther
-                    + strings.symbol_underscore
+                    SHBE_Strings.s_CTB + SHBE_Strings.s_PaymentTypeOther
+                    + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsWithStatusOfCTBAtExtractDateOtherFile;
     }
@@ -4056,9 +4057,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getSRecordsWithoutDRecordsFile() {
         if (SRecordsWithoutDRecordsFile == null) {
             SRecordsWithoutDRecordsFile = getFile(
-                    "SRecordsWithoutDRecordsFile" + strings.symbol_underscore
+                    "SRecordsWithoutDRecordsFile" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__ArrayList_SHBE_S_Record"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return SRecordsWithoutDRecordsFile;
     }
@@ -4070,9 +4071,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getClaimIDAndCountOfRecordsWithSRecordsFile() {
         if (ClaimIDAndCountOfRecordsWithSRecordsFile == null) {
             ClaimIDAndCountOfRecordsWithSRecordsFile = getFile(
-                    "ClaimIDAndCountOfRecordsWithSRecordsFile" + strings.symbol_underscore
+                    "ClaimIDAndCountOfRecordsWithSRecordsFile" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__Integer"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDAndCountOfRecordsWithSRecordsFile;
     }
@@ -4084,9 +4085,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     protected final File getClaimIDsOfClaimsWithoutAMappableClaimantPostcodeFile() {
         if (ClaimIDsOfClaimsWithoutAMappableClaimantPostcodeFile == null) {
             ClaimIDsOfClaimsWithoutAMappableClaimantPostcodeFile = getFile(
-                    "ClaimIDsOfClaimsWithoutAMappableClaimantPostcode" + strings.symbol_underscore
+                    "ClaimIDsOfClaimsWithoutAMappableClaimantPostcode" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__Integer"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfClaimsWithoutAMappableClaimantPostcodeFile;
     }
@@ -4098,9 +4099,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDToClaimantPersonIDLookupFile() {
         if (ClaimIDToClaimantPersonIDLookupFile == null) {
             ClaimIDToClaimantPersonIDLookupFile = getFile(
-                    "ClaimIDToClaimantPersonIDLookup" + strings.symbol_underscore
+                    "ClaimIDToClaimantPersonIDLookup" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID_SHBE_PersonID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDToClaimantPersonIDLookupFile;
     }
@@ -4112,9 +4113,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDToPartnerPersonIDLookupFile() {
         if (ClaimIDToPartnerPersonIDLookupFile == null) {
             ClaimIDToPartnerPersonIDLookupFile = getFile(
-                    "ClaimIDToPartnerPersonIDLookup" + strings.symbol_underscore
+                    "ClaimIDToPartnerPersonIDLookup" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__SHBE_PersonID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDToPartnerPersonIDLookupFile;
     }
@@ -4126,9 +4127,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDToDependentPersonIDsLookupFile() {
         if (ClaimIDToDependentPersonIDsLookupFile == null) {
             ClaimIDToDependentPersonIDsLookupFile = getFile(
-                    "ClaimIDToDependentPersonIDsLookupFile" + strings.symbol_underscore
+                    "ClaimIDToDependentPersonIDsLookupFile" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__HashSet<SHBE_PersonID>"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDToDependentPersonIDsLookupFile;
     }
@@ -4140,9 +4141,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDToNonDependentPersonIDsLookupFile() {
         if (ClaimIDToNonDependentPersonIDsLookupFile == null) {
             ClaimIDToNonDependentPersonIDsLookupFile = getFile(
-                    "ClaimIDToNonDependentPersonIDsLookupFile" + strings.symbol_underscore
+                    "ClaimIDToNonDependentPersonIDsLookupFile" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__HashSet_SHBE_PersonID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDToNonDependentPersonIDsLookupFile;
     }
@@ -4154,9 +4155,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile() {
         if (ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile == null) {
             ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile = getFile(
-                    "ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim" + strings.symbol_underscore
+                    "ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim" + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile;
     }
@@ -4168,9 +4169,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile() {
         if (ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile == null) {
             ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile = getFile(
-                    "ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim" + strings.symbol_underscore
+                    "ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim" + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile;
     }
@@ -4182,9 +4183,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile() {
         if (ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile == null) {
             ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile = getFile(
-                    "ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile" + strings.symbol_underscore
+                    "ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile" + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile;
     }
@@ -4196,9 +4197,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile() {
         if (ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile == null) {
             ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile = getFile(
-                    "ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim" + strings.symbol_underscore
+                    "ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim" + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile;
     }
@@ -4211,9 +4212,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile() {
         if (ClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile == null) {
             ClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile = getFile(
-                    "ClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim" + strings.symbol_underscore
+                    "ClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim" + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile;
     }
@@ -4225,9 +4226,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile() {
         if (ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile == null) {
             ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile = getFile(
-                    "ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup" + strings.symbol_underscore
+                    "ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_PersonID__HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile;
     }
@@ -4239,9 +4240,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile() {
         if (PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile == null) {
             PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile = getFile(
-                    "PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile" + strings.symbol_underscore
+                    "PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_PersonID__HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile;
     }
@@ -4253,9 +4254,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile() {
         if (NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile == null) {
             NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile = getFile(
-                    "NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile" + strings.symbol_underscore
+                    "NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_PersonID__HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile;
     }
@@ -4267,9 +4268,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDToPostcodeIDLookupFile() {
         if (ClaimIDToPostcodeIDLookupFile == null) {
             ClaimIDToPostcodeIDLookupFile = getFile(
-                    "ClaimIDToPostcodeIDLookup" + strings.symbol_underscore
+                    "ClaimIDToPostcodeIDLookup" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDToPostcodeIDLookupFile;
     }
@@ -4281,9 +4282,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile() {
         if (ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile == null) {
             ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile = getFile(
-                    "ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture" + strings.symbol_underscore
+                    "ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture" + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile;
     }
@@ -4295,9 +4296,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDToTenancyTypeLookupFile() {
         if (ClaimIDToTenancyTypeLookupFile == null) {
             ClaimIDToTenancyTypeLookupFile = getFile(
-                    "ClaimIDToTenancyTypeLookup" + strings.symbol_underscore
+                    "ClaimIDToTenancyTypeLookup" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__Integer"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDToTenancyTypeLookupFile;
     }
@@ -4308,9 +4309,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getLoadSummaryFile() {
         if (LoadSummaryFile == null) {
             LoadSummaryFile = getFile(
-                    "LoadSummary" + strings.symbol_underscore
+                    "LoadSummary" + SHBE_Strings.symbol_underscore
                     + "HashMap_String__Integer"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return LoadSummaryFile;
     }
@@ -4322,9 +4323,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getRecordIDsNotLoadedFile() {
         if (RecordIDsNotLoadedFile == null) {
             RecordIDsNotLoadedFile = getFile(
-                    "RecordIDsNotLoaded" + strings.symbol_underscore
+                    "RecordIDsNotLoaded" + SHBE_Strings.symbol_underscore
                     + "ArrayList_Long"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return RecordIDsNotLoadedFile;
     }
@@ -4336,9 +4337,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimIDsOfInvalidClaimantNINOClaimsFile() {
         if (ClaimIDsOfInvalidClaimantNINOClaimsFile == null) {
             ClaimIDsOfInvalidClaimantNINOClaimsFile = getFile(
-                    "ClaimIDsOfInvalidClaimantNINOClaimsFile" + strings.symbol_underscore
+                    "ClaimIDsOfInvalidClaimantNINOClaimsFile" + SHBE_Strings.symbol_underscore
                     + "HashSet_SHBE_ID"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimIDsOfInvalidClaimantNINOClaimsFile;
     }
@@ -4350,9 +4351,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimantPostcodesUnmappableFile() {
         if (ClaimantPostcodesUnmappableFile == null) {
             ClaimantPostcodesUnmappableFile = getFile(
-                    "ClaimantPostcodesUnmappable" + strings.symbol_underscore
+                    "ClaimantPostcodesUnmappable" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__String"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimantPostcodesUnmappableFile;
     }
@@ -4364,9 +4365,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimantPostcodesModifiedFile() {
         if (ClaimantPostcodesModifiedFile == null) {
             ClaimantPostcodesModifiedFile = getFile(
-                    "ClaimantPostcodesModified" + strings.symbol_underscore
+                    "ClaimantPostcodesModified" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__String[]"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimantPostcodesModifiedFile;
     }
@@ -4378,9 +4379,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final File getClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodesFile() {
         if (ClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodesFile == null) {
             ClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodesFile = getFile(
-                    "ClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes" + strings.symbol_underscore
+                    "ClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes" + SHBE_Strings.symbol_underscore
                     + "HashMap_SHBE_ID__String"
-                    + strings.sBinaryFileExtension);
+                    + SHBE_Strings.s_BinaryFileExtension);
         }
         return ClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodesFile;
     }
