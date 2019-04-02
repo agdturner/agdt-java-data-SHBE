@@ -276,9 +276,9 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      * {@code
-     * DataFile = getDataFile();
-     * return getData(DataFile);
-     * }
+ DataFile = getEnvDataFile();
+ return getData(DataFile);
+ }
      *
      * @return
      */

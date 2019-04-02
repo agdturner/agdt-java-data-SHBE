@@ -126,22 +126,22 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     
     /**
      * Attempts to write out {@link handler} to 
-     * {@link SHBE_Files#getDataFile()}.
+     * {@link SHBE_Files#getEnvDataFile()}.
      */
     public void cacheData() {
         File f;
-        f = files.getDataFile();
+        f = files.getEnvDataFile();
         ge.log("<cache>", false);
         Generic_IO.writeObject(handler, f);
         ge.log("</cache>", false);
     }
 
     /**
-     * Attempts to load {@link handler} from a {@link SHBE_Files#getDataFile()}.
+     * Attempts to load {@link handler} from a {@link SHBE_Files#getEnvDataFile()}.
      */
     public final void loadData() {
         File f;
-        f = files.getDataFile();
+        f = files.getEnvDataFile();
         ge.log("<load>", false);
         handler = (SHBE_Handler) Generic_IO.readObject(f);
         ge.log("</load>", false);

@@ -16,21 +16,14 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.io;
 
 import java.io.File;
-import java.io.Serializable;
-import uk.ac.leeds.ccg.andyt.generic.io.Generic_Files;
+import uk.ac.leeds.ccg.andyt.data.io.Data_Files;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
 
 /**
  *
  * @author geoagdt
  */
-public class SHBE_Files extends Generic_Files implements Serializable {
-
-    /**
-     */
-    public SHBE_Files() {
-        super();
-    }
+public class SHBE_Files extends Data_Files {
 
     /**
      * @param dir
@@ -73,9 +66,5 @@ public class SHBE_Files extends Generic_Files implements Serializable {
                     SHBE_Strings.s_SHBE);
         }
         return generatedSHBEDir;
-    }
-
-    public File getDataFile() {
-        return new File(getDataDir(), "SHBE_Data.dat");
     }
 }
