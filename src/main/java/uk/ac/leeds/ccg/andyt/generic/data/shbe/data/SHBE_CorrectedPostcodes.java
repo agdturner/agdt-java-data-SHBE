@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import uk.ac.leeds.ccg.andyt.data.format.Data_ReadCSV;
-import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
@@ -116,12 +115,12 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
                 getClaimRefToCorrectedPostcodes().put(ClaimRef, CorrectedPostcodes);
             }
         }
-        Env.ge.log("UnmappableToMappablePostcode.size() " 
+        env.ge.log("UnmappableToMappablePostcode.size() " 
                 + UnmappableToMappablePostcodes.size(), logID, true);
         String m;
         m = "UnmappableToMappablePostcode";
-        Env.ge.log("<" + m + ">", logID, false);
-        Env.ge.log("Unmappable,Mappable", logID, false);
+        env.ge.log("<" + m + ">", logID, false);
+        env.ge.log("Unmappable,Mappable", logID, false);
         ite = UnmappableToMappablePostcodes.keySet().iterator();
         while (ite.hasNext()) {
             OriginalPostcodeF = ite.next();
@@ -135,26 +134,26 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
                 CorrectedPostcodeF = ite2.next();
                 s += "," + CorrectedPostcodeF;
             }
-            Env.ge.log(s, logID, false);
+            env.ge.log(s, logID, false);
         }
-        Env.ge.log("</" + m + ">", logID, false);
+        env.ge.log("</" + m + ">", logID, false);
 
         m = "PostcodesCheckedAsMappable";
-        Env.ge.log("<" + m + ">", logID, false);
-        Env.ge.log("Mappable", logID, false);
+        env.ge.log("<" + m + ">", logID, false);
+        env.ge.log("Mappable", logID, false);
         ite = getPostcodesCheckedAsMappable().iterator();
         while (ite.hasNext()) {
             OriginalPostcodeF = ite.next();
-            Env.ge.log(OriginalPostcodeF, logID, false);
+            env.ge.log(OriginalPostcodeF, logID, false);
         }
-        Env.ge.log("</" + m + ">", logID, false);
+        env.ge.log("</" + m + ">", logID, false);
 
         File dirout;
         dirout = files.getGeneratedLCCDir();
         File fout;
         fout = new File(dirout,
                 "DW_CorrectedPostcodes" + SHBE_Strings.s_BinaryFileExtension);
-        Generic_IO.writeObject(this, fout);
+        env.ge.io.writeObject(this, fout);
     }
 
     /**

@@ -20,8 +20,8 @@ import java.io.Serializable;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.SHBE_Handler;
-import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.util.SHBE_Collections;
 
 /**
  *
@@ -34,13 +34,14 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public final transient ONSPD_Environment oe;
     public final transient SHBE_Files files;
     public transient SHBE_Handler handler;
+    public final transient SHBE_Collections collections;
     
     /**
      * Data.
      */
 //    public ONSPD_Data data;
 
-    public transient static final String EOL = System.getProperty("line.separator");
+    public transient final String EOL = System.getProperty("line.separator");
 
     /**
      * 
@@ -50,7 +51,8 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         //Memory_Threshold = 3000000000L;
         this.ge = ge;
         oe = new ONSPD_Environment(ge);
-        files = new SHBE_Files(ge.getFiles().getDataDir());
+        files = new SHBE_Files(ge.files.getDataDir());
+        collections = new SHBE_Collections(this);
     }
 
     /**
@@ -132,7 +134,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         File f;
         f = files.getEnvDataFile();
         ge.log("<cache>", false);
-        Generic_IO.writeObject(handler, f);
+        ge.io.writeObject(handler, f);
         ge.log("</cache>", false);
     }
 
@@ -143,7 +145,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         File f;
         f = files.getEnvDataFile();
         ge.log("<load>", false);
-        handler = (SHBE_Handler) Generic_IO.readObject(f);
+        handler = (SHBE_Handler) ge.io.readObject(f);
         ge.log("</load>", false);
     }
 }

@@ -25,9 +25,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.SHBE_PersonID;
-import uk.ac.leeds.ccg.andyt.generic.io.Generic_IO;
 import uk.ac.leeds.ccg.andyt.generic.util.Generic_Collections;
 
 /**
@@ -35,6 +35,12 @@ import uk.ac.leeds.ccg.andyt.generic.util.Generic_Collections;
  * @author geoagdt
  */
 public class SHBE_Collections extends Generic_Collections {
+    
+    public final SHBE_Environment env;
+    
+    public SHBE_Collections(SHBE_Environment e){
+        env = e;
+    }
     
     /**
      * Returns the count of all values in the map (the sum of all the number of
@@ -94,41 +100,41 @@ public class SHBE_Collections extends Generic_Collections {
         return null;
     }
 
-    public static HashMap<SHBE_ID, String> getHashMap_SHBE_ID__String(File f) {
+    public HashMap<SHBE_ID, String> getHashMap_SHBE_ID__String(File f) {
         HashMap<SHBE_ID, String> r;
         if (f.exists()) {
-            r = (HashMap<SHBE_ID, String>) Generic_IO.readObject(f);
+            r = (HashMap<SHBE_ID, String>) env.ge.io.readObject(f);
         } else {
             r = new HashMap<>();
         }
         return r;
     }
 
-    public static HashSet<SHBE_ID> getHashSet_SHBE_ID(File f) {
+    public HashSet<SHBE_ID> getHashSet_SHBE_ID(File f) {
         HashSet<SHBE_ID> result;
         if (f.exists()) {
-            result = (HashSet<SHBE_ID>) Generic_IO.readObject(f);
+            result = (HashSet<SHBE_ID>) env.ge.io.readObject(f);
         } else {
             result = new HashSet<>();
         }
         return result;
     }
     
-    public static HashSet<SHBE_PersonID> getHashSet_SHBE_PersonID(File f) {
+    public HashSet<SHBE_PersonID> getHashSet_SHBE_PersonID(File f) {
         HashSet<SHBE_PersonID> result;
         if (f.exists()) {
-            result = (HashSet<SHBE_PersonID>) Generic_IO.readObject(f);
+            result = (HashSet<SHBE_PersonID>) env.ge.io.readObject(f);
         } else {
             result = new HashSet<>();
         }
         return result;
     }
     
-    public static HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getHashMap_SHBE_PersonID__HashSet_SHBE_ID(
+    public HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getHashMap_SHBE_PersonID__HashSet_SHBE_ID(
             File f) {
         HashMap<SHBE_PersonID, HashSet<SHBE_ID>> result;
         if (f.exists()) {
-            result = (HashMap<SHBE_PersonID, HashSet<SHBE_ID>>) Generic_IO.readObject(f);
+            result = (HashMap<SHBE_PersonID, HashSet<SHBE_ID>>) env.ge.io.readObject(f);
         } else {
             result = new HashMap<>();
         }

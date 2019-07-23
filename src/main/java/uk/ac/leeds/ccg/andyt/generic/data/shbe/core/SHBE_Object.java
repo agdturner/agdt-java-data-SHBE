@@ -23,7 +23,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.io.SHBE_Files;
  */
 public abstract class SHBE_Object implements Serializable {
 
-    public transient SHBE_Environment Env;
+    public transient SHBE_Environment env;
     
     // For convenience.
     public transient SHBE_Files files;
@@ -43,7 +43,7 @@ public abstract class SHBE_Object implements Serializable {
      * @param i The logID.
      */
     public SHBE_Object(SHBE_Environment e, int i) {
-        Env = e;
+        env = e;
         files = e.files;
         logID = i;
     }
