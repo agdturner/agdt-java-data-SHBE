@@ -19,6 +19,7 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -208,7 +209,7 @@ public class SHBE_Handler extends SHBE_Object {
      */
     private File PostcodeIDToPointLookupsFile;
 
-    public SHBE_Handler(SHBE_Environment e) {
+    public SHBE_Handler(SHBE_Environment e) throws IOException {
         this(e, e.ge.initLog("SHBE_Handler"));
     }
 
@@ -224,7 +225,7 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @param logID The ID of the log for writing to.
      */
-    public void run(int logID) {
+    public void run(int logID) throws IOException {
         String[] SHBEFilenames;
         SHBEFilenames = getSHBEFilenamesAll();
         ONSPD_YM3 LastYM3;
@@ -245,7 +246,7 @@ public class SHBE_Handler extends SHBE_Object {
         if (SHBEbackup.isDirectory()) {
             SHBEbackup = env.ge.io.addToArchive(SHBEbackup, 100);
         } else {
-            SHBEbackup = env.ge.io.initialiseArchive(SHBEbackup, 100);
+            SHBEbackup = env.ge.io.initialiseArchive(SHBEbackup, 100, false);
         }
         env.ge.io.copy(files.getGeneratedSHBEDir(), SHBEbackup);
     }
@@ -1164,7 +1165,7 @@ public class SHBE_Handler extends SHBE_Object {
      * For loading in new SHBE data
      *
      */
-    public void runNew() {
+    public void runNew() throws IOException {
         File dir;
         dir = env.files.getInputSHBEDir();
         // Ascertain which files are new and need loading
@@ -1204,7 +1205,7 @@ public class SHBE_Handler extends SHBE_Object {
         if (f.isDirectory()) {
             f = env.ge.io.addToArchive(f, 100);
         } else {
-            f = env.ge.io.initialiseArchive(f, 100);
+            f = env.ge.io.initialiseArchive(f, 100, false);
         }
         env.ge.io.copy(files.getGeneratedSHBEDir(), f);
     }
@@ -1213,7 +1214,7 @@ public class SHBE_Handler extends SHBE_Object {
      * For checking postcodes.
      *
      */
-    public void runPostcodeCheckLatest() {
+    public void runPostcodeCheckLatest() throws IOException {
         boolean hoome;
         hoome = true;
 
@@ -1417,7 +1418,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param h The header.
      * @param l The lines.
      */
-    protected void writeLog(String n, String e, String h, Collection<String> l) {
+    protected void writeLog(String n, String e, String h, Collection<String> l) throws IOException {
         int logID2 = env.ge.initLog(n, e);
         env.ge.log(h, logID2, true);
         env.ge.log(l, logID2, true);
@@ -1428,7 +1429,7 @@ public class SHBE_Handler extends SHBE_Object {
      * For checking postcodes.
      *
      */
-    public void runPostcodeCheck() {
+    public void runPostcodeCheck() throws IOException {
         boolean hoome;
         hoome = true;
         // Declaration
@@ -1641,7 +1642,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param hoome
      */
     protected void writeOutModifiedPostcodes(HashSet<String> ump, String ymn,
-            SHBE_Records records, boolean hoome) {
+            SHBE_Records records, boolean hoome) throws IOException {
         int ref;
         HashMap<SHBE_ID, String[]> ClaimantPostcodesModified;
         Iterator<SHBE_ID> ite;

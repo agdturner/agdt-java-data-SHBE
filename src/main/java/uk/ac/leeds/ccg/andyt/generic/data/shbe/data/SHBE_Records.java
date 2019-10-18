@@ -2392,7 +2392,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             String name, String YMN, 
             HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup,
             HashMap<SHBE_ID, String> NINOIDToNINOLookup, 
-            HashMap<SHBE_ID, String> DOBIDToDOBLookup) {
+            HashMap<SHBE_ID, String> DOBIDToDOBLookup) throws IOException {
         Iterator<SHBE_PersonID> ite2;
         Iterator<SHBE_ID> ite3;
         String s;

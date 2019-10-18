@@ -51,7 +51,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         //Memory_Threshold = 3000000000L;
         this.ge = ge;
         oe = new ONSPD_Environment(ge);
-        files = new SHBE_Files(ge.files.getDataDir());
+        files = new SHBE_Files(ge.files.getDir());
         collections = new SHBE_Collections(this);
     }
 

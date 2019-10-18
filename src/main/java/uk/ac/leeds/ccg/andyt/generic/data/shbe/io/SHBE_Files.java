@@ -39,7 +39,7 @@ public class SHBE_Files extends Data_Files {
 
     public File getInputLCCDir() {
         if (inputLCCDir == null) {
-            inputLCCDir = new File(getInputDataDir(), SHBE_Strings.s_LCC);
+            inputLCCDir = new File(getInputDir(), SHBE_Strings.s_LCC);
         }
         return inputLCCDir;
     }
@@ -53,8 +53,7 @@ public class SHBE_Files extends Data_Files {
 
     public File getGeneratedLCCDir() {
         if (generatedLCCDir == null) {
-            generatedLCCDir = new File(getGeneratedDataDir(), 
-                    SHBE_Strings.s_LCC);
+            generatedLCCDir = new File(getGeneratedDir(),  SHBE_Strings.s_LCC);
             generatedLCCDir.mkdirs();
         }
         return generatedLCCDir;
@@ -62,8 +61,7 @@ public class SHBE_Files extends Data_Files {
 
     public File getGeneratedSHBEDir() {
         if (generatedSHBEDir == null) {
-            generatedSHBEDir = new File(getGeneratedLCCDir(), 
-                    SHBE_Strings.s_SHBE);
+            generatedSHBEDir = new File(getGeneratedLCCDir(), SHBE_Strings.s_SHBE);
         }
         return generatedSHBEDir;
     }
