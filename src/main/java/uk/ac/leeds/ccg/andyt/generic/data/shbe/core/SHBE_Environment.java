@@ -17,6 +17,7 @@ package uk.ac.leeds.ccg.andyt.generic.data.shbe.core;
 
 import java.io.File;
 import java.io.Serializable;
+import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.SHBE_Handler;
@@ -31,6 +32,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
         implements Serializable {
 
     public final transient Generic_Environment ge;
+    public final transient Data_Environment de;
     public final transient ONSPD_Environment oe;
     public final transient SHBE_Files files;
     public transient SHBE_Handler handler;
@@ -45,12 +47,13 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
 
     /**
      * 
-     * @param ge
+     * @param de Data_Environment
      */
-    public SHBE_Environment(Generic_Environment ge) {
+    public SHBE_Environment(Data_Environment de) {
         //Memory_Threshold = 3000000000L;
-        this.ge = ge;
-        oe = new ONSPD_Environment(ge);
+        this.de = de;
+        this.ge = de.env;
+        oe = new ONSPD_Environment(de);
         files = new SHBE_Files(ge.files.getDir());
         collections = new SHBE_Collections(this);
     }

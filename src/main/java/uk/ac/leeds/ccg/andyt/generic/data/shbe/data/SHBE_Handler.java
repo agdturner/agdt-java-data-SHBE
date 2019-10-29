@@ -368,8 +368,8 @@ public class SHBE_Handler extends SHBE_Object {
         return getClaimIDToClaimRefLookup(ClaimIDToClaimRefLookupFile);
     }
 
-    public final SHBE_CorrectedPostcodes getCorrectedPostcodes(
-            File f) {
+    public final SHBE_CorrectedPostcodes getCorrectedPostcodes(File f) 
+            throws IOException {
         if (CorrectedPostcodes == null) {
             if (f.exists()) {
                 CorrectedPostcodes = (SHBE_CorrectedPostcodes) env.ge.io.readObject(f);
@@ -381,7 +381,7 @@ public class SHBE_Handler extends SHBE_Object {
         return CorrectedPostcodes;
     }
 
-    public SHBE_CorrectedPostcodes getCorrectedPostcodes() {
+    public SHBE_CorrectedPostcodes getCorrectedPostcodes() throws IOException {
         CorrectedPostcodesFile = getCorrectedPostcodesFile();
         return getCorrectedPostcodes(CorrectedPostcodesFile);
     }

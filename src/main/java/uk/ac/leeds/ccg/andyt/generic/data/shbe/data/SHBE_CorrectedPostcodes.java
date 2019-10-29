@@ -19,11 +19,12 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import uk.ac.leeds.ccg.andyt.data.format.Data_ReadCSV;
+import uk.ac.leeds.ccg.andyt.data.format.Data_ReadTXT;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
@@ -57,14 +58,13 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
      * have been checked in Academy and either corrected, or checked and found
      * to be mappable.
      */
-    public void run() {
-        File dir;
-        dir = new File(files.getInputLCCDir(), "AcademyPostcodeCorrections");
+    public void run() throws IOException {
+        File dir = new File(files.getInputLCCDir(), "AcademyPostcodeCorrections");
         File f;
         f = new File(dir, "Postcodes2016-10.csv");
         //Generic_ReadCSV.testRead(f, dir, 6);
-        ArrayList<String> lines;
-        lines = Data_ReadCSV.read(f, dir, 6);
+        Data_ReadTXT reader = new Data_ReadTXT(env.de);
+        ArrayList<String> lines = reader.read(f, dir, 6);
         Iterator<String> ite;
         ite = lines.iterator();
         String s;

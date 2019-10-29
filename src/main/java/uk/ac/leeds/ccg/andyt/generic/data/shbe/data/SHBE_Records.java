@@ -1309,9 +1309,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @param inputFilename
      * @param inputDirectory
      * @param LatestYM3ForONSPDFormat
+     * @throws java.io.IOException
      */
     public SHBE_Records(SHBE_Environment env, int logID, File inputDirectory,
-            String inputFilename, ONSPD_YM3 LatestYM3ForONSPDFormat) {
+            String inputFilename, ONSPD_YM3 LatestYM3ForONSPDFormat) throws IOException {
         super(env, logID);
         Handler = env.handler;
         InputFile = new File(inputDirectory, inputFilename);

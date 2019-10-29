@@ -16,7 +16,7 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.process;
 
 import java.io.IOException;
-import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
+import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
 
@@ -33,8 +33,8 @@ public class SHBE_Main_Process extends SHBE_Object {
 
     public static void main(String[] args) {
         try {
-            Generic_Environment ge = new Generic_Environment();
-            SHBE_Environment env = new SHBE_Environment(ge);
+            Data_Environment de = new Data_Environment();
+            SHBE_Environment env = new SHBE_Environment(de);
             SHBE_Main_Process p = new SHBE_Main_Process(env, 0);
             // Main switches
             p.run();
