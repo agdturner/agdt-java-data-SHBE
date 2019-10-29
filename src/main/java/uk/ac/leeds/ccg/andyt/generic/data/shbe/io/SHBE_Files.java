@@ -16,6 +16,7 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.io;
 
 import java.io.File;
+import java.io.IOException;
 import uk.ac.leeds.ccg.andyt.data.io.Data_Files;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
 
@@ -27,8 +28,9 @@ public class SHBE_Files extends Data_Files {
 
     /**
      * @param dir
+     * @throws java.io.IOException
      */
-    public SHBE_Files(File dir) {
+    public SHBE_Files(File dir) throws IOException {
         super(dir);
     }
 

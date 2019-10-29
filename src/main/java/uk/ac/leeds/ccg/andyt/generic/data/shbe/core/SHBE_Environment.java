@@ -16,6 +16,7 @@
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import uk.ac.leeds.ccg.andyt.data.core.Data_Environment;
 import uk.ac.leeds.ccg.andyt.generic.core.Generic_Environment;
@@ -49,7 +50,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
      * 
      * @param de Data_Environment
      */
-    public SHBE_Environment(Data_Environment de) {
+    public SHBE_Environment(Data_Environment de) throws IOException {
         //Memory_Threshold = 3000000000L;
         this.de = de;
         this.ge = de.env;
