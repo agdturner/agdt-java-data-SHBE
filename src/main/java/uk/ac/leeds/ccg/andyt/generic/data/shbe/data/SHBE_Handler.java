@@ -210,7 +210,7 @@ public class SHBE_Handler extends SHBE_Object {
     private File PostcodeIDToPointLookupsFile;
 
     public SHBE_Handler(SHBE_Environment e) throws IOException {
-        this(e, e.ge.initLog("SHBE_Handler"));
+        this(e, e.env.initLog("SHBE_Handler"));
     }
 
     public SHBE_Handler(SHBE_Environment e, int logID) {
@@ -237,27 +237,27 @@ public class SHBE_Handler extends SHBE_Object {
         for (String SHBEFilename : SHBEFilenames) {
             SHBE_Records recs;
             recs = new SHBE_Records(env, logID, dir, SHBEFilename, nYM3);
-            env.ge.io.writeObject(recs, recs.getFile(), recs.toString());
+            env.env.io.writeObject(recs, recs.getFile(), recs.toString());
         }
         writeLookups();
         // Make a backup copy
         File SHBEbackup;
         SHBEbackup = new File(files.getGeneratedLCCDir(), "SHBEBackup");
         if (SHBEbackup.isDirectory()) {
-            SHBEbackup = env.ge.io.addToArchive(SHBEbackup, 100);
+            SHBEbackup = env.env.io.addToArchive(SHBEbackup, 100);
         } else {
-            SHBEbackup = env.ge.io.initialiseArchive(SHBEbackup, 100, false);
+            SHBEbackup = env.env.io.initialiseArchive(SHBEbackup, 100, false);
         }
-        env.ge.io.copy(files.getGeneratedSHBEDir(), SHBEbackup);
+        env.env.io.copy(files.getGeneratedSHBEDir(), SHBEbackup);
     }
 
     /**
      * {@code
-     * if (Data == null) {
-     * if (f.exists()) {
-     * Data = (HashMap<String, SHBE_Records>) env.ge.io.readObject(f);
-     * } else {
-     * Data = new HashMap<String, SHBE_Records>(); } } return Data; }
+ if (Data == null) {
+ if (f.exists()) {
+ Data = (HashMap<String, SHBE_Records>) env.env.io.readObject(f);
+ } else {
+ Data = new HashMap<String, SHBE_Records>(); } } return Data; }
      *
      * @param f
      * @return
@@ -265,7 +265,7 @@ public class SHBE_Handler extends SHBE_Object {
     public HashMap<ONSPD_YM3, SHBE_Records> getData(File f) {
         if (Data == null) {
             if (f.exists()) {
-                Data = (HashMap<ONSPD_YM3, SHBE_Records>) env.ge.io.readObject(f);
+                Data = (HashMap<ONSPD_YM3, SHBE_Records>) env.env.io.readObject(f);
             } else {
                 Data = new HashMap<>();
             }
@@ -315,10 +315,10 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      * {@code HashMap<String, SHBE_ID> result;
-     * if (f.exists()) {
-     * result = (HashMap<String, SHBE_ID>) env.ge.io.readObject(f);
-     * } else {
-     * result = new HashMap<String, SHBE_ID>(); } return result;}
+ if (f.exists()) {
+ result = (HashMap<String, SHBE_ID>) env.env.io.readObject(f);
+ } else {
+ result = new HashMap<String, SHBE_ID>(); } return result;}
      *
      * @param f
      * @return
@@ -326,7 +326,7 @@ public class SHBE_Handler extends SHBE_Object {
     public HashMap<String, SHBE_ID> getStringToIDLookup(File f) {
         HashMap<String, SHBE_ID> r;
         if (f.exists()) {
-            r = (HashMap<String, SHBE_ID>) env.ge.io.readObject(f);
+            r = (HashMap<String, SHBE_ID>) env.env.io.readObject(f);
         } else {
             r = new HashMap<>();
         }
@@ -372,7 +372,7 @@ public class SHBE_Handler extends SHBE_Object {
             throws IOException {
         if (CorrectedPostcodes == null) {
             if (f.exists()) {
-                CorrectedPostcodes = (SHBE_CorrectedPostcodes) env.ge.io.readObject(f);
+                CorrectedPostcodes = (SHBE_CorrectedPostcodes) env.env.io.readObject(f);
             } else {
                 new SHBE_CorrectedPostcodes(env).run();
                 return getCorrectedPostcodes(f);
@@ -598,7 +598,7 @@ public class SHBE_Handler extends SHBE_Object {
             File f) {
         if (PostcodeToPostcodeIDLookup == null) {
             if (f.exists()) {
-                PostcodeToPostcodeIDLookup = (HashMap<String, ONSPD_ID>) env.ge.io.readObject(f);
+                PostcodeToPostcodeIDLookup = (HashMap<String, ONSPD_ID>) env.env.io.readObject(f);
             } else {
                 PostcodeToPostcodeIDLookup = new HashMap<>();
             }
@@ -630,7 +630,7 @@ public class SHBE_Handler extends SHBE_Object {
             File f) {
         if (PostcodeIDToPostcodeLookup == null) {
             if (f.exists()) {
-                PostcodeIDToPostcodeLookup = (HashMap<ONSPD_ID, String>) env.ge.io.readObject(f);
+                PostcodeIDToPostcodeLookup = (HashMap<ONSPD_ID, String>) env.env.io.readObject(f);
             } else {
                 PostcodeIDToPostcodeLookup = new HashMap<>();
             }
@@ -640,11 +640,11 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      * {@code if (PostcodeIDToPointLookups == null) {
-     * if (f.exists()) {
-     * PostcodeIDToPointLookups = (HashMap<String, HashMap<SHBE_ID, ONSPD_Point>>) env.ge.io.readObject(f);
-     * } else {
-     * PostcodeIDToPointLookups = new HashMap<String, HashMap<SHBE_ID, ONSPD_Point>>();
-     * } } return PostcodeIDToPointLookups;}
+ if (f.exists()) {
+ PostcodeIDToPointLookups = (HashMap<String, HashMap<SHBE_ID, ONSPD_Point>>) env.env.io.readObject(f);
+ } else {
+ PostcodeIDToPointLookups = new HashMap<String, HashMap<SHBE_ID, ONSPD_Point>>();
+ } } return PostcodeIDToPointLookups;}
      *
      * @param f
      * @return
@@ -653,7 +653,7 @@ public class SHBE_Handler extends SHBE_Object {
             File f) {
         if (PostcodeIDToPointLookups == null) {
             if (f.exists()) {
-                PostcodeIDToPointLookups = (HashMap<ONSPD_YM3, HashMap<ONSPD_ID, ONSPD_Point>>) env.ge.io.readObject(f);
+                PostcodeIDToPointLookups = (HashMap<ONSPD_YM3, HashMap<ONSPD_ID, ONSPD_Point>>) env.env.io.readObject(f);
             } else {
                 PostcodeIDToPointLookups = new HashMap<>();
             }
@@ -991,7 +991,7 @@ public class SHBE_Handler extends SHBE_Object {
             File f;
             f = getFile(ym3);
             if (f.exists()) {
-                r = (SHBE_Records) env.ge.io.readObject(f);
+                r = (SHBE_Records) env.env.io.readObject(f);
                 r.env = env;
                 return r;
             }
@@ -1033,7 +1033,7 @@ public class SHBE_Handler extends SHBE_Object {
      */
     public int clearAll() {
         String methodName = "clearAll";
-        env.ge.log("<" + methodName + ">");
+        env.env.log("<" + methodName + ">");
         int r = 0;
         Iterator<ONSPD_YM3> ite;
         ite = Data.keySet().iterator();
@@ -1047,7 +1047,7 @@ public class SHBE_Handler extends SHBE_Object {
                 r++;
             }
         }
-        env.ge.log("</" + methodName + ">");
+        env.env.log("</" + methodName + ">");
         return r;
     }
 
@@ -1133,31 +1133,31 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     public void writeLookups() {
-        env.ge.io.writeObject(getClaimIDToClaimRefLookup(),
+        env.env.io.writeObject(getClaimIDToClaimRefLookup(),
                 getClaimIDToClaimRefLookupFile());
-        env.ge.io.writeObject(getClaimRefToClaimIDLookup(),
+        env.env.io.writeObject(getClaimRefToClaimIDLookup(),
                 getClaimRefToClaimIDLookupFile());
-        env.ge.io.writeObject(getNINOToNINOIDLookup(),
+        env.env.io.writeObject(getNINOToNINOIDLookup(),
                 getNINOToNINOIDLookupFile());
-        env.ge.io.writeObject(getNINOIDToNINOLookup(),
+        env.env.io.writeObject(getNINOIDToNINOLookup(),
                 getNINOIDToNINOLookupFile());
-        env.ge.io.writeObject(getDOBToDOBIDLookup(),
+        env.env.io.writeObject(getDOBToDOBIDLookup(),
                 getDOBToDOBIDLookupFile());
-        env.ge.io.writeObject(getDOBIDToDOBLookup(),
+        env.env.io.writeObject(getDOBIDToDOBLookup(),
                 getDOBIDToDOBLookupFile());
-        env.ge.io.writeObject(getPostcodeToPostcodeIDLookup(),
+        env.env.io.writeObject(getPostcodeToPostcodeIDLookup(),
                 getPostcodeToPostcodeIDLookupFile());
-        env.ge.io.writeObject(getPostcodeIDToPostcodeLookup(),
+        env.env.io.writeObject(getPostcodeIDToPostcodeLookup(),
                 getPostcodeIDToPostcodeLookupFile());
-        env.ge.io.writeObject(getPostcodeIDToPointLookups(),
+        env.env.io.writeObject(getPostcodeIDToPointLookups(),
                 getPostcodeIDToPointLookupsFile());
-        env.ge.io.writeObject(getClaimantPersonIDs(),
+        env.env.io.writeObject(getClaimantPersonIDs(),
                 getClaimantPersonIDsFile());
-        env.ge.io.writeObject(getPartnerPersonIDs(),
+        env.env.io.writeObject(getPartnerPersonIDs(),
                 getPartnerPersonIDsFile());
-        env.ge.io.writeObject(getNonDependentPersonIDs(),
+        env.env.io.writeObject(getNonDependentPersonIDs(),
                 getNonDependentPersonIDsFile());
-        env.ge.io.writeObject(getPersonIDToClaimIDLookup(),
+        env.env.io.writeObject(getPersonIDToClaimIDLookup(),
                 getPersonIDToClaimIDLookupFile());
     }
 
@@ -1195,7 +1195,7 @@ public class SHBE_Handler extends SHBE_Object {
                 String SHBEFilename = ite.next();
                 SHBE_Records recs;
                 recs = new SHBE_Records(env, logID, dir, SHBEFilename, nYM3);
-                env.ge.io.writeObject(recs, recs.getFile());
+                env.env.io.writeObject(recs, recs.getFile());
             }
             writeLookups();
         }
@@ -1203,11 +1203,11 @@ public class SHBE_Handler extends SHBE_Object {
         File f;
         f = new File(files.getGeneratedLCCDir(), "SHBEBackup");
         if (f.isDirectory()) {
-            f = env.ge.io.addToArchive(f, 100);
+            f = env.env.io.addToArchive(f, 100);
         } else {
-            f = env.ge.io.initialiseArchive(f, 100, false);
+            f = env.env.io.initialiseArchive(f, 100, false);
         }
-        env.ge.io.copy(files.getGeneratedSHBEDir(), f);
+        env.env.io.copy(files.getGeneratedSHBEDir(), f);
     }
 
     /**
@@ -1271,10 +1271,10 @@ public class SHBE_Handler extends SHBE_Object {
          * Set up log to write out some basic details of Claims with Claimant
          * Postcodes that are not yet mappable by any means.
          */
-        int logIDUP = env.ge.initLog("UnmappablePostcodes" + YMN, ".csv");
+        int logIDUP = env.env.initLog("UnmappablePostcodes" + YMN, ".csv");
         h = "Ref,Year_Month,ClaimRef,Recorded Postcode,Correct Postcode,"
                 + "Input To Academy (Y/N)";
-        env.ge.log(h, logIDUP);
+        env.env.log(h, logIDUP);
         int ref2 = 1;
 
         ONSPD_YM3 YM30;
@@ -1301,12 +1301,12 @@ public class SHBE_Handler extends SHBE_Object {
         YM30 = getYM3(SHBEFilenames[i]);
         System.out.println("YM30 " + YM30);
         YMN = getYearMonthNumber(SHBEFilenames[i]);
-        int logID2 = env.ge.initLog("FutureModifiedPostcodes" + YMN, ".csv");
+        int logID2 = env.env.initLog("FutureModifiedPostcodes" + YMN, ".csv");
         h = "ClaimRef,Original Claimant Postcode,Updated from the "
                 + "Future Claimant Postcode";
-        env.ge.log(h, logID2);
+        env.env.log(h, logID2);
         nyfolYM30 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM30);
-        env.ge.log("NearestYM3ForONSPDLookupYM30 " + nyfolYM30);
+        env.env.log("NearestYM3ForONSPDLookupYM30 " + nyfolYM30);
         s0 = new SHBE_Records(env, logID, YM30);
         recs0 = s0.getRecords(hoome);
         writeOutModifiedPostcodes(ump, YMN,                s0, hoome);
@@ -1327,7 +1327,7 @@ public class SHBE_Handler extends SHBE_Object {
             if (rec1 != null) {
                 postcodef1 = rec1.getClaimPostcodeF();
                 if (rec1.isClaimPostcodeFMappable()) {
-                    env.ge.log("Claimants Postcode 0 \"" + postcode0
+                    env.env.log("Claimants Postcode 0 \"" + postcode0
                             + "\" unmappablePostcodef0 \"" + unmappablePostcodef0
                             + "\" postcodef0 \"" + postcodef0 + "\" changed to "
                             + postcodef1 + " which is mappable.");
@@ -1353,7 +1353,7 @@ public class SHBE_Handler extends SHBE_Object {
                         modifiedAnyRecs = true;
                         postcode1 = postcodef1.replaceAll(" ", "");
                         postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
-                        env.ge.log(claimRef + "," + postcode0 + "," + postcode1, logID);
+                        env.env.log(claimRef + "," + postcode0 + "," + postcode1, logID);
                         ClaimantPostcodesUnmappable0Remove.add(claimID);
                     }
                 } else {
@@ -1366,7 +1366,7 @@ public class SHBE_Handler extends SHBE_Object {
 //                        }
                     postcode1 = rec1.getDRecord().getClaimantsPostcode();
                     uup.add(claimRef + "," + postcode1 + ",,");
-                    env.ge.log("" + ref2 + "," + YM31 + "," + claimRef + ","
+                    env.env.log("" + ref2 + "," + YM31 + "," + claimRef + ","
                             + postcode1 + ",,", logIDUP);
                     ref2++;
 //                        System.out.println("postcodef1 " + postcodef1 + " is not mappable.");
@@ -1385,15 +1385,15 @@ public class SHBE_Handler extends SHBE_Object {
         }
         if (modifiedRecs == true) {
             // Write out recs0
-            env.ge.io.writeObject(cpu0,
+            env.env.io.writeObject(cpu0,
                     s0.getClaimantPostcodesUnmappableFile());
-            env.ge.io.writeObject(ClaimIDToPostcodeIDLookup0,
+            env.env.io.writeObject(ClaimIDToPostcodeIDLookup0,
                     s0.getClaimIDToPostcodeIDLookupFile());
-            env.ge.io.writeObject(recs0, s0.getRecordsFile());
-            env.ge.io.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
+            env.env.io.writeObject(recs0, s0.getRecordsFile());
+            env.env.io.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
                     s0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
         }
-        env.ge.closeLog(logIDUP);
+        env.env.closeLog(logIDUP);
 
         // Write out UniqueUnmappablePostcodes
         h = "ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,"
@@ -1405,7 +1405,7 @@ public class SHBE_Handler extends SHBE_Object {
 
         // Write out PostcodeIDPointLookups
         if (modifiedAnyRecs == true) {
-            env.ge.io.writeObject(PostcodeIDPointLookups,
+            env.env.io.writeObject(PostcodeIDPointLookups,
                     getPostcodeIDToPointLookupsFile());
         }
     }
@@ -1419,10 +1419,10 @@ public class SHBE_Handler extends SHBE_Object {
      * @param l The lines.
      */
     protected void writeLog(String n, String e, String h, Collection<String> l) throws IOException {
-        int logID2 = env.ge.initLog(n, e);
-        env.ge.log(h, logID2, true);
-        env.ge.log(l, logID2, true);
-        env.ge.closeLog(logID2);
+        int logID2 = env.env.initLog(n, e);
+        env.env.log(h, logID2, true);
+        env.env.log(l, logID2, true);
+        env.env.closeLog(logID2);
     }
 
     /**
@@ -1508,12 +1508,12 @@ public class SHBE_Handler extends SHBE_Object {
         for (int i = SHBEFilenames.length - 2; i >= 0; i--) {
             // Get previous SHBE.
             YM30 = getYM3(SHBEFilenames[i]);
-            env.ge.log("YM30 " + YM30);
+            env.env.log("YM30 " + YM30);
             YMN = getYearMonthNumber(SHBEFilenames[i]);
-            int logID2 = env.ge.initLog("FutureModifiedPostcodes" + YMN, ".csv");
+            int logID2 = env.env.initLog("FutureModifiedPostcodes" + YMN, ".csv");
             h = "ClaimRef,Original Claimant Postcode,Updated from the Future "
                     + "Claimant Postcode";
-            env.ge.log(h, logID2);
+            env.env.log(h, logID2);
             NearestYM3ForONSPDLookupYM30 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM30);
             System.out.println("NearestYM3ForONSPDLookupYM30 " + NearestYM3ForONSPDLookupYM30);
             SHBE_Records0 = new SHBE_Records(env, YM30);
@@ -1566,11 +1566,11 @@ public class SHBE_Handler extends SHBE_Object {
                             modifiedAnyRecs = true;
                             postcode1 = postcodef1.replaceAll(" ", "");
                             postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
-                            env.ge.log(claimRef + "," + postcode0 + "," + postcode1, logID2);
+                            env.env.log(claimRef + "," + postcode0 + "," + postcode1, logID2);
                             ClaimantPostcodesUnmappable0Remove.add(claimID);
                         }
                     } else {
-                        env.ge.log("postcodef1 " + postcodef1 + " is not mappable.");
+                        env.env.log("postcodef1 " + postcodef1 + " is not mappable.");
 //                        postcode1 = postcodef1.replaceAll(" ", "");
 //                        if (postcode1.length() > 3) {
 //                        postcode1 = postcode1.substring(0, postcode1.length() - 3) + " " + postcode1.substring(postcode1.length() - 3);
@@ -1579,7 +1579,7 @@ public class SHBE_Handler extends SHBE_Object {
 //                        }
                         postcode1 = rec1.getDRecord().getClaimantsPostcode();
                         UniqueUnmappablePostcodes.add(claimRef + "," + postcode1 + ",,");
-                        env.ge.log("" + ref2 + "," + YM31 + "," + claimRef
+                        env.env.log("" + ref2 + "," + YM31 + "," + claimRef
                                 + "," + postcode1 + ",,", logID2);
                         ref2++;
 //                        System.out.println("postcodef1 " + postcodef1 + " is not mappable.");
@@ -1597,19 +1597,19 @@ public class SHBE_Handler extends SHBE_Object {
             }
             if (modifiedRecs == true) {
                 // Write out recs0
-                env.ge.io.writeObject(ClaimantPostcodesUnmappable0,
+                env.env.io.writeObject(ClaimantPostcodesUnmappable0,
                         SHBE_Records0.getClaimantPostcodesUnmappableFile());
-                env.ge.io.writeObject(ClaimIDToPostcodeIDLookup0,
+                env.env.io.writeObject(ClaimIDToPostcodeIDLookup0,
                         SHBE_Records0.getClaimIDToPostcodeIDLookupFile());
-                env.ge.io.writeObject(recs0, SHBE_Records0.getRecordsFile());
-                env.ge.io.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
+                env.env.io.writeObject(recs0, SHBE_Records0.getRecordsFile());
+                env.env.io.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
                         SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
             }
             // Prepare for next iteration
             recs1 = recs0;
             ClaimIDToPostcodeIDLookup0 = null;
             ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
-            env.ge.closeLog(logID2);
+            env.env.closeLog(logID2);
 
             // Write out UniqueUnmappablePostcodes
             h = "ClaimRef,Original Claimant Postcode,Modified Claimant Postcode,"
@@ -1621,7 +1621,7 @@ public class SHBE_Handler extends SHBE_Object {
 
             // Write out PostcodeIDPointLookups
             if (modifiedAnyRecs == true) {
-                env.ge.io.writeObject(PostcodeIDPointLookups,
+                env.env.io.writeObject(PostcodeIDPointLookups,
                         getPostcodeIDToPointLookupsFile());
             }
         }
@@ -1649,10 +1649,10 @@ public class SHBE_Handler extends SHBE_Object {
         SHBE_ID SHBE_ID;
         String[] postcodes;
         String claimRef;
-        int logID2 = env.ge.initLog("ModifiedPostcodes" + ymn, ".csv");
+        int logID2 = env.env.initLog("ModifiedPostcodes" + ymn, ".csv");
         String s;
         s = "Ref,ClaimRef,Recorded Postcode,Modified Postcode,Input To Academy (Y/N)";
-        env.ge.log(s);
+        env.env.log(s);
         ref = 1;
         ClaimantPostcodesModified = records.getClaimantPostcodesModified(hoome);
         ite = ClaimantPostcodesModified.keySet().iterator();
@@ -1661,11 +1661,11 @@ public class SHBE_Handler extends SHBE_Object {
             postcodes = ClaimantPostcodesModified.get(SHBE_ID);
             claimRef = ClaimIDToClaimRefLookup.get(SHBE_ID);
             s = claimRef + "," + postcodes[0] + "," + postcodes[1] + ",";
-            env.ge.log("" + ref + "," + s);
+            env.env.log("" + ref + "," + s);
             ump.add(s);
             ref++;
         }
-        env.ge.closeLog(logID2);
+        env.env.closeLog(logID2);
     }
 
     /**
@@ -3195,7 +3195,7 @@ public class SHBE_Handler extends SHBE_Object {
             File f) {
         HashMap<SHBE_ID, String> result;
         if (f.exists()) {
-            result = (HashMap<SHBE_ID, String>) env.ge.io.readObject(f);
+            result = (HashMap<SHBE_ID, String>) env.env.io.readObject(f);
         } else {
             result = new HashMap<>();
         }
@@ -3849,7 +3849,7 @@ public class SHBE_Handler extends SHBE_Object {
         ClaimantsNINO = S_Record.getClaimantsNationalInsuranceNumber();
         if (ClaimantsNINO.trim().isEmpty()) {
             ClaimantsNINO = SHBE_Strings.s_DefaultNINO;
-            env.ge.log("ClaimantsNINO is empty for "
+            env.env.log("ClaimantsNINO is empty for "
                     + "ClaimRef " + S_Record.getCouncilTaxBenefitClaimReferenceNumber()
                     + " Setting as default NINO " + ClaimantsNINO, true);
         }

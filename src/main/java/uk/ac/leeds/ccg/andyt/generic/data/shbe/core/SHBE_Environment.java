@@ -29,10 +29,10 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.util.SHBE_Collections;
  *
  * @author geoagdt
  */
-public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
+public class SHBE_Environment extends SHBE_MemoryManager
         implements Serializable {
 
-    public final transient Generic_Environment ge;
+    public final transient Generic_Environment env;
     public final transient Data_Environment de;
     public final transient ONSPD_Environment oe;
     public final transient SHBE_Files files;
@@ -53,9 +53,9 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public SHBE_Environment(Data_Environment de) throws IOException {
         //Memory_Threshold = 3000000000L;
         this.de = de;
-        this.ge = de.env;
+        this.env = de.env;
         oe = new ONSPD_Environment(de);
-        files = new SHBE_Files(ge.files.getDir());
+        files = new SHBE_Files(env.files.getDir());
         collections = new SHBE_Collections(this);
     }
 
@@ -72,7 +72,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
 //            if (clear == 0) {
 //                return false;
 //            }
-            if (!swapDataAny()) {
+            if (!cacheDataAny()) {
                 return false;
             }
         }
@@ -80,15 +80,15 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     }
 
     @Override
-    public boolean swapDataAny(boolean hoome) {
+    public boolean cacheDataAny(boolean hoome) {
         try {
-            boolean r = swapDataAny();
+            boolean r = cacheDataAny();
             checkAndMaybeFreeMemory();
             return r;
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 clearMemoryReserve();
-                boolean r = swapDataAny(HOOMEF);
+                boolean r = cacheDataAny(HOOMEF);
                 initMemoryReserve();
                 return r;
             } else {
@@ -98,18 +98,18 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     }
 
     /**
-     * Currently this just tries to swap ONSPD data.
+     * Currently this just tries to cache ONSPD data.
      *
      * @return
      */
     @Override
-    public boolean swapDataAny() {
+    public boolean cacheDataAny() {
         boolean r;
         r = clearSomeData();
         if (r) {
             return r;
         } else {
-            ge.log("No ONSPD data to clear. Do some coding to try to arrange "
+            env.log("No ONSPD data to clear. Do some coding to try to arrange "
                     + "to clear something else if needs be. If the program "
                     + "fails then try providing more memory...");
             return r;
@@ -125,9 +125,7 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
      * @return 
      */
     public int clearAllData() {
-        int r;
-        r = handler.clearAll();
-        return r;
+        return handler.clearAll();
     }
     
     /**
@@ -135,11 +133,10 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
      * {@link SHBE_Files#getEnvDataFile()}.
      */
     public void cacheData() {
-        File f;
-        f = files.getEnvDataFile();
-        ge.log("<cache>", false);
-        ge.io.writeObject(handler, f);
-        ge.log("</cache>", false);
+        File f = files.getEnvDataFile();
+        env.log("<cache>", false);
+        env.io.writeObject(handler, f);
+        env.log("</cache>", false);
     }
 
     /**
@@ -148,8 +145,8 @@ public class SHBE_Environment extends SHBE_OutOfMemoryErrorHandler
     public final void loadData() {
         File f;
         f = files.getEnvDataFile();
-        ge.log("<load>", false);
-        handler = (SHBE_Handler) ge.io.readObject(f);
-        ge.log("</load>", false);
+        env.log("<load>", false);
+        handler = (SHBE_Handler) env.io.readObject(f);
+        env.log("</load>", false);
     }
 }

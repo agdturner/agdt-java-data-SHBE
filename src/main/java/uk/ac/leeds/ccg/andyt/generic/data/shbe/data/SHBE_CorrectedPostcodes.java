@@ -115,12 +115,12 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
                 getClaimRefToCorrectedPostcodes().put(ClaimRef, CorrectedPostcodes);
             }
         }
-        env.ge.log("UnmappableToMappablePostcode.size() " 
+        env.env.log("UnmappableToMappablePostcode.size() " 
                 + UnmappableToMappablePostcodes.size(), logID, true);
         String m;
         m = "UnmappableToMappablePostcode";
-        env.ge.log("<" + m + ">", logID, false);
-        env.ge.log("Unmappable,Mappable", logID, false);
+        env.env.log("<" + m + ">", logID, false);
+        env.env.log("Unmappable,Mappable", logID, false);
         ite = UnmappableToMappablePostcodes.keySet().iterator();
         while (ite.hasNext()) {
             OriginalPostcodeF = ite.next();
@@ -134,26 +134,26 @@ public class SHBE_CorrectedPostcodes extends SHBE_Object {
                 CorrectedPostcodeF = ite2.next();
                 s += "," + CorrectedPostcodeF;
             }
-            env.ge.log(s, logID, false);
+            env.env.log(s, logID, false);
         }
-        env.ge.log("</" + m + ">", logID, false);
+        env.env.log("</" + m + ">", logID, false);
 
         m = "PostcodesCheckedAsMappable";
-        env.ge.log("<" + m + ">", logID, false);
-        env.ge.log("Mappable", logID, false);
+        env.env.log("<" + m + ">", logID, false);
+        env.env.log("Mappable", logID, false);
         ite = getPostcodesCheckedAsMappable().iterator();
         while (ite.hasNext()) {
             OriginalPostcodeF = ite.next();
-            env.ge.log(OriginalPostcodeF, logID, false);
+            env.env.log(OriginalPostcodeF, logID, false);
         }
-        env.ge.log("</" + m + ">", logID, false);
+        env.env.log("</" + m + ">", logID, false);
 
         File dirout;
         dirout = files.getGeneratedLCCDir();
         File fout;
         fout = new File(dirout,
                 "DW_CorrectedPostcodes" + SHBE_Strings.s_BinaryFileExtension);
-        env.ge.io.writeObject(this, fout);
+        env.env.io.writeObject(this, fout);
     }
 
     /**
