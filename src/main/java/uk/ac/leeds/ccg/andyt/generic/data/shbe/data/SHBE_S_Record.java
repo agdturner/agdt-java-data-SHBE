@@ -18,6 +18,7 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data;
 
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_PersonID;
 import java.io.Serializable;
 
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;

@@ -18,6 +18,7 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data;
 
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_PersonID;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -27,16 +28,19 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeMap;
-import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Point;
 //import uk.ac.leeds.ccg.andyt.generic.math.Generic_BigDecimal;
 import uk.ac.leeds.ccg.andyt.generic.util.Generic_Time;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
+import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.id.ONSPD_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.util.ONSPD_YM3;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_ClaimID;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_DOBID;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_NINOID;
 //import uk.ac.leeds.ccg.andyt.math.Generic_BigDecimal;
 //import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.underoccupied.DW_UO_Record;
 //import uk.ac.leeds.ccg.andyt.projects.digitalwelfare.data.underoccupied.DW_UO_Set;
@@ -74,34 +78,34 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * ClaimRef to ClaimID Lookup.
      */
-    private HashMap<String, SHBE_ID> ClaimRefToClaimIDLookup;
+    private HashMap<String, SHBE_ClaimID> ClaimRefToClaimIDLookup;
 
     /**
      * ClaimID to ClaimRef Lookup.
      */
-    private HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup;
+    private HashMap<SHBE_ClaimID, String> ClaimIDToClaimRefLookup;
 
     private SHBE_CorrectedPostcodes CorrectedPostcodes;
 
     /**
      * National Insurance Number to NINO SHBE_ID Lookup.
      */
-    private HashMap<String, SHBE_ID> NINOToNINOIDLookup;
+    private HashMap<String, SHBE_NINOID> NINOToNINOIDLookup;
 
     /**
      * NINO SHBE_ID to National Insurance Number Lookup.
      */
-    private HashMap<SHBE_ID, String> NINOIDToNINOLookup;
+    private HashMap<SHBE_NINOID, String> NINOIDToNINOLookup;
 
     /**
      * Date Of Birth to DoB SHBE_ID Lookup.
      */
-    private HashMap<String, SHBE_ID> DOBToDOBIDLookup;
+    private HashMap<String, SHBE_DOBID> DOBToDOBIDLookup;
 
     /**
      * DoB SHBE_ID to Date Of Birth Lookup.
      */
-    private HashMap<SHBE_ID, String> DOBIDToDOBLookup;
+    private HashMap<SHBE_DOBID, String> DOBIDToDOBLookup;
 
     /**
      * SHBE_PersonID of Claimants
@@ -121,7 +125,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * SHBE_PersonID to ClaimIDs Lookup
      */
-    HashMap<SHBE_PersonID, HashSet<SHBE_ID>> PersonIDToClaimIDsLookup;
+    HashMap<SHBE_PersonID, HashSet<SHBE_ClaimID>> PersonIDToClaimIDsLookup;
 
     /**
      * Postcode to Postcode SHBE_ID Lookup.
@@ -253,11 +257,11 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      * {@code
- if (Data == null) {
- if (f.exists()) {
- Data = (HashMap<String, SHBE_Records>) env.env.io.readObject(f);
- } else {
- Data = new HashMap<String, SHBE_Records>(); } } return Data; }
+     * if (Data == null) {
+     * if (f.exists()) {
+     * Data = (HashMap<String, SHBE_Records>) env.env.io.readObject(f);
+     * } else {
+     * Data = new HashMap<String, SHBE_Records>(); } } return Data; }
      *
      * @param f
      * @return
@@ -275,9 +279,9 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      * {@code
- DataFile = getEnvDataFile();
- return getData(DataFile);
- }
+     * DataFile = getEnvDataFile();
+     * return getData(DataFile);
+     * }
      *
      * @return
      */
@@ -306,27 +310,27 @@ public class SHBE_Handler extends SHBE_Object {
      * @param f
      * @return ClaimRefToClaimIDLookup
      */
-    public HashMap<String, SHBE_ID> getClaimRefToClaimIDLookup(File f) {
+    public HashMap<String, SHBE_ClaimID> getClaimRefToClaimIDLookup(File f) {
         if (ClaimRefToClaimIDLookup == null) {
-            ClaimRefToClaimIDLookup = getStringToIDLookup(f);
+            ClaimRefToClaimIDLookup = getStringToTLookup(f);
         }
         return ClaimRefToClaimIDLookup;
     }
 
     /**
      * {@code HashMap<String, SHBE_ID> result;
- if (f.exists()) {
- result = (HashMap<String, SHBE_ID>) env.env.io.readObject(f);
- } else {
- result = new HashMap<String, SHBE_ID>(); } return result;}
+     * if (f.exists()) {
+     * result = (HashMap<String, SHBE_ID>) env.env.io.readObject(f);
+     * } else {
+     * result = new HashMap<String, SHBE_ID>(); } return result;}
      *
      * @param f
      * @return
      */
-    public HashMap<String, SHBE_ID> getStringToIDLookup(File f) {
-        HashMap<String, SHBE_ID> r;
+    public <T> HashMap<String, T> getStringToTLookup(File f) {
+        HashMap<String, T> r;
         if (f.exists()) {
-            r = (HashMap<String, SHBE_ID>) env.env.io.readObject(f);
+            r = (HashMap<String, T>) env.env.io.readObject(f);
         } else {
             r = new HashMap<>();
         }
@@ -339,9 +343,9 @@ public class SHBE_Handler extends SHBE_Object {
      * @param f
      * @return ClaimIDToClaimRefLookup
      */
-    public HashMap<SHBE_ID, String> getClaimIDToClaimRefLookup(File f) {
+    public HashMap<SHBE_ClaimID, String> getClaimIDToClaimRefLookup(File f) {
         if (ClaimIDToClaimRefLookup == null) {
-            ClaimIDToClaimRefLookup = env.collections.getHashMap_SHBE_ID__String(f);
+            ClaimIDToClaimRefLookup = env.collections.getHashMapTString(f);
         }
         return ClaimIDToClaimRefLookup;
     }
@@ -352,7 +356,7 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @return
      */
-    public HashMap<String, SHBE_ID> getClaimRefToClaimIDLookup() {
+    public HashMap<String, SHBE_ClaimID> getClaimRefToClaimIDLookup() {
         ClaimRefToClaimIDLookupFile = getClaimRefToClaimIDLookupFile();
         return getClaimRefToClaimIDLookup(ClaimRefToClaimIDLookupFile);
     }
@@ -363,12 +367,12 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @return
      */
-    public HashMap<SHBE_ID, String> getClaimIDToClaimRefLookup() {
+    public HashMap<SHBE_ClaimID, String> getClaimIDToClaimRefLookup() {
         ClaimIDToClaimRefLookupFile = getClaimIDToClaimRefLookupFile();
         return getClaimIDToClaimRefLookup(ClaimIDToClaimRefLookupFile);
     }
 
-    public final SHBE_CorrectedPostcodes getCorrectedPostcodes(File f) 
+    public final SHBE_CorrectedPostcodes getCorrectedPostcodes(File f)
             throws IOException {
         if (CorrectedPostcodes == null) {
             if (f.exists()) {
@@ -388,17 +392,17 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      * {@code if (NINOToSHBE_IDLookup == null) {
-     * NINOToSHBE_IDLookup = getStringToIDLookup(f);
+     * NINOToSHBE_IDLookup = getStringToTLookup(f);
      * }
      * return NINOToSHBE_IDLookup;}
      *
      * @param f
      * @return NINOToSHBE_IDLookup
      */
-    public final HashMap<String, SHBE_ID> getNINOToNINOIDLookup(
+    public final HashMap<String, SHBE_NINOID> getNINOToNINOIDLookup(
             File f) {
         if (NINOToNINOIDLookup == null) {
-            NINOToNINOIDLookup = getStringToIDLookup(f);
+            NINOToNINOIDLookup = getStringToTLookup(f);
         }
         return NINOToNINOIDLookup;
     }
@@ -409,24 +413,23 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @return
      */
-    public HashMap<String, SHBE_ID> getNINOToNINOIDLookup() {
+    public HashMap<String, SHBE_NINOID> getNINOToNINOIDLookup() {
         NINOToNINOIDLookupFile = getNINOToNINOIDLookupFile();
         return getNINOToNINOIDLookup(NINOToNINOIDLookupFile);
     }
 
     /**
      * {@code if (DOBToDOBIDLookup == null) {
-     * DOBToDOBIDLookup = getStringToIDLookup(f);
+     * DOBToDOBIDLookup = getStringToTLookup(f);
      * }
      * return DOBToDOBIDLookup;}
      *
      * @param f
      * @return
      */
-    public final HashMap<String, SHBE_ID> getDOBToDOBIDLookup(
-            File f) {
+    public final HashMap<String, SHBE_DOBID> getDOBToDOBIDLookup(File f) {
         if (DOBToDOBIDLookup == null) {
-            DOBToDOBIDLookup = getStringToIDLookup(f);
+            DOBToDOBIDLookup = getStringToTLookup(f);
         }
         return DOBToDOBIDLookup;
     }
@@ -437,24 +440,23 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @return
      */
-    public HashMap<String, SHBE_ID> getDOBToDOBIDLookup() {
+    public HashMap<String, SHBE_DOBID> getDOBToDOBIDLookup() {
         DOBToDOBIDLookupFile = getDOBToDOBIDLookupFile();
         return getDOBToDOBIDLookup(DOBToDOBIDLookupFile);
     }
 
     /**
      * {@code if (NINOIDToNINOLookup == null) {
-     * NINOIDToNINOLookup = getHashMap_SHBE_ID__String(f);
+     * NINOIDToNINOLookup = getHashMapTString(f);
      * }
      * return NINOIDToNINOLookup;}
      *
      * @param f
      * @return
      */
-    public final HashMap<SHBE_ID, String> getNINOIDToNINOLookup(
-            File f) {
+    public final HashMap<SHBE_NINOID, String> getNINOIDToNINOLookup(File f) {
         if (NINOIDToNINOLookup == null) {
-            NINOIDToNINOLookup = env.collections.getHashMap_SHBE_ID__String(f);
+            NINOIDToNINOLookup = env.collections.getHashMapTString(f);
         }
         return NINOIDToNINOLookup;
     }
@@ -465,24 +467,23 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @return
      */
-    public HashMap<SHBE_ID, String> getNINOIDToNINOLookup() {
+    public HashMap<SHBE_NINOID, String> getNINOIDToNINOLookup() {
         NINOIDToNINOLookupFile = getNINOIDToNINOLookupFile();
         return getNINOIDToNINOLookup(NINOIDToNINOLookupFile);
     }
 
     /**
      * {@code if (DOBIDToDOBLookup == null) {
-     * DOBIDToDOBLookup = getHashMap_SHBE_ID__String(f);
+     * DOBIDToDOBLookup = getHashMapTString(f);
      * }
      * return DOBIDToDOBLookup;}
      *
      * @param f
      * @return
      */
-    public final HashMap<SHBE_ID, String> getDOBIDToDOBLookup(
-            File f) {
+    public final HashMap<SHBE_DOBID, String> getDOBIDToDOBLookup(File f) {
         if (DOBIDToDOBLookup == null) {
-            DOBIDToDOBLookup = env.collections.getHashMap_SHBE_ID__String(f);
+            DOBIDToDOBLookup = env.collections.getHashMapTString(f);
         }
         return DOBIDToDOBLookup;
     }
@@ -493,7 +494,7 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @return
      */
-    public HashMap<SHBE_ID, String> getDOBIDToDOBLookup() {
+    public HashMap<SHBE_DOBID, String> getDOBIDToDOBLookup() {
         DOBIDToDOBLookupFile = getDOBIDToDOBLookupFile();
         return getDOBIDToDOBLookup(DOBIDToDOBLookupFile);
     }
@@ -502,8 +503,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param f
      * @return
      */
-    public final HashSet<SHBE_PersonID> getClaimantPersonIDs(
-            File f) {
+    public final HashSet<SHBE_PersonID> getClaimantPersonIDs(File f) {
         if (ClaimantPersonIDs == null) {
             ClaimantPersonIDs = env.collections.getHashSet_SHBE_PersonID(f);
         }
@@ -522,8 +522,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param f
      * @return
      */
-    public final HashSet<SHBE_PersonID> getPartnerPersonIDs(
-            File f) {
+    public final HashSet<SHBE_PersonID> getPartnerPersonIDs(File f) {
         if (PartnerPersonIDs == null) {
             PartnerPersonIDs = env.collections.getHashSet_SHBE_PersonID(f);
         }
@@ -542,8 +541,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param f
      * @return
      */
-    public final HashSet<SHBE_PersonID> getNonDependentPersonIDs(
-            File f) {
+    public final HashSet<SHBE_PersonID> getNonDependentPersonIDs(File f) {
         if (NonDependentPersonIDs == null) {
             NonDependentPersonIDs = env.collections.getHashSet_SHBE_PersonID(f);
         }
@@ -562,10 +560,9 @@ public class SHBE_Handler extends SHBE_Object {
      * @param f
      * @return
      */
-    public final HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getPersonIDToClaimIDsLookup(
-            File f) {
+    public final HashMap<SHBE_PersonID, HashSet<SHBE_ClaimID>> getPersonIDToClaimIDsLookup(File f) {
         if (PersonIDToClaimIDsLookup == null) {
-            PersonIDToClaimIDsLookup = env.collections.getHashMap_SHBE_PersonID__HashSet_SHBE_ID(f);
+            PersonIDToClaimIDsLookup = env.collections.getHashMap_PersonID_HashSetT(f);
         }
         return PersonIDToClaimIDsLookup;
     }
@@ -575,7 +572,7 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @return
      */
-    public HashMap<SHBE_PersonID, HashSet<SHBE_ID>> getPersonIDToClaimIDLookup() {
+    public HashMap<SHBE_PersonID, HashSet<SHBE_ClaimID>> getPersonIDToClaimIDLookup() {
         PersonIDToClaimIDsLookupFile = getPersonIDToClaimIDLookupFile();
         return getPersonIDToClaimIDsLookup(PersonIDToClaimIDsLookupFile);
     }
@@ -587,7 +584,7 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      * {@code if (PostcodeToPostcodeIDLookup == null) {
-     * PostcodeToPostcodeIDLookup = getStringToIDLookup(f);
+     * PostcodeToPostcodeIDLookup = getStringToTLookup(f);
      * }
      * return PostcodeToPostcodeIDLookup;}
      *
@@ -619,7 +616,7 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      * {@code if (PostcodeIDToPostcodeLookup == null) {
-     * PostcodeIDToPostcodeLookup = getHashMap_SHBE_ID__String(f);
+     * PostcodeIDToPostcodeLookup = getHashMapTString(f);
      * }
      * return PostcodeIDToPostcodeLookup;}
      *
@@ -640,11 +637,11 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      * {@code if (PostcodeIDToPointLookups == null) {
- if (f.exists()) {
- PostcodeIDToPointLookups = (HashMap<String, HashMap<SHBE_ID, ONSPD_Point>>) env.env.io.readObject(f);
- } else {
- PostcodeIDToPointLookups = new HashMap<String, HashMap<SHBE_ID, ONSPD_Point>>();
- } } return PostcodeIDToPointLookups;}
+     * if (f.exists()) {
+     * PostcodeIDToPointLookups = (HashMap<String, HashMap<SHBE_ID, ONSPD_Point>>) env.env.io.readObject(f);
+     * } else {
+     * PostcodeIDToPointLookups = new HashMap<String, HashMap<SHBE_ID, ONSPD_Point>>();
+     * } } return PostcodeIDToPointLookups;}
      *
      * @param f
      * @return
@@ -1245,7 +1242,7 @@ public class SHBE_Handler extends SHBE_Object {
         ONSPD_YM3 nyfoly1 = ONSPD_Handler.getNearestYM3ForONSPDLookup(YM31);
         System.out.println("NearestYM3ForONSPDLookupYM31 " + nyfoly1);
         SHBE_Records s1 = new SHBE_Records(env, logID, YM31);
-        HashMap<SHBE_ID, SHBE_Record> recs1;
+        HashMap<SHBE_ClaimID, SHBE_Record> recs1;
         recs1 = s1.getRecords(hoome);
         SHBE_Record rec1;
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup1;
@@ -1253,9 +1250,9 @@ public class SHBE_Handler extends SHBE_Object {
         // Unique Unmappable Postcodes
         HashSet<String> uup = new HashSet<>();
         // Claimant Postcodes Unmappable
-        HashMap<SHBE_ID, String> cpu = s1.getClaimantPostcodesUnmappable();
-        SHBE_ID claimID;
-        Iterator<SHBE_ID> ite;
+        HashMap<SHBE_ClaimID, String> cpu = s1.getClaimantPostcodesUnmappable();
+        SHBE_ClaimID claimID;
+        Iterator<SHBE_ClaimID> ite;
         String claimRef;
         ite = cpu.keySet().iterator();
         while (ite.hasNext()) {
@@ -1265,7 +1262,7 @@ public class SHBE_Handler extends SHBE_Object {
         }
         // Unique Modified Postcodes
         HashSet<String> ump = new HashSet<>();
-        writeOutModifiedPostcodes(ump, YMN, s1,                hoome);
+        writeOutModifiedPostcodes(ump, YMN, s1, hoome);
 
         /**
          * Set up log to write out some basic details of Claims with Claimant
@@ -1281,9 +1278,9 @@ public class SHBE_Handler extends SHBE_Object {
         // Nearest YM3 For ONSPD Lookup YM30
         ONSPD_YM3 nyfolYM30;
         // Claimant Postcodes Unmappable 0
-        HashMap<SHBE_ID, String> cpu0;
+        HashMap<SHBE_ClaimID, String> cpu0;
         SHBE_Records s0;
-        HashMap<SHBE_ID, SHBE_Record> recs0;
+        HashMap<SHBE_ClaimID, SHBE_Record> recs0;
         SHBE_Record rec0;
         String postcode0;
         String postcode1;
@@ -1292,8 +1289,8 @@ public class SHBE_Handler extends SHBE_Object {
         String postcodef1;
 
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup0;
-        HashMap<SHBE_ID, ONSPD_ID> ClaimIDToPostcodeIDLookup0 = null;
-        HashSet<SHBE_ID> ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
+        HashMap<SHBE_ClaimID, ONSPD_ID> ClaimIDToPostcodeIDLookup0 = null;
+        HashSet<SHBE_ClaimID> ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
 
         //for (int i = SHBEFilenames.length - 2; i >= 0; i--) {
         int i = SHBEFilenames.length - 2;
@@ -1309,12 +1306,12 @@ public class SHBE_Handler extends SHBE_Object {
         env.env.log("NearestYM3ForONSPDLookupYM30 " + nyfolYM30);
         s0 = new SHBE_Records(env, logID, YM30);
         recs0 = s0.getRecords(hoome);
-        writeOutModifiedPostcodes(ump, YMN,                s0, hoome);
+        writeOutModifiedPostcodes(ump, YMN, s0, hoome);
         PostcodeIDToPointLookup0 = PostcodeIDPointLookups.get(nyfolYM30);
         cpu0 = s0.getClaimantPostcodesUnmappable(hoome);
         boolean modifiedRecs = false;
         ite = cpu0.keySet().iterator();
-        HashSet<SHBE_ID> ClaimantPostcodesUnmappable0Remove = new HashSet<>();
+        HashSet<SHBE_ClaimID> ClaimantPostcodesUnmappable0Remove = new HashSet<>();
         while (ite.hasNext()) {
             claimID = ite.next();
             unmappablePostcodef0 = cpu0.get(claimID);
@@ -1441,13 +1438,13 @@ public class SHBE_Handler extends SHBE_Object {
         // Nearest YM3 For ONSPD Lookup YM31
         ONSPD_YM3 nyol;
         SHBE_Records SHBE_Records1;
-        HashMap<SHBE_ID, SHBE_Record> recs1;
+        HashMap<SHBE_ClaimID, SHBE_Record> recs1;
         SHBE_Record rec1;
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup1;
         HashSet<String> UniqueUnmappablePostcodes;
-        HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable;
-        SHBE_ID claimID;
-        Iterator<SHBE_ID> ite;
+        HashMap<SHBE_ClaimID, String> ClaimantPostcodesUnmappable;
+        SHBE_ClaimID claimID;
+        Iterator<SHBE_ClaimID> ite;
         String claimRef;
         // UniqueModifiedPostcodes
         HashSet<String> ump;
@@ -1491,9 +1488,9 @@ public class SHBE_Handler extends SHBE_Object {
         // More declaration
         ONSPD_YM3 YM30;
         ONSPD_YM3 NearestYM3ForONSPDLookupYM30;
-        HashMap<SHBE_ID, String> ClaimantPostcodesUnmappable0;
+        HashMap<SHBE_ClaimID, String> ClaimantPostcodesUnmappable0;
         SHBE_Records SHBE_Records0;
-        HashMap<SHBE_ID, SHBE_Record> recs0;
+        HashMap<SHBE_ClaimID, SHBE_Record> recs0;
         SHBE_Record rec0;
         String postcode0;
         String postcode1;
@@ -1502,8 +1499,8 @@ public class SHBE_Handler extends SHBE_Object {
         String postcodef1;
 
         HashMap<ONSPD_ID, ONSPD_Point> PostcodeIDToPointLookup0;
-        HashMap<SHBE_ID, ONSPD_ID> ClaimIDToPostcodeIDLookup0 = null;
-        HashSet<SHBE_ID> ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
+        HashMap<SHBE_ClaimID, ONSPD_ID> ClaimIDToPostcodeIDLookup0 = null;
+        HashSet<SHBE_ClaimID> ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
 
         for (int i = SHBEFilenames.length - 2; i >= 0; i--) {
             // Get previous SHBE.
@@ -1527,7 +1524,7 @@ public class SHBE_Handler extends SHBE_Object {
             ClaimantPostcodesUnmappable0 = SHBE_Records0.getClaimantPostcodesUnmappable(hoome);
             boolean modifiedRecs = false;
             ite = ClaimantPostcodesUnmappable0.keySet().iterator();
-            HashSet<SHBE_ID> ClaimantPostcodesUnmappable0Remove = new HashSet<>();
+            HashSet<SHBE_ClaimID> ClaimantPostcodesUnmappable0Remove = new HashSet<>();
             while (ite.hasNext()) {
                 claimID = ite.next();
                 unmappablePostcodef0 = ClaimantPostcodesUnmappable0.get(claimID);
@@ -1589,7 +1586,7 @@ public class SHBE_Handler extends SHBE_Object {
                     }
                 }
             }
-            Iterator<SHBE_ID> ite2;
+            Iterator<SHBE_ClaimID> ite2;
             ite2 = ClaimantPostcodesUnmappable0Remove.iterator();
             while (ite2.hasNext()) {
                 claimID = ite2.next();
@@ -1644,9 +1641,9 @@ public class SHBE_Handler extends SHBE_Object {
     protected void writeOutModifiedPostcodes(HashSet<String> ump, String ymn,
             SHBE_Records records, boolean hoome) throws IOException {
         int ref;
-        HashMap<SHBE_ID, String[]> ClaimantPostcodesModified;
-        Iterator<SHBE_ID> ite;
-        SHBE_ID SHBE_ID;
+        HashMap<SHBE_ClaimID, String[]> ClaimantPostcodesModified;
+        Iterator<SHBE_ClaimID> ite;
+        SHBE_ClaimID claimID;
         String[] postcodes;
         String claimRef;
         int logID2 = env.env.initLog("ModifiedPostcodes" + ymn, ".csv");
@@ -1657,9 +1654,9 @@ public class SHBE_Handler extends SHBE_Object {
         ClaimantPostcodesModified = records.getClaimantPostcodesModified(hoome);
         ite = ClaimantPostcodesModified.keySet().iterator();
         while (ite.hasNext()) {
-            SHBE_ID = ite.next();
-            postcodes = ClaimantPostcodesModified.get(SHBE_ID);
-            claimRef = ClaimIDToClaimRefLookup.get(SHBE_ID);
+            claimID = ite.next();
+            postcodes = ClaimantPostcodesModified.get(claimID);
+            claimRef = ClaimIDToClaimRefLookup.get(claimID);
             s = claimRef + "," + postcodes[0] + "," + postcodes[1] + ",";
             env.env.log("" + ref + "," + s);
             ump.add(s);
@@ -1674,23 +1671,23 @@ public class SHBE_Handler extends SHBE_Object {
      * @param PT
      * @return
      */
-    public HashSet<SHBE_ID> getClaimIDsWithStatusOfHBAtExtractDate(
+    public HashSet<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDate(
             SHBE_Records SHBE_Records,
             String PT) {
-        HashSet<SHBE_ID> result;
-        result = null;
+        HashSet<SHBE_ClaimID> r;
+        r = null;
         if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeAll)) {
-            result = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
-            result.addAll(SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateSuspended());
-            result.addAll(SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateOther());
+            r = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
+            r.addAll(SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateSuspended());
+            r.addAll(SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateOther());
         } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeIn)) {
-            result = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
+            r = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
         } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeSuspended)) {
-            result = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateSuspended();
+            r = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateSuspended();
         } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeOther)) {
-            result = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateOther();
+            r = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateOther();
         }
-        return result;
+        return r;
     }
 
     /**
@@ -1699,23 +1696,23 @@ public class SHBE_Handler extends SHBE_Object {
      * @param PT
      * @return
      */
-    public HashSet<SHBE_ID> getClaimIDsWithStatusOfCTBAtExtractDate(
+    public HashSet<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDate(
             SHBE_Records SHBE_Records,
             String PT) {
-        HashSet<SHBE_ID> result;
-        result = null;
+        HashSet<SHBE_ClaimID> r;
+        r = null;
         if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeAll)) {
-            result = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
-            result.addAll(SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateSuspended());
-            result.addAll(SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateOther());
+            r = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
+            r.addAll(SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateSuspended());
+            r.addAll(SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateOther());
         } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeIn)) {
-            result = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
+            r = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
         } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeSuspended)) {
-            result = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateSuspended();
+            r = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateSuspended();
         } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeOther)) {
-            result = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateOther();
+            r = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateOther();
         }
-        return result;
+        return r;
     }
 
     public String getClaimantType(SHBE_D_Record D_Record) {
@@ -1867,22 +1864,22 @@ public class SHBE_Handler extends SHBE_Object {
      * @param list List to add result to if a new one is created.
      * @return
      */
-    public SHBE_ID getIDAddIfNeeded(
+    public <T> T getIDAddIfNeeded(
             String S,
-            HashMap<String, SHBE_ID> StringToSHBE_IDLookup,
-            HashMap<SHBE_ID, String> SHBE_IDToStringLookup,
-            ArrayList<SHBE_ID> list
+            HashMap<String, T> StringToSHBE_IDLookup,
+            HashMap<T, String> SHBE_IDToStringLookup,
+            ArrayList<T> list
     ) {
-        SHBE_ID result;
+        T r;
         if (StringToSHBE_IDLookup.containsKey(S)) {
-            result = StringToSHBE_IDLookup.get(S);
+            r = StringToSHBE_IDLookup.get(S);
         } else {
-            result = new SHBE_ID(SHBE_IDToStringLookup.size());
-            SHBE_IDToStringLookup.put(result, S);
-            StringToSHBE_IDLookup.put(S, result);
-            list.add(result);
+            r = (T) new SHBE_ID(SHBE_IDToStringLookup.size());
+            SHBE_IDToStringLookup.put(r, S);
+            StringToSHBE_IDLookup.put(S, r);
+            list.add(r);
         }
-        return result;
+        return r;
     }
 
     /**
@@ -1892,20 +1889,18 @@ public class SHBE_Handler extends SHBE_Object {
      * @param IDToStringLookup
      * @return
      */
-    public SHBE_ID getIDAddIfNeeded(
-            String S,
-            HashMap<String, SHBE_ID> StringToIDLookup,
-            HashMap<SHBE_ID, String> IDToStringLookup
+    public <T> T getIDAddIfNeeded(String S, HashMap<String, T> StringToIDLookup,
+            HashMap<T, String> IDToStringLookup
     ) {
-        SHBE_ID result;
+        T r;
         if (StringToIDLookup.containsKey(S)) {
-            result = StringToIDLookup.get(S);
+            r = StringToIDLookup.get(S);
         } else {
-            result = new SHBE_ID(IDToStringLookup.size());
-            IDToStringLookup.put(result, S);
-            StringToIDLookup.put(S, result);
+            r = (T) new SHBE_ID(IDToStringLookup.size());
+            IDToStringLookup.put(r, S);
+            StringToIDLookup.put(S, r);
         }
-        return result;
+        return r;
     }
 
     /**
@@ -1919,18 +1914,18 @@ public class SHBE_Handler extends SHBE_Object {
      * @return
      * @throws java.lang.Exception
      */
-    public SHBE_ID getIDAddIfNeeded(
+    public SHBE_ClaimID getIDAddIfNeeded(
             String ClaimRef,
-            HashMap<String, SHBE_ID> ClaimRefToClaimIDLookup,
-            HashMap<SHBE_ID, String> ClaimIDToClaimRefLookup,
-            HashSet<SHBE_ID> ClaimIDs,
-            HashSet<SHBE_ID> ClaimIDsOfNewSHBEClaims
+            HashMap<String, SHBE_ClaimID> ClaimRefToClaimIDLookup,
+            HashMap<SHBE_ClaimID, String> ClaimIDToClaimRefLookup,
+            HashSet<SHBE_ClaimID> ClaimIDs,
+            HashSet<SHBE_ClaimID> ClaimIDsOfNewSHBEClaims
     ) throws Exception {
-        SHBE_ID result;
+        SHBE_ClaimID result;
         if (ClaimRefToClaimIDLookup.containsKey(ClaimRef)) {
             result = ClaimRefToClaimIDLookup.get(ClaimRef);
         } else {
-            result = new SHBE_ID(ClaimIDToClaimRefLookup.size());
+            result = new SHBE_ClaimID(ClaimIDToClaimRefLookup.size());
             ClaimIDToClaimRefLookup.put(result, ClaimRef);
             ClaimRefToClaimIDLookup.put(ClaimRef, result);
             if (ClaimIDs.contains(result)) {
@@ -2797,20 +2792,20 @@ public class SHBE_Handler extends SHBE_Object {
      * Method for getting SHBE collections filenames in an array
      *
      * @code {if (SHBEFilenamesAll == null) {
- String[] list = env.getFiles().getInputSHBEDir().list();
- SHBEFilenamesAll = new String[list.length];
- String s;
- String ym;
- TreeMap<String, String> yms;
- yms = new TreeMap<String, String>();
- for (String list1 : list) {
- s = list1;
- ym = getYearMonthNumber(s);
- yms.put(ym, s);
- }
- Iterator<String> ite; ite = yms.keySet().iterator(); int i = 0; while
- (ite.hasNext()) { ym = ite.next(); SHBEFilenamesAll[i] = yms.get(ym);
- i++; } } return SHBEFilenamesAll;} }
+     * String[] list = env.getFiles().getInputSHBEDir().list();
+     * SHBEFilenamesAll = new String[list.length];
+     * String s;
+     * String ym;
+     * TreeMap<String, String> yms;
+     * yms = new TreeMap<String, String>();
+     * for (String list1 : list) {
+     * s = list1;
+     * ym = getYearMonthNumber(s);
+     * yms.put(ym, s);
+     * }
+     * Iterator<String> ite; ite = yms.keySet().iterator(); int i = 0; while
+     * (ite.hasNext()) { ym = ite.next(); SHBEFilenamesAll[i] = yms.get(ym);
+     * i++; } } return SHBEFilenamesAll;} }
      *
      * @return String[] result of SHBE collections filenames
      */
@@ -3792,13 +3787,11 @@ public class SHBE_Handler extends SHBE_Object {
      * @return
      */
     public SHBE_PersonID getClaimantPersonID(SHBE_D_Record d) {
-        SHBE_PersonID result;
-        SHBE_ID NINO_ID;
-        NINO_ID = getNINOToNINOIDLookup().get(d.getClaimantsNationalInsuranceNumber());
-        SHBE_ID DOB_ID;
-        DOB_ID = getDOBToDOBIDLookup().get(d.getClaimantsDateOfBirth());
-        result = new SHBE_PersonID(NINO_ID, DOB_ID);
-        return result;
+        SHBE_PersonID r;
+        SHBE_NINOID NINO_ID = getNINOToNINOIDLookup().get(d.getClaimantsNationalInsuranceNumber());
+        SHBE_DOBID DOB_ID = getDOBToDOBIDLookup().get(d.getClaimantsDateOfBirth());
+        r = new SHBE_PersonID(NINO_ID, DOB_ID);
+        return r;
     }
 
     /**
@@ -3807,13 +3800,9 @@ public class SHBE_Handler extends SHBE_Object {
      * @return
      */
     public SHBE_PersonID getPartnerPersonID(SHBE_D_Record d) {
-        SHBE_PersonID r;
-        SHBE_ID NINO_ID;
-        NINO_ID = getNINOToNINOIDLookup().get(d.getPartnersNationalInsuranceNumber());
-        SHBE_ID DOB_ID;
-        DOB_ID = getDOBToDOBIDLookup().get(d.getPartnersDateOfBirth());
-        r = new SHBE_PersonID(NINO_ID, DOB_ID);
-        return r;
+        SHBE_NINOID NINO_ID = getNINOToNINOIDLookup().get(d.getPartnersNationalInsuranceNumber());
+        SHBE_DOBID DOB_ID = getDOBToDOBIDLookup().get(d.getPartnersDateOfBirth());
+        return new SHBE_PersonID(NINO_ID, DOB_ID);
     }
 
     /**
@@ -3822,14 +3811,10 @@ public class SHBE_Handler extends SHBE_Object {
      * @return
      */
     public SHBE_PersonID getNonDependentPersonID(SHBE_S_Record S_Record) {
-        SHBE_PersonID result;
-        SHBE_ID NINO_ID;
-        NINO_ID = getNINOToNINOIDLookup().get(
+        SHBE_NINOID NINO_ID = getNINOToNINOIDLookup().get(
                 S_Record.getSubRecordChildReferenceNumberOrNINO());
-        SHBE_ID DOB_ID;
-        DOB_ID = getDOBToDOBIDLookup().get(S_Record.getSubRecordDateOfBirth());
-        result = new SHBE_PersonID(NINO_ID, DOB_ID);
-        return result;
+        SHBE_DOBID DOB_ID = getDOBToDOBIDLookup().get(S_Record.getSubRecordDateOfBirth());
+        return new SHBE_PersonID(NINO_ID, DOB_ID);
     }
 
     /**
@@ -3840,11 +3825,11 @@ public class SHBE_Handler extends SHBE_Object {
      */
     public SHBE_PersonID getDependentPersonID(SHBE_S_Record S_Record,
             int index) {
-        SHBE_PersonID result;
+        SHBE_PersonID r;
         String NINO;
         String ClaimantsNINO;
-        SHBE_ID NINO_ID;
-        SHBE_ID DOB_ID;
+        SHBE_NINOID NINO_ID;
+        SHBE_DOBID DOB_ID;
         NINO = S_Record.getSubRecordChildReferenceNumberOrNINO();
         ClaimantsNINO = S_Record.getClaimantsNationalInsuranceNumber();
         if (ClaimantsNINO.trim().isEmpty()) {
@@ -3861,8 +3846,8 @@ public class SHBE_Handler extends SHBE_Object {
         }
         NINO_ID = getNINOToNINOIDLookup().get(NINO);
         DOB_ID = getDOBToDOBIDLookup().get(S_Record.getSubRecordDateOfBirth());
-        result = new SHBE_PersonID(NINO_ID, DOB_ID);
-        return result;
+        r = new SHBE_PersonID(NINO_ID, DOB_ID);
+        return r;
     }
 
     /**
@@ -3875,8 +3860,8 @@ public class SHBE_Handler extends SHBE_Object {
         HashSet<SHBE_PersonID> result;
         result = new HashSet<>();
         SHBE_S_Record S_Record;
-        SHBE_ID NINO_ID;
-        SHBE_ID DOB_ID;
+        SHBE_NINOID NINO_ID;
+        SHBE_DOBID DOB_ID;
         Iterator<SHBE_S_Record> ite;
         ite = S_Records.iterator();
         while (ite.hasNext()) {
@@ -3898,8 +3883,8 @@ public class SHBE_Handler extends SHBE_Object {
      */
     public SHBE_PersonID getNonDependentPersonIDs(SHBE_S_Record S_Record) {
         SHBE_PersonID result;
-        SHBE_ID NINO_ID;
-        SHBE_ID DOB_ID;
+        SHBE_NINOID NINO_ID;
+        SHBE_DOBID DOB_ID;
         NINO_ID = getNINOToNINOIDLookup().get(
                 S_Record.getSubRecordChildReferenceNumberOrNINO());
         DOB_ID = getDOBToDOBIDLookup().get(S_Record.getSubRecordDateOfBirth());
@@ -3922,14 +3907,14 @@ public class SHBE_Handler extends SHBE_Object {
      * @return
      */
     SHBE_PersonID getPersonID(String NINO, String DOB,
-            HashMap<String, SHBE_ID> NINOToNINOIDLookup,
-            HashMap<SHBE_ID, String> NINOIDToNINOLookup,
-            HashMap<String, SHBE_ID> DOBToDOBIDLookup,
-            HashMap<SHBE_ID, String> DOBIDToDOBLookup) {
-        SHBE_ID NINOID;
-        NINOID = getIDAddIfNeeded(NINO, NINOToNINOIDLookup, NINOIDToNINOLookup);
-        SHBE_ID DOBID;
-        DOBID = getIDAddIfNeeded(DOB, DOBToDOBIDLookup, DOBIDToDOBLookup);
+            HashMap<String, SHBE_NINOID> NINOToNINOIDLookup,
+            HashMap<SHBE_NINOID, String> NINOIDToNINOLookup,
+            HashMap<String, SHBE_DOBID> DOBToDOBIDLookup,
+            HashMap<SHBE_DOBID, String> DOBIDToDOBLookup) {
+        SHBE_NINOID NINOID;
+        NINOID = (SHBE_NINOID) getIDAddIfNeeded(NINO, NINOToNINOIDLookup, NINOIDToNINOLookup);
+        SHBE_DOBID DOBID;
+        DOBID = (SHBE_DOBID) getIDAddIfNeeded(DOB, DOBToDOBIDLookup, DOBIDToDOBLookup);
         return new SHBE_PersonID(NINOID, DOBID);
     }
 
@@ -3947,37 +3932,37 @@ public class SHBE_Handler extends SHBE_Object {
      * @return
      */
     SHBE_PersonID getPersonID(SHBE_D_Record DRecord,
-            HashMap<String, SHBE_ID> NINOToNINOIDLookup,
-            HashMap<SHBE_ID, String> NINOIDToNINOLookup,
-            HashMap<String, SHBE_ID> DOBToDOBIDLookup,
-            HashMap<SHBE_ID, String> DOBIDToDOBLookup) {
+            HashMap<String, SHBE_NINOID> NINOToNINOIDLookup,
+            HashMap<SHBE_NINOID, String> NINOIDToNINOLookup,
+            HashMap<String, SHBE_DOBID> DOBToDOBIDLookup,
+            HashMap<SHBE_DOBID, String> DOBIDToDOBLookup) {
         String NINO;
         NINO = DRecord.getPartnersNationalInsuranceNumber();
         String DOB;
         DOB = DRecord.getPartnersDateOfBirth();
-        return SHBE_Handler.this.getPersonID(NINO, DOB, NINOToNINOIDLookup,
+        return getPersonID(NINO, DOB, NINOToNINOIDLookup,
                 NINOIDToNINOLookup, DOBToDOBIDLookup, DOBIDToDOBLookup);
     }
 
     public HashSet<SHBE_PersonID> getUniquePersonIDs(
-            HashMap<SHBE_ID, HashSet<SHBE_PersonID>> ClaimIDToPersonIDsLookup) {
-        HashSet<SHBE_PersonID> result;
+            HashMap<SHBE_ClaimID, HashSet<SHBE_PersonID>> ClaimIDToPersonIDsLookup) {
+        HashSet<SHBE_PersonID> r;
         Collection<HashSet<SHBE_PersonID>> c;
         Iterator<HashSet<SHBE_PersonID>> ite2;
-        result = new HashSet<>();
+        r = new HashSet<>();
         c = ClaimIDToPersonIDsLookup.values();
         ite2 = c.iterator();
         while (ite2.hasNext()) {
-            result.addAll(ite2.next());
+            r.addAll(ite2.next());
         }
-        return result;
+        return r;
     }
 
     public HashSet<SHBE_PersonID> getUniquePersonIDs0(
-            HashMap<SHBE_ID, SHBE_PersonID> ClaimIDToPersonIDLookup) {
-        HashSet<SHBE_PersonID> result;
-        result = new HashSet<>();
-        result.addAll(ClaimIDToPersonIDLookup.values());
-        return result;
+            HashMap<SHBE_ClaimID, SHBE_PersonID> ClaimIDToPersonIDLookup) {
+        HashSet<SHBE_PersonID> r;
+        r = new HashSet<>();
+        r.addAll(ClaimIDToPersonIDLookup.values());
+        return r;
     }
 }

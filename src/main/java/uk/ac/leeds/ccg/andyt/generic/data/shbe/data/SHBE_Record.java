@@ -21,11 +21,12 @@ package uk.ac.leeds.ccg.andyt.generic.data.shbe.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import uk.ac.leeds.ccg.andyt.generic.data.onspd.core.ONSPD_ID;
+import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.id.ONSPD_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_ID;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
+import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_ClaimID;
 
 /**
  *
@@ -42,9 +43,9 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
     private int StatusOfHBClaimAtExtractDate;
 
     /**
-     * The ClaimRef SHBE_ID.
+     * The ClaimRef SHBE_ClaimID.
      */
-    protected SHBE_ID ClaimID;
+    protected SHBE_ClaimID ClaimID;
 
     /**
      * A convenient lookup for knowing if ClaimPostcodeF is a valid format for a
@@ -102,7 +103,7 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
      * @param e
      * @param ClaimID The ClaimRef SHBE_ID for this.
      */
-    public SHBE_Record(SHBE_Environment e, SHBE_ID ClaimID) {
+    public SHBE_Record(SHBE_Environment e, SHBE_ClaimID ClaimID) {
         super(e);
         this.ClaimID = ClaimID;
     }
@@ -114,7 +115,7 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
      * @param claimID The ClaimRef SHBE_ID for this.
      * @param DRecord
      */
-    public SHBE_Record(SHBE_Environment e, SHBE_ID claimID, SHBE_D_Record DRecord) {
+    public SHBE_Record(SHBE_Environment e, SHBE_ClaimID claimID, SHBE_D_Record DRecord) {
         super(e);
         this.ClaimID = claimID;
         this.DRecord = DRecord;
@@ -187,7 +188,7 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
     /**
      * @return ClaimRefSHBE_ID
      */
-    public SHBE_ID getClaimID() {
+    public SHBE_ClaimID getClaimID() {
         return ClaimID;
     }
 
