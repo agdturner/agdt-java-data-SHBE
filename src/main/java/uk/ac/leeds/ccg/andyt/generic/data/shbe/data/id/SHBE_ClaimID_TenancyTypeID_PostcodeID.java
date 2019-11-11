@@ -23,15 +23,17 @@ import java.util.Objects;
  *
  * @author Andy Turner
  */
-public class SHBE_ClaimID_PostcodeID implements Serializable, 
-        Comparable<SHBE_ClaimID_PostcodeID> {
+public class SHBE_ClaimID_TenancyTypeID_PostcodeID implements Serializable,
+        Comparable<SHBE_ClaimID_TenancyTypeID_PostcodeID> {
 
     public final SHBE_ClaimID ClaimID;
+    public final SHBE_TenancyTypeID TenancyTypeID;
     public final SHBE_PostcodeID PostcodeID;
 
-    public SHBE_ClaimID_PostcodeID(SHBE_ClaimID ClaimID,
-            SHBE_PostcodeID PostcodeID) {
+    public SHBE_ClaimID_TenancyTypeID_PostcodeID(SHBE_ClaimID ClaimID,
+            SHBE_TenancyTypeID TenancyTypeID, SHBE_PostcodeID PostcodeID) {
         this.ClaimID = ClaimID;
+        this.TenancyTypeID = TenancyTypeID;
         this.PostcodeID = PostcodeID;
     }
 
@@ -48,12 +50,14 @@ public class SHBE_ClaimID_PostcodeID implements Serializable,
         if (obj == null) {
             return false;
         }
-        if (obj instanceof SHBE_ClaimID_PostcodeID) {
-            SHBE_ClaimID_PostcodeID o = (SHBE_ClaimID_PostcodeID) obj;
+        if (obj instanceof SHBE_ClaimID_TenancyTypeID_PostcodeID) {
+            SHBE_ClaimID_TenancyTypeID_PostcodeID o = (SHBE_ClaimID_TenancyTypeID_PostcodeID) obj;
             if (this.hashCode() == o.hashCode()) {
                 if (this.ClaimID.equals(o.ClaimID)) {
-                    if (PostcodeID.equals(o.PostcodeID)) {
-                        return true;
+                    if (TenancyTypeID.equals(o.TenancyTypeID)) {
+                        if (PostcodeID.equals(o.PostcodeID)) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -63,19 +67,22 @@ public class SHBE_ClaimID_PostcodeID implements Serializable,
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + Objects.hashCode(this.ClaimID);
-        hash = 79 * hash + Objects.hashCode(this.PostcodeID);
+        int hash = 7;
+        hash = 73 * hash + Objects.hashCode(this.ClaimID);
+        hash = 73 * hash + Objects.hashCode(this.TenancyTypeID);
+        hash = 73 * hash + Objects.hashCode(this.PostcodeID);
         return hash;
     }
-    
+
     @Override
-    public int compareTo(SHBE_ClaimID_PostcodeID i) {
+    public int compareTo(SHBE_ClaimID_TenancyTypeID_PostcodeID i) {
         int r = this.ClaimID.compareTo(i.ClaimID);
         if (r == 0) {
-            return this.PostcodeID.compareTo(i.PostcodeID);
-        } else {
-            return r;
-        }
+            r = this.TenancyTypeID.compareTo(i.TenancyTypeID);
+            if (r == 0) {
+                return this.PostcodeID.compareTo(i.PostcodeID);
+            }
+        }            
+        return r;
     }
 }

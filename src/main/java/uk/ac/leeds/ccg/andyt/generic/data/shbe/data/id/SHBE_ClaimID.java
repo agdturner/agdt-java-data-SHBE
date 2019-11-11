@@ -15,19 +15,17 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id;
 
+import uk.ac.leeds.ccg.andyt.data.id.Data_RecordID;
+
 /**
  * An ID for a Claim.
  * 
  * @author Andy Turner
  */
-public class SHBE_ClaimID extends SHBE_ID {
+public class SHBE_ClaimID extends Data_RecordID {
     
     public SHBE_ClaimID(long l){
         super(l);
-    } 
-    
-    public SHBE_ClaimID(SHBE_ClaimID i){
-        super(i);
-    } 
+    }
     
 }

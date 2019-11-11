@@ -15,19 +15,16 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id;
 
+import uk.ac.leeds.ccg.andyt.data.id.Data_ID_long;
+
 /**
  * An ID for a National Insurance Number.
  *
  * @author Andy Turner
  */
-public class SHBE_NINOID extends SHBE_ID {
+public class SHBE_NINOID extends Data_ID_long {
     
     public SHBE_NINOID(long l){
         super(l);
-    } 
-    
-    public SHBE_NINOID(SHBE_NINOID i){
-        super(i);
-    } 
-    
+    }
 }

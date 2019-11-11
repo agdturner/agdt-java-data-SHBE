@@ -15,19 +15,16 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id;
 
+import uk.ac.leeds.ccg.andyt.data.id.Data_ID_long;
+
 /**
  * An ID for Postcodes.
  *
  * @author Andy Turner
  */
-public class SHBE_PostcodeID extends SHBE_ID {
+public class SHBE_PostcodeID extends Data_ID_long {
 
     public SHBE_PostcodeID(long l) {
         super(l);
     }
-
-    public SHBE_PostcodeID(SHBE_ClaimID i) {
-        super(i);
-    }
-
 }

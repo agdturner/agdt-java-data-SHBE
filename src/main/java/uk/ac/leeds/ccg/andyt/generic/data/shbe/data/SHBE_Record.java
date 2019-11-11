@@ -18,13 +18,12 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import uk.ac.leeds.ccg.andyt.data.Data_Record;
+import uk.ac.leeds.ccg.andyt.data.id.Data_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.id.ONSPD_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_ID;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_ClaimID;
 
@@ -32,9 +31,9 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_ClaimID;
  *
  * @author geoagdt
  */
-public class SHBE_Record extends SHBE_Object implements Serializable {
+public class SHBE_Record extends Data_Record {
 
-    private static final long serialVersionUID = 1L;
+    public transient final SHBE_Environment se;
 
     /**
      * StatusOfHBClaimAtExtractDate 0 is OtherPaymentType 1 is InPayment 2 is
@@ -42,11 +41,10 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
      */
     private int StatusOfHBClaimAtExtractDate;
 
-    /**
-     * The ClaimRef SHBE_ClaimID.
-     */
-    protected SHBE_ClaimID ClaimID;
-
+//    /**
+//     * The ClaimRef SHBE_ClaimID.
+//     */
+//    protected SHBE_ClaimID ClaimID;
     /**
      * A convenient lookup for knowing if ClaimPostcodeF is a valid format for a
      * UK postcode.
@@ -101,11 +99,12 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
     /**
      *
      * @param e
-     * @param ClaimID The ClaimRef SHBE_ID for this.
+     * @param claimID The ClaimRef SHBE_ID for this.
      */
-    public SHBE_Record(SHBE_Environment e, SHBE_ClaimID ClaimID) {
-        super(e);
-        this.ClaimID = ClaimID;
+    public SHBE_Record(SHBE_Environment e, SHBE_ClaimID claimID) {
+        super(claimID);
+        this.se = e;
+        //this.ClaimID = claimID;
     }
 
     /**
@@ -116,8 +115,9 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
      * @param DRecord
      */
     public SHBE_Record(SHBE_Environment e, SHBE_ClaimID claimID, SHBE_D_Record DRecord) {
-        super(e);
-        this.ClaimID = claimID;
+        super(claimID);
+        se = e;
+        //this.ClaimID = claimID;
         this.DRecord = DRecord;
     }
 
@@ -127,71 +127,76 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
      * @return
      */
     public String toStringBrief() {
-        String result = "";
+        String r = "SHBE_Record comprising of:";
+        r += SHBE_Strings.special_newLine;
         if (DRecord != null) {
-            result += "DRecord: " + DRecord.toStringBrief();
-            result += SHBE_Strings.special_newLine;
+            r += " DRecord:";
+            r += SHBE_Strings.special_newLine;
+            r += "  " + DRecord.toStringBrief();
         }
         SRecords = getSRecords();
         if (SRecords != null) {
-            long NumberOfS_Records;
-            NumberOfS_Records = SRecords.size();
-            result += " Number of SRecords = " + NumberOfS_Records;
-            result += SHBE_Strings.special_newLine;
-            if (NumberOfS_Records > 0) {
-                result += ": ";
-            }
-            Iterator<SHBE_S_Record> ite;
-            ite = SRecords.iterator();
+            long n;
+            n = SRecords.size();
+            r += SHBE_Strings.special_newLine;
+            r += " " + n + " SRecords:";
+            Iterator<SHBE_S_Record> ite = SRecords.iterator();
             while (ite.hasNext()) {
-                SHBE_S_Record rec;
-                rec = ite.next();
-                result += " SRecord: " + rec.toString();
-                result += SHBE_Strings.special_newLine;
+                r += "  ";
+                SHBE_S_Record rec = ite.next();
+                r += rec.toString();
+                r += SHBE_Strings.special_newLine;
             }
+        } else {
+            r += " 0 SRecords";
         }
-        return result;
+        return r;
     }
 
     @Override
     public String toString() {
-        String result;
-        result = "ClaimRefSHBE_ID " + ClaimID
-                + SHBE_Strings.special_newLine
-                + "StatusOfHBClaimAtExtractDate " + StatusOfHBClaimAtExtractDate
-                + SHBE_Strings.special_newLine;
+        String r = super.toString();
+        r += ", StatusOfHBClaimAtExtractDate=" + StatusOfHBClaimAtExtractDate
+                + ", ClaimPostcodeFValidPostcodeFormat=" + ClaimPostcodeFValidPostcodeFormat
+                + ", ClaimPostcodeFMappable=" + ClaimPostcodeFMappable
+                + ", ClaimPostcodeF=" + ClaimPostcodeF
+                + ", ClaimPostcodeFAutoModified=" + ClaimPostcodeFAutoModified
+                + ", ClaimPostcodeFManModified=" + ClaimPostcodeFManModified
+                + ", ClaimPostcodeFUpdatedFromTheFuture=" + ClaimPostcodeFUpdatedFromTheFuture
+                + ", PostcodeID=" + PostcodeID;
+
         if (DRecord != null) {
-            result += "DRecord: " + DRecord.toString()
+            r += "DRecord: " + DRecord.toString()
                     + SHBE_Strings.special_newLine;
         }
         SRecords = getSRecords();
         if (SRecords != null) {
-            long NumberOfS_Records;
-            NumberOfS_Records = SRecords.size();
-            result += " Number of SRecords = " + NumberOfS_Records
+            long n;
+            n = SRecords.size();
+            r += " Number of SRecords = " + n
                     + SHBE_Strings.special_newLine;
-            if (NumberOfS_Records > 0) {
-                result += ": ";
+            if (n > 0) {
+                r += ": ";
             }
             Iterator<SHBE_S_Record> ite;
             ite = SRecords.iterator();
             while (ite.hasNext()) {
                 SHBE_S_Record rec;
                 rec = ite.next();
-                result += " SRecord: " + rec.toString()
+                r += " SRecord: " + rec.toString()
                         + SHBE_Strings.special_newLine;
             }
         }
-        return result;
+        return r;
     }
 
     /**
-     * @return ClaimRefSHBE_ID
+     * @return (SHBE_ClaimID) ID
      */
     public SHBE_ClaimID getClaimID() {
-        return ClaimID;
+        return (SHBE_ClaimID) ID;
     }
-
+    
     /**
      * @return a copy of StatusOfHBClaimAtExtractDate.
      */
@@ -262,5 +267,10 @@ public class SHBE_Record extends SHBE_Object implements Serializable {
      */
     public ONSPD_ID getPostcodeID() {
         return PostcodeID;
+    }
+
+    @Override
+    public Data_ID getID() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

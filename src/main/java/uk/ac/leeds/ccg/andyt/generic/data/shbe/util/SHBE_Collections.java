@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_PersonID;
 import uk.ac.leeds.ccg.andyt.generic.util.Generic_Collections;
 
@@ -85,24 +84,14 @@ public class SHBE_Collections extends Generic_Collections {
         return r;
     }
 
-    public HashSet<SHBE_ID> getHashSet_SHBE_ID(File f) {
-        HashSet<SHBE_ID> result;
+    public HashSet<SHBE_PersonID> getPersonIDs(File f) {
+        HashSet<SHBE_PersonID> r;
         if (f.exists()) {
-            result = (HashSet<SHBE_ID>) env.env.io.readObject(f);
+            r = (HashSet<SHBE_PersonID>) env.env.io.readObject(f);
         } else {
-            result = new HashSet<>();
+            r = new HashSet<>();
         }
-        return result;
-    }
-
-    public HashSet<SHBE_PersonID> getHashSet_SHBE_PersonID(File f) {
-        HashSet<SHBE_PersonID> result;
-        if (f.exists()) {
-            result = (HashSet<SHBE_PersonID>) env.env.io.readObject(f);
-        } else {
-            result = new HashSet<>();
-        }
-        return result;
+        return r;
     }
 
     public <T> HashMap<SHBE_PersonID, HashSet<T>> getHashMap_PersonID_HashSetT(

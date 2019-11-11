@@ -25,7 +25,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class SHBE_R_Record extends SHBE_RecordAbstract implements Serializable {
+public class SHBE_R_Record extends SHBE_DACTEGPRST_Record implements Serializable {
 
     /**
      * 163 171 DateOverPaymentDetectionActivityInitiatedOnCase

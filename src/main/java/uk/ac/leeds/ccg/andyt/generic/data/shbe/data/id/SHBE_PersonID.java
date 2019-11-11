@@ -15,26 +15,25 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * An ID for Persons made up of a Date of Birth and a National Insurance Number.
+ * An ID for Person NINOID and DOBID.
  *
  * @author Andy Turner
  */
-public class SHBE_PersonID extends SHBE_DOBID {
+public class SHBE_PersonID implements Serializable, 
+        Comparable<SHBE_PersonID> {
 
     public final SHBE_NINOID NINOID;
+    public final SHBE_DOBID DOBID;
 
     public SHBE_PersonID(SHBE_NINOID NINOID, SHBE_DOBID DOBID) {
-        super(DOBID);
         this.NINOID = NINOID;
+        this.DOBID = DOBID;
     }
 
-    public SHBE_DOBID getDOBID(){
-        return new SHBE_DOBID(ID);
-    }
-    
     /**
      *
      * @param obj
@@ -50,11 +49,13 @@ public class SHBE_PersonID extends SHBE_DOBID {
         }
         if (obj instanceof SHBE_PersonID) {
             SHBE_PersonID o = (SHBE_PersonID) obj;
-                if (this.ID == o.ID) {
-                    if (NINOID.equals(o.NINOID)) {
+            if (this.hashCode() == o.hashCode()) {
+                if (this.NINOID.equals(o.NINOID)) {
+                    if (DOBID.equals(o.DOBID)) {
                         return true;
                     }
                 }
+            }
         }
         return false;
     }
@@ -62,8 +63,18 @@ public class SHBE_PersonID extends SHBE_DOBID {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 17 * hash + Objects.hashCode(this.NINOID);
+        hash = 79 * hash + Objects.hashCode(this.NINOID);
+        hash = 79 * hash + Objects.hashCode(this.DOBID);
         return hash;
     }
-
+    
+    @Override
+    public int compareTo(SHBE_PersonID i) {
+        int r = this.NINOID.compareTo(i.NINOID);
+        if (r == 0) {
+            return this.DOBID.compareTo(i.DOBID);
+        } else {
+            return r;
+        }
+    }
 }

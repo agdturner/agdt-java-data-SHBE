@@ -24,7 +24,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
+public class SHBE_D_Record extends SHBE_DC_Record {
 
     /**
      * Creates a null record in case this is needed
@@ -55,8 +55,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
         int n = 0;
         if (n < fields.length) {
             if (!fields[n].equalsIgnoreCase("D")) {
-                System.err.println("RecordType " + fields[n] + " is not D");
-                throw new Exception("RecordType " + fields[n] + " is not D");
+                System.err.println("RecordType=" + fields[n] + " is not D");
+                throw new Exception("RecordType=" + fields[n] + " is not D");
             }
             setRecordType(fields[n]);
         } else {
@@ -106,9 +106,9 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
 //                setTenancyType(n, fields);
 //            } else {
 //                if (exceptionalType == 1) {
-//                    System.out.println("Ignoring fields " + n + ": " 
+//                    System.out.println("Ignoring fields=" + n + ": " 
 //                            + fields[n] + " instead of a numerical Tenancy "
-//                            + "Type getting something else RecordID " + RecordID);
+//                            + "Type getting something else RecordID=" + RecordID);
 //                }
 //            }
         } else {
@@ -134,8 +134,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setNumberOfChildDependents(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setNumberOfChildDependents(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -151,8 +151,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setNumberOfNonDependents(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setNumberOfNonDependents(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -192,8 +192,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setWeeklyHousingBenefitEntitlement(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setWeeklyHousingBenefitEntitlement(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -209,8 +209,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setWeeklyCouncilTaxBenefitEntitlement(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setWeeklyCouncilTaxBenefitEntitlement(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -238,8 +238,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPreDeterminationAmountOfHB(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPreDeterminationAmountOfHB(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -255,8 +255,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPreDeterminationAmountOfCTB(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPreDeterminationAmountOfCTB(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -306,8 +306,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setWeeklyEligibleCouncilTaxAmount(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setWeeklyEligibleCouncilTaxAmount(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -361,8 +361,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setWeeklyLocalReferenceRent(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setWeeklyLocalReferenceRent(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -378,8 +378,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setWeeklySingleRoomRent(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setWeeklySingleRoomRent(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -395,8 +395,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setWeeklyClaimRelatedRent(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setWeeklyClaimRelatedRent(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -412,8 +412,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setRentOfficerDeterminationOfIneligibleCharges(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setRentOfficerDeterminationOfIneligibleCharges(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -429,8 +429,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setWeeklyMaximumRent(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setWeeklyMaximumRent(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -446,8 +446,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setTotalDeductionForMeals(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setTotalDeductionForMeals(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -463,8 +463,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setWeeklyAdditionalDiscretionaryPayment(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setWeeklyAdditionalDiscretionaryPayment(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -492,8 +492,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsAssessedIncomeFigure(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsAssessedIncomeFigure(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -509,8 +509,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsAdjustedAssessedIncomeFigure(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsAdjustedAssessedIncomeFigure(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -526,8 +526,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsTotalCapital(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsTotalCapital(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -543,8 +543,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsGrossWeeklyIncomeFromEmployment(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsGrossWeeklyIncomeFromEmployment(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -560,8 +560,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsNetWeeklyIncomeFromEmployment(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsNetWeeklyIncomeFromEmployment(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -577,8 +577,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsGrossWeeklyIncomeFromSelfEmployment(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsGrossWeeklyIncomeFromSelfEmployment(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -594,8 +594,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsNetWeeklyIncomeFromSelfEmployment(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsNetWeeklyIncomeFromSelfEmployment(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -611,8 +611,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsTotalAmountOfEarningsDisregarded(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsTotalAmountOfEarningsDisregarded(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -628,8 +628,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -645,8 +645,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromAttendanceAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromAttendanceAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -662,8 +662,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromBusinessStartUpAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromBusinessStartUpAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -679,8 +679,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromChildBenefit(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromChildBenefit(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -696,8 +696,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -713,8 +713,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromPersonalPension(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromPersonalPension(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -730,8 +730,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromSevereDisabilityAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromSevereDisabilityAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -747,8 +747,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromMaternityAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromMaternityAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -764,8 +764,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromContributionBasedJobSeekersAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromContributionBasedJobSeekersAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -781,8 +781,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromStudentGrantLoan(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromStudentGrantLoan(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -798,8 +798,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromSubTenants(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromSubTenants(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -815,8 +815,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromBoarders(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromBoarders(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -832,8 +832,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromTrainingForWorkCommunityAction(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromTrainingForWorkCommunityAction(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -849,8 +849,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromIncapacityBenefitShortTermLower(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromIncapacityBenefitShortTermLower(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -866,8 +866,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromIncapacityBenefitShortTermHigher(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromIncapacityBenefitShortTermHigher(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -883,8 +883,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromIncapacityBenefitLongTerm(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromIncapacityBenefitLongTerm(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -900,8 +900,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromNewDeal50PlusEmploymentCredit(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromNewDeal50PlusEmploymentCredit(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -917,8 +917,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromNewTaxCredits(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromNewTaxCredits(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -934,8 +934,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromDisabilityLivingAllowanceCareComponent(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromDisabilityLivingAllowanceCareComponent(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -951,8 +951,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -968,8 +968,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromGovernemntTraining(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromGovernemntTraining(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -985,8 +985,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromIndustrialInjuriesDisablementBenefit(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromIndustrialInjuriesDisablementBenefit(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1002,8 +1002,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromCarersAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromCarersAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1019,8 +1019,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromStatutoryMaternityPaternityPay(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromStatutoryMaternityPaternityPay(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1036,8 +1036,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1053,8 +1053,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromWarDisablementPensionArmedForcesGIP(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromWarDisablementPensionArmedForcesGIP(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1070,8 +1070,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromWarMobilitySupplement(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromWarMobilitySupplement(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1087,8 +1087,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromWidowsWidowersPension(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromWidowsWidowersPension(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1104,8 +1104,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromBereavementAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromBereavementAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1121,8 +1121,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromWidowedParentsAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromWidowedParentsAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1138,8 +1138,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromYouthTrainingScheme(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromYouthTrainingScheme(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1155,8 +1155,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromStatuatorySickPay(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromStatuatorySickPay(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1172,8 +1172,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsOtherIncome(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsOtherIncome(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1189,8 +1189,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsTotalAmountOfIncomeDisregarded(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsTotalAmountOfIncomeDisregarded(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1288,8 +1288,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersAssessedIncomeFigure(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersAssessedIncomeFigure(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1305,8 +1305,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersAdjustedAssessedIncomeFigure(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersAdjustedAssessedIncomeFigure(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1322,8 +1322,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersGrossWeeklyIncomeFromEmployment(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersGrossWeeklyIncomeFromEmployment(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1339,8 +1339,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersNetWeeklyIncomeFromEmployment(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersNetWeeklyIncomeFromEmployment(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1356,8 +1356,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersGrossWeeklyIncomeFromSelfEmployment(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersGrossWeeklyIncomeFromSelfEmployment(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1373,8 +1373,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersNetWeeklyIncomeFromSelfEmployment(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersNetWeeklyIncomeFromSelfEmployment(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1390,8 +1390,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersTotalAmountOfEarningsDisregarded(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersTotalAmountOfEarningsDisregarded(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1407,8 +1407,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1424,8 +1424,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromAttendanceAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromAttendanceAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1441,8 +1441,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromBusinessStartUpAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromBusinessStartUpAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1458,8 +1458,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromChildBenefit(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromChildBenefit(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1475,8 +1475,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromPersonalPension(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromPersonalPension(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1492,8 +1492,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromSevereDisabilityAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromSevereDisabilityAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1509,8 +1509,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromMaternityAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromMaternityAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1526,8 +1526,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromContributionBasedJobSeekersAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromContributionBasedJobSeekersAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1543,8 +1543,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromStudentGrantLoan(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromStudentGrantLoan(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1560,8 +1560,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromSubTenants(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromSubTenants(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1577,8 +1577,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromBoarders(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromBoarders(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1594,8 +1594,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromTrainingForWorkCommunityAction(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromTrainingForWorkCommunityAction(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1611,8 +1611,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromIncapacityBenefitShortTermLower(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromIncapacityBenefitShortTermLower(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1628,8 +1628,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromIncapacityBenefitShortTermHigher(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromIncapacityBenefitShortTermHigher(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1645,8 +1645,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromIncapacityBenefitLongTerm(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromIncapacityBenefitLongTerm(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1662,8 +1662,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromNewDeal50PlusEmploymentCredit(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromNewDeal50PlusEmploymentCredit(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1679,8 +1679,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromNewTaxCredits(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromNewTaxCredits(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1696,8 +1696,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromDisabilityLivingAllowanceCareComponent(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromDisabilityLivingAllowanceCareComponent(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1713,8 +1713,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromDisabilityLivingAllowanceMobilityComponent(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromDisabilityLivingAllowanceMobilityComponent(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1730,8 +1730,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromGovernemntTraining(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromGovernemntTraining(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1747,8 +1747,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromIndustrialInjuriesDisablementBenefit(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromIndustrialInjuriesDisablementBenefit(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1764,8 +1764,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromCarersAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromCarersAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1781,8 +1781,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromStatuatorySickPay(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromStatuatorySickPay(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1798,8 +1798,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromStatutoryMaternityPaternityPay(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromStatutoryMaternityPaternityPay(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1815,8 +1815,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1832,8 +1832,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromWarDisablementPensionArmedForcesGIP(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromWarDisablementPensionArmedForcesGIP(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1849,8 +1849,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromWarMobilitySupplement(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromWarMobilitySupplement(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1866,8 +1866,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromWidowsWidowersPension(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromWidowsWidowersPension(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1883,8 +1883,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromBereavementAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromBereavementAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1900,8 +1900,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromWidowedParentsAllowance(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromWidowedParentsAllowance(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1917,8 +1917,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromYouthTrainingScheme(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromYouthTrainingScheme(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1934,8 +1934,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersOtherIncome(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersOtherIncome(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1951,8 +1951,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersTotalAmountOfIncomeDisregarded(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersTotalAmountOfIncomeDisregarded(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -1992,8 +1992,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setContractualRentAmount(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setContractualRentAmount(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2015,8 +2015,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromPensionCreditSavingsCredit(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromPensionCreditSavingsCredit(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2032,8 +2032,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromPensionCreditSavingsCredit(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromPensionCreditSavingsCredit(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2049,8 +2049,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromMaintenancePayments(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromMaintenancePayments(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2066,8 +2066,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromMaintenancePayments(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromMaintenancePayments(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2083,8 +2083,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromOccupationalPension(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromOccupationalPension(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2100,8 +2100,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromOccupationalPension(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromOccupationalPension(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2117,8 +2117,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsIncomeFromWidowsBenefit(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsIncomeFromWidowsBenefit(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2134,8 +2134,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersIncomeFromWidowsBenefit(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersIncomeFromWidowsBenefit(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2169,8 +2169,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setTotalNumberOfRooms(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setTotalNumberOfRooms(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2192,8 +2192,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setTypeOfLHANumberOfRoomsEntitedTo(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setTypeOfLHANumberOfRoomsEntitedTo(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2221,8 +2221,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setValueOfLHA(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setValueOfLHA(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2340,8 +2340,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setTotalAmountOfBackdatedCTBAwarded(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setTotalAmountOfBackdatedCTBAwarded(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2375,8 +2375,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersTotalCapital(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersTotalCapital(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2392,8 +2392,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setWeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setWeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure(Integer.valueOf(fields[n]))");
 //                throw e;
                 }
@@ -2409,10 +2409,10 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsTotalHoursOfRemunerativeWorkPerWeek(Double.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("setClaimantsTotalHoursOfRemunerativeWorkPerWeek(Double.valueOf(fields[n]))");
-                    System.err.println("fields[n], " + fields[n]);
+                    System.err.println("fields[n],=" + fields[n]);
 //                    e.printStackTrace(System.err);
 //                    throw e;
                 }
@@ -2428,10 +2428,10 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersTotalHoursOfRemunerativeWorkPerWeek(Double.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("setPartnersTotalHoursOfRemunerativeWorkPerWeek(Double.valueOf(fields[n]))");
-                    System.err.println("fields[n], " + fields[n]);
+                    System.err.println("fields[n],=" + fields[n]);
 //                    e.printStackTrace(System.err);
 //                    throw e;
                 }
@@ -2447,10 +2447,10 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setTotalHBPaymentsCreditsSinceLastExtract(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("setTotalHBPaymentsCreditsSinceLastExtract(Double.valueOf(fields[n]))");
-                    System.err.println("fields[n], " + fields[n]);
+                    System.err.println("fields[n],=" + fields[n]);
 //                    e.printStackTrace(System.err);
 //                    throw e;
                 }
@@ -2466,10 +2466,10 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setTotalCTBPaymentsCreditsSinceLastExtract(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("setTotalCTBPaymentsCreditsSinceLastExtract(Double.valueOf(fields[n]))");
-                    System.err.println("fields[n], " + fields[n]);
+                    System.err.println("fields[n],=" + fields[n]);
 //                    e.printStackTrace(System.err);
 //                    throw e;
                 }
@@ -2539,10 +2539,10 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setRentFreeWeeksIndicator(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("setRentFreeWeeksIndicator(Double.valueOf(fields[n]))");
-                    System.err.println("fields[n], " + fields[n]);
+                    System.err.println("fields[n],=" + fields[n]);
 //                    e.printStackTrace(System.err);
 //                    throw e;
                 }
@@ -2570,8 +2570,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsWeeklyIncomeFromESABasicElement(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsWeeklyIncomeFromESABasicElement(Integer.valueOf(fields[n]))");
 //                    throw e;
                 }
@@ -2587,8 +2587,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersWeeklyIncomeFromESABasicElement(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersWeeklyIncomeFromESABasicElement(Integer.valueOf(fields[n]))");
 //                    throw e;
                 }
@@ -2604,8 +2604,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsWeeklyIncomeFromESAWRAGElement(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsWeeklyIncomeFromESAWRAGElement(Integer.valueOf(fields[n]))");
 //                    throw e;
                 }
@@ -2621,8 +2621,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersWeeklyIncomeFromESAWRAGElement(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersWeeklyIncomeFromESAWRAGElement(Integer.valueOf(fields[n]))");
 //                    throw e;
                 }
@@ -2638,8 +2638,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setClaimantsWeeklyIncomeFromESASCGElement(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setClaimantsWeeklyIncomeFromESASCGElement(Integer.valueOf(fields[n]))");
 //                    throw e;
                 }
@@ -2655,8 +2655,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 try {
                     setPartnersWeeklyIncomeFromESASCGElement(Integer.valueOf(fields[n]));
                 } catch (NumberFormatException e) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
                     System.err.println("NumberFormatException in setPartnersWeeklyIncomeFromESASCGElement(Integer.valueOf(fields[n]))");
 //                    throw e;
                 }
@@ -3349,174 +3349,174 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
     @Override
     public String toStringBrief() {
         return super.toStringBrief()
-                + ",NumberOfChildDependents " + NumberOfChildDependents
-                + ",NumberOfNonDependents " + NumberOfNonDependents
-                + ",PartnerFlag " + PartnerFlag
-                + ",TotalNumberOfRooms " + TotalNumberOfRooms;
+                + ", NumberOfChildDependents=" + NumberOfChildDependents
+                + ", NumberOfNonDependents=" + NumberOfNonDependents
+                + ", PartnerFlag=" + PartnerFlag
+                + ", TotalNumberOfRooms=" + TotalNumberOfRooms;
     }
 
     @Override
     public String toString() {
         return super.toString()
-                + ",NumberOfChildDependents " + NumberOfChildDependents
-                + ",NumberOfNonDependents " + NumberOfNonDependents
-                + ",WeeklyHousingBenefitEntitlement " + WeeklyHousingBenefitEntitlement
-                + ",WeeklyCouncilTaxBenefitEntitlement " + WeeklyCouncilTaxBenefitEntitlement
-                + ",FrequencyOfPaymentOfHB " + FrequencyOfPaymentOfHB
-                + ",FrequencyOfPaymentOfCTB " + FrequencyOfPaymentOfCTB
-                + ",PreDeterminationAmountOfHB " + PreDeterminationAmountOfHB
-                + ",PreDeterminationAmountOfCTB " + PreDeterminationAmountOfCTB
-                + ",ReasonForDirectPayment " + ReasonForDirectPayment
-                + ",TimingOfPaymentOfRentAllowance " + TimingOfPaymentOfRentAllowance
-                + ",ExtendedPaymentCase " + ExtendedPaymentCase
-                + ",CouncilTaxBand " + CouncilTaxBand
-                + ",WeeklyEligibleRentAmount " + WeeklyEligibleRentAmount
-                + ",WeeklyEligibleCouncilTaxAmount " + WeeklyEligibleCouncilTaxAmount
-                + ",ClaimantsStudentIndicator " + ClaimantsStudentIndicator
-                + ",RebatePercentageWhereASecondAdultRebateHasBeenAwarded " + RebatePercentageWhereASecondAdultRebateHasBeenAwarded
-                + ",SecondAdultRebate " + SecondAdultRebate
-                + ",WeeklyLocalReferenceRent " + WeeklyLocalReferenceRent
-                + ",WeeklySingleRoomRent " + WeeklySingleRoomRent
-                + ",WeelklyClaimRelatedRent " + WeeklyClaimRelatedRent
-                + ",RentOfficerDeterminationOfIneligibleCharges " + RentOfficerDeterminationOfIneligibleCharges
-                + ",WeeklyMaximumRent " + WeeklyMaximumRent
-                + ",TotalDeductionForMeals " + TotalDeductionForMeals
-                + ",WeeklyAdditionalDiscretionaryPayment " + WeeklyAdditionalDiscretionaryPayment
-                + ",ThirteenOrFiftyTwoWeekProtectionApplies " + ThirteenOrFiftyTwoWeekProtectionApplies
-                + ",DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision " + DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision
-                + ",ClaimantsAssessedIncomeFigure " + ClaimantsAssessedIncomeFigure
-                + ",ClaimantsAdjustedAssessedIncomeFigure " + ClaimantsAdjustedAssessedIncomeFigure
-                + ",ClaimantsTotalCapital " + ClaimantsTotalCapital
-                + ",ClaimantsGrossWeeklyIncomeFromEmployment " + ClaimantsGrossWeeklyIncomeFromEmployment
-                + ",ClaimantsNetWeeklyIncomeFromEmployment " + ClaimantsNetWeeklyIncomeFromEmployment
-                + ",ClaimantsGrossWeeklyIncomeFromSelfEmployment " + ClaimantsGrossWeeklyIncomeFromSelfEmployment
-                + ",ClaimantsNetWeeklyIncomeFromSelfEmployment " + ClaimantsNetWeeklyIncomeFromSelfEmployment
-                + ",ClaimantsTotalAmountOfEarningsDisregarded " + ClaimantsTotalAmountOfEarningsDisregarded
-                + ",ClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded " + ClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded
-                + ",ClaimantsIncomeFromAttendanceAllowance " + ClaimantsIncomeFromAttendanceAllowance
-                + ",ClaimantsIncomeFromBusinessStartUpAllowance " + ClaimantsIncomeFromBusinessStartUpAllowance
-                + ",ClaimantsIncomeFromChildBenefit " + ClaimantsIncomeFromChildBenefit
-                + ",ClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent " + ClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent
-                + ",ClaimantsIncomeFromPersonalPension " + ClaimantsIncomeFromPersonalPension
-                + ",ClaimantsIncomeFromSevereDisabilityAllowance " + ClaimantsIncomeFromSevereDisabilityAllowance
-                + ",ClaimantsIncomeFromMaternityAllowance " + ClaimantsIncomeFromMaternityAllowance
-                + ",ClaimantsIncomeFromContributionBasedJobSeekersAllowance " + ClaimantsIncomeFromContributionBasedJobSeekersAllowance
-                + ",ClaimantsIncomeFromStudentGrantLoan " + ClaimantsIncomeFromStudentGrantLoan
-                + ",ClaimantsIncomeFromSubTenants " + ClaimantsIncomeFromSubTenants
-                + ",ClaimantsIncomeFromBoarders " + ClaimantsIncomeFromBoarders
-                + ",ClaimantsIncomeFromTrainingForWorkCommunityAction " + ClaimantsIncomeFromTrainingForWorkCommunityAction
-                + ",ClaimantsIncomeFromIncapacityBenefitShortTermLower " + ClaimantsIncomeFromIncapacityBenefitShortTermLower
-                + ",ClaimantsIncomeFromIncapacityBenefitShortTermHigher " + ClaimantsIncomeFromIncapacityBenefitShortTermHigher
-                + ",ClaimantsIncomeFromIncapacityBenefitLongTerm " + ClaimantsIncomeFromIncapacityBenefitLongTerm
-                + ",ClaimantsIncomeFromNewDeal50PlusEmploymentCredit " + ClaimantsIncomeFromNewDeal50PlusEmploymentCredit
-                + ",ClaimantsIncomeFromNewTaxCredits " + ClaimantsIncomeFromNewTaxCredits
-                + ",ClaimantsIncomeFromDisabilityLivingAllowanceCareComponent " + ClaimantsIncomeFromDisabilityLivingAllowanceCareComponent
-                + ",ClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent " + ClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent
-                + ",ClaimantsIncomeFromGovernemntTraining " + ClaimantsIncomeFromGovernemntTraining
-                + ",ClaimantsIncomeFromIndustrialInjuriesDisablementBenefit " + ClaimantsIncomeFromIndustrialInjuriesDisablementBenefit
-                + ",ClaimantsIncomeFromCarersAllowance " + ClaimantsIncomeFromCarersAllowance
-                + ",ClaimantsIncomeFromStatutoryMaternityPaternityPay " + ClaimantsIncomeFromStatutoryMaternityPaternityPay
-                + ",ClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc " + ClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc
-                + ",ClaimantsIncomeFromWarDisablementPensionArmedForcesGIP " + ClaimantsIncomeFromWarDisablementPensionArmedForcesGIP
-                + ",ClaimantsIncomeFromWarMobilitySupplement " + ClaimantsIncomeFromWarMobilitySupplement
-                + ",ClaimantsIncomeFromBereavementAllowance " + ClaimantsIncomeFromBereavementAllowance
-                + ",ClaimantsIncomeFromWidowedParentsAllowance " + ClaimantsIncomeFromWidowedParentsAllowance
-                + ",ClaimantsIncomeFromYouthTrainingScheme " + ClaimantsIncomeFromYouthTrainingScheme
-                + ",ClaimantsIncomeFromStatuatorySickPay " + ClaimantsIncomeFromStatuatorySickPay
-                + ",ClaimantsOtherIncome " + ClaimantsOtherIncome
-                + ",ClaimantsTotalAmountOfIncomeDisregarded " + ClaimantsTotalAmountOfIncomeDisregarded
-                + ",FamilyPremiumAwarded " + FamilyPremiumAwarded
-                + ",FamilyLoneParentPremiumAwarded " + FamilyLoneParentPremiumAwarded
-                + ",DisabilityPremiumAwarded " + DisabilityPremiumAwarded
-                + ",SevereDisabilityPremiumAwarded " + SevereDisabilityPremiumAwarded
-                + ",DisabledChildPremiumAwarded " + DisabledChildPremiumAwarded
-                + ",CarePremiumAwarded " + CarePremiumAwarded
-                + ",EnhancedDisabilityPremiumAwarded " + EnhancedDisabilityPremiumAwarded
-                + ",BereavementPremiumAwarded " + BereavementPremiumAwarded
-                + ",PartnerFlag " + PartnerFlag
-                + ",PartnersStartDate " + PartnersStartDate
-                + ",PartnersEndDate " + PartnersEndDate
-                + ",PartnersStudentIndicator " + PartnersStudentIndicator
-                + ",PartnersAssessedIncomeFigure " + PartnersAssessedIncomeFigure
-                + ",PartnersAdjustedAssessedIncomeFigure " + PartnersAdjustedAssessedIncomeFigure
-                + ",PartnersGrossWeeklyIncomeFromEmployment " + PartnersGrossWeeklyIncomeFromEmployment
-                + ",PartnersNetWeeklyIncomeFromEmployment " + PartnersNetWeeklyIncomeFromEmployment
-                + ",PartnersGrossWeeklyIncomeFromSelfEmployment " + PartnersGrossWeeklyIncomeFromSelfEmployment
-                + ",PartnersNetWeeklyIncomeFromSelfEmployment " + PartnersNetWeeklyIncomeFromSelfEmployment
-                + ",PartnersTotalAmountOfEarningsDisregarded " + PartnersTotalAmountOfEarningsDisregarded
-                + ",PartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded " + PartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded
-                + ",PartnersIncomeFromAttendanceAllowance " + PartnersIncomeFromAttendanceAllowance
-                + ",PartnersIncomeFromBusinessStartUpAllowance " + PartnersIncomeFromBusinessStartUpAllowance
-                + ",PartnersIncomeFromChildBenefit " + PartnersIncomeFromChildBenefit
-                + ",PartnersIncomeFromPersonalPension " + PartnersIncomeFromPersonalPension
-                + ",PartnersIncomeFromSevereDisabilityAllowance " + PartnersIncomeFromSevereDisabilityAllowance
-                + ",PartnersIncomeFromMaternityAllowance " + PartnersIncomeFromMaternityAllowance
-                + ",PartnersIncomeFromContributionBasedJobSeekersAllowance " + PartnersIncomeFromContributionBasedJobSeekersAllowance
-                + ",PartnersIncomeFromStudentGrantLoan " + PartnersIncomeFromStudentGrantLoan
-                + ",PartnersIncomeFromSubTenants " + PartnersIncomeFromSubTenants
-                + ",PartnersIncomeFromBoarders " + PartnersIncomeFromBoarders
-                + ",PartnersIncomeFromTrainingForWorkCommunityAction " + PartnersIncomeFromTrainingForWorkCommunityAction
-                + ",PartnersIncomeFromIncapacityBenefitShortTermLower " + PartnersIncomeFromIncapacityBenefitShortTermLower
-                + ",PartnersIncomeFromIncapacityBenefitShortTermHigher " + PartnersIncomeFromIncapacityBenefitShortTermHigher
-                + ",PartnersIncomeFromIncapacityBenefitLongTerm " + PartnersIncomeFromIncapacityBenefitLongTerm
-                + ",PartnersIncomeFromNewDeal50PlusEmploymentCredit " + PartnersIncomeFromNewDeal50PlusEmploymentCredit
-                + ",PartnersIncomeFromNewTaxCredits " + PartnersIncomeFromNewTaxCredits
-                + ",PartnersIncomeFromDisabilityLivingAllowanceCareComponent " + PartnersIncomeFromDisabilityLivingAllowanceCareComponent
-                + ",PartnersIncomeFromDisabilityLivingAllowanceMobilityComponent " + PartnersIncomeFromDisabilityLivingAllowanceMobilityComponent
-                + ",PartnersIncomeFromGovernemntTraining " + PartnersIncomeFromGovernemntTraining
-                + ",PartnersIncomeFromIndustrialInjuriesDisablementBenefit " + PartnersIncomeFromIndustrialInjuriesDisablementBenefit
-                + ",PartnersIncomeFromCarersAllowance " + PartnersIncomeFromCarersAllowance
-                + ",PartnersIncomeFromStatuatorySickPay " + PartnersIncomeFromStatuatorySickPay
-                + ",PartnersIncomeFromStatutoryMaternityPaternityPay " + PartnersIncomeFromStatutoryMaternityPaternityPay
-                + ",PartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc " + PartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc
-                + ",PartnersIncomeFromWarDisablementPensionArmedForcesGIP " + PartnersIncomeFromWarDisablementPensionArmedForcesGIP
-                + ",PartnersIncomeFromWarMobilitySupplement " + PartnersIncomeFromWarMobilitySupplement
-                + ",PartnersIncomeFromWidowsWidowersPension " + PartnersIncomeFromWidowsWidowersPension
-                + ",PartnersIncomeFromBereavementAllowance " + PartnersIncomeFromBereavementAllowance
-                + ",PartnersIncomeFromWidowedParentsAllowance " + PartnersIncomeFromWidowedParentsAllowance
-                + ",PartnersIncomeFromYouthTrainingScheme " + PartnersIncomeFromYouthTrainingScheme
-                + ",PartnersOtherIncome " + PartnersOtherIncome
-                + ",PartnersTotalAmountOfIncomeDisregarded " + PartnersTotalAmountOfIncomeDisregarded
-                + ",RentAllowanceMethodOfPayment " + RentAllowanceMethodOfPayment
-                + ",RentAllowancePaymentDestination " + RentAllowancePaymentDestination
-                + ",ContractualRentAmount " + ContractualRentAmount
-                + ",TimePeriodContractualRentFigureCovers " + TimePeriodContractualRentFigureCovers
-                + ",ClaimantsIncomeFromPensionCreditSavingsCredit " + ClaimantsIncomeFromPensionCreditSavingsCredit
-                + ",PartnersIncomeFromPensionCreditSavingsCredit " + PartnersIncomeFromPensionCreditSavingsCredit
-                + ",ClaimantsIncomeFromMaintenancePayments " + ClaimantsIncomeFromMaintenancePayments
-                + ",PartnersIncomeFromMaintenancePayments " + PartnersIncomeFromMaintenancePayments
-                + ",ClaimantsIncomeFromOccupationalPension " + ClaimantsIncomeFromOccupationalPension
-                + ",PartnersIncomeFromOccupationalPension " + PartnersIncomeFromOccupationalPension
-                + ",ClaimantsIncomeFromWidowsBenefit " + ClaimantsIncomeFromWidowsBenefit
-                + ",PartnersIncomeFromWidowsBenefit " + PartnersIncomeFromWidowsBenefit
-                + ",TotalNumberOfRooms " + TotalNumberOfRooms
-                + ",NonSelfContainedAccomodation " + NonSelfContainedAccomodation
-                + ",TypeOfLHANumberOfRoomsEntitedTo " + TypeOfLHANumberOfRoomsEntitedTo
-                + ",TransitionalProtectionFromNationalRolloutOfLHA " + TransitionalProtectionFromNationalRolloutOfLHA
-                + ",Locality " + Locality
-                + ",ValueOfLHA " + ValueOfLHA
-                + ",PartnersGender " + PartnersGender
-                + ",DateOfTransferFromLocalAuthorityLandlordToHousingAssociationRSLIfSubjectToStockTRansferOrLSVT " + DateOfTransferFromLocalAuthorityLandlordToHousingAssociationRSLIfSubjectToStockTRansferOrLSVT
-                + ",PartnersTotalCapital " + PartnersTotalCapital
-                + ",WeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure " + WeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure
-                + ",ClaimantsTotalHoursOfRemunerativeWorkPerWeek " + ClaimantsTotalHoursOfRemunerativeWorkPerWeek
-                + ",PartnersTotalHoursOfRemunerativeWorkPerWeek " + PartnersTotalHoursOfRemunerativeWorkPerWeek
-                + ",NumberOfBedroomsForLHARolloutCasesOnly " + NumberOfBedroomsForLHARolloutCasesOnly
-                + ",PartnersDateOfDeath " + PartnersDateOfDeath
-                + ",JointTenancyFlag " + JointTenancyFlag
-                + ",AppointeeFlag " + AppointeeFlag
-                + ",RentFreeWeeksIndicator " + RentFreeWeeksIndicator
-                + ",LastPaidToDate " + LastPaidToDate
-                + ",WeeklyAdditionalDiscretionaryPaymentForCouncilTaxLiability " + WeeklyAdditionalDiscretionaryPaymentForCouncilTaxLiability
-                + ",ClaimantsWeeklyIncomeFromESABasicElement " + ClaimantsWeeklyIncomeFromESABasicElement
-                + ",PartnersWeeklyIncomeFromESABasicElement " + PartnersWeeklyIncomeFromESABasicElement
-                + ",ClaimantsWeeklyIncomeFromESAWRAGElement " + ClaimantsWeeklyIncomeFromESAWRAGElement
-                + ",PartnersWeeklyIncomeFromESAWRAGElement " + PartnersWeeklyIncomeFromESAWRAGElement
-                + ",ClaimantsWeeklyIncomeFromESASCGElement " + ClaimantsWeeklyIncomeFromESASCGElement
-                + ",PartnersWeeklyIncomeFromESASCGElement " + PartnersWeeklyIncomeFromESASCGElement
-                + ",WRAGPremiumFlag " + WRAGPremiumFlag
-                + ",SCGPremiumFlag " + SCGPremiumFlag
-                + ",LandlordPostcode " + LandlordPostcode;
+                + ",NumberOfChildDependents=" + NumberOfChildDependents
+                + ",NumberOfNonDependents=" + NumberOfNonDependents
+                + ",WeeklyHousingBenefitEntitlement=" + WeeklyHousingBenefitEntitlement
+                + ",WeeklyCouncilTaxBenefitEntitlement=" + WeeklyCouncilTaxBenefitEntitlement
+                + ",FrequencyOfPaymentOfHB=" + FrequencyOfPaymentOfHB
+                + ",FrequencyOfPaymentOfCTB=" + FrequencyOfPaymentOfCTB
+                + ",PreDeterminationAmountOfHB=" + PreDeterminationAmountOfHB
+                + ",PreDeterminationAmountOfCTB=" + PreDeterminationAmountOfCTB
+                + ",ReasonForDirectPayment=" + ReasonForDirectPayment
+                + ",TimingOfPaymentOfRentAllowance=" + TimingOfPaymentOfRentAllowance
+                + ",ExtendedPaymentCase=" + ExtendedPaymentCase
+                + ",CouncilTaxBand=" + CouncilTaxBand
+                + ",WeeklyEligibleRentAmount=" + WeeklyEligibleRentAmount
+                + ",WeeklyEligibleCouncilTaxAmount=" + WeeklyEligibleCouncilTaxAmount
+                + ",ClaimantsStudentIndicator=" + ClaimantsStudentIndicator
+                + ",RebatePercentageWhereASecondAdultRebateHasBeenAwarded=" + RebatePercentageWhereASecondAdultRebateHasBeenAwarded
+                + ",SecondAdultRebate=" + SecondAdultRebate
+                + ",WeeklyLocalReferenceRent=" + WeeklyLocalReferenceRent
+                + ",WeeklySingleRoomRent=" + WeeklySingleRoomRent
+                + ",WeelklyClaimRelatedRent=" + WeeklyClaimRelatedRent
+                + ",RentOfficerDeterminationOfIneligibleCharges=" + RentOfficerDeterminationOfIneligibleCharges
+                + ",WeeklyMaximumRent=" + WeeklyMaximumRent
+                + ",TotalDeductionForMeals=" + TotalDeductionForMeals
+                + ",WeeklyAdditionalDiscretionaryPayment=" + WeeklyAdditionalDiscretionaryPayment
+                + ",ThirteenOrFiftyTwoWeekProtectionApplies=" + ThirteenOrFiftyTwoWeekProtectionApplies
+                + ",DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision=" + DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision
+                + ",ClaimantsAssessedIncomeFigure=" + ClaimantsAssessedIncomeFigure
+                + ",ClaimantsAdjustedAssessedIncomeFigure=" + ClaimantsAdjustedAssessedIncomeFigure
+                + ",ClaimantsTotalCapital=" + ClaimantsTotalCapital
+                + ",ClaimantsGrossWeeklyIncomeFromEmployment=" + ClaimantsGrossWeeklyIncomeFromEmployment
+                + ",ClaimantsNetWeeklyIncomeFromEmployment=" + ClaimantsNetWeeklyIncomeFromEmployment
+                + ",ClaimantsGrossWeeklyIncomeFromSelfEmployment=" + ClaimantsGrossWeeklyIncomeFromSelfEmployment
+                + ",ClaimantsNetWeeklyIncomeFromSelfEmployment=" + ClaimantsNetWeeklyIncomeFromSelfEmployment
+                + ",ClaimantsTotalAmountOfEarningsDisregarded=" + ClaimantsTotalAmountOfEarningsDisregarded
+                + ",ClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded=" + ClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded
+                + ",ClaimantsIncomeFromAttendanceAllowance=" + ClaimantsIncomeFromAttendanceAllowance
+                + ",ClaimantsIncomeFromBusinessStartUpAllowance=" + ClaimantsIncomeFromBusinessStartUpAllowance
+                + ",ClaimantsIncomeFromChildBenefit=" + ClaimantsIncomeFromChildBenefit
+                + ",ClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent=" + ClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent
+                + ",ClaimantsIncomeFromPersonalPension=" + ClaimantsIncomeFromPersonalPension
+                + ",ClaimantsIncomeFromSevereDisabilityAllowance=" + ClaimantsIncomeFromSevereDisabilityAllowance
+                + ",ClaimantsIncomeFromMaternityAllowance=" + ClaimantsIncomeFromMaternityAllowance
+                + ",ClaimantsIncomeFromContributionBasedJobSeekersAllowance=" + ClaimantsIncomeFromContributionBasedJobSeekersAllowance
+                + ",ClaimantsIncomeFromStudentGrantLoan=" + ClaimantsIncomeFromStudentGrantLoan
+                + ",ClaimantsIncomeFromSubTenants=" + ClaimantsIncomeFromSubTenants
+                + ",ClaimantsIncomeFromBoarders=" + ClaimantsIncomeFromBoarders
+                + ",ClaimantsIncomeFromTrainingForWorkCommunityAction=" + ClaimantsIncomeFromTrainingForWorkCommunityAction
+                + ",ClaimantsIncomeFromIncapacityBenefitShortTermLower=" + ClaimantsIncomeFromIncapacityBenefitShortTermLower
+                + ",ClaimantsIncomeFromIncapacityBenefitShortTermHigher=" + ClaimantsIncomeFromIncapacityBenefitShortTermHigher
+                + ",ClaimantsIncomeFromIncapacityBenefitLongTerm=" + ClaimantsIncomeFromIncapacityBenefitLongTerm
+                + ",ClaimantsIncomeFromNewDeal50PlusEmploymentCredit=" + ClaimantsIncomeFromNewDeal50PlusEmploymentCredit
+                + ",ClaimantsIncomeFromNewTaxCredits=" + ClaimantsIncomeFromNewTaxCredits
+                + ",ClaimantsIncomeFromDisabilityLivingAllowanceCareComponent=" + ClaimantsIncomeFromDisabilityLivingAllowanceCareComponent
+                + ",ClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent=" + ClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent
+                + ",ClaimantsIncomeFromGovernemntTraining=" + ClaimantsIncomeFromGovernemntTraining
+                + ",ClaimantsIncomeFromIndustrialInjuriesDisablementBenefit=" + ClaimantsIncomeFromIndustrialInjuriesDisablementBenefit
+                + ",ClaimantsIncomeFromCarersAllowance=" + ClaimantsIncomeFromCarersAllowance
+                + ",ClaimantsIncomeFromStatutoryMaternityPaternityPay=" + ClaimantsIncomeFromStatutoryMaternityPaternityPay
+                + ",ClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc=" + ClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc
+                + ",ClaimantsIncomeFromWarDisablementPensionArmedForcesGIP=" + ClaimantsIncomeFromWarDisablementPensionArmedForcesGIP
+                + ",ClaimantsIncomeFromWarMobilitySupplement=" + ClaimantsIncomeFromWarMobilitySupplement
+                + ",ClaimantsIncomeFromBereavementAllowance=" + ClaimantsIncomeFromBereavementAllowance
+                + ",ClaimantsIncomeFromWidowedParentsAllowance=" + ClaimantsIncomeFromWidowedParentsAllowance
+                + ",ClaimantsIncomeFromYouthTrainingScheme=" + ClaimantsIncomeFromYouthTrainingScheme
+                + ",ClaimantsIncomeFromStatuatorySickPay=" + ClaimantsIncomeFromStatuatorySickPay
+                + ",ClaimantsOtherIncome=" + ClaimantsOtherIncome
+                + ",ClaimantsTotalAmountOfIncomeDisregarded=" + ClaimantsTotalAmountOfIncomeDisregarded
+                + ",FamilyPremiumAwarded=" + FamilyPremiumAwarded
+                + ",FamilyLoneParentPremiumAwarded=" + FamilyLoneParentPremiumAwarded
+                + ",DisabilityPremiumAwarded=" + DisabilityPremiumAwarded
+                + ",SevereDisabilityPremiumAwarded=" + SevereDisabilityPremiumAwarded
+                + ",DisabledChildPremiumAwarded=" + DisabledChildPremiumAwarded
+                + ",CarePremiumAwarded=" + CarePremiumAwarded
+                + ",EnhancedDisabilityPremiumAwarded=" + EnhancedDisabilityPremiumAwarded
+                + ",BereavementPremiumAwarded=" + BereavementPremiumAwarded
+                + ",PartnerFlag=" + PartnerFlag
+                + ",PartnersStartDate=" + PartnersStartDate
+                + ",PartnersEndDate=" + PartnersEndDate
+                + ",PartnersStudentIndicator=" + PartnersStudentIndicator
+                + ",PartnersAssessedIncomeFigure=" + PartnersAssessedIncomeFigure
+                + ",PartnersAdjustedAssessedIncomeFigure=" + PartnersAdjustedAssessedIncomeFigure
+                + ",PartnersGrossWeeklyIncomeFromEmployment=" + PartnersGrossWeeklyIncomeFromEmployment
+                + ",PartnersNetWeeklyIncomeFromEmployment=" + PartnersNetWeeklyIncomeFromEmployment
+                + ",PartnersGrossWeeklyIncomeFromSelfEmployment=" + PartnersGrossWeeklyIncomeFromSelfEmployment
+                + ",PartnersNetWeeklyIncomeFromSelfEmployment=" + PartnersNetWeeklyIncomeFromSelfEmployment
+                + ",PartnersTotalAmountOfEarningsDisregarded=" + PartnersTotalAmountOfEarningsDisregarded
+                + ",PartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded=" + PartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded
+                + ",PartnersIncomeFromAttendanceAllowance=" + PartnersIncomeFromAttendanceAllowance
+                + ",PartnersIncomeFromBusinessStartUpAllowance=" + PartnersIncomeFromBusinessStartUpAllowance
+                + ",PartnersIncomeFromChildBenefit=" + PartnersIncomeFromChildBenefit
+                + ",PartnersIncomeFromPersonalPension=" + PartnersIncomeFromPersonalPension
+                + ",PartnersIncomeFromSevereDisabilityAllowance=" + PartnersIncomeFromSevereDisabilityAllowance
+                + ",PartnersIncomeFromMaternityAllowance=" + PartnersIncomeFromMaternityAllowance
+                + ",PartnersIncomeFromContributionBasedJobSeekersAllowance=" + PartnersIncomeFromContributionBasedJobSeekersAllowance
+                + ",PartnersIncomeFromStudentGrantLoan=" + PartnersIncomeFromStudentGrantLoan
+                + ",PartnersIncomeFromSubTenants=" + PartnersIncomeFromSubTenants
+                + ",PartnersIncomeFromBoarders=" + PartnersIncomeFromBoarders
+                + ",PartnersIncomeFromTrainingForWorkCommunityAction=" + PartnersIncomeFromTrainingForWorkCommunityAction
+                + ",PartnersIncomeFromIncapacityBenefitShortTermLower=" + PartnersIncomeFromIncapacityBenefitShortTermLower
+                + ",PartnersIncomeFromIncapacityBenefitShortTermHigher=" + PartnersIncomeFromIncapacityBenefitShortTermHigher
+                + ",PartnersIncomeFromIncapacityBenefitLongTerm=" + PartnersIncomeFromIncapacityBenefitLongTerm
+                + ",PartnersIncomeFromNewDeal50PlusEmploymentCredit=" + PartnersIncomeFromNewDeal50PlusEmploymentCredit
+                + ",PartnersIncomeFromNewTaxCredits=" + PartnersIncomeFromNewTaxCredits
+                + ",PartnersIncomeFromDisabilityLivingAllowanceCareComponent=" + PartnersIncomeFromDisabilityLivingAllowanceCareComponent
+                + ",PartnersIncomeFromDisabilityLivingAllowanceMobilityComponent=" + PartnersIncomeFromDisabilityLivingAllowanceMobilityComponent
+                + ",PartnersIncomeFromGovernemntTraining=" + PartnersIncomeFromGovernemntTraining
+                + ",PartnersIncomeFromIndustrialInjuriesDisablementBenefit=" + PartnersIncomeFromIndustrialInjuriesDisablementBenefit
+                + ",PartnersIncomeFromCarersAllowance=" + PartnersIncomeFromCarersAllowance
+                + ",PartnersIncomeFromStatuatorySickPay=" + PartnersIncomeFromStatuatorySickPay
+                + ",PartnersIncomeFromStatutoryMaternityPaternityPay=" + PartnersIncomeFromStatutoryMaternityPaternityPay
+                + ",PartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc=" + PartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc
+                + ",PartnersIncomeFromWarDisablementPensionArmedForcesGIP=" + PartnersIncomeFromWarDisablementPensionArmedForcesGIP
+                + ",PartnersIncomeFromWarMobilitySupplement=" + PartnersIncomeFromWarMobilitySupplement
+                + ",PartnersIncomeFromWidowsWidowersPension=" + PartnersIncomeFromWidowsWidowersPension
+                + ",PartnersIncomeFromBereavementAllowance=" + PartnersIncomeFromBereavementAllowance
+                + ",PartnersIncomeFromWidowedParentsAllowance=" + PartnersIncomeFromWidowedParentsAllowance
+                + ",PartnersIncomeFromYouthTrainingScheme=" + PartnersIncomeFromYouthTrainingScheme
+                + ",PartnersOtherIncome=" + PartnersOtherIncome
+                + ",PartnersTotalAmountOfIncomeDisregarded=" + PartnersTotalAmountOfIncomeDisregarded
+                + ",RentAllowanceMethodOfPayment=" + RentAllowanceMethodOfPayment
+                + ",RentAllowancePaymentDestination=" + RentAllowancePaymentDestination
+                + ",ContractualRentAmount=" + ContractualRentAmount
+                + ",TimePeriodContractualRentFigureCovers=" + TimePeriodContractualRentFigureCovers
+                + ",ClaimantsIncomeFromPensionCreditSavingsCredit=" + ClaimantsIncomeFromPensionCreditSavingsCredit
+                + ",PartnersIncomeFromPensionCreditSavingsCredit=" + PartnersIncomeFromPensionCreditSavingsCredit
+                + ",ClaimantsIncomeFromMaintenancePayments=" + ClaimantsIncomeFromMaintenancePayments
+                + ",PartnersIncomeFromMaintenancePayments=" + PartnersIncomeFromMaintenancePayments
+                + ",ClaimantsIncomeFromOccupationalPension=" + ClaimantsIncomeFromOccupationalPension
+                + ",PartnersIncomeFromOccupationalPension=" + PartnersIncomeFromOccupationalPension
+                + ",ClaimantsIncomeFromWidowsBenefit=" + ClaimantsIncomeFromWidowsBenefit
+                + ",PartnersIncomeFromWidowsBenefit=" + PartnersIncomeFromWidowsBenefit
+                + ",TotalNumberOfRooms=" + TotalNumberOfRooms
+                + ",NonSelfContainedAccomodation=" + NonSelfContainedAccomodation
+                + ",TypeOfLHANumberOfRoomsEntitedTo=" + TypeOfLHANumberOfRoomsEntitedTo
+                + ",TransitionalProtectionFromNationalRolloutOfLHA=" + TransitionalProtectionFromNationalRolloutOfLHA
+                + ",Locality=" + Locality
+                + ",ValueOfLHA=" + ValueOfLHA
+                + ",PartnersGender=" + PartnersGender
+                + ",DateOfTransferFromLocalAuthorityLandlordToHousingAssociationRSLIfSubjectToStockTRansferOrLSVT=" + DateOfTransferFromLocalAuthorityLandlordToHousingAssociationRSLIfSubjectToStockTRansferOrLSVT
+                + ",PartnersTotalCapital=" + PartnersTotalCapital
+                + ",WeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure=" + WeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure
+                + ",ClaimantsTotalHoursOfRemunerativeWorkPerWeek=" + ClaimantsTotalHoursOfRemunerativeWorkPerWeek
+                + ",PartnersTotalHoursOfRemunerativeWorkPerWeek=" + PartnersTotalHoursOfRemunerativeWorkPerWeek
+                + ",NumberOfBedroomsForLHARolloutCasesOnly=" + NumberOfBedroomsForLHARolloutCasesOnly
+                + ",PartnersDateOfDeath=" + PartnersDateOfDeath
+                + ",JointTenancyFlag=" + JointTenancyFlag
+                + ",AppointeeFlag=" + AppointeeFlag
+                + ",RentFreeWeeksIndicator=" + RentFreeWeeksIndicator
+                + ",LastPaidToDate=" + LastPaidToDate
+                + ",WeeklyAdditionalDiscretionaryPaymentForCouncilTaxLiability=" + WeeklyAdditionalDiscretionaryPaymentForCouncilTaxLiability
+                + ",ClaimantsWeeklyIncomeFromESABasicElement=" + ClaimantsWeeklyIncomeFromESABasicElement
+                + ",PartnersWeeklyIncomeFromESABasicElement=" + PartnersWeeklyIncomeFromESABasicElement
+                + ",ClaimantsWeeklyIncomeFromESAWRAGElement=" + ClaimantsWeeklyIncomeFromESAWRAGElement
+                + ",PartnersWeeklyIncomeFromESAWRAGElement=" + PartnersWeeklyIncomeFromESAWRAGElement
+                + ",ClaimantsWeeklyIncomeFromESASCGElement=" + ClaimantsWeeklyIncomeFromESASCGElement
+                + ",PartnersWeeklyIncomeFromESASCGElement=" + PartnersWeeklyIncomeFromESASCGElement
+                + ",WRAGPremiumFlag=" + WRAGPremiumFlag
+                + ",SCGPremiumFlag=" + SCGPremiumFlag
+                + ",LandlordPostcode=" + LandlordPostcode;
     }
 
     /**
@@ -3601,9 +3601,9 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             if (FrequencyOfPaymentOfHB != 99
                     && (FrequencyOfPaymentOfHB > 7 || FrequencyOfPaymentOfHB < 0)) {
 //                if (! (RecordID == 1338 || RecordID == 1488 || RecordID == 1573)) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
-                System.err.println("FrequencyOfPaymentOfHB " + fields[n]);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
+                System.err.println("FrequencyOfPaymentOfHB=" + fields[n]);
                 System.err.println("FrequencyOfPaymentOfHB != 99 &&"
                         + "|| (FrequencyOfPaymentOfHB > 7 || FrequencyOfPaymentOfHB < 0)");
 //                    throw new Exception("FrequencyOfPaymentOfHB != 99 &&"
@@ -3638,9 +3638,9 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             setFrequencyOfPaymentOfCTB(Integer.valueOf(fields[n]));
         }
         if (FrequencyOfPaymentOfCTB != 3 && FrequencyOfPaymentOfCTB != 0) {
-            System.err.println("RecordID " + RecordID);
-            System.err.println("n " + n);
-            System.err.println("FrequencyOfPaymentOfCTB " + fields[n]);
+            System.err.println("RecordID=" + RecordID);
+            System.err.println("n=" + n);
+            System.err.println("FrequencyOfPaymentOfCTB=" + fields[n]);
             System.err.println("FrequencyOfPaymentOfCTB != 3 && FrequencyOfPaymentOfCTB != 0");
 //            throw new Exception("FrequencyOfPaymentOfCTB != 3 && FrequencyOfPaymentOfCTB != 0");
         }
@@ -3696,11 +3696,11 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
         } else {
             setReasonForDirectPayment(Integer.valueOf(fields[n]));
             if (ReasonForDirectPayment > 8 || ReasonForDirectPayment < 0) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
-                System.err.println("ReasonForDirectPayment " + fields[n]);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
+                System.err.println("ReasonForDirectPayment=" + fields[n]);
                 System.err.println("ReasonForDirectPayment > 8 || ReasonForDirectPayment < 0");
-//                throw new Exception("ReasonForDirectPayment " + ReasonForDirectPayment + " > 8 || < 0");
+//                throw new Exception("ReasonForDirectPayment=" + ReasonForDirectPayment + " > 8 || < 0");
             }
         }
     }
@@ -3728,9 +3728,9 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
         } else {
             setTimingOfPaymentOfRentAllowance(Integer.valueOf(fields[n]));
             if (TimingOfPaymentOfRentAllowance > 4 || TimingOfPaymentOfRentAllowance < 0) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
-                System.err.println("TimingOfPaymentOfRentAllowance " + fields[n]);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
+                System.err.println("TimingOfPaymentOfRentAllowance=" + fields[n]);
                 System.err.println("TimingOfPaymentOfRentAllowance > 4 || TimingOfPaymentOfRentAllowance < 0");
 //                throw new Exception("TimingOfPaymentOfRentAllowance > 4 || TimingOfPaymentOfRentAllowance < 0");
             }
@@ -3759,9 +3759,9 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
         } else {
             setExtendedPaymentCase(Integer.valueOf(fields[n]));
             if (ExtendedPaymentCase > 4 || ExtendedPaymentCase < 0) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
-                System.err.println("ExtendedPaymentCase " + fields[n]);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
+                System.err.println("ExtendedPaymentCase=" + fields[n]);
                 System.err.println("ExtendedPaymentCase > 4 || ExtendedPaymentCase < 0");
 //                throw new Exception("ExtendedPaymentCase > 4 || ExtendedPaymentCase < 0");
             }
@@ -3805,15 +3805,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setWeeklyEligibleRentAmount(Integer.valueOf(fields[n]));
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("setWeeklyEligibleRentAmount(int,String[])");
-                System.err.println("fields[n], " + fields[n]);
+                System.err.println("fields[n],=" + fields[n]);
 //                e.printStackTrace(System.err);
 //                throw e
                 String currentCouncilTaxBand = CouncilTaxBand;
                 CouncilTaxBand = fields[n];
-                System.err.println("current CouncilTaxBand " + currentCouncilTaxBand + " set to " + CouncilTaxBand);
+                System.err.println("current CouncilTaxBand=" + currentCouncilTaxBand + " set to=" + CouncilTaxBand);
                 n++;
                 setWeeklyEligibleRentAmount(
                         n,
@@ -3876,17 +3876,17 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setRebatePercentageWhereASecondAdultRebateHasBeenAwarded(Integer.valueOf(fields[n]));
                 if (RebatePercentageWhereASecondAdultRebateHasBeenAwarded > 4 || RebatePercentageWhereASecondAdultRebateHasBeenAwarded < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("RebatePercentageWhereASecondAdultRebateHasBeenAwarded " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("RebatePercentageWhereASecondAdultRebateHasBeenAwarded=" + fields[n]);
                     System.err.println("RebatePercentageWhereASecondAdultRebateHasBeenAwarded > 4 || RebatePercentageWhereASecondAdultRebateHasBeenAwarded < 0");
 //                throw new Exception("RebatePercentageWhereASecondAdultRebateHasBeenAwarded > 4 || RebatePercentageWhereASecondAdultRebateHasBeenAwarded < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("RebatePercentageWhereASecondAdultRebateHasBeenAwarded(int,String[])");
-                System.err.println("fields[n], " + fields[n]);
+                System.err.println("fields[n],=" + fields[n]);
 //                e.printStackTrace(System.err);
 //                throw e
             }
@@ -3916,15 +3916,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setSecondAdultRebate(Integer.valueOf(fields[n]));
                 if (SecondAdultRebate > 2 || SecondAdultRebate < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("SecondAdultRebate " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("SecondAdultRebate=" + fields[n]);
                     System.err.println("SecondAdultRebate > 2 || SecondAdultRebate < 1");
 //                throw new Exception("SecondAdultRebate > 2 || SecondAdultRebate < 1");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setSecondAdultRebate(n,String[])");
 //                throw e;
             }
@@ -4055,15 +4055,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setThirteenOrFiftyTwoWeekProtectionApplies(Integer.valueOf(fields[n]));
                 if (ThirteenOrFiftyTwoWeekProtectionApplies > 1 || ThirteenOrFiftyTwoWeekProtectionApplies < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("ThirteenOrFiftyTwoWeekProtectionApplies " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("ThirteenOrFiftyTwoWeekProtectionApplies=" + fields[n]);
                     System.err.println("ThirteenOrFiftyTwoWeekProtectionApplies > 1 || ThirteenOrFiftyTwoWeekProtectionApplies < 0");
 //                throw new Exception("ThirteenOrFiftyTwoWeekProtectionApplies > 1 || ThirteenOrFiftyTwoWeekProtectionApplies < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setThirteenOrFiftyTwoWeekProtectionApplies(int,String[])");
 //                throw e;
             }
@@ -4726,15 +4726,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setFamilyPremiumAwarded(Integer.valueOf(fields[n]));
                 if (FamilyPremiumAwarded > 1 || FamilyPremiumAwarded < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("FamilyPremiumAwarded " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("FamilyPremiumAwarded=" + fields[n]);
                     System.err.println("FamilyPremiumAwarded > 1 || FamilyPremiumAwarded < 0");
 //                throw new Exception("FamilyPremiumAwarded > 1 || FamilyPremiumAwarded < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setFamilyPremiumAwarded(int,String[])");
 //                throw e;
             }
@@ -4765,15 +4765,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setFamilyLoneParentPremiumAwarded(Integer.valueOf(fields[n]));
                 if (FamilyLoneParentPremiumAwarded > 1 || FamilyLoneParentPremiumAwarded < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("FamilyLoneParentPremiumAwarded " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("FamilyLoneParentPremiumAwarded=" + fields[n]);
                     System.err.println("FamilyLoneParentPremiumAwarded > 1 || FamilyLoneParentPremiumAwarded < 0");
 //                throw new Exception("FamilyLoneParentPremiumAwarded > 1 || FamilyLoneParentPremiumAwarded < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setFamilyLoneParentPremiumAwarded(int,String[])");
 //                throw e;
             }
@@ -4803,15 +4803,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setDisabilityPremiumAwarded(Integer.valueOf(fields[n]));
                 if (DisabilityPremiumAwarded > 1 || DisabilityPremiumAwarded < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("DisabilityPremiumAwarded " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("DisabilityPremiumAwarded=" + fields[n]);
                     System.err.println("DisabilityPremiumAwarded > 1 || DisabilityPremiumAwarded < 0");
 //                throw new Exception("DisabilityPremiumAwarded > 1 || DisabilityPremiumAwarded < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setDisabilityPremiumAwarded(int,String[])");
 //                throw e;
             }
@@ -4842,15 +4842,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setSevereDisabilityPremiumAwarded(Integer.valueOf(fields[n]));
                 if (SevereDisabilityPremiumAwarded > 1 || SevereDisabilityPremiumAwarded < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("SevereDisabilityPremiumAwarded " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("SevereDisabilityPremiumAwarded=" + fields[n]);
                     System.err.println("SevereDisabilityPremiumAwarded > 1 || SevereDisabilityPremiumAwarded < 0");
 //                throw new Exception("SevereDisabilityPremiumAwarded > 1 || SevereDisabilityPremiumAwarded < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setSevereDisabilityPremiumAwarded(int,String[])");
 //                throw e;
             }
@@ -4880,15 +4880,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setDisabledChildPremiumAwarded(Integer.valueOf(fields[n]));
                 if (DisabledChildPremiumAwarded > 1 || DisabledChildPremiumAwarded < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("DisabledChildPremiumAwarded " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("DisabledChildPremiumAwarded=" + fields[n]);
                     System.err.println("DisabledChildPremiumAwarded > 1 || DisabiledChildPremiumAwarded < 0");
 //                throw new Exception("DisabledChildPremiumAwarded > 1 || DisabiledChildPremiumAwarded < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setDisabledChildPremiumAwarded(int,String[])");
 //                throw e;
             }
@@ -4918,15 +4918,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setCarePremiumAwarded(Integer.valueOf(fields[n]));
                 if (CarePremiumAwarded > 1 || CarePremiumAwarded < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("CarePremiumAwarded " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("CarePremiumAwarded=" + fields[n]);
                     System.err.println("CarePremiumAwarded > 1 || CarePremiumAwarded < 0");
 //                throw new Exception("CarePremiumAwarded > 1 || CarePremiumAwarded < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setCarePremiumAwarded(int,String[])");
 //                throw e;
             }
@@ -4957,15 +4957,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setEnhancedDisabilityPremiumAwarded(Integer.valueOf(fields[n]));
                 if (EnhancedDisabilityPremiumAwarded > 1 || EnhancedDisabilityPremiumAwarded < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("EnhancedDisabilityPremiumAwarded " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("EnhancedDisabilityPremiumAwarded=" + fields[n]);
                     System.err.println("EnhancedDisabilityPremiumAwarded > 1 || EnhancedDisabilityPremiumAwarded < 0");
 //                throw new Exception("EnhancedDisabilityPremiumAwarded > 1 || EnhancedDisabilityPremiumAwarded < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setEnhancedDisabilityPremiumAwarded(int,String[])");
 //                throw e;
             }
@@ -4995,15 +4995,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setBereavementPremiumAwarded(Integer.valueOf(fields[n]));
                 if (BereavementPremiumAwarded > 1 || BereavementPremiumAwarded < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("BereavementPremiumAwarded " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("BereavementPremiumAwarded=" + fields[n]);
                     System.err.println("BereavementPremiumAwarded > 1 || BereavementPremiumAwarded < 0");
 //                throw new Exception("BereavementPremiumAwarded > 1 || BereavementPremiumAwarded < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setBereavementPremiumAwarded(int,String[])");
 //                throw e;
             }
@@ -5033,15 +5033,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setPartnerFlag(Integer.valueOf(fields[n]));
                 if (PartnerFlag > 2 || PartnerFlag < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("PartnerFlag " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("PartnerFlag=" + fields[n]);
                     System.err.println("PartnerFlag > 2 || PartnerFlag < 0");
 //                throw new Exception("PartnerFlag > 2 || PartnerFlag < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setBereavementPremiumAwarded(int,String[])");
 //                throw e;
             }
@@ -5718,15 +5718,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setRentAllowanceMethodOfPayment(Integer.valueOf(fields[n]));
                 if (RentAllowanceMethodOfPayment > 99 || RentAllowanceMethodOfPayment < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("RentAllowanceMethodOfPayment " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("RentAllowanceMethodOfPayment=" + fields[n]);
                     System.err.println("RentAllowanceMethodOfPayment > 99 || RentAllowanceMethodOfPayment < 0");
 //                    throw new Exception("RentAllowanceMethodOfPayment > 99 || RentAllowanceMethodOfPayment < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setRentAllowanceMethodOfPayment(int,String[])");
 //                throw e;
             }
@@ -5757,15 +5757,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setRentAllowancePaymentDestination(Integer.valueOf(fields[n]));
                 if (RentAllowancePaymentDestination > 99 || RentAllowancePaymentDestination < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("RentAllowancePaymentDestination " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("RentAllowancePaymentDestination=" + fields[n]);
                     System.err.println("RentAllowancePaymentDestination > 99 || RentAllowancePaymentDestination < 0");
 //                throw new Exception("RentAllowancePaymentDestination > 99 || RentAllowancePaymentDestination < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setRentAllowancePaymentDestination(int,String[])");
 //                throw e;
             }
@@ -5812,9 +5812,9 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
                 if (TimePeriodContractualRentFigureCovers != 99
                         && (TimePeriodContractualRentFigureCovers > 9
                         || TimePeriodContractualRentFigureCovers < 0)) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("TimePeriodContractualRentFigureCovers " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("TimePeriodContractualRentFigureCovers=" + fields[n]);
                     System.err.println("TimePeriodContractualRentFigureCovers != 99 "
                             + "&& (TimePeriodContractualRentFigureCovers > 9 || "
                             + "TimePeriodContractualRentFigureCovers < 0)");
@@ -5823,8 +5823,8 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
 //                        + "TimePeriodContractualRentFigureCovers < 0)");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setTimePeriodContractualRentFigureCovers(int,String[])");
 //                throw e;
             }
@@ -5991,15 +5991,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setNonSelfContainedAccomodation(Integer.valueOf(fields[n]));
                 if (NonSelfContainedAccomodation > 1 || NonSelfContainedAccomodation < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("NonSelfContainedAccomodation " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("NonSelfContainedAccomodation=" + fields[n]);
                     System.err.println("NonSelfContainedAccomodation > 1 || NonSelfContainedAccomodation < 0");
 //                throw new Exception("NonSelfContainedAccomodation > 1 || NonSelfContainedAccomodation < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setNonSelfContainedAccomodation(int,String[])");
 //                throw e;
             }
@@ -6045,15 +6045,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setTransitionalProtectionFromNationalRolloutOfLHA(Integer.valueOf(fields[n]));
                 if (TransitionalProtectionFromNationalRolloutOfLHA > 1 || TransitionalProtectionFromNationalRolloutOfLHA < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("TransitionalProtectionFromNationalRolloutOfLHA " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("TransitionalProtectionFromNationalRolloutOfLHA=" + fields[n]);
                     System.err.println("TransitionalProtectionFromNationalRolloutOfLHA > 1 || TransitionalProtectionFromNationalRolloutOfLHA < 0");
 //                throw new Exception("TransitionalProtectionFromNationalRolloutOfLHA > 1 || TransitionalProtectionFromNationalRolloutOfLHA < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setTransitionalProtectionFromNationalRolloutOfLHA(int,String[])");
 //                throw e;
             }
@@ -6234,15 +6234,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setJointTenancyFlag(Integer.valueOf(fields[n]));
                 if (JointTenancyFlag > 2 || JointTenancyFlag < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("JointTenancyFlag " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("JointTenancyFlag=" + fields[n]);
                     System.err.println("JointTenancyFlag > 2 || JointTenancyFlag < 0");
 //                throw new Exception("JointTenancyFlag > 2 || JointTenancyFlag < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setJointTenancyFlag(int,String[])");
 //                throw e;
             }
@@ -6272,15 +6272,15 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 setAppointeeFlag(Integer.valueOf(fields[n]));
                 if (AppointeeFlag > 2 || AppointeeFlag < 0) {
-                    System.err.println("RecordID " + RecordID);
-                    System.err.println("n " + n);
-                    System.err.println("AppointeeFlag " + fields[n]);
+                    System.err.println("RecordID=" + RecordID);
+                    System.err.println("n=" + n);
+                    System.err.println("AppointeeFlag=" + fields[n]);
                     System.err.println("AppointeeFlag > 2 || AppointeeFlag < 0");
 //                throw new Exception("AppointeeFlag > 2 || AppointeeFlag < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setAppointeeFlag(int,String[])");
 //                throw e;
             }
@@ -6331,13 +6331,13 @@ public class SHBE_D_Record extends SHBE_DC_RecordAbstract {
             try {
                 WeeklyAdditionalDiscretionaryPaymentForCouncilTaxLiability = (Integer.valueOf(fields[n]));
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("NumberFormatException in setWeeklyAdditionalDiscretionaryPaymentForCouncilTaxLiability(int,String[])");
 //                throw e;
                 String currentLastPaidToDate = LastPaidToDate;
                 LastPaidToDate = fields[n];
-                System.err.println("current LastPaidToDate " + currentLastPaidToDate + " set to " + LastPaidToDate);
+                System.err.println("current LastPaidToDate=" + currentLastPaidToDate + " set to=" + LastPaidToDate);
                 n++;
                 setWeeklyAdditionalDiscretionaryPaymentForCouncilTaxLiability(
                         n,

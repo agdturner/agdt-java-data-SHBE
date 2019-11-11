@@ -35,7 +35,6 @@ import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.id.ONSPD_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.onspd.util.ONSPD_YM3;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
-import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_ID;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Strings;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id.SHBE_ClaimID;
@@ -505,7 +504,7 @@ public class SHBE_Handler extends SHBE_Object {
      */
     public final HashSet<SHBE_PersonID> getClaimantPersonIDs(File f) {
         if (ClaimantPersonIDs == null) {
-            ClaimantPersonIDs = env.collections.getHashSet_SHBE_PersonID(f);
+            ClaimantPersonIDs = env.collections.getPersonIDs(f);
         }
         return ClaimantPersonIDs;
     }
@@ -524,7 +523,7 @@ public class SHBE_Handler extends SHBE_Object {
      */
     public final HashSet<SHBE_PersonID> getPartnerPersonIDs(File f) {
         if (PartnerPersonIDs == null) {
-            PartnerPersonIDs = env.collections.getHashSet_SHBE_PersonID(f);
+            PartnerPersonIDs = env.collections.getPersonIDs(f);
         }
         return PartnerPersonIDs;
     }
@@ -543,7 +542,7 @@ public class SHBE_Handler extends SHBE_Object {
      */
     public final HashSet<SHBE_PersonID> getNonDependentPersonIDs(File f) {
         if (NonDependentPersonIDs == null) {
-            NonDependentPersonIDs = env.collections.getHashSet_SHBE_PersonID(f);
+            NonDependentPersonIDs = env.collections.getPersonIDs(f);
         }
         return NonDependentPersonIDs;
     }
@@ -580,7 +579,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * All SHBE_PersonID to ClaimIDs Lookup
      */
-    HashMap<SHBE_PersonID, HashSet<SHBE_ID>> PersonIDToClaimIDLookup;
+    HashMap<SHBE_PersonID, HashSet<SHBE_ClaimID>> PersonIDToClaimIDLookup;
 
     /**
      * {@code if (PostcodeToPostcodeIDLookup == null) {
@@ -1856,28 +1855,61 @@ public class SHBE_Handler extends SHBE_Object {
         return indexYM3s;
     }
 
+//    /**
+//     *
+//     * @param S
+//     * @param StringToSHBE_IDLookup
+//     * @param SHBE_IDToStringLookup
+//     * @param list List to add result to if a new one is created.
+//     * @return
+//     */
+//    public <T> T getIDAddIfNeeded(            String S,
+//            HashMap<String, T> StringToSHBE_IDLookup,
+//            HashMap<T, String> SHBE_IDToStringLookup,
+//            ArrayList<T> list
+//    ) {
+//        T r;
+//        if (StringToSHBE_IDLookup.containsKey(S)) {
+//            r = StringToSHBE_IDLookup.get(S);
+//        } else {
+//            r = (T) new SHBE_ID(SHBE_IDToStringLookup.size());
+//            SHBE_IDToStringLookup.put(r, S);
+//            StringToSHBE_IDLookup.put(S, r);
+//            list.add(r);
+//        }
+//        return r;
+//    }
+
     /**
      *
      * @param S
-     * @param StringToSHBE_IDLookup
-     * @param SHBE_IDToStringLookup
-     * @param list List to add result to if a new one is created.
      * @return
      */
-    public <T> T getIDAddIfNeeded(
-            String S,
-            HashMap<String, T> StringToSHBE_IDLookup,
-            HashMap<T, String> SHBE_IDToStringLookup,
-            ArrayList<T> list
-    ) {
-        T r;
-        if (StringToSHBE_IDLookup.containsKey(S)) {
-            r = StringToSHBE_IDLookup.get(S);
+    public SHBE_NINOID getNINOIDAddIfNeeded(String S) {
+        SHBE_NINOID r;
+        if (NINOToNINOIDLookup.containsKey(S)) {
+            r = NINOToNINOIDLookup.get(S);
         } else {
-            r = (T) new SHBE_ID(SHBE_IDToStringLookup.size());
-            SHBE_IDToStringLookup.put(r, S);
-            StringToSHBE_IDLookup.put(S, r);
-            list.add(r);
+            r = new SHBE_NINOID(NINOIDToNINOLookup.size());
+            NINOIDToNINOLookup.put(r, S);
+            NINOToNINOIDLookup.put(S, r);
+        }
+        return r;
+    }
+    
+    /**
+     *
+     * @param S
+     * @return
+     */
+    public SHBE_DOBID getDOBIDAddIfNeeded(String S) {
+        SHBE_DOBID r;
+        if (DOBToDOBIDLookup.containsKey(S)) {
+            r = DOBToDOBIDLookup.get(S);
+        } else {
+            r = new SHBE_DOBID(DOBIDToDOBLookup.size());
+            DOBIDToDOBLookup.put(r, S);
+            DOBToDOBIDLookup.put(S, r);
         }
         return r;
     }
@@ -1885,20 +1917,16 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      *
      * @param S
-     * @param StringToIDLookup
-     * @param IDToStringLookup
      * @return
      */
-    public <T> T getIDAddIfNeeded(String S, HashMap<String, T> StringToIDLookup,
-            HashMap<T, String> IDToStringLookup
-    ) {
-        T r;
-        if (StringToIDLookup.containsKey(S)) {
-            r = StringToIDLookup.get(S);
+    public SHBE_ClaimID getClaimIDAddIfNeeded(String S) {
+        SHBE_ClaimID r;
+        if (ClaimRefToClaimIDLookup.containsKey(S)) {
+            r = ClaimRefToClaimIDLookup.get(S);
         } else {
-            r = (T) new SHBE_ID(IDToStringLookup.size());
-            IDToStringLookup.put(r, S);
-            StringToIDLookup.put(S, r);
+            r = new SHBE_ClaimID(ClaimIDToClaimRefLookup.size());
+            ClaimIDToClaimRefLookup.put(r, S);
+            ClaimRefToClaimIDLookup.put(S, r);
         }
         return r;
     }
@@ -3186,16 +3214,16 @@ public class SHBE_Handler extends SHBE_Object {
         return result;
     }
 
-    public HashMap<SHBE_ID, String> getIDToStringLookup(
-            File f) {
-        HashMap<SHBE_ID, String> result;
-        if (f.exists()) {
-            result = (HashMap<SHBE_ID, String>) env.env.io.readObject(f);
-        } else {
-            result = new HashMap<>();
-        }
-        return result;
-    }
+//    public HashMap<SHBE_ID, String> getIDToStringLookup(
+//            File f) {
+//        HashMap<SHBE_ID, String> result;
+//        if (f.exists()) {
+//            result = (HashMap<SHBE_ID, String>) env.env.io.readObject(f);
+//        } else {
+//            result = new HashMap<>();
+//        }
+//        return result;
+//    }
 
     public int getNumberOfTenancyTypes() {
         return 10;
@@ -3911,10 +3939,8 @@ public class SHBE_Handler extends SHBE_Object {
             HashMap<SHBE_NINOID, String> NINOIDToNINOLookup,
             HashMap<String, SHBE_DOBID> DOBToDOBIDLookup,
             HashMap<SHBE_DOBID, String> DOBIDToDOBLookup) {
-        SHBE_NINOID NINOID;
-        NINOID = (SHBE_NINOID) getIDAddIfNeeded(NINO, NINOToNINOIDLookup, NINOIDToNINOLookup);
-        SHBE_DOBID DOBID;
-        DOBID = (SHBE_DOBID) getIDAddIfNeeded(DOB, DOBToDOBIDLookup, DOBIDToDOBLookup);
+        SHBE_NINOID NINOID = getNINOIDAddIfNeeded(NINO);
+        SHBE_DOBID DOBID = getDOBIDAddIfNeeded(DOB);
         return new SHBE_PersonID(NINOID, DOBID);
     }
 

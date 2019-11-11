@@ -24,7 +24,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
  *
  * @author geoagdt
  */
-public class SHBE_DC_RecordAbstract extends SHBE_DAC_RecordAbstract {
+public class SHBE_DC_Record extends SHBE_DAC_Record {
 
     /**
      * 32 37 DateOfFirstDecisionOnMostRecentHBClaim
@@ -91,7 +91,7 @@ public class SHBE_DC_RecordAbstract extends SHBE_DAC_RecordAbstract {
      */
     private int TotalAmountOfBackdatedCTBAwarded;
 
-    public SHBE_DC_RecordAbstract(SHBE_Environment env) {
+    public SHBE_DC_Record(SHBE_Environment env) {
         super(env);
     }
 
@@ -103,22 +103,22 @@ public class SHBE_DC_RecordAbstract extends SHBE_DAC_RecordAbstract {
     @Override
     public String toString() {
         return super.toString()
-                + ",DateOfFirstDecisionOnMostRecentHBClaim " + DateOfFirstDecisionOnMostRecentHBClaim
-                + ",DateOfFirstDecisionOnMostRecentCTBClaim " + DateOfFirstDecisionOnMostRecentCTBClaim
-                + ",OutcomeOfFirstDecisionOnMostRecentHBClaim " + OutcomeOfFirstDecisionOnMostRecentHBClaim
-                + ",OutcomeOfFirstDecisionOnMostRecentCTBClaim " + OutcomeOfFirstDecisionOnMostRecentCTBClaim
-                + ",HBClaimEntitlementStartDate " + HBClaimEntitlementStartDate
-                + ",IsThisCaseSubjectToLRROrSRRSchemes " + IsThisCaseSubjectToLRROrSRRSchemes
-                + ",DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision " + DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision
-                + ",CTBClaimEntitlementStartDate " + CTBClaimEntitlementStartDate
-                + ",WasThereABackdatedAwardMadeOnTheHBClaim " + WasThereABackdatedAwardMadeOnTheHBClaim
-                + ",DateHBBackdatingFrom " + DateHBBackdatingFrom
-                + ",DateHBBackdatingTo " + DateHBBackdatingTo
-                + ",TotalAmountOfBackdatesHBAwarded " + TotalAmountOfBackdatedHBAwarded
-                + ",WasThereABackdatedAwardMadeOnTheCTBClaim " + WasThereABackdatedAwardMadeOnTheCTBClaim
-                + ",DateCTBBackdatingFrom " + DateCTBBackdatingFrom
-                + ",DateCTBBackdatingTo " + DateCTBBackdatingTo
-                + ",TotalAmountOfBackdatedCTBAwarded " + TotalAmountOfBackdatedCTBAwarded;
+                + ",DateOfFirstDecisionOnMostRecentHBClaim=" + DateOfFirstDecisionOnMostRecentHBClaim
+                + ",DateOfFirstDecisionOnMostRecentCTBClaim=" + DateOfFirstDecisionOnMostRecentCTBClaim
+                + ",OutcomeOfFirstDecisionOnMostRecentHBClaim=" + OutcomeOfFirstDecisionOnMostRecentHBClaim
+                + ",OutcomeOfFirstDecisionOnMostRecentCTBClaim=" + OutcomeOfFirstDecisionOnMostRecentCTBClaim
+                + ",HBClaimEntitlementStartDate=" + HBClaimEntitlementStartDate
+                + ",IsThisCaseSubjectToLRROrSRRSchemes=" + IsThisCaseSubjectToLRROrSRRSchemes
+                + ",DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision=" + DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision
+                + ",CTBClaimEntitlementStartDate=" + CTBClaimEntitlementStartDate
+                + ",WasThereABackdatedAwardMadeOnTheHBClaim=" + WasThereABackdatedAwardMadeOnTheHBClaim
+                + ",DateHBBackdatingFrom=" + DateHBBackdatingFrom
+                + ",DateHBBackdatingTo=" + DateHBBackdatingTo
+                + ",TotalAmountOfBackdatesHBAwarded=" + TotalAmountOfBackdatedHBAwarded
+                + ",WasThereABackdatedAwardMadeOnTheCTBClaim=" + WasThereABackdatedAwardMadeOnTheCTBClaim
+                + ",DateCTBBackdatingFrom=" + DateCTBBackdatingFrom
+                + ",DateCTBBackdatingTo=" + DateCTBBackdatingTo
+                + ",TotalAmountOfBackdatedCTBAwarded=" + TotalAmountOfBackdatedCTBAwarded;
     }
 
     /**
@@ -145,16 +145,16 @@ public class SHBE_DC_RecordAbstract extends SHBE_DAC_RecordAbstract {
             try {
                 IsThisCaseSubjectToLRROrSRRSchemes = Integer.valueOf(fields[n]);
                 if (IsThisCaseSubjectToLRROrSRRSchemes > 4 || IsThisCaseSubjectToLRROrSRRSchemes < 1) {
-                    System.err.println("IsThisCaseSubjectToLRROrSRRSchemes " + fields[n]);
-                    System.err.println("n " + n);
+                    System.err.println("IsThisCaseSubjectToLRROrSRRSchemes=" + fields[n]);
+                    System.err.println("n=" + n);
                     System.err.println("IsThisCaseSubjectToLRROrSRRSchemes > 4 || IsThisCaseSubjectToLRROrSRRSchemes < 1");
 //                    throw new Exception("IsThisCaseSubjectToLRROrSRRSchemes > 4 || IsThisCaseSubjectToLRROrSRRSchemes < 1");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("setIsThisCaseSubjectToLRROrSRRSchemes(int,String[])");
-                System.err.println("fields[n], " + fields[n]);
+                System.err.println("fields[n],=" + fields[n]);
                 e.printStackTrace(System.err);
 //                throw e
             }
@@ -215,16 +215,16 @@ public class SHBE_DC_RecordAbstract extends SHBE_DAC_RecordAbstract {
             try {
                 WasThereABackdatedAwardMadeOnTheHBClaim = Integer.valueOf(fields[n]);
                 if (WasThereABackdatedAwardMadeOnTheHBClaim > 1 || WasThereABackdatedAwardMadeOnTheHBClaim < 0) {
-                    System.err.println("WasThereABackdatedAwardMadeOnTheHBClaim " + fields[n]);
-                    System.err.println("n " + n);
+                    System.err.println("WasThereABackdatedAwardMadeOnTheHBClaim=" + fields[n]);
+                    System.err.println("n=" + n);
                     System.err.println("WasThereABackdatedAwardMadeOnTheHBClaim > 1 || WasThereABackdatedAwardMadeOnTheHBClaim < 0");
 //                    throw new Exception("WasThereABackdatedAwardMadeOnTheHBClaim > 1 || WasThereABackdatedAwardMadeOnTheHBClaim < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("setWasThereABackdatedAwardMadeOnTheHBClaim(int,String[])");
-                System.err.println("fields[n], " + fields[n]);
+                System.err.println("fields[n],=" + fields[n]);
                 //e.printStackTrace(System.err);
 //                throw e
             }
@@ -298,16 +298,16 @@ public class SHBE_DC_RecordAbstract extends SHBE_DAC_RecordAbstract {
             try {
                 WasThereABackdatedAwardMadeOnTheCTBClaim = Integer.valueOf(fields[n]);
                 if (WasThereABackdatedAwardMadeOnTheCTBClaim > 1 || WasThereABackdatedAwardMadeOnTheCTBClaim < 0) {
-                    System.err.println("WasThereABackdatedAwardMadeOnTheCTBClaim " + fields[n]);
-                    System.err.println("n " + n);
+                    System.err.println("WasThereABackdatedAwardMadeOnTheCTBClaim=" + fields[n]);
+                    System.err.println("n=" + n);
                     System.err.println("WasThereABackdatedAwardMadeOnTheCTBClaim > 1 || WasThereABackdatedAwardMadeOnTheCTBClaim < 0");
 //                    throw new Exception("WasThereABackdatedAwardMadeOnTheCTBClaim > 1 || WasThereABackdatedAwardMadeOnTheCTBClaim < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID " + RecordID);
-                System.err.println("n " + n);
+                System.err.println("RecordID=" + RecordID);
+                System.err.println("n=" + n);
                 System.err.println("WasThereABackdatedAwardMadeOnTheCTBClaim(int,String[])");
-                System.err.println("fields[n], " + fields[n]);
+                System.err.println("fields[n],=" + fields[n]);
                 e.printStackTrace(System.err);
 //                throw e
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Andy Turner, CCG, University of Leeds.
+ * Copyright 2019 Centre for Computational Geography, University of Leeds.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,16 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data.id;
 
-import uk.ac.leeds.ccg.andyt.data.id.Data_ID_long;
+import uk.ac.leeds.ccg.andyt.data.id.Data_ID_short;
 
 /**
- * SHBE ID.
- * 
- * @author Andy Turner.
+ * An ID for a National Insurance Number.
+ *
+ * @author Andy Turner
  */
-public class SHBE_ID extends Data_ID_long {
-
-    public SHBE_ID(long l) {
-        super(l);
-    }
+public class SHBE_TenancyTypeID extends Data_ID_short {
     
-    public SHBE_ID(SHBE_ID i) {
-        super(i);
+    public SHBE_TenancyTypeID(short s){
+        super(s);
     }
 }

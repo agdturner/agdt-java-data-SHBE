@@ -18,15 +18,13 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data;
 
-import java.io.Serializable;
-import uk.ac.leeds.ccg.andyt.generic.data.onspd.data.ONSPD_Handler;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 
 /**
  *
  * @author geoagdt
  */
-public abstract class SHBE_DAC_RecordAbstract extends SHBE_RecordAbstract implements Serializable {
+public abstract class SHBE_DAC_Record extends SHBE_DACTEGPRST_Record {
 
     /**
      * 4 8 ClaimantsDateOfBirth
@@ -180,7 +178,7 @@ public abstract class SHBE_DAC_RecordAbstract extends SHBE_RecordAbstract implem
      */
     private String DateThatAllInformationWasRecievedFromThirdPartiesToEnableADecisionOnTheMostRecentCTBClaim;
 
-    public SHBE_DAC_RecordAbstract(SHBE_Environment env) {
+    public SHBE_DAC_Record(SHBE_Environment env) {
         super(env);
     }
 

@@ -18,7 +18,6 @@
  */
 package uk.ac.leeds.ccg.andyt.generic.data.shbe.data;
 
-import java.io.Serializable;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
 
@@ -26,7 +25,7 @@ import uk.ac.leeds.ccg.andyt.generic.data.shbe.core.SHBE_Object;
  *
  * @author geoagdt
  */
-public abstract class SHBE_RecordAbstract extends SHBE_Object implements Serializable {
+public abstract class SHBE_DACTEGPRST_Record extends SHBE_Object {
 
     /**
      * 0 RecordID
@@ -50,7 +49,7 @@ public abstract class SHBE_RecordAbstract extends SHBE_Object implements Seriali
      */
     private String ClaimantsNationalInsuranceNumber;
 
-    public SHBE_RecordAbstract(SHBE_Environment env) {
+    public SHBE_DACTEGPRST_Record(SHBE_Environment env) {
         super(env);
     }
 
