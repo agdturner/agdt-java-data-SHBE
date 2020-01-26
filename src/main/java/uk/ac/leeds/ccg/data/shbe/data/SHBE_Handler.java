@@ -91,7 +91,7 @@ public class SHBE_Handler extends SHBE_Object {
      */
     private Map<SHBE_ClaimID, String> cid2c;
 
-    private SHBE_CorrectedPostcodes CorrectedPostcodes;
+    private SHBE_CorrectedPostcodes correctedPostcodes;
 
     /**
      * National Insurance Number to ID lookup.
@@ -106,7 +106,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * Date Of Birth to ID lookup.
      */
-    private Map<String, SHBE_DOBID> dtodid;
+    private Map<String, SHBE_DOBID> d2did;
 
     /**
      * ID to Date Of Birth lookup.
@@ -226,8 +226,8 @@ public class SHBE_Handler extends SHBE_Object {
 
     public SHBE_Handler(SHBE_Environment e, int logID) {
         super(e, logID);
-//        n2nid = e.getNINOToNINOIDLookup();
-//        dtodid = data.getDOBToDOBIDLookup();
+//        n2nid = e.getN2nid();
+//        d2did = data.getDOBToDOBIDLookup();
         pData = e.oe.getHandler();
     }
 
@@ -239,7 +239,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @throws java.lang.ClassNotFoundException If encountered.
      */
     public void run(int logID) throws IOException, ClassNotFoundException, Exception {
-        String[] sfs = getSHBEFilenamesAll();
+        String[] sfs = getFilenames();
         UKP_YM3 lastYM3 = getYM3(sfs[sfs.length - 1]);
         UKP_YM3 nYM3 = pData.getNearestYM3ForONSPDLookup(lastYM3);
         Path dir = files.getInputSHBEDir();
@@ -375,15 +375,15 @@ public class SHBE_Handler extends SHBE_Object {
 
     public final SHBE_CorrectedPostcodes getCorrectedPostcodes(Path f)
             throws IOException, ClassNotFoundException {
-        if (CorrectedPostcodes == null) {
+        if (correctedPostcodes == null) {
             if (Files.exists(f)) {
-                CorrectedPostcodes = (SHBE_CorrectedPostcodes) Generic_IO.readObject(f);
+                correctedPostcodes = (SHBE_CorrectedPostcodes) Generic_IO.readObject(f);
             } else {
                 new SHBE_CorrectedPostcodes(env).run();
                 return getCorrectedPostcodes(f);
             }
         }
-        return CorrectedPostcodes;
+        return correctedPostcodes;
     }
 
     public SHBE_CorrectedPostcodes getCorrectedPostcodes() throws IOException,
@@ -400,7 +400,7 @@ public class SHBE_Handler extends SHBE_Object {
         return n2nid;
     }
 
-    public Map<String, SHBE_NINOID> getNINOToNINOIDLookup()
+    public Map<String, SHBE_NINOID> getN2nid()
             throws IOException, ClassNotFoundException {
         n2nidFile = getN2nidFile();
         return getNINOToNINOIDLookup(n2nidFile);
@@ -408,13 +408,13 @@ public class SHBE_Handler extends SHBE_Object {
 
     public final Map<String, SHBE_DOBID> getDOBToDOBIDLookup(Path f)
             throws IOException, ClassNotFoundException {
-        if (dtodid == null) {
-            dtodid = getStringToTLookup(f);
+        if (d2did == null) {
+            d2did = getStringToTLookup(f);
         }
-        return dtodid;
+        return d2did;
     }
 
-    public Map<String, SHBE_DOBID> getDtodid()
+    public Map<String, SHBE_DOBID> getD2did()
             throws IOException, ClassNotFoundException {
         d2didFile = getD2didFile();
         return getDOBToDOBIDLookup(d2didFile);
@@ -756,11 +756,13 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     * If {@code getData().get(YM3) != null} then return it. Otherwise try to
-     * load it from file and return it. Failing that return {@code null}.
+     * If {@code getData().get(YM3) != null} then return it.Otherwise try to
+     * load it from file and return it.Failing that return {@code null}.
      *
      * @param ym3 The year and month of records to get.
-     * @return
+     * @return ShBE Records
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
     protected SHBE_Records getRecords(UKP_YM3 ym3) throws IOException,
             ClassNotFoundException {
@@ -895,11 +897,11 @@ public class SHBE_Handler extends SHBE_Object {
                 getCid2cFile());
         Generic_IO.writeObject(getC2cid(),
                 getC2cidFile());
-        Generic_IO.writeObject(getNINOToNINOIDLookup(),
+        Generic_IO.writeObject(getN2nid(),
                 getN2nidFile());
         Generic_IO.writeObject(getNINOIDToNINOLookup(),
                 getNid2nFile());
-        Generic_IO.writeObject(getDtodid(),
+        Generic_IO.writeObject(getD2did(),
                 getD2didFile());
         Generic_IO.writeObject(getDid2d(),
                 getDid2dFile());
@@ -926,7 +928,7 @@ public class SHBE_Handler extends SHBE_Object {
     public void runNew() throws IOException, Exception {
         Path dir = env.files.getInputSHBEDir();
         // Ascertain which files are new and need loading
-        String[] SHBEFilenames = getSHBEFilenamesAll();
+        String[] SHBEFilenames = getFilenames();
         ArrayList<String> newFilesToRead = new ArrayList<>();
         // Formatted/loaded SHBE files.
         Set<Path> ff = Files.list(files.getGeneratedSHBEDir()).collect(Collectors.toSet());
@@ -991,7 +993,7 @@ public class SHBE_Handler extends SHBE_Object {
         modifiedAnyRecs = false;
 
         // Prepare for output
-        SHBEFilenames = getSHBEFilenamesAll();
+        SHBEFilenames = getFilenames();
         SHBEFilename1 = SHBEFilenames[SHBEFilenames.length - 1];
         YMN = getYearMonthNumber(SHBEFilename1);
         UKP_YM3 YM31;
@@ -1143,7 +1145,7 @@ public class SHBE_Handler extends SHBE_Object {
             Generic_IO.writeObject(cpu0,
                     s0.getClaimantPostcodesUnmappableFile());
             Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0,
-                    s0.getClaimIDToPostcodeIDLookupFile());
+                    s0.getCid2postcodeIDFile());
             Generic_IO.writeObject(recs0, s0.getRecordsFile());
             Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
                     s0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
@@ -1172,6 +1174,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param e The extension for the filename to be written.
      * @param h The header.
      * @param l The lines.
+     * @throws java.io.IOException If encountered.
      */
     protected void writeLog(String n, String e, String h, Collection<String> l)
             throws IOException, Exception {
@@ -1184,6 +1187,7 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * For checking postcodes.
      *
+     * @throws java.io.IOException If encountered.
      */
     public void runPostcodeCheck() throws IOException, Exception {
         boolean hoome;
@@ -1214,7 +1218,7 @@ public class SHBE_Handler extends SHBE_Object {
         p2pid = getPostcodeToPostcodeIDLookup();
         PostcodeIDPointLookups = getPid2point();
         cid2c = getCid2c();
-        SHBEFilenames = getSHBEFilenamesAll();
+        SHBEFilenames = getFilenames();
         SHBEFilename1 = SHBEFilenames[SHBEFilenames.length - 1];
         YMN = getYearMonthNumber(SHBEFilename1);
         YM31 = getYM3(SHBEFilename1);
@@ -1356,7 +1360,7 @@ public class SHBE_Handler extends SHBE_Object {
                 Generic_IO.writeObject(ClaimantPostcodesUnmappable0,
                         SHBE_Records0.getClaimantPostcodesUnmappableFile());
                 Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0,
-                        SHBE_Records0.getClaimIDToPostcodeIDLookupFile());
+                        SHBE_Records0.getCid2postcodeIDFile());
                 Generic_IO.writeObject(recs0, SHBE_Records0.getRecordsFile());
                 Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
                         SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
@@ -1396,6 +1400,8 @@ public class SHBE_Handler extends SHBE_Object {
      * @param ymn YearMonthNumber.
      * @param records
      * @param hoome
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
     protected void writeOutModifiedPostcodes(Set<String> ump, String ymn,
             SHBE_Records records, boolean hoome) throws IOException,
@@ -1430,6 +1436,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param SHBE_Records
      * @param PT
      * @return
+     *
      */
     public Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDate(
             SHBE_Records SHBE_Records, String PT) throws IOException,
@@ -1597,17 +1604,16 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      *
-     * @return
+     * @return Map with Integer indexes and ym3 values.
+     * @throws java.io.IOException If encountered.
      */
     public Map<Integer, UKP_YM3> getIndexYM3s() throws IOException {
         if (indexYM3s == null) {
             indexYM3s = new HashMap<>();
-            String[] filenames = getSHBEFilenamesAll();
+            String[] fs = getFilenames();
             int i = 0;
-            UKP_YM3 yM3;
-            for (String filename : filenames) {
-                yM3 = getYM3(filename);
-                indexYM3s.put(i, yM3);
+            for (String f : fs) {
+                indexYM3s.put(i, getYM3(f));
                 i++;
             }
         }
@@ -1661,12 +1667,12 @@ public class SHBE_Handler extends SHBE_Object {
      */
     public SHBE_DOBID getDOBIDAddIfNeeded(String S) {
         SHBE_DOBID r;
-        if (dtodid.containsKey(S)) {
-            r = dtodid.get(S);
+        if (d2did.containsKey(S)) {
+            r = d2did.get(S);
         } else {
             r = new SHBE_DOBID(did2d.size());
             did2d.put(r, S);
-            dtodid.put(S, r);
+            d2did.put(S, r);
         }
         return r;
     }
@@ -2573,40 +2579,19 @@ public class SHBE_Handler extends SHBE_Object {
         return result;
     }
 
-    /**
-     * Method for getting SHBE collections filenames in an array
-     *
-     * @code {if (SHBEFilenamesAll == null) {
-     * String[] list = env.getFiles().getInputSHBEDir().list();
-     * SHBEFilenamesAll = new String[list.length];
-     * String s;
-     * String ym;
-     * TreeMap<String, String> yms;
-     * yms = new TreeMap<String, String>();
-     * for (String list1 : list) {
-     * s = list1;
-     * ym = getYearMonthNumber(s);
-     * yms.put(ym, s);
-     * }
-     * Iterator<String> ite; ite = yms.keySet().iterator(); int i = 0; while
-     * (ite.hasNext()) { ym = ite.next(); SHBEFilenamesAll[i] = yms.get(ym);
-     * i++; } } return SHBEFilenamesAll;} }
-     *
-     * @return String[] result of SHBE collections filenames
-     */
-    private String[] SHBEFilenamesAll;
+    private String[] filenames;
 
-    public int getSHBEFilenamesAllLength() throws IOException {
-        return getSHBEFilenamesAll().length;
+    public int getFilenamesLength() throws IOException {
+        return getFilenames().length;
     }
 
-    public String[] getSHBEFilenamesAll() throws IOException {
-        if (SHBEFilenamesAll == null) {
+    public String[] getFilenames() throws IOException {
+        if (filenames == null) {
             //String[] list = env.files.getInputSHBEDir().list();
             //SHBEFilenamesAll = new String[list.length];
             List<Path> list = Files.list(env.files.getInputSHBEDir()).collect(
                     Collectors.toList());
-            SHBEFilenamesAll = new String[list.size()];
+            filenames = new String[list.size()];
             String s;
             String ym;
             TreeMap<String, String> yms = new TreeMap<>();
@@ -2624,21 +2609,21 @@ public class SHBE_Handler extends SHBE_Object {
             int i = 0;
             while (ite.hasNext()) {
                 ym = ite.next();
-                SHBEFilenamesAll[i] = yms.get(ym);
+                filenames[i] = yms.get(ym);
                 i++;
             }
         }
-        return SHBEFilenamesAll;
+        return filenames;
     }
 
     private ArrayList<UKP_YM3> YM3All;
 
     public ArrayList<UKP_YM3> getYM3All() throws IOException {
         if (YM3All == null) {
-            SHBEFilenamesAll = getSHBEFilenamesAll();
+            filenames = getFilenames();
             YM3All = new ArrayList<>();
-            SHBEFilenamesAll = getSHBEFilenamesAll();
-            for (String SHBEFilename : SHBEFilenamesAll) {
+            filenames = getFilenames();
+            for (String SHBEFilename : filenames) {
                 YM3All.add(getYM3(SHBEFilename));
             }
         }
@@ -2648,8 +2633,8 @@ public class SHBE_Handler extends SHBE_Object {
     public ArrayList<Integer> getSHBEFilenameIndexes() throws IOException {
         ArrayList<Integer> result;
         result = new ArrayList<>();
-        SHBEFilenamesAll = getSHBEFilenamesAll();
-        for (int i = 0; i < SHBEFilenamesAll.length; i++) {
+        filenames = getFilenames();
+        for (int i = 0; i < filenames.length; i++) {
             result.add(i);
         }
         return result;
@@ -3017,6 +3002,7 @@ public class SHBE_Handler extends SHBE_Object {
      * sIncludeApril2013May2013
      *
      * @return
+     * @throws java.io.IOException If encountered.
      */
     public TreeMap<String, ArrayList<Integer>> getIncludes() throws IOException {
         TreeMap<String, ArrayList<Integer>> result;
@@ -3087,26 +3073,22 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     *
      * @param n The number of SHBE files.
-     * @return
+     * @return Include Yearly.
+     * @throws java.io.IOException If encountered.
      */
     public ArrayList<Integer> getIncludeYearly(int n) throws IOException {
-        ArrayList<Integer> r;
-        ArrayList<Integer> omit = getOmitYearly(n);
-        r = getSHBEFilenameIndexes();
-        r.removeAll(omit);
+        ArrayList<Integer> r = getSHBEFilenameIndexes();
+        r.removeAll(getOmitYearly(n));
         return r;
     }
 
     /**
-     *
      * @param n The number of SHBE files.
-     * @return
+     * @return Omit6Monthly
      */
     public ArrayList<Integer> getOmit6Monthly(int n) {
-        ArrayList<Integer> r;
-        r = new ArrayList<>();
+        ArrayList<Integer> r = new ArrayList<>();
         r.add(6);
         r.add(8);
         r.add(10);
@@ -3125,26 +3107,22 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     *
      * @param n The number of SHBE files.
-     * @return
+     * @return Include6Monthly
+     * @throws java.io.IOException If encountered.
      */
     public ArrayList<Integer> getInclude6Monthly(int n) throws IOException {
-        ArrayList<Integer> r;
-        ArrayList<Integer> omit = getOmit6Monthly(n);
-        r = getSHBEFilenameIndexes();
-        r.removeAll(omit);
+        ArrayList<Integer> r = getSHBEFilenameIndexes();
+        r.removeAll(getOmit6Monthly(n));
         return r;
     }
 
     /**
-     *
      * @param n The number of SHBE files.
-     * @return
+     * @return Omit7Monthly
      */
     public ArrayList<Integer> getOmit3Monthly(int n) {
-        ArrayList<Integer> r;
-        r = new ArrayList<>();
+        ArrayList<Integer> r = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             r.add(i);
         }
@@ -3161,35 +3139,29 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     *
-     * @return
+     * @return Include3Monthly
+     * @throws java.io.IOException If encountered.
      */
     public ArrayList<Integer> getInclude3Monthly() throws IOException {
-        int n;
-        n = getSHBEFilenamesAllLength();
-        return getInclude3Monthly(n);
+        return getInclude3Monthly(getFilenamesLength());
     }
 
     /**
-     *
      * @param n The number of SHBE files.
-     * @return
+     * @return Include3Monthly
+     * @throws java.io.IOException If encountered.
      */
     public ArrayList<Integer> getInclude3Monthly(int n) throws IOException {
-        ArrayList<Integer> r;
-        ArrayList<Integer> omit = getOmit3Monthly(n);
-        r = getSHBEFilenameIndexes();
-        r.removeAll(omit);
+        ArrayList<Integer> r = getSHBEFilenameIndexes();
+        r.removeAll(getOmit3Monthly(n));
         return r;
     }
 
     /**
-     *
-     * @return
+     * @return Omit Monthly.
      */
     public ArrayList<Integer> getOmitMonthly() {
-        ArrayList<Integer> r;
-        r = new ArrayList<>();
+        ArrayList<Integer> r = new ArrayList<>();
         for (int i = 0; i < 14; i++) {
             r.add(i);
         }
@@ -3197,14 +3169,12 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     *
-     * @return
+     * @return IncludeMonthly
+     * @throws java.io.IOException If encountered.
      */
     public ArrayList<Integer> getIncludeMonthly() throws IOException {
-        ArrayList<Integer> r;
-        ArrayList<Integer> omit = getOmitMonthly();
-        r = getSHBEFilenameIndexes();
-        r.removeAll(omit);
+        ArrayList<Integer> r = getSHBEFilenameIndexes();
+        r.removeAll(getOmitMonthly());
         return r;
     }
 
@@ -3213,8 +3183,7 @@ public class SHBE_Handler extends SHBE_Object {
      * considering only those in the period from April 2013.
      */
     public ArrayList<Integer> getOmitMonthlyUO() {
-        ArrayList<Integer> r;
-        r = new ArrayList<>();
+        ArrayList<Integer> r = new ArrayList<>();
         for (int i = 0; i < 17; i++) {
             r.add(i);
         }
@@ -3228,8 +3197,7 @@ public class SHBE_Handler extends SHBE_Object {
      * offset by 1 month.
      */
     public ArrayList<Integer> getOmit2MonthlyUO1(int n) {
-        ArrayList<Integer> r;
-        r = new ArrayList<>();
+        ArrayList<Integer> r = new ArrayList<>();
         for (int i = 0; i < 17; i++) {
             r.add(i);
         }
@@ -3246,8 +3214,7 @@ public class SHBE_Handler extends SHBE_Object {
      * offset by 1 month.
      */
     public ArrayList<Integer> getOmit2StartEndSinceApril2013(int n) {
-        ArrayList<Integer> r;
-        r = new ArrayList<>();
+        ArrayList<Integer> r = new ArrayList<>();
         for (int i = 0; i < 17; i++) {
             r.add(i);
         }
@@ -3283,8 +3250,7 @@ public class SHBE_Handler extends SHBE_Object {
      * offset by 0 months.
      */
     public ArrayList<Integer> getOmit2MonthlyUO0(int n) {
-        ArrayList<Integer> r;
-        r = new ArrayList<>();
+        ArrayList<Integer> r = new ArrayList<>();
         for (int i = 0; i < 17; i++) {
             r.add(i);
         }
@@ -3296,23 +3262,21 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      *
-     * @return
+     * @return List of includes.
+     * @throws java.io.IOException If encountered.
      */
     public ArrayList<Integer> getIncludeMonthlyUO() throws IOException {
-        int n = getSHBEFilenamesAllLength();
-        return getIncludeMonthlyUO(n);
+        return getIncludeMonthlyUO(getFilenamesLength());
     }
 
     /**
-     *
      * @param n The number of SHBE files.
-     * @return
+     * @return List of includes.
+     * @throws java.io.IOException If encountered.
      */
     public ArrayList<Integer> getIncludeMonthlyUO(int n) throws IOException {
-        ArrayList<Integer> r;
-        ArrayList<Integer> omit = getOmitMonthlyUO();
-        r = getSHBEFilenameIndexes();
-        r.removeAll(omit);
+        ArrayList<Integer> r = getSHBEFilenameIndexes();
+        r.removeAll(getOmitMonthlyUO());
         return r;
     }
 
@@ -3324,12 +3288,12 @@ public class SHBE_Handler extends SHBE_Object {
      * sInclude2MonthlySinceApril2013Offset1 sIncludeStartEndSinceApril2013
      * sIncludeApril2013May2013
      *
-     * @return
-     * @throws java.io.IOException
+     * @return Omits
+     * @throws java.io.IOException If encountered.
      */
     public TreeMap<String, ArrayList<Integer>> getOmits() throws IOException {
         TreeMap<String, ArrayList<Integer>> r = new TreeMap<>();
-        String[] tSHBEFilenames = getSHBEFilenamesAll();
+        String[] tSHBEFilenames = getFilenames();
         int n = tSHBEFilenames.length;
         r.put(SHBE_Strings.s_IncludeAll, getOmitAll());
         r.put(SHBE_Strings.s_IncludeYearly, getOmitYearly(n));
@@ -3345,87 +3309,66 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     *
-     * @param yM3
-     * @param D_Record
-     * @return
+     * @param ym3 The ym3.
+     * @param dRecord The D record.
+     * @return The claimants age.
      */
-    public String getClaimantsAge(String yM3, SHBE_D_Record D_Record) {
-        String result;
-        String[] syM3;
-        syM3 = yM3.split(SHBE_Strings.symbol_underscore);
-        result = getClaimantsAge(syM3[0], syM3[1], D_Record);
-        return result;
+    public String getClaimantsAge(String ym3, SHBE_D_Record dRecord) {
+        String[] syM3 = ym3.split(SHBE_Strings.symbol_underscore);
+        return getClaimantsAge(syM3[0], syM3[1], dRecord);
     }
 
     /**
-     *
-     * @param year
-     * @param month
-     * @param D_Record
-     * @return
+     * @param y The year.
+     * @param m The month
+     * @param dRecord The D record.
+     * @return Claimants age.
      */
-    public String getClaimantsAge(String year, String month,
-            SHBE_D_Record D_Record) {
-        String result;
-        String DoB = D_Record.getClaimantsDateOfBirth();
-        result = getAge(year, month, DoB);
-        return result;
+    public String getClaimantsAge(String y, String m, SHBE_D_Record dRecord) {
+        return getAge(y, m, dRecord.getClaimantsDateOfBirth());
     }
 
     /**
-     *
-     * @param year
-     * @param month
-     * @param D_Record
-     * @return
+     * @param y The year.
+     * @param m The month.
+     * @param dRecord The D record.
+     * @return Partners age.
      */
-    public String getPartnersAge(String year, String month,
-            SHBE_D_Record D_Record) {
-        String result;
-        String DoB = D_Record.getPartnersDateOfBirth();
-        result = getAge(year, month, DoB);
-        return result;
+    public String getPartnersAge(String y, String m, SHBE_D_Record dRecord) {
+        return getAge(y, m, dRecord.getPartnersDateOfBirth());
     }
 
-    public String getAge(
-            String year,
-            String month,
-            String DoB) {
+    /**
+     * @param y The year.
+     * @param m The month.
+     * @param DoB The date of birth
+     * @return The age.
+     */
+    public String getAge(String y, String m, String DoB) {
         if (DoB == null) {
             return "";
         }
         if (DoB.isEmpty()) {
             return DoB;
         }
-        String result;
         String[] sDoB = DoB.split("/");
-        Generic_Time tDoB;
-        tDoB = new Generic_Time(Integer.valueOf(sDoB[0]),
+        Generic_Time tDoB = new Generic_Time(Integer.valueOf(sDoB[0]),
                 Integer.valueOf(sDoB[1]), Integer.valueOf(sDoB[2]));
-        Generic_Time tNow;
-        tNow = new Generic_Time(0, Integer.valueOf(month), Integer.valueOf(year));
-        result = Integer.toString(Generic_Time.getAgeInYears(tNow, tDoB));
-        return result;
+        Generic_Time tNow = new Generic_Time(0, Integer.valueOf(m),
+                Integer.valueOf(y));
+        return Integer.toString(Generic_Time.getAgeInYears(tNow, tDoB));
     }
 
     /**
-     *
-     * @param D_Record
-     * @return true iff there is any disability awards in the household of
-     * D_Record.
+     * @param dRecord D_Record
+     * @return {@code true} if there are any disability awards in the D_Record
+     * household.
      */
-    public boolean getDisability(SHBE_D_Record D_Record) {
-        // Disability
-        int DisabilityPremiumAwarded = D_Record.getDisabilityPremiumAwarded();
-        int SevereDisabilityPremiumAwarded = D_Record.getSevereDisabilityPremiumAwarded();
-        int DisabledChildPremiumAwarded = D_Record.getDisabledChildPremiumAwarded();
-        int EnhancedDisabilityPremiumAwarded = D_Record.getEnhancedDisabilityPremiumAwarded();
-        // General Household Disability Flag
-        return DisabilityPremiumAwarded == 1
-                || SevereDisabilityPremiumAwarded == 1
-                || DisabledChildPremiumAwarded == 1
-                || EnhancedDisabilityPremiumAwarded == 1;
+    public boolean getDisability(SHBE_D_Record dRecord) {
+        return dRecord.getDisabilityPremiumAwarded() == 1
+                || dRecord.getSevereDisabilityPremiumAwarded() == 1
+                || dRecord.getDisabledChildPremiumAwarded() == 1
+                || dRecord.getEnhancedDisabilityPremiumAwarded() == 1;
     }
 
     public int getEthnicityGroup(SHBE_D_Record D_Record) {
@@ -3531,114 +3474,89 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     *
-     * @param d
-     * @return
+     * @param d D Record.
+     * @return Claimant Person ID.
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
     public SHBE_PersonID getClaimantPersonID(SHBE_D_Record d)
             throws IOException, ClassNotFoundException {
-        SHBE_NINOID NINO_ID = getNINOToNINOIDLookup().get(d.getClaimantsNationalInsuranceNumber());
-        SHBE_DOBID DOB_ID = getDtodid().get(d.getClaimantsDateOfBirth());
-        return new SHBE_PersonID(NINO_ID, DOB_ID);
+        return new SHBE_PersonID(
+                getN2nid().get(d.getClaimantsNationalInsuranceNumber()),
+                getD2did().get(d.getClaimantsDateOfBirth()));
     }
 
     /**
-     *
-     * @param d
-     * @return
+     * @param d D Record.
+     * @return Partner Person ID.
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
     public SHBE_PersonID getPartnerPersonID(SHBE_D_Record d)
             throws IOException, ClassNotFoundException {
-        SHBE_NINOID NINO_ID = getNINOToNINOIDLookup().get(d.getPartnersNationalInsuranceNumber());
-        SHBE_DOBID DOB_ID = getDtodid().get(d.getPartnersDateOfBirth());
-        return new SHBE_PersonID(NINO_ID, DOB_ID);
+        return new SHBE_PersonID(
+                getN2nid().get(d.getPartnersNationalInsuranceNumber()),
+                getD2did().get(d.getPartnersDateOfBirth()));
     }
 
     /**
-     *
-     * @param S_Record
-     * @return
+     * @param s S_Record
+     * @return NonDependent Person ID.
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public SHBE_PersonID getNonDependentPersonID(SHBE_S_Record S_Record)
+    public SHBE_PersonID getNonDependentPersonID(SHBE_S_Record s)
             throws IOException, ClassNotFoundException {
-        SHBE_NINOID NINO_ID = getNINOToNINOIDLookup().get(
-                S_Record.getSubRecordChildReferenceNumberOrNINO());
-        SHBE_DOBID DOB_ID = getDtodid().get(S_Record.getSubRecordDateOfBirth());
-        return new SHBE_PersonID(NINO_ID, DOB_ID);
+        return new SHBE_PersonID(
+                getN2nid().get(s.getSubRecordChildReferenceNumberOrNINO()),
+                getD2did().get(s.getSubRecordDateOfBirth()));
     }
 
     /**
      *
-     * @param S_Record
+     * @param s S Record
      * @param index
-     * @return
+     * @return Person ID for dependent.
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public SHBE_PersonID getDependentPersonID(SHBE_S_Record S_Record,
+    public SHBE_PersonID getDependentPersonID(SHBE_S_Record s,
             int index) throws IOException, ClassNotFoundException {
-        SHBE_PersonID r;
-        String NINO;
-        String ClaimantsNINO;
-        SHBE_NINOID NINO_ID;
-        SHBE_DOBID DOB_ID;
-        NINO = S_Record.getSubRecordChildReferenceNumberOrNINO();
-        ClaimantsNINO = S_Record.getClaimantsNationalInsuranceNumber();
-        if (ClaimantsNINO.trim().isEmpty()) {
-            ClaimantsNINO = SHBE_Strings.s_DefaultNINO;
+        String nino = s.getSubRecordChildReferenceNumberOrNINO();
+        String cNINO = s.getClaimantsNationalInsuranceNumber();
+        if (cNINO.trim().isEmpty()) {
+            cNINO = SHBE_Strings.s_DefaultNINO;
             env.env.log("ClaimantsNINO is empty for "
-                    + "ClaimRef " + S_Record.getCouncilTaxBenefitClaimReferenceNumber()
-                    + " Setting as default NINO " + ClaimantsNINO, true);
+                    + "ClaimRef " + s.getCouncilTaxBenefitClaimReferenceNumber()
+                    + " Setting as default NINO " + cNINO, true);
         }
-        if (NINO.isEmpty()) {
-            NINO = "" + index;
-            NINO += "_" + ClaimantsNINO;
+        if (nino.isEmpty()) {
+            nino = "" + index;
+            nino += "_" + cNINO;
         } else {
-            NINO += "_" + ClaimantsNINO;
+            nino += "_" + cNINO;
         }
-        NINO_ID = getNINOToNINOIDLookup().get(NINO);
-        DOB_ID = getDtodid().get(S_Record.getSubRecordDateOfBirth());
-        r = new SHBE_PersonID(NINO_ID, DOB_ID);
-        return r;
+        return new SHBE_PersonID(getN2nid().get(nino),
+                getD2did().get(s.getSubRecordDateOfBirth()));
     }
 
     /**
-     *
-     * @param S_Records
-     * @return
+     * @param S_Records S Records for which a set of Person IDs is returned.
+     * @return A set of Person IDs.
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public Set<SHBE_PersonID> getPersonIDs(
-            ArrayList<SHBE_S_Record> S_Records) throws IOException, ClassNotFoundException {
-        Set<SHBE_PersonID> result;
-        result = new HashSet<>();
-        SHBE_S_Record S_Record;
-        SHBE_NINOID NINO_ID;
-        SHBE_DOBID DOB_ID;
-        Iterator<SHBE_S_Record> ite;
-        ite = S_Records.iterator();
-        while (ite.hasNext()) {
-            S_Record = ite.next();
-            NINO_ID = getNINOToNINOIDLookup().get(
-                    S_Record.getSubRecordChildReferenceNumberOrNINO());
-            DOB_ID = getDtodid().get(
-                    S_Record.getSubRecordDateOfBirth());
-
-            result.add(new SHBE_PersonID(NINO_ID, DOB_ID));
-        }
-        return result;
-    }
-
-    /**
-     *
-     * @param S_Record
-     * @return
-     */
-    public SHBE_PersonID getNonDependentPersonIDs(SHBE_S_Record S_Record)
+    public Set<SHBE_PersonID> getPersonIDs(ArrayList<SHBE_S_Record> S_Records)
             throws IOException, ClassNotFoundException {
-        SHBE_NINOID NINO_ID;
-        SHBE_DOBID DOB_ID;
-        NINO_ID = getNINOToNINOIDLookup().get(
-                S_Record.getSubRecordChildReferenceNumberOrNINO());
-        DOB_ID = getDtodid().get(S_Record.getSubRecordDateOfBirth());
-        return new SHBE_PersonID(NINO_ID, DOB_ID);
+        Set<SHBE_PersonID> r = new HashSet<>();
+        Iterator<SHBE_S_Record> ite = S_Records.iterator();
+        while (ite.hasNext()) {
+            SHBE_S_Record s = ite.next();
+            r.add(new SHBE_PersonID(getN2nid().get(
+                    s.getSubRecordChildReferenceNumberOrNINO()),
+                    getD2did().get(s.getSubRecordDateOfBirth())));
+        }
+        return r;
     }
 
     /**
@@ -3662,49 +3580,44 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     * For getting a DW_PersonID for the DRecord. If the NINOID and/or the DOBID
-     * for the DRecord do not already exist, these are added to
-     * NINOToNINOIDLookup and NINOIDToNINOLookup, and/or DOBToDOBIDLookup and
-     * DOBIDToDOBLookup respectfully.
+     * For getting a Person ID for the D Record {@code d}. If the NINO ID and/or
+     * the DOB ID for the D Record do not already exist, these are added to the
+     * lookups.
      *
-     * @param DRecord
-     * @param NINOToNINOIDLookup
-     * @param NINOIDToNINOLookup
-     * @param DOBToDOBIDLookup
-     * @param DOBIDToDOBLookup
-     * @return
+     * @param d D Record.
+     * @param n2nid NINO to NINO ID lookup.
+     * @param nid2n NINO ID to NINO lookup.
+     * @param d2did DOB to DOB ID lookup.
+     * @param did2d DOB ID to DOB lookup
+     * @return Person ID.
      */
-    SHBE_PersonID getPersonID(SHBE_D_Record DRecord,
-            Map<String, SHBE_NINOID> NINOToNINOIDLookup,
-            Map<SHBE_NINOID, String> NINOIDToNINOLookup,
-            Map<String, SHBE_DOBID> DOBToDOBIDLookup,
-            Map<SHBE_DOBID, String> DOBIDToDOBLookup) {
-        String NINO;
-        NINO = DRecord.getPartnersNationalInsuranceNumber();
-        String DOB;
-        DOB = DRecord.getPartnersDateOfBirth();
-        return getPersonID(NINO, DOB, NINOToNINOIDLookup,
-                NINOIDToNINOLookup, DOBToDOBIDLookup, DOBIDToDOBLookup);
+    SHBE_PersonID getPersonID(SHBE_D_Record d, Map<String, SHBE_NINOID> n2nid,
+            Map<SHBE_NINOID, String> nid2n, Map<String, SHBE_DOBID> d2did,
+            Map<SHBE_DOBID, String> did2d) {
+        String nino = d.getPartnersNationalInsuranceNumber();
+        String dob = d.getPartnersDateOfBirth();
+        return getPersonID(nino, dob, n2nid, nid2n, d2did, did2d);
     }
 
+    /**
+     * @param cid2pid Claim ID to Person ID lookup.
+     * @return A set of all Person IDs in {@code cid2pid}.
+     */
     public Set<SHBE_PersonID> getUniquePersonIDs(
-            Map<SHBE_ClaimID, Set<SHBE_PersonID>> ClaimIDToPersonIDsLookup) {
-        Set<SHBE_PersonID> r;
-        Collection<Set<SHBE_PersonID>> c;
-        Iterator<Set<SHBE_PersonID>> ite2;
-        r = new HashSet<>();
-        c = ClaimIDToPersonIDsLookup.values();
-        ite2 = c.iterator();
-        while (ite2.hasNext()) {
-            r.addAll(ite2.next());
+            Map<SHBE_ClaimID, Set<SHBE_PersonID>> cid2pid) {
+        Set<SHBE_PersonID> r = new HashSet<>();
+        Collection<Set<SHBE_PersonID>> c = cid2pid.values();
+        Iterator<Set<SHBE_PersonID>> ite = c.iterator();
+        while (ite.hasNext()) {
+            r.addAll(ite.next());
         }
         return r;
     }
 
     public Set<SHBE_PersonID> getUniquePersonIDs0(
-            Map<SHBE_ClaimID, SHBE_PersonID> ClaimIDToPersonIDLookup) {
+            Map<SHBE_ClaimID, SHBE_PersonID> cid2pid) {
         Set<SHBE_PersonID> r = new HashSet<>();
-        r.addAll(ClaimIDToPersonIDLookup.values());
+        r.addAll(cid2pid.values());
         return r;
     }
 }

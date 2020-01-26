@@ -229,17 +229,20 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
     }
 
     /**
-     * @return Object[4] result where: result[0] HashMap<Boolean,
-     * TreeMap<String, ArrayList<String>>> = tenancyTypeGroups, the key is
-     * either UO or NotUO, the values have a key which is the name of a type
-     * e.g. "regulated" and the values are the set of all tenancy types in this
-     * group; result[1] HashMap<Boolean, ArrayList<String>> =
-     * tenancyTypesGrouped, the key is either UO or NotUO, the values are all
-     * the codes for the possible respective grouped tenancy types; result[2]
-     * HashMap<Boolean, ArrayList<String>> = regulatedGroups are like result[2],
-     * but only contains the regulated tenancy types; result[3] HashMap<Boolean,
-     * ArrayList<String>> = unregulatedGroups are like result[2], but only
-     * contains the unregulated tenancy types.
+     * @return Object[4] r where:
+     * <ul>
+     * <li>r[0] {@code HashMap<Boolean, TreeMap<String, ArrayList<String>>>}
+     * tenancyTypeGroups, the key is either UO or NotUO, the values have a key
+     * which is the name of a type e.g. "regulated" and the values are the set
+     * of all tenancy types in this group</li>
+     * <li>r[1] {@code HashMap<Boolean, ArrayList<String>>} tenancyTypesGrouped,
+     * the key is either UO or NotUO, the values are all the codes for the
+     * possible respective grouped tenancy types</li>
+     * <li>r[2] {@code HashMap<Boolean, ArrayList<String>>} regulatedGroups are
+     * like r[2], but only contains the regulated tenancy types</li>
+     * <li>r[3] {@code HashMap<Boolean, ArrayList<String>>} unregulatedGroups
+     * are like r[2], but only contains the unregulated tenancy types.</li>
+     * </ul>
      */
     public Object[] getTenancyTypeGroups() {
         Object[] r;
@@ -308,7 +311,7 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
         r[3] = unregulatedGroups;
         return r;
     }
-    
+
     public HashMap<String, String> getTenancyTypeGroupLookup() {
         HashMap<String, String> r;
         r = new HashMap<>();
