@@ -823,10 +823,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDsOfNewSHBEClaimsWhereClaimantIsNew
+     * If not initialised, initialises {@link #claimIDsOfNewSHBEClaimsWhereClaimantIsNew}
      * then returns it.
      *
-     * @return
+     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantIsNew}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -845,20 +845,18 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * CottingleySpringsCaravanParkPairedClaimIDs then returns it.
-     *
-     * If not initialised, initialises
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore} then
+     * {@link #cottingleySpringsCaravanParkPairedClaimIDs} then
      * returns it.
      *
-     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore}
+     * @return {@link #cottingleySpringsCaravanParkPairedClaimIDs}
      * initialised first if it is {@code null}.
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getCottingleySpringsCaravanParkPairedClaimIDs(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Set<SHBE_ClaimID> getCottingleySpringsCaravanParkPairedClaimIDs(
+            boolean hoome) throws IOException, ClassNotFoundException {
         try {
             return getCottingleySpringsCaravanParkPairedClaimIDs();
         } catch (OutOfMemoryError e) {
@@ -877,16 +875,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * cottingleySpringsCaravanParkPairedClaimIDs then returns it.
+     * {@link #cottingleySpringsCaravanParkPairedClaimIDs} then returns it.
      *
-     * @return
+     * @return {@link #cottingleySpringsCaravanParkPairedClaimIDs}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
     protected Set<SHBE_ClaimID> getCottingleySpringsCaravanParkPairedClaimIDs() throws IOException, ClassNotFoundException {
         if (cottingleySpringsCaravanParkPairedClaimIDs == null) {
-            Path f;
-            f = getCottingleySpringsCaravanParkPairedClaimIDsFile();
+            Path f = getCottingleySpringsCaravanParkPairedClaimIDsFile();
             if (Files.exists(f)) {
                 cottingleySpringsCaravanParkPairedClaimIDs = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
@@ -898,20 +895,18 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * ClaimIDsWithStatusOfHBAtExtractDateInPayment then returns it.
-     *
-     * If not initialised, initialises
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore} then
+     * {@link #ClaimIDsWithStatusOfHBAtExtractDateInPayment} then
      * returns it.
      *
-     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore}
+     * @return {@link #ClaimIDsWithStatusOfHBAtExtractDateInPayment}
      * initialised first if it is {@code null}.
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateInPayment(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateInPayment(
+            boolean hoome) throws IOException, ClassNotFoundException {
         try {
             return getClaimIDsWithStatusOfHBAtExtractDateInPayment();
         } catch (OutOfMemoryError e) {
@@ -930,13 +925,14 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsWithStatusOfHBAtExtractDateInPayment then returns it.
+     * {@link #ClaimIDsWithStatusOfHBAtExtractDateInPayment} then returns it.
      *
-     * @return
+     * @return {@link #ClaimIDsWithStatusOfHBAtExtractDateInPayment}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateInPayment() throws IOException, ClassNotFoundException {
+    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateInPayment() 
+            throws IOException, ClassNotFoundException {
         if (claimIDsWithStatusOfHBAtExtractDateInPayment == null) {
             Path f;
             f = getClaimIDsWithStatusOfHBAtExtractDateInPaymentFile();
@@ -951,11 +947,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsWithStatusOfHBAtExtractDateSuspended then returns it.
+     * {@link #claimIDsWithStatusOfHBAtExtractDateSuspended} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return {@link #claimIDsWithStatusOfHBAtExtractDateSuspended}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -978,13 +974,14 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsWithStatusOfHBAtExtractDateSuspended then returns it.
+     * {@link #claimIDsWithStatusOfHBAtExtractDateSuspended} then returns it.
      *
-     * @return
+     * @return {@link #claimIDsWithStatusOfHBAtExtractDateSuspended}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateSuspended() throws IOException, ClassNotFoundException {
+    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateSuspended() 
+            throws IOException, ClassNotFoundException {
         if (claimIDsWithStatusOfHBAtExtractDateSuspended == null) {
             Path f;
             f = getClaimIDsWithStatusOfHBAtExtractDateSuspendedFile();
@@ -998,12 +995,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDsWithStatusOfHBAtExtractDateOther
+     * If not initialised, initialises {@link #claimIDsWithStatusOfHBAtExtractDateOther}
      * then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return {@link #claimIDsWithStatusOfHBAtExtractDateOther}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -1026,10 +1023,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDsWithStatusOfHBAtExtractDateOther
+     * If not initialised, initialises {@link #claimIDsWithStatusOfHBAtExtractDateOther}
      * then returns it.
      *
-     * @return
+     * @return {@link #claimIDsWithStatusOfHBAtExtractDateOther}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -1049,11 +1046,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsWithStatusOfCTBAtExtractDateInPayment then returns it.
+     * {@link #claimIDsWithStatusOfCTBAtExtractDateInPayment} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateInPayment}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -1077,13 +1074,14 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsWithStatusOfCTBAtExtractDateInPayment then returns it.
+     * {@link #claimIDsWithStatusOfCTBAtExtractDateInPayment} then returns it.
      *
-     * @return
+     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateInPayment}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateInPayment() throws IOException, ClassNotFoundException {
+    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateInPayment() 
+            throws IOException, ClassNotFoundException {
         if (claimIDsWithStatusOfCTBAtExtractDateInPayment == null) {
             Path f;
             f = getClaimIDsWithStatusOfCTBAtExtractDateInPaymentFile();
@@ -1097,16 +1095,17 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises
-     * claimIDsWithStatusOfCTBAtExtractDateSuspended then returns it.
+     * If not initialised, initialises {@link #claimIDsWithStatusOfCTBAtExtractDateSuspended}
+     *  then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return 
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateSuspended(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateSuspended(
+            boolean hoome) throws IOException, ClassNotFoundException {
         try {
             return getClaimIDsWithStatusOfCTBAtExtractDateSuspended();
         } catch (OutOfMemoryError e) {
@@ -1125,9 +1124,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsWithStatusOfCTBAtExtractDateSuspended then returns it.
+     * {@link #claimIDsWithStatusOfCTBAtExtractDateSuspended} then returns it.
      *
-     * @return
+     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateSuspended}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -1151,11 +1150,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateOther}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateOther(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateOther(
+            boolean hoome) throws IOException, ClassNotFoundException {
         try {
             return getClaimIDsWithStatusOfCTBAtExtractDateOther();
         } catch (OutOfMemoryError e) {
@@ -1173,10 +1173,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDsWithStatusOfCTBAtExtractDateOther
+     * If not initialised, initialises {@link #claimIDsWithStatusOfCTBAtExtractDateOther}
      * then returns it.
      *
-     * @return
+     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateOther}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -1194,11 +1194,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises sRecordsWithoutDRecords then returns it.
+     * If not initialised, initialises {@link #sRecordsWithoutDRecords} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Map
+     * @return {@link #sRecordsWithoutDRecords}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -1221,7 +1221,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return the sRecordsWithoutDRecords
+     * @return {@link #sRecordsWithoutDRecords}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -1239,12 +1239,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDAndCountOfRecordsWithSRecords then
+     * If not initialised, initialises {@link #claimIDAndCountOfRecordsWithSRecords} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Map
+     * @return {@link #claimIDAndCountOfRecordsWithSRecords}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -1268,11 +1268,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsOfClaimsWithoutAMappableClaimantPostcode then returns it.
+     * {@link #claimIDsOfClaimsWithoutAMappableClaimantPostcode} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return {@link #claimIDsOfClaimsWithoutAMappableClaimantPostcode}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -1295,11 +1295,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return the claimIDAndCountOfRecordsWithSRecords
+     * @return the {@link #claimIDAndCountOfRecordsWithSRecords}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Map<SHBE_ClaimID, Integer> getClaimIDAndCountOfRecordsWithSRecords() throws IOException, ClassNotFoundException {
+    protected Map<SHBE_ClaimID, Integer> getClaimIDAndCountOfRecordsWithSRecords()
+            throws IOException, ClassNotFoundException {
         if (claimIDAndCountOfRecordsWithSRecords == null) {
             Path f;
             f = getClaimIDAndCountOfRecordsWithSRecordsFile();
@@ -1313,7 +1314,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return the claimIDsOfClaimsWithoutAMappableClaimantPostcode
+     * @return {@link #claimIDsOfClaimsWithoutAMappableClaimantPostcode}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -1331,14 +1332,14 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return ym3
+     * @return {@link #ym3}
      */
     public UKP_YM3 getYm3() {
         return ym3;
     }
 
     /**
-     * @return nearestYM3ForONSPDLookup
+     * @return {@link #earestYM3ForONSPDLookup}
      */
     public UKP_YM3 getNearestYM3ForONSPDLookup() {
         return nearestYM3ForONSPDLookup;
@@ -1369,7 +1370,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @param filename
+     * @param filename Filename.
      * @return The Path in dir given by filename.
      * @throws java.io.IOException If encountered.
      */
@@ -2825,7 +2826,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      *
      * @param directory
      * @param filename
-     * @return
+     * @return int
      */
     public final int readAndCheckFirstLine(Path directory, String filename) {
         int type = 0;
@@ -2917,12 +2918,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDToClaimantPersonIDLookup then
+     * If not initialised, initialises {@link #claimIDToClaimantPersonIDLookup} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Map
+     * @return {@link #claimIDToClaimantPersonIDLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -2945,10 +2946,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDToClaimantPersonIDLookup then
+     * If not initialised, initialises {@link #claimIDToClaimantPersonIDLookup} then
      * returns it.
      *
-     * @return Map
+     * @return {@link #claimIDToClaimantPersonIDLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -2967,11 +2968,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDToPartnerPersonIDLookup then
+     * If not initialised, initialises {@link #claimIDToPartnerPersonIDLookup} then
      * returns it.
      *
-     * @param hoome
-     * @return
+     * @param hoome If {@code true} then an attempt is made to handle
+     * OutOfMemeoryErrors if they are encountered.
+     * @return {@link #claimIDToPartnerPersonIDLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -2994,10 +2996,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDToPartnerPersonIDLookup then
+     * If not initialised, initialises {@link #claimIDToPartnerPersonIDLookup} then
      * returns it.
      *
-     * @return
+     * @return {@link #claimIDToPartnerPersonIDLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3016,12 +3018,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDToDependentPersonIDsLookup then
+     * If not initialised, initialises {@link #claimIDToDependentPersonIDsLookup} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Map
+     * @return {@link #claimIDToDependentPersonIDsLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3044,10 +3046,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDToDependentPersonIDsLookup then
+     * If not initialised, initialises {@link #claimIDToDependentPersonIDsLookup} then
      * returns it.
      *
-     * @return Map
+     * @return {@link #claimIDToDependentPersonIDsLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3066,12 +3068,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDToNonDependentPersonIDsLookup then
+     * If not initialised, initialises {@link #claimIDToNonDependentPersonIDsLookup} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Map
+     * @return {@link #claimIDToNonDependentPersonIDsLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3094,10 +3096,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDToNonDependentPersonIDsLookup then
+     * If not initialised, initialises {@link #claimIDToNonDependentPersonIDsLookup} then
      * returns it.
      *
-     * @return
+     * @return {@link #claimIDToNonDependentPersonIDsLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3117,16 +3119,17 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim then returns
+     * {@link #claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim} then returns
      * it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return {@link #claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Set<SHBE_ClaimID> getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(
+            boolean hoome) throws IOException, ClassNotFoundException {
         try {
             return getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim();
         } catch (OutOfMemoryError e) {
@@ -3145,10 +3148,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim then returns
+     * {@link #claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim} then returns
      * it.
      *
-     * @return
+     * @return {@link #claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3168,12 +3171,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim then returns
+     * {@link #claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim} then returns
      * it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return {@link #claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3197,10 +3200,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim then returns
+     * {@link #claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim} then returns
      * it.
      *
-     * @return Set
+     * @return {@link #claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3220,12 +3223,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim then returns
+     * {@link #claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim} then returns
      * it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return {@link #claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3262,12 +3265,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim then returns
+     * {@link #claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim} then returns
      * it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return {@link #claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3305,12 +3308,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim
+     * {@link #claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
      * then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Set
+     * @return {@link #claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3347,12 +3350,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim
+     * {@link #claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
      * then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Map
+     * @return {@link #claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3375,10 +3378,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup then returns
+     * {@link #claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup} then returns
      * it.
      *
-     * @return
+     * @return {@link #claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3398,11 +3401,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup then returns it.
+     * {@link #partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Map
+     * @return {@link #partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3438,12 +3441,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup then
+     * {@link #nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Map
+     * @return {@link #nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3467,10 +3470,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup then
+     * {@link #nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup} then
      * returns it.
      *
-     * @return
+     * @return {@link #nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3489,11 +3492,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises ClaimIDToPostcodeLookup then returns it.
+     * If not initialised, initialises {@link #claimIDToPostcodeLookup} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Map
+     * @return {@link #claimIDToPostcodeLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3531,11 +3534,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture then returns it.
+     * {@link #claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture
+     * @return {@link #claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3572,12 +3575,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimIDToTenancyTypeLookup then returns
+     * If not initialised, initialises {@link #claimIDToTenancyTypeLookup} then returns
      * it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return claimIDToTenancyTypeLookup
+     * @return {@link #claimIDToTenancyTypeLookup}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3618,7 +3621,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return loadSummary
+     * @return {@link #loadSummary}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3655,11 +3658,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises recordIDsNotLoaded then returns it.
+     * If not initialised, initialises {@link #recordIDsNotLoaded} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return recordIDsNotLoaded
+     * @return {@link #recordIDsNotLoaded}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3696,12 +3699,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises ClaimRefsOfInvalidClaimantNINOClaims then
+     * If not initialised, initialises {@link #claimIDsOfInvalidClaimantNINOClaims} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return claimIDsOfInvalidClaimantNINOClaims
+     * @return {@link #claimIDsOfInvalidClaimantNINOClaims}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3738,12 +3741,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimantPostcodesUnmappable then returns
+     * If not initialised, initialises {@link #claimantPostcodesUnmappable} then returns
      * it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return claimantPostcodesUnmappable
+     * @return {@link #claimantPostcodesUnmappable}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3779,12 +3782,12 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimantPostcodesModified then returns
+     * If not initialised, initialises {@link #claimantPostcodesModified} then returns
      * it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return claimantPostcodesModified
+     * @return {@link #claimantPostcodesModified}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3807,10 +3810,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises claimantPostcodesModified then returns
+     * If not initialised, initialises {@link #claimantPostcodesModified} then returns
      * it.
      *
-     * @return claimantPostcodesModified
+     * @return {@link #claimantPostcodesModified}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3830,11 +3833,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * claimantPostcodesCheckedAsMappableButNotInONSPDPostcodes then returns it.
+     * {@link #claimantPostcodesCheckedAsMappableButNotInONSPDPostcodes} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return Map
+     * @return {@link #claimantPostcodesCheckedAsMappableButNotInONSPDPostcodes}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -3871,7 +3874,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return the DataFile
+     * @return {@link #file}
      * @throws java.io.IOException If encountered.
      */
     protected final Path getFile() throws IOException {
@@ -3882,7 +3885,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return recordsFile initialising if it is not already initialised.
+     * @return {@link #recordsFile} initialising if it is not already initialised.
      * @throws java.io.IOException If encountered.
      */
     protected final Path getRecordsFile() throws IOException {
@@ -3894,7 +3897,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return claimIDsOfNewSHBEClaimsFile initialising if it is not already
+     * @return {@link #claimIDsOfNewSHBEClaimsFile} initialising if it is not already
      * initialised.
      * @throws java.io.IOException If encountered.
      */
@@ -3908,7 +3911,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return claimIDsOfNewSHBEClaimsFile initialising if it is not already
+     * @return {@link #claimIDsOfNewSHBEClaimsFile} initialising if it is not already
      * initialised.
      * @throws java.io.IOException If encountered.
      */
@@ -3924,7 +3927,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return claimIDsOfNewSHBEClaimsFile initialising if it is not already
+     * @return {@link #claimIDsOfNewSHBEClaimsFile} initialising if it is not already
      * initialised.
      * @throws java.io.IOException If encountered.
      */
@@ -3941,7 +3944,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBeforeFile
+     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBeforeFile}
      * initialising if it is not already initialised.
      * @throws java.io.IOException If encountered.
      */
@@ -3957,7 +3960,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return claimIDsOfNewSHBEClaimsWhereClaimantIsNewFile initialising if it
+     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantIsNewFile} initialising if it
      * is not already initialised.
      * @throws java.io.IOException If encountered.
      */
@@ -4034,8 +4037,8 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @param f
-     * @return
+     * @param f Path
+     * @return Set
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -4077,7 +4080,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @param f
+     * @param f Path
      * @return Set
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
@@ -4109,8 +4112,8 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @param f
-     * @return
+     * @param f Path
+     * @return Set
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
