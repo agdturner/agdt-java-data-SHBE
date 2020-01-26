@@ -24,7 +24,7 @@ import java.util.Objects;
  * @author Andy Turner
  * @version 1.0.0
  */
-public class SHBE_ClaimID_PostcodeID implements Serializable, 
+public class SHBE_ClaimID_PostcodeID implements Serializable,
         Comparable<SHBE_ClaimID_PostcodeID> {
 
     public final SHBE_ClaimID ClaimID;
@@ -37,9 +37,9 @@ public class SHBE_ClaimID_PostcodeID implements Serializable,
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * @param obj Object to test for equality with this.
+     * @return {@code true} if {@code obj} and {@code this} are equals and
+     * {@code false} otherwise.
      */
     @Override
     public boolean equals(Object obj) {
@@ -69,7 +69,7 @@ public class SHBE_ClaimID_PostcodeID implements Serializable,
         hash = 79 * hash + Objects.hashCode(this.PostcodeID);
         return hash;
     }
-    
+
     @Override
     public int compareTo(SHBE_ClaimID_PostcodeID i) {
         int r = this.ClaimID.compareTo(i.ClaimID);

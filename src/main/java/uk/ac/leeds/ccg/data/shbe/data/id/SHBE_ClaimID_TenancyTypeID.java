@@ -37,9 +37,9 @@ public class SHBE_ClaimID_TenancyTypeID implements Serializable,
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * @param obj Object to test for equality with this.
+     * @return {@code true} if {@code obj} and {@code this} are equals and
+     * {@code false} otherwise.
      */
     @Override
     public boolean equals(Object obj) {

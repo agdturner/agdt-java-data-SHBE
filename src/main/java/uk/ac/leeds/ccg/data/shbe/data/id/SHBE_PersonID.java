@@ -23,7 +23,7 @@ import java.util.Objects;
  *
  * @author Andy Turner
  */
-public class SHBE_PersonID implements Serializable, 
+public class SHBE_PersonID implements Serializable,
         Comparable<SHBE_PersonID> {
 
     public final SHBE_NINOID NINOID;
@@ -35,9 +35,9 @@ public class SHBE_PersonID implements Serializable,
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * @param obj Object to test for equality with this.
+     * @return {@code true} if {@code obj} and {@code this} are equals and
+     * {@code false} otherwise.
      */
     @Override
     public boolean equals(Object obj) {
@@ -67,7 +67,7 @@ public class SHBE_PersonID implements Serializable,
         hash = 79 * hash + Objects.hashCode(this.DOBID);
         return hash;
     }
-    
+
     @Override
     public int compareTo(SHBE_PersonID i) {
         int r = this.NINOID.compareTo(i.NINOID);
