@@ -1,20 +1,17 @@
 /*
- * Copyright (C) 2015 geoagdt.
+ * Copyright 2015 Andy Turner, University of Leeds.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301  USA
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package uk.ac.leeds.ccg.data.shbe.data;
 
@@ -26,8 +23,8 @@ import uk.ac.leeds.ccg.data.shbe.core.SHBE_Object;
 import uk.ac.leeds.ccg.data.shbe.core.SHBE_Strings;
 
 /**
- *
- * @author geoagdt
+ * @author Andy Turner
+ * @version 1.0.0
  */
 public class SHBE_TenancyType_Handler extends SHBE_Object {
 
@@ -138,94 +135,92 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
     }
 
     /**
-     * For storing an ArrayList of TenancyTypeUnregulated for convenience.
+     * Tenancy Type Unregulated.
      */
-    protected ArrayList<String> TenancyTypeUnregulated;
+    protected ArrayList<String> ttu;
 
     /**
-     * For returning an ArrayList of TenancyTypeUnregulated for convenience.
-     *
-     * @return
+     * @return {@link #ttu} initialised first if it is {@code null}.
      */
-    public ArrayList<String> getTenancyTypeUnregulated() {
-        if (TenancyTypeUnregulated == null) {
-            TenancyTypeUnregulated = new ArrayList<>();
-            TenancyTypeUnregulated.add(s3);
-            TenancyTypeUnregulated.add(s6);
+    public ArrayList<String> getTtu() {
+        if (ttu == null) {
+            ttu = new ArrayList<>();
+            ttu.add(s3);
+            ttu.add(s6);
         }
-        return TenancyTypeUnregulated;
+        return ttu;
     }
 
     /**
-     * For storing an ArrayList of TenancyTypeRegulated for convenience.
+     * Tenancy Type Regulated.
      */
-    protected ArrayList<String> TenancyTypeRegulated;
+    protected ArrayList<String> ttr;
 
     /**
-     * For storing an ArrayList of TenancyTypeRegulatedUO for convenience.
+     * Tenancy Type Regulated for Under Occupied.
      */
-    protected ArrayList<String> TenancyTypeRegulatedUO;
+    protected ArrayList<String> ttru;
 
     /**
-     * For returning an ArrayList of TenancyTypeRegulated for convenience.
+     * For returning an ArrayList of Tenancy Type Regulated.
      *
-     * @return
+     * @param uo If {@code true} then it is the list for the 
+     * Under Occupied that is returned.
+     * @return List of Tenancy Type Regulated.
      */
-    public ArrayList<String> getTenancyTypeRegulated(boolean doUnderOccupiedData) {
-        if (doUnderOccupiedData) {
-            if (TenancyTypeRegulatedUO == null) {
-                TenancyTypeRegulatedUO = new ArrayList<>();
-                TenancyTypeRegulatedUO.add(s1);
-                TenancyTypeRegulatedUO.add(s2);
-                TenancyTypeRegulatedUO.add(s4);
-                TenancyTypeRegulatedUO.add(s1 + sU);
-                //TenancyTypeRegulatedUO.add(s2 + sU);
-                TenancyTypeRegulatedUO.add(s4 + sU);
+    public ArrayList<String> getTtr(boolean uo) {
+        if (uo) {
+            if (ttru == null) {
+                ttru = new ArrayList<>();
+                ttru.add(s1);
+                ttru.add(s2);
+                ttru.add(s4);
+                ttru.add(s1 + sU);
+                //ttru.add(s2 + sU);
+                ttru.add(s4 + sU);
             }
-            return TenancyTypeRegulatedUO;
+            return ttru;
         } else {
-            if (TenancyTypeRegulated == null) {
-                TenancyTypeRegulated = new ArrayList<>();
-                TenancyTypeRegulated.add(s1);
-                TenancyTypeRegulated.add(s2);
-                TenancyTypeRegulated.add(s4);
+            if (ttr == null) {
+                ttr = new ArrayList<>();
+                ttr.add(s1);
+                ttr.add(s2);
+                ttr.add(s4);
             }
-            return TenancyTypeRegulated;
+            return ttr;
         }
     }
 
     public ArrayList<String> getTenancyTypeAll() {
-        ArrayList<String> result;
-        result = new ArrayList<>();
-        //result.add(s0);
-        result.add(s1);
-        result.add(s2);
-        result.add(s3);
-        result.add(s4);
-        result.add(s5);
-        result.add(s6);
-        result.add(s7);
-        result.add(s8);
-        result.add(s9);
-        return result;
+        ArrayList<String> r = new ArrayList<>();
+        //r.add(s0);
+        r.add(s1);
+        r.add(s2);
+        r.add(s3);
+        r.add(s4);
+        r.add(s5);
+        r.add(s6);
+        r.add(s7);
+        r.add(s8);
+        r.add(s9);
+        return r;
     }
 
-    public ArrayList<String> getTenancyTypeAll(boolean doUnderOccupiedData) {
-        ArrayList<String> result;
-        result = getTenancyTypeAll();
-        if (doUnderOccupiedData) {
+    public ArrayList<String> getTenancyTypeAll(boolean uo) {
+        ArrayList<String> r = getTenancyTypeAll();
+        if (uo) {
             //result.add(s0 + sU);
-            result.add(s1 + sU);
-            result.add(s2 + sU);
-            result.add(s3 + sU);
-            result.add(s4 + sU);
-            result.add(s5 + sU);
-            result.add(s6 + sU);
-            result.add(s7 + sU);
-            result.add(s8 + sU);
-            result.add(s9 + sU);
+            r.add(s1 + sU);
+            r.add(s2 + sU);
+            r.add(s3 + sU);
+            r.add(s4 + sU);
+            r.add(s5 + sU);
+            r.add(s6 + sU);
+            r.add(s7 + sU);
+            r.add(s8 + sU);
+            r.add(s9 + sU);
         }
-        return result;
+        return r;
     }
 
     /**
@@ -245,52 +240,42 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
      * </ul>
      */
     public Object[] getTenancyTypeGroups() {
-        Object[] r;
-        r = new Object[4];
-        Boolean underOccupied;
-        HashMap<Boolean, TreeMap<String, ArrayList<String>>> tenancyTypeGroups;
-        tenancyTypeGroups = new HashMap<>();
-        HashMap<Boolean, ArrayList<String>> tenancyTypesGrouped;
-        tenancyTypesGrouped = new HashMap<>();
-        TreeMap<String, ArrayList<String>> ttgs;
-        ArrayList<String> ttg;
-        ArrayList<String> all;
-        ArrayList<String> regulated;
-        ArrayList<String> unregulated;
-        HashMap<Boolean, ArrayList<String>> regulatedGroups;
-        regulatedGroups = new HashMap<>();
-        HashMap<Boolean, ArrayList<String>> unregulatedGroups;
-        unregulatedGroups = new HashMap<>();
-        ArrayList<String> rg;
-        ArrayList<String> ug;
-        underOccupied = false;
-        ttgs = new TreeMap<>();
-        all = getTenancyTypeAll(underOccupied);
-        ttgs.put(sall, all);
-        regulated = getTenancyTypeRegulated(underOccupied);
+        Object[] r = new Object[4];
+        // Tenancy Type Groups
+        HashMap<Boolean, TreeMap<String, ArrayList<String>>> tenancyTypeGroups
+                = new HashMap<>();
+        HashMap<Boolean, ArrayList<String>> tenancyTypesGrouped
+                = new HashMap<>();
+        TreeMap<String, ArrayList<String>> ttgs = new TreeMap<>();
+        ArrayList<String> ttg = new ArrayList<>();
+        Boolean uo = false;
+        ArrayList<String> all = getTenancyTypeAll(uo);
+        ArrayList<String> regulated = getTtr(uo);
+        ArrayList<String> unregulated = getTtu();
+        HashMap<Boolean, ArrayList<String>> regulatedGroups = new HashMap<>();
+        HashMap<Boolean, ArrayList<String>> unregulatedGroups = new HashMap<>();
+        ttgs.put(sall, all);        
         ttgs.put(SHBE_Strings.s_Regulated, regulated);
-        unregulated = getTenancyTypeUnregulated();
         ttgs.put(SHBE_Strings.s_Unregulated, unregulated);
-        tenancyTypeGroups.put(underOccupied, ttgs);
-        ttg = new ArrayList<>();
+        tenancyTypeGroups.put(uo, ttgs);
         ttg.add(SHBE_Strings.s_Regulated);
         ttg.add(SHBE_Strings.s_Unregulated);
         ttg.add(SHBE_Strings.s_Ungrouped);
         ttg.add(sMinus999);
-        tenancyTypesGrouped.put(underOccupied, ttg);
-        rg = getTenancyTypeRegulated(underOccupied);
-        regulatedGroups.put(underOccupied, rg);
-        ug = getTenancyTypeUnregulated();
-        unregulatedGroups.put(underOccupied, ug);
-        underOccupied = true;
+        tenancyTypesGrouped.put(uo, ttg);
+        ArrayList<String> rg = getTtr(uo);
+        ArrayList<String> ug = getTtu();       
+        regulatedGroups.put(uo, rg);
+        unregulatedGroups.put(uo, ug);
+        uo = true;
         ttgs = new TreeMap<>();
-        all = getTenancyTypeAll(underOccupied);
+        all = getTenancyTypeAll(uo);
         ttgs.put(sall, all);
-        regulated = getTenancyTypeRegulated(underOccupied);
+        regulated = getTtr(uo);
         ttgs.put(SHBE_Strings.s_Regulated, regulated);
-        unregulated = getTenancyTypeUnregulated();
+        unregulated = getTtu();
         ttgs.put(SHBE_Strings.s_Unregulated, unregulated);
-        tenancyTypeGroups.put(underOccupied, ttgs);
+        tenancyTypeGroups.put(uo, ttgs);
         ttg = new ArrayList<>();
         ttg.add(SHBE_Strings.s_Regulated);
         ttg.add(SHBE_Strings.s_Regulated + SHBE_Strings.s_U);
@@ -300,11 +285,11 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
         ttg.add(SHBE_Strings.s_Ungrouped + SHBE_Strings.s_U);
         ttg.add(sMinus999);
         ttg.add(sMinus999 + SHBE_Strings.s_U);
-        tenancyTypesGrouped.put(underOccupied, ttg);
-        rg = getTenancyTypeRegulated(underOccupied);
-        regulatedGroups.put(underOccupied, rg);
-        ug = getTenancyTypeUnregulated();
-        unregulatedGroups.put(underOccupied, ug);
+        tenancyTypesGrouped.put(uo, ttg);
+        rg = getTtr(uo);
+        regulatedGroups.put(uo, rg);
+        ug = getTtu();
+        unregulatedGroups.put(uo, ug);
         r[0] = tenancyTypeGroups;
         r[1] = tenancyTypesGrouped;
         r[2] = regulatedGroups;
@@ -335,5 +320,4 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
         r.put(s9 + SHBE_Strings.s_U, SHBE_Strings.s_Ungrouped + SHBE_Strings.s_U);
         return r;
     }
-
 }

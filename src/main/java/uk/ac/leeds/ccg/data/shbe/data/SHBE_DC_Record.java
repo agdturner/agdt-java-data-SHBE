@@ -1,95 +1,107 @@
 /*
- * Copyright (C) 2015 geoagdt.
+ * Copyright 2018 Andy Turner, University of Leeds.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301  USA
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package uk.ac.leeds.ccg.data.shbe.data;
 
 import uk.ac.leeds.ccg.data.shbe.core.SHBE_Environment;
 
 /**
- *
- * @author geoagdt
+ * @author Andy Turner
+ * @version 1.0.0
  */
 public class SHBE_DC_Record extends SHBE_DAC_Record {
 
     /**
      * 32 37 DateOfFirstDecisionOnMostRecentHBClaim
      */
-    private String DateOfFirstDecisionOnMostRecentHBClaim;
+    private String dateOfFirstDecisionOnMostRecentHBClaim;
+
     /**
      * 33 38 DateOfFirstDecisionOnMostRecentCTBClaim
      */
-    private String DateOfFirstDecisionOnMostRecentCTBClaim;
+    private String dateOfFirstDecisionOnMostRecentCTBClaim;
+
     /**
      * 34 39 OutcomeOfFirstDecisionOnMostRecentHBClaim
      */
-    private int OutcomeOfFirstDecisionOnMostRecentHBClaim;
+    private int outcomeOfFirstDecisionOnMostRecentHBClaim;
+
     /**
      * 35 40 OutcomeOfFirstDecisionOnMostRecentCTBClaim
      */
-    private int OutcomeOfFirstDecisionOnMostRecentCTBClaim;
+    private int outcomeOfFirstDecisionOnMostRecentCTBClaim;
+
     /**
      * 36 41 HBClaimEntitlementStartDate
      */
-    private String HBClaimEntitlementStartDate;
+    private String hBClaimEntitlementStartDate;
+
     /**
-     * 58 63 IsThisCaseSubjectToLRROrSRRSchemes
+     * 58 63 isThisCaseSubjectToLRROrSRRSchemes
      */
-    private int IsThisCaseSubjectToLRROrSRRSchemes;
+    private int isThisCaseSubjectToLRROrSRRSchemes;
+
     /**
-     * 67 72 DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision
+     * 67 72 dateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision
      */
-    private String DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision;
+    private String dateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision;
+
     /**
-     * 193 201 CTBClaimEntitlementStartDate
+     * 193 201 cTBClaimEntitlementStartDate
      */
-    private String CTBClaimEntitlementStartDate;
+    private String cTBClaimEntitlementStartDate;
+
     /**
-     * 216 225 WasThereABackdatedAwardMadeOnTheHBClaim
+     * 216 225 wasThereABackdatedAwardMadeOnTheHBClaim
      */
-    private int WasThereABackdatedAwardMadeOnTheHBClaim;
+    private int wasThereABackdatedAwardMadeOnTheHBClaim;
+
     /**
-     * 217 226 DateHBBackdatingFrom
+     * 217 226 dateHBBackdatingFrom
      */
-    private String DateHBBackdatingFrom;
+    private String dateHBBackdatingFrom;
+
     /**
-     * 218 227 DateHBBackdatingTo
+     * 218 227 dateHBBackdatingTo
      */
-    private String DateHBBackdatingTo;
+    private String dateHBBackdatingTo;
+
     /**
-     * 219 228 TotalAmountOfBackdatedHBAwarded
+     * 219 228 totalAmountOfBackdatedHBAwarded
      */
-    private int TotalAmountOfBackdatedHBAwarded;
+    private int totalAmountOfBackdatedHBAwarded;
+
     /**
-     * 223 232 WasThereABackdatedAwardMadeOnTheCTBClaim
+     * 223 232 wasThereABackdatedAwardMadeOnTheCTBClaim
      */
-    private int WasThereABackdatedAwardMadeOnTheCTBClaim;
+    private int wasThereABackdatedAwardMadeOnTheCTBClaim;
+
     /**
-     * 224 233 DateCTBBackdatingFrom
+     * 224 233 dateCTBBackdatingFrom
      */
-    private String DateCTBBackdatingFrom;
+    private String dateCTBBackdatingFrom;
+
     /**
-     * 225 234 DateCTBBackdatingTo
+     * 225 234 dateCTBBackdatingTo
      */
-    private String DateCTBBackdatingTo;
+    private String dateCTBBackdatingTo;
+
     /**
-     * 226 235 TotalAmountOfBackdatedCTBAwarded
+     * 226 235 totalAmountOfBackdatedCTBAwarded
      */
-    private int TotalAmountOfBackdatedCTBAwarded;
+    private int totalAmountOfBackdatedCTBAwarded;
 
     public SHBE_DC_Record(SHBE_Environment env) {
         super(env);
@@ -99,59 +111,57 @@ public class SHBE_DC_Record extends SHBE_DAC_Record {
     public String toStringBrief() {
         return super.toStringBrief();
     }
-    
+
     @Override
     public String toString() {
         return super.toString()
-                + ",DateOfFirstDecisionOnMostRecentHBClaim=" + DateOfFirstDecisionOnMostRecentHBClaim
-                + ",DateOfFirstDecisionOnMostRecentCTBClaim=" + DateOfFirstDecisionOnMostRecentCTBClaim
-                + ",OutcomeOfFirstDecisionOnMostRecentHBClaim=" + OutcomeOfFirstDecisionOnMostRecentHBClaim
-                + ",OutcomeOfFirstDecisionOnMostRecentCTBClaim=" + OutcomeOfFirstDecisionOnMostRecentCTBClaim
-                + ",HBClaimEntitlementStartDate=" + HBClaimEntitlementStartDate
-                + ",IsThisCaseSubjectToLRROrSRRSchemes=" + IsThisCaseSubjectToLRROrSRRSchemes
-                + ",DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision=" + DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision
-                + ",CTBClaimEntitlementStartDate=" + CTBClaimEntitlementStartDate
-                + ",WasThereABackdatedAwardMadeOnTheHBClaim=" + WasThereABackdatedAwardMadeOnTheHBClaim
-                + ",DateHBBackdatingFrom=" + DateHBBackdatingFrom
-                + ",DateHBBackdatingTo=" + DateHBBackdatingTo
-                + ",TotalAmountOfBackdatesHBAwarded=" + TotalAmountOfBackdatedHBAwarded
-                + ",WasThereABackdatedAwardMadeOnTheCTBClaim=" + WasThereABackdatedAwardMadeOnTheCTBClaim
-                + ",DateCTBBackdatingFrom=" + DateCTBBackdatingFrom
-                + ",DateCTBBackdatingTo=" + DateCTBBackdatingTo
-                + ",TotalAmountOfBackdatedCTBAwarded=" + TotalAmountOfBackdatedCTBAwarded;
+                + " ,dateOfFirstDecisionOnMostRecentHBClaim=" + dateOfFirstDecisionOnMostRecentHBClaim
+                + " ,dateOfFirstDecisionOnMostRecentCTBClaim=" + dateOfFirstDecisionOnMostRecentCTBClaim
+                + " ,outcomeOfFirstDecisionOnMostRecentHBClaim=" + outcomeOfFirstDecisionOnMostRecentHBClaim
+                + " ,outcomeOfFirstDecisionOnMostRecentCTBClaim=" + outcomeOfFirstDecisionOnMostRecentCTBClaim
+                + " ,hBClaimEntitlementStartDate=" + hBClaimEntitlementStartDate
+                + " ,isThisCaseSubjectToLRROrSRRSchemes=" + isThisCaseSubjectToLRROrSRRSchemes
+                + " ,dateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision=" + dateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision
+                + " ,cTBClaimEntitlementStartDate=" + cTBClaimEntitlementStartDate
+                + " ,wasThereABackdatedAwardMadeOnTheHBClaim=" + wasThereABackdatedAwardMadeOnTheHBClaim
+                + " ,dateHBBackdatingFrom=" + dateHBBackdatingFrom
+                + " ,dateHBBackdatingTo=" + dateHBBackdatingTo
+                + " ,totalAmountOfBackdatesHBAwarded=" + totalAmountOfBackdatedHBAwarded
+                + " ,wasThereABackdatedAwardMadeOnTheCTBClaim=" + wasThereABackdatedAwardMadeOnTheCTBClaim
+                + " ,dateCTBBackdatingFrom=" + dateCTBBackdatingFrom
+                + " ,dateCTBBackdatingTo=" + dateCTBBackdatingTo
+                + " ,totalAmountOfBackdatedCTBAwarded=" + totalAmountOfBackdatedCTBAwarded;
     }
 
     /**
-     * @return the IsThisCaseSubjectToLRROrSRRSchemes
+     * @return {@link #isThisCaseSubjectToLRROrSRRSchemes}
      */
     public int getIsThisCaseSubjectToLRROrSRRSchemes() {
-        return IsThisCaseSubjectToLRROrSRRSchemes;
+        return isThisCaseSubjectToLRROrSRRSchemes;
     }
 
     /**
-     * @param IsThisCaseSubjectToLRROrSRRSchemes the
-     * IsThisCaseSubjectToLRROrSRRSchemes to set
+     * @param i What {@link #isThisCaseSubjectToLRROrSRRSchemes} is set to.
      */
-    protected void setIsThisCaseSubjectToLRROrSRRSchemes(int IsThisCaseSubjectToLRROrSRRSchemes) {
-        this.IsThisCaseSubjectToLRROrSRRSchemes = IsThisCaseSubjectToLRROrSRRSchemes;
+    protected void setIsThisCaseSubjectToLRROrSRRSchemes(int i) {
+        this.isThisCaseSubjectToLRROrSRRSchemes = i;
     }
 
-    protected void setIsThisCaseSubjectToLRROrSRRSchemes(
-            int n,
-            String[] fields) throws Exception {
+    protected final void setIsThisCaseSubjectToLRROrSRRSchemes(int n, String[] fields)
+            throws Exception {
         if (fields[n].trim().isEmpty()) {
-            IsThisCaseSubjectToLRROrSRRSchemes = -999;
+            isThisCaseSubjectToLRROrSRRSchemes = -999;
         } else {
             try {
-                IsThisCaseSubjectToLRROrSRRSchemes = Integer.valueOf(fields[n]);
-                if (IsThisCaseSubjectToLRROrSRRSchemes > 4 || IsThisCaseSubjectToLRROrSRRSchemes < 1) {
+                isThisCaseSubjectToLRROrSRRSchemes = Integer.valueOf(fields[n]);
+                if (isThisCaseSubjectToLRROrSRRSchemes > 4 || isThisCaseSubjectToLRROrSRRSchemes < 1) {
                     System.err.println("IsThisCaseSubjectToLRROrSRRSchemes=" + fields[n]);
                     System.err.println("n=" + n);
                     System.err.println("IsThisCaseSubjectToLRROrSRRSchemes > 4 || IsThisCaseSubjectToLRROrSRRSchemes < 1");
-//                    throw new Exception("IsThisCaseSubjectToLRROrSRRSchemes > 4 || IsThisCaseSubjectToLRROrSRRSchemes < 1");
+//                    throw new Exception("isThisCaseSubjectToLRROrSRRSchemes > 4 || isThisCaseSubjectToLRROrSRRSchemes < 1");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID=" + RecordID);
+                System.err.println("RecordID=" + recordID);
                 System.err.println("n=" + n);
                 System.err.println("setIsThisCaseSubjectToLRROrSRRSchemes(int,String[])");
                 System.err.println("fields[n],=" + fields[n]);
@@ -162,66 +172,63 @@ public class SHBE_DC_Record extends SHBE_DAC_Record {
     }
 
     /**
-     * @return the DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision
+     * @return {@link #dateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision}
      */
     public String getDateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision() {
-        return DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision;
+        return dateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision;
     }
 
     /**
-     * @param DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision the
-     * DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision to set
+     * @param s What {@link #dateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision} is set to.
      */
-    protected void setDateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision(String DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision) {
-        this.DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision = DateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision;
+    protected final void setDateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision(String s) {
+        this.dateOfFirstPaymentOnMostRecentHBClaimFollowingAFullDecision = s;
     }
 
     /**
-     * @return the CTBClaimEntitlementStartDate
+     * @return {@link #cTBClaimEntitlementStartDate}
      */
     public String getCTBClaimEntitlementStartDate() {
-        return CTBClaimEntitlementStartDate;
+        return cTBClaimEntitlementStartDate;
     }
 
     /**
-     * @param CTBClaimEntitlementStartDate the CTBClaimEntitlementStartDate to
-     * set
+     * @param s What {@link #cTBClaimEntitlementStartDate} is set to.
      */
-    protected void setCTBClaimEntitlementStartDate(String CTBClaimEntitlementStartDate) {
-        this.CTBClaimEntitlementStartDate = CTBClaimEntitlementStartDate;
+    protected final void setCTBClaimEntitlementStartDate(String s) {
+        this.cTBClaimEntitlementStartDate = s;
     }
 
     /**
-     * @return the WasThereABackdatedAwardMadeOnTheHBClaim
+     * @return {@link #wasThereABackdatedAwardMadeOnTheHBClaim
      */
     public int getWasThereABackdatedAwardMadeOnTheHBClaim() {
-        return WasThereABackdatedAwardMadeOnTheHBClaim;
+        return wasThereABackdatedAwardMadeOnTheHBClaim;
     }
 
     /**
-     * @param WasThereABackdatedAwardMadeOnTheHBClaim the
-     * WasThereABackdatedAwardMadeOnTheHBClaim to set
+     * @param i What {@link #wasThereABackdatedAwardMadeOnTheHBClaim} is set to.
      */
-    protected void setWasThereABackdatedAwardMadeOnTheHBClaim(int WasThereABackdatedAwardMadeOnTheHBClaim) {
-        this.WasThereABackdatedAwardMadeOnTheHBClaim = WasThereABackdatedAwardMadeOnTheHBClaim;
+    protected void setWasThereABackdatedAwardMadeOnTheHBClaim(int i) {
+        this.wasThereABackdatedAwardMadeOnTheHBClaim = i;
     }
 
-    protected void setWasThereABackdatedAwardMadeOnTheHBClaim(
+    protected final void setWasThereABackdatedAwardMadeOnTheHBClaim(
             int n,
             String[] fields) throws Exception {
         if (fields[n].trim().isEmpty()) {
-            WasThereABackdatedAwardMadeOnTheHBClaim = 0;
+            wasThereABackdatedAwardMadeOnTheHBClaim = 0;
         } else {
             try {
-                WasThereABackdatedAwardMadeOnTheHBClaim = Integer.valueOf(fields[n]);
-                if (WasThereABackdatedAwardMadeOnTheHBClaim > 1 || WasThereABackdatedAwardMadeOnTheHBClaim < 0) {
+                wasThereABackdatedAwardMadeOnTheHBClaim = Integer.valueOf(fields[n]);
+                if (wasThereABackdatedAwardMadeOnTheHBClaim > 1 || wasThereABackdatedAwardMadeOnTheHBClaim < 0) {
                     System.err.println("WasThereABackdatedAwardMadeOnTheHBClaim=" + fields[n]);
                     System.err.println("n=" + n);
                     System.err.println("WasThereABackdatedAwardMadeOnTheHBClaim > 1 || WasThereABackdatedAwardMadeOnTheHBClaim < 0");
-//                    throw new Exception("WasThereABackdatedAwardMadeOnTheHBClaim > 1 || WasThereABackdatedAwardMadeOnTheHBClaim < 0");
+//                    throw new Exception("wasThereABackdatedAwardMadeOnTheHBClaim > 1 || wasThereABackdatedAwardMadeOnTheHBClaim < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID=" + RecordID);
+                System.err.println("RecordID=" + recordID);
                 System.err.println("n=" + n);
                 System.err.println("setWasThereABackdatedAwardMadeOnTheHBClaim(int,String[])");
                 System.err.println("fields[n],=" + fields[n]);
@@ -232,79 +239,77 @@ public class SHBE_DC_Record extends SHBE_DAC_Record {
     }
 
     /**
-     * @return the DateHBBackdatingFrom
+     * @return {@link #dateHBBackdatingFrom}
      */
     public String getDateHBBackdatingFrom() {
-        return DateHBBackdatingFrom;
+        return dateHBBackdatingFrom;
     }
 
     /**
-     * @param DateHBBackdatingFrom the DateHBBackdatingFrom to set
+     * @param s What {@link #dateHBBackdatingFrom} is set to.
      */
-    protected void setDateHBBackdatingFrom(String DateHBBackdatingFrom) {
-        this.DateHBBackdatingFrom = DateHBBackdatingFrom;
+    protected final void setDateHBBackdatingFrom(String s) {
+        this.dateHBBackdatingFrom = s;
     }
 
     /**
-     * @return the DateHBBackdatingTo
+     * @return {@link #dateHBBackdatingTo}
      */
     public String getDateHBBackdatingTo() {
-        return DateHBBackdatingTo;
+        return dateHBBackdatingTo;
     }
 
     /**
-     * @param DateHBBackdatingTo the DateHBBackdatingTo to set
+     * @param s What {@link #dateHBBackdatingTo} is set to.
      */
-    protected void setDateHBBackdatingTo(String DateHBBackdatingTo) {
-        this.DateHBBackdatingTo = DateHBBackdatingTo;
+    protected final void setDateHBBackdatingTo(String s) {
+        this.dateHBBackdatingTo = s;
     }
 
     /**
-     * @return the TotalAmountOfBackdatedHBAwarded
+     * @return {@link #totalAmountOfBackdatedHBAwarded}
      */
     public int getTotalAmountOfBackdatedHBAwarded() {
-        return TotalAmountOfBackdatedHBAwarded;
+        return totalAmountOfBackdatedHBAwarded;
     }
 
     /**
-     * @param TotalAmountOfBackdatedHBAwarded the
-     * TotalAmountOfBackdatedHBAwarded to set
+     * @param i What {@link #totalAmountOfBackdatedHBAwarded} is set to.
      */
-    protected void setTotalAmountOfBackdatesHBAwarded(int TotalAmountOfBackdatedHBAwarded) {
-        this.TotalAmountOfBackdatedHBAwarded = TotalAmountOfBackdatedHBAwarded;
+    protected void setTotalAmountOfBackdatesHBAwarded(int i) {
+        this.totalAmountOfBackdatedHBAwarded = i;
     }
 
     /**
-     * @return the WasThereABackdatedAwardMadeOnTheCTBClaim
+     * @return {@link #wasThereABackdatedAwardMadeOnTheCTBClaim}
      */
     public int getWasThereABackdatedAwardMadeOnTheCTBClaim() {
-        return WasThereABackdatedAwardMadeOnTheCTBClaim;
+        return wasThereABackdatedAwardMadeOnTheCTBClaim;
     }
 
     /**
-     * @param WasThereABackdatedAwardMadeOnTheCTBClaim the
-     * WasThereABackdatedAwardMadeOnTheCTBClaim to set
+     * @param i What {@link #wasThereABackdatedAwardMadeOnTheCTBClaim} is set to.
      */
-    protected void setWasThereABackdatedAwardMadeOnTheCTBClaim(int WasThereABackdatedAwardMadeOnTheCTBClaim) {
-        this.WasThereABackdatedAwardMadeOnTheCTBClaim = WasThereABackdatedAwardMadeOnTheCTBClaim;
+    protected void setWasThereABackdatedAwardMadeOnTheCTBClaim(int i) {
+        this.wasThereABackdatedAwardMadeOnTheCTBClaim = i;
     }
 
-    protected void setWasThereABackdatedAwardMadeOnTheCTBClaim(
+    protected final void setWasThereABackdatedAwardMadeOnTheCTBClaim(
             int n,
             String[] fields) throws Exception {
         if (fields[n].trim().isEmpty()) {
-            WasThereABackdatedAwardMadeOnTheCTBClaim = 0;
+            wasThereABackdatedAwardMadeOnTheCTBClaim = 0;
         } else {
             try {
-                WasThereABackdatedAwardMadeOnTheCTBClaim = Integer.valueOf(fields[n]);
-                if (WasThereABackdatedAwardMadeOnTheCTBClaim > 1 || WasThereABackdatedAwardMadeOnTheCTBClaim < 0) {
+                wasThereABackdatedAwardMadeOnTheCTBClaim = Integer.valueOf(fields[n]);
+                if (wasThereABackdatedAwardMadeOnTheCTBClaim > 1 || wasThereABackdatedAwardMadeOnTheCTBClaim < 0) {
                     System.err.println("WasThereABackdatedAwardMadeOnTheCTBClaim=" + fields[n]);
                     System.err.println("n=" + n);
                     System.err.println("WasThereABackdatedAwardMadeOnTheCTBClaim > 1 || WasThereABackdatedAwardMadeOnTheCTBClaim < 0");
-//                    throw new Exception("WasThereABackdatedAwardMadeOnTheCTBClaim > 1 || WasThereABackdatedAwardMadeOnTheCTBClaim < 0");
+//                    throw new Exception("wasThereABackdatedAwardMadeOnTheCTBClaim > 1 || wasThereABackdatedAwardMadeOnTheCTBClaim < 0");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("RecordID=" + RecordID);
+                System.err.println("RecordID=" + recordID);
                 System.err.println("n=" + n);
                 System.err.println("WasThereABackdatedAwardMadeOnTheCTBClaim(int,String[])");
                 System.err.println("fields[n],=" + fields[n]);
@@ -315,46 +320,45 @@ public class SHBE_DC_Record extends SHBE_DAC_Record {
     }
 
     /**
-     * @return the DateCTBBackdatingFrom
+     * @return {@link #dateCTBBackdatingFrom}
      */
     public String getDateCTBBackdatingFrom() {
-        return DateCTBBackdatingFrom;
+        return dateCTBBackdatingFrom;
     }
 
     /**
-     * @param DateCTBBackdatingFrom the DateCTBBackdatingFrom to set
+     * @param s What {@link #dateCTBBackdatingFrom} is set to.
      */
-    protected void setDateCTBBackdatingFrom(String DateCTBBackdatingFrom) {
-        this.DateCTBBackdatingFrom = DateCTBBackdatingFrom;
+    protected final void setDateCTBBackdatingFrom(String s) {
+        this.dateCTBBackdatingFrom = s;
     }
 
     /**
-     * @return the DateCTBBackdatingTo
+     * @return {@link #dDateCTBBackdatingTo}
      */
     public String getDateCTBBackdatingTo() {
-        return DateCTBBackdatingTo;
+        return dateCTBBackdatingTo;
     }
 
     /**
-     * @param DateCTBBackdatingTo the DateCTBBackdatingTo to set
+     * @param s What {@link #dDateCTBBackdatingTo} is set to.
      */
-    protected void setDateCTBBackdatingTo(String DateCTBBackdatingTo) {
-        this.DateCTBBackdatingTo = DateCTBBackdatingTo;
+    protected final void setDateCTBBackdatingTo(String s) {
+        this.dateCTBBackdatingTo = s;
     }
 
     /**
-     * @return the TotalAmountOfBackdatedCTBAwarded
+     * @return {@link #totalAmountOfBackdatedCTBAwarded}
      */
     public int getTotalAmountOfBackdatedCTBAwarded() {
-        return TotalAmountOfBackdatedCTBAwarded;
+        return totalAmountOfBackdatedCTBAwarded;
     }
 
     /**
-     * @param TotalAmountOfBackdatedCTBAwarded the
-     * TotalAmountOfBackdatedCTBAwarded to set
+     * @param i What {@link #totalAmountOfBackdatedCTBAwarded} is set to.
      */
-    protected void setTotalAmountOfBackdatedCTBAwarded(int TotalAmountOfBackdatedCTBAwarded) {
-        this.TotalAmountOfBackdatedCTBAwarded = TotalAmountOfBackdatedCTBAwarded;
+    protected final void setTotalAmountOfBackdatedCTBAwarded(int i) {
+        this.totalAmountOfBackdatedCTBAwarded = i;
     }
 
 }

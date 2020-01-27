@@ -30,13 +30,13 @@ import uk.ac.leeds.ccg.data.shbe.core.SHBE_Environment;
 public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializable {
 
     /**
-     * 11 16 NonDependentStatus
+     * 11 16 Non Dependent Status
      */
-    private int NonDependentStatus;
+    private int nds;
     /**
-     * 12 17 NonDependentDeductionAmountApplied
+     * 12 17 Non Dependent Deduction Amount Applied
      */
-    private int NonDependentDeductionAmountApplied;
+    private int nddaa;
     /**
      * 205 214 NonDependantGrossWeeklyIncomeFromRemunerativeWork
      */
@@ -127,12 +127,12 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
      * 310,311,315,316,317,318,319, 320,321,322,323,324,325,326,327,328,329,
      * 330,331,332,333,334,335,336,337,338,339, 340,341}
      * @param line
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception If encountered.
      */
     public SHBE_S_Record(SHBE_Environment env, long RecordID, int type,
             String line    ) throws Exception {
         super(env);
-        this.RecordID = RecordID;
+        this.recordID = RecordID;
         String[] fields = line.split(",");
         int n;
         n = 1;
@@ -162,9 +162,9 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
         n++; //12
         if (n < fields.length) {
             if (fields[n].trim().isEmpty()) {
-                NonDependentDeductionAmountApplied = 0;
+                nddaa = 0;
             } else {
-                NonDependentDeductionAmountApplied = Integer.valueOf(fields[n]);
+                nddaa = Integer.valueOf(fields[n]);
             }
         } else {
             return;
@@ -217,55 +217,55 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
     @Override
     public String toString() {
         return super.toString()
-                + ",NonDependentStatus " + NonDependentStatus
-                + ",NonDependentDeductionAmountApplied " + NonDependentDeductionAmountApplied
+                + ",NonDependentStatus " + nds
+                + ",NonDependentDeductionAmountApplied " + nddaa
                 + ",NonDependantGrossWeeklyIncomeFromRemunerativeWork " + NonDependantGrossWeeklyIncomeFromRemunerativeWork
                 + ",SubRecordType " + SubRecordType;
     }
 
     /**
-     * @return the NonDependentStatus
+     * @return the nds
      */
-    public int getNonDependentStatus() {
-        return NonDependentStatus;
+    public int getNds() {
+        return nds;
     }
 
     /**
-     * @param NonDependentStatus the NonDependentStatus to set
+     * @param nds the nds to set
      */
-    protected void setNonDependentStatus(int NonDependentStatus) {
-        this.NonDependentStatus = NonDependentStatus;
+    protected void setNds(int nds) {
+        this.nds = nds;
     }
 
     private void setNonDependentStatus(
             int n,
             String[] fields) throws Exception {
         if (fields[n].trim().isEmpty()) {
-            NonDependentStatus = 0;
+            nds = 0;
         } else {
-            NonDependentStatus = Integer.valueOf(fields[n]);
+            nds = Integer.valueOf(fields[n]);
         }
-        if (NonDependentStatus > 8 || NonDependentStatus < 0) {
-            System.err.println("RecordID " + RecordID);
-            System.err.println("NonDependentStatus " + NonDependentStatus);
+        if (nds > 8 || nds < 0) {
+            System.err.println("RecordID " + recordID);
+            System.err.println("NonDependentStatus " + nds);
             System.err.println("NonDependentStatus > 8 || NonDependentStatus < 0");
             throw new Exception("NonDependentStatus > 8 || NonDependentStatus < 0");
         }
     }
 
     /**
-     * @return the NonDependentDeductionAmountApplied
+     * @return the nddaa
      */
-    public int getNonDependentDeductionAmountApplied() {
-        return NonDependentDeductionAmountApplied;
+    public int getNddaa() {
+        return nddaa;
     }
 
     /**
-     * @param NonDependentDeductionAmountApplied the
-     * NonDependentDeductionAmountApplied to set
+     * @param nddaa the
+ nddaa to set
      */
-    protected void setNonDependentDeductionAmountApplied(int NonDependentDeductionAmountApplied) {
-        this.NonDependentDeductionAmountApplied = NonDependentDeductionAmountApplied;
+    protected void setNddaa(int nddaa) {
+        this.nddaa = nddaa;
     }
 
     /**
@@ -317,7 +317,7 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
 //                n++;
 //                setSubRecordType(n, fields);
 //                System.err.println("SubRecordType set to " + SubRecordType);
-//                System.err.println("RecordID " + RecordID);
+//                System.err.println("recordID " + recordID);
                 throw e;
             }
             if (SubRecordType > 2 || SubRecordType < 0) {

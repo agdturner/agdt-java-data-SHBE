@@ -1,20 +1,17 @@
 /*
- * Copyright (C) 2014 geoagdt.
+ * Copyright 2018 Andy Turner, University of Leeds.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301  USA
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package uk.ac.leeds.ccg.data.shbe.data;
 
@@ -22,32 +19,36 @@ import uk.ac.leeds.ccg.data.shbe.core.SHBE_Environment;
 import uk.ac.leeds.ccg.data.shbe.core.SHBE_Object;
 
 /**
- *
- * @author geoagdt
+ * @author Andy Turner
+ * @version 1.0.0
  */
 public abstract class SHBE_DACTEGPRST_Record extends SHBE_Object {
 
     /**
-     * 0 RecordID
+     * 0 recordID
      */
-    protected long RecordID;
+    protected long recordID;
+
     /**
-     * 0 1 RecordType
+     * 0 1 recordType
      */
-    private String RecordType;
+    private String recordType;
+
     /**
-     * 1 2 HousingBenefitClaimReferenceNumber
+     * 1 2 housingBenefitClaimReferenceNumber
      */
-    private String HousingBenefitClaimReferenceNumber;
-    //private Long HousingBenefitClaimReferenceNumber;
+    private String housingBenefitClaimReferenceNumber;
+    //private Long housingBenefitClaimReferenceNumber;
+
     /**
-     * 2 3 CouncilTaxBenefitClaimReferenceNumber
+     * 2 3 councilTaxBenefitClaimReferenceNumber
      */
-    private String CouncilTaxBenefitClaimReferenceNumber;
+    private String councilTaxBenefitClaimReferenceNumber;
+
     /**
-     * 3 4 ClaimantsNationalInsuranceNumber
+     * 3 4 claimantsNationalInsuranceNumber
      */
-    private String ClaimantsNationalInsuranceNumber;
+    private String claimantsNationalInsuranceNumber;
 
     public SHBE_DACTEGPRST_Record(SHBE_Environment env) {
         super(env);
@@ -55,104 +56,102 @@ public abstract class SHBE_DACTEGPRST_Record extends SHBE_Object {
 
     @Override
     public String toString() {
-        return "RecordID " + RecordID
-                + ",RecordType " + RecordType
-                + ",HousingBenefitClaimReferenceNumber " + HousingBenefitClaimReferenceNumber
-                + ",CouncilTaxBenefitClaimReferenceNumber " + CouncilTaxBenefitClaimReferenceNumber
-                + ",ClaimantsNationalInsuranceNumber " + ClaimantsNationalInsuranceNumber;
+        return "recordID=" + recordID
+                + ", recordType=" + recordType
+                + " ,housingBenefitClaimReferenceNumber " + housingBenefitClaimReferenceNumber
+                + " ,councilTaxBenefitClaimReferenceNumber " + councilTaxBenefitClaimReferenceNumber
+                + " ,claimantsNationalInsuranceNumber " + claimantsNationalInsuranceNumber;
     }
 
     /**
-     * @return the RecordID
+     * @return {@link #recordID}.
      */
     public long getRecordID() {
-        return RecordID;
+        return recordID;
     }
 
     /**
-     * @param RecordID the RecordID to set
+     * Set {@link #recordID}.
+     *
+     * @param l The value to set.
      */
-    protected final void setRecordID(long RecordID) {
-        this.RecordID = RecordID;
+    protected final void setRecordID(long l) {
+        this.recordID = l;
     }
 
     /**
-     * @return the RecordType
+     * @return {@link #recordType}.
      */
     public String getRecordType() {
-        return RecordType;
+        return recordType;
     }
 
     /**
-     * @param RecordType the RecordType to set
+     * Set {@link #recordType}.
+     *
+     * @param s The value to set.
      */
-    protected final void setRecordType(String RecordType) {
-        this.RecordType = RecordType;
+    protected final void setRecordType(String s) {
+        this.recordType = s;
     }
 
     /**
-     * @return the HousingBenefitClaimReferenceNumber
+     * @return {@link #housingBenefitClaimReferenceNumber}.
      */
     public String getHousingBenefitClaimReferenceNumber() {
-        return HousingBenefitClaimReferenceNumber;
+        return housingBenefitClaimReferenceNumber;
     }
 
     /**
-     * @param HousingBenefitClaimReferenceNumber the
-     * HousingBenefitClaimReferenceNumber to set
+     * Set {@link #housingBenefitClaimReferenceNumber}.
+     *
+     * @param s The value to set.
      */
-    protected final void setHousingBenefitClaimReferenceNumber(String HousingBenefitClaimReferenceNumber) {
-        this.HousingBenefitClaimReferenceNumber = HousingBenefitClaimReferenceNumber;
+    protected final void setHousingBenefitClaimReferenceNumber(String s) {
+        this.housingBenefitClaimReferenceNumber = s;
     }
 
     /**
-     * @return the CouncilTaxBenefitClaimReferenceNumber
+     * @return {@link #councilTaxBenefitClaimReferenceNumber}
      */
     public String getCouncilTaxBenefitClaimReferenceNumber() {
-        return CouncilTaxBenefitClaimReferenceNumber;
+        return councilTaxBenefitClaimReferenceNumber;
     }
 
     /**
-     * @param CouncilTaxBenefitClaimReferenceNumber the
-     * CouncilTaxBenefitClaimReferenceNumber to set
+     * Set {@link #councilTaxBenefitClaimReferenceNumber}.
+     *
+     * @param s The value to set.
      */
-    protected final void setCouncilTaxBenefitClaimReferenceNumber(String CouncilTaxBenefitClaimReferenceNumber) {
-        this.CouncilTaxBenefitClaimReferenceNumber = CouncilTaxBenefitClaimReferenceNumber;
+    protected final void setCouncilTaxBenefitClaimReferenceNumber(String s) {
+        this.councilTaxBenefitClaimReferenceNumber = s;
     }
 
     /**
-     * @return the ClaimantsNationalInsuranceNumber
+     * @return {@link #claimantsNationalInsuranceNumber}.
      */
     public String getClaimantsNationalInsuranceNumber() {
-        return ClaimantsNationalInsuranceNumber;
+        return claimantsNationalInsuranceNumber;
     }
 
     /**
-     * @param ClaimantsNationalInsuranceNumber the
-     * ClaimantsNationalInsuranceNumber to set
-     */
-    protected final void setClaimantsNationalInsuranceNumber(String ClaimantsNationalInsuranceNumber) {
-        this.ClaimantsNationalInsuranceNumber = ClaimantsNationalInsuranceNumber;
-    }
-
-    /**
-     * {@code
-     * String ClaimRef;
-     * ClaimRef = getClaimantsNationalInsuranceNumber();
-     * if (ClaimRef == null) {
-     * ClaimRef = getHousingBenefitClaimReferenceNumber();
-     * }
-     * return ClaimRef;
-     * }
+     * Set {@link #claimantsNationalInsuranceNumber}.
      *
-     * @return
+     * @param s The value to set.
+     */
+    protected final void setClaimantsNationalInsuranceNumber(String s) {
+        this.claimantsNationalInsuranceNumber = s;
+    }
+
+    /**
+     * @return {@link #councilTaxBenefitClaimReferenceNumber} or
+     * {@link #housingBenefitClaimReferenceNumber}
      */
     public String getClaimRef() {
-        String ClaimRef;
-        ClaimRef = getCouncilTaxBenefitClaimReferenceNumber();
-        if (ClaimRef == null) {
-            ClaimRef = getHousingBenefitClaimReferenceNumber();
+        String r = getCouncilTaxBenefitClaimReferenceNumber();
+        if (r == null) {
+            r = getHousingBenefitClaimReferenceNumber();
         }
-        return ClaimRef;
+        return r;
     }
 }

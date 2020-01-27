@@ -2871,79 +2871,77 @@ public class SHBE_Handler extends SHBE_Object {
 //        }
 //        return result;
 //    }
-    public String getMonth3(String SHBEFilename) {
-        String result;
-        result = getMonth(SHBEFilename).substring(0, 3);
-        return result;
+
+    /**
+     * @param fn SHBE Filename
+     * @return {@link #getYM3(fn, "_")}
+     */
+    public String getMonth3(String fn) {
+        return getMonth(fn).substring(0, 3);
     }
 
-    public UKP_YM3 getYM3(String SHBEFilename) {
-        return getYM3(SHBEFilename, "_");
+    /**
+     * @param fn SHBE Filename
+     * @return {@link #getYM3(fn, "_")}
+     */
+    public UKP_YM3 getYM3(String fn) {
+        return getYM3(fn, "_");
     }
 
-    public UKP_YM3 getYM3(String SHBEFilename, String separator) {
-        UKP_YM3 result;
-        String year;
-        year = getYear(SHBEFilename);
-        String m3;
-        m3 = getMonth3(SHBEFilename);
-        result = new UKP_YM3(year + separator + m3);
-        return result;
+    /**
+     * @param fn SHBE Filename
+     * @param separator Separator
+     * @return {@code new UKP_YM3(getYear(fn) + separator + getMonth3(fn))}
+     */
+    public UKP_YM3 getYM3(String fn, String separator) {
+        return new UKP_YM3(getYear(fn) + separator + getMonth3(fn));
     }
 
     public String getYM3FromYearMonthNumber(String YearMonth) {
-        String result;
-        String[] yM;
-        yM = YearMonth.split("-");
-        String m3;
-        m3 = Generic_Time.getMonth3Letters(yM[1]);
-        result = yM[0] + SHBE_Strings.symbol_underscore + m3;
-        return result;
+        String[] yM = YearMonth.split("-");
+        String m3 = Generic_Time.getMonth3Letters(yM[1]);
+        return yM[0] + SHBE_Strings.symbol_underscore + m3;
     }
 
-    public String getYearMonthNumber(String SHBEFilename) {
-        String result;
-        String year;
-        year = getYear(SHBEFilename);
-        String monthNumber;
-        monthNumber = getMonthNumber(SHBEFilename);
-        result = year + "-" + monthNumber;
-        return result;
+    /**
+     * @param fn SHBEFilename
+     * @return e.g. 2013-05
+     */
+    public String getYearMonthNumber(String fn) {
+        return getYear(fn) + "-" + getMonthNumber(fn);
     }
 
     /**
      * For example for SHBEFilename "hb9991_SHBE_555086k May 2013.csv", this
-     * returns "May"
+     * returns "May".
      *
-     * @param SHBEFilename
-     * @return
+     * @param fn SHBE Filename
+     * @return Month
      */
-    public String getMonth(String SHBEFilename) {
-        return SHBEFilename.split(" ")[1];
+    public String getMonth(String fn) {
+        return fn.split(" ")[1];
     }
 
     /**
      * For example for SHBEFilename "hb9991_SHBE_555086k May 2013.csv", this
-     * returns "May"
+     * returns "05".
      *
-     * @param SHBEFilename
-     * @return
+     * @param fn SHBE Filename
+     * @return {@code Generic_Time.getMonthNumber(getMonth3(SHBEFilename))}
      */
-    public String getMonthNumber(String SHBEFilename) {
-        String m3;
-        m3 = getMonth3(SHBEFilename);
-        return Generic_Time.getMonthNumber(m3);
+    public String getMonthNumber(String fn) {
+        return Generic_Time.getMonthNumber(getMonth3(fn));
     }
 
     /**
-     * For example for SHBEFilename "hb9991_SHBE_555086k May 2013.csv", this
-     * returns "2013"
+     * For example for fn="hb9991_SHBE_555086k May 2013.csv", this returns
+     * "2013"
      *
-     * @param SHBEFilename
-     * @return
+     * @param fn SHBE Filename
+     * @return year part of {@code fn}
      */
-    public String getYear(String SHBEFilename) {
-        return SHBEFilename.split(" ")[2].substring(0, 4);
+    public String getYear(String fn) {
+        return fn.split(" ")[2].substring(0, 4);
     }
 
     /**
@@ -2952,25 +2950,24 @@ public class SHBE_Handler extends SHBE_Object {
      * @return String[] SHBE collections filenames
      */
     public String[] getSHBEFilenamesSome() {
-        String[] result = new String[6];
-        result[0] = "hb9991_SHBE_549416k April 2013.csv";
-        result[1] = "hb9991_SHBE_555086k May 2013.csv";
-        result[2] = "hb9991_SHBE_562036k June 2013.csv";
-        result[3] = "hb9991_SHBE_568694k July 2013.csv";
-        result[4] = "hb9991_SHBE_576432k August 2013.csv";
-        result[5] = "hb9991_SHBE_582832k September 2013.csv";
-        return result;
+        String[] r = new String[6];
+        r[0] = "hb9991_SHBE_549416k April 2013.csv";
+        r[1] = "hb9991_SHBE_555086k May 2013.csv";
+        r[2] = "hb9991_SHBE_562036k June 2013.csv";
+        r[3] = "hb9991_SHBE_568694k July 2013.csv";
+        r[4] = "hb9991_SHBE_576432k August 2013.csv";
+        r[5] = "hb9991_SHBE_582832k September 2013.csv";
+        return r;
     }
 
-//    public Map<SHBE_ID, String> getIDToStringLookup(
-//            Path f) {
-//        Map<SHBE_ID, String> result;
+//    public Map<SHBE_ID, String> getIDToStringLookup(Path f) {
+//        Map<SHBE_ID, String> r;
 //        if (Files.exists(f)) {
-//            result = (Map<SHBE_ID, String>) Generic_IO.readObject(f);
+//            r = (Map<SHBE_ID, String>) Generic_IO.readObject(f);
 //        } else {
-//            result = new HashMap<>();
+//            r = new HashMap<>();
 //        }
-//        return result;
+//        return r;
 //    }
     public int getNumberOfTenancyTypes() {
         return 10;
@@ -3005,24 +3002,17 @@ public class SHBE_Handler extends SHBE_Object {
      * @throws java.io.IOException If encountered.
      */
     public TreeMap<String, ArrayList<Integer>> getIncludes() throws IOException {
-        TreeMap<String, ArrayList<Integer>> result;
-        result = new TreeMap<>();
-        TreeMap<String, ArrayList<Integer>> omits;
-        omits = getOmits();
-        Iterator<String> ite;
-        ite = omits.keySet().iterator();
+        TreeMap<String, ArrayList<Integer>> r = new TreeMap<>();
+        TreeMap<String, ArrayList<Integer>> omits = getOmits();
+        Iterator<String> ite = omits.keySet().iterator();
         while (ite.hasNext()) {
-            String omitKey;
-            omitKey = ite.next();
-            ArrayList<Integer> omit;
-            omit = omits.get(omitKey);
-            ArrayList<Integer> include;
-            //include = getSHBEFilenameIndexesExcept34();
-            include = getSHBEFilenameIndexes();
+            String omitKey = ite.next();
+            ArrayList<Integer> omit = omits.get(omitKey);
+            ArrayList<Integer> include = getSHBEFilenameIndexes();
             include.removeAll(omit);
-            result.put(omitKey, include);
+            r.put(omitKey, include);
         }
-        return result;
+        return r;
     }
 
     /**
@@ -3034,22 +3024,18 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     public ArrayList<Integer> getIncludeAll() throws IOException {
-        ArrayList<Integer> r;
-        ArrayList<Integer> omit;
-        omit = getOmitAll();
-        r = getSHBEFilenameIndexes();
+        ArrayList<Integer> r = getSHBEFilenameIndexes();
+        ArrayList<Integer> omit = getOmitAll();
         r.removeAll(omit);
         return r;
     }
 
     /**
-     *
      * @param n The number of SHBE files.
-     * @return
+     * @return OmitYearly
      */
     public ArrayList<Integer> getOmitYearly(int n) {
-        ArrayList<Integer> r;
-        r = new ArrayList<>();
+        ArrayList<Integer> r = new ArrayList<>();
         r.add(1);
         r.add(3);
         r.add(5);
@@ -3515,7 +3501,8 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      *
      * @param s S Record
-     * @param index
+     * @param index An index for joining with a National Insurance Number to
+     * make a dependent ID unique.
      * @return Person ID for dependent.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.

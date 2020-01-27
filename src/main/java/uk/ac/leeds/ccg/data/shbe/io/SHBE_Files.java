@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 geoagdt.
+ * Copyright 2018 Andy Turner, University of Leeds.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ import uk.ac.leeds.ccg.data.shbe.core.SHBE_Strings;
 public class SHBE_Files extends Data_Files {
 
     /**
-     * @param dir
-     * @throws java.io.IOException
+     * @param dir The directory.
+     * @throws java.io.IOException If encountered.
      */
     public SHBE_Files(Path dir) throws IOException {
         super(dir);
