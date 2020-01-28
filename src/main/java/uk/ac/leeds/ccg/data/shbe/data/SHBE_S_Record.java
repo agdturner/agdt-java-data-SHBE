@@ -1,33 +1,29 @@
 /*
- * Copyright (C) 2014 geoagdt.
+ * Copyright 2018 Andy Turner, University of Leeds.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301  USA
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package uk.ac.leeds.ccg.data.shbe.data;
 
 import uk.ac.leeds.ccg.data.shbe.data.id.SHBE_PersonID;
-import java.io.Serializable;
 
 import uk.ac.leeds.ccg.data.shbe.core.SHBE_Environment;
 
 /**
- *
- * @author geoagdt
+ * @author Andy Turner
+ * @version 1.0.0
  */
-public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializable {
+public class SHBE_S_Record extends SHBE_DACTEGPRST_Record {
 
     /**
      * 11 16 Non Dependent Status
@@ -37,45 +33,51 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
      * 12 17 Non Dependent Deduction Amount Applied
      */
     private int nddaa;
+
     /**
-     * 205 214 NonDependantGrossWeeklyIncomeFromRemunerativeWork
+     * 205 214 nonDependantGrossWeeklyIncomeFromRemunerativeWork
      */
-    private int NonDependantGrossWeeklyIncomeFromRemunerativeWork;
+    private int nonDependantGrossWeeklyIncomeFromRemunerativeWork;
+
     /**
-     * 284 308 SubRecordType
+     * 284 308 subRecordType
      */
-    private int SubRecordType;
+    private int subRecordType;
+
     /**
-     * 285 309 SubRecordChildReferenceNumberOrNINO
+     * 285 309 subRecordChildReferenceNumberOrNINO
      */
-    private String SubRecordChildReferenceNumberOrNINO;
+    private String subRecordChildReferenceNumberOrNINO;
+
     /**
-     * 286 310 SubRecordStartDate
+     * 286 310 subRecordStartDate
      */
-    private String SubRecordStartDate;
+    private String subRecordStartDate;
+
     /**
-     * 287 311 SubRecordEndDate
+     * 287 311 subRecordEndDate
      */
-    private String SubRecordEndDate;
+    private String subRecordEndDate;
+
     // SubRecordTitle
     // SubRecordSurname
     // SubRecordForename
     /**
-     * In type1 but not type0 288 315 SubRecordDateOfBirth
+     * In type1 but not type0 288 315 subRecordDateOfBirth
      */
-    private String SubRecordDateOfBirth;
+    private String subRecordDateOfBirth;
 
-    private SHBE_PersonID DW_PersonID;
+    private SHBE_PersonID personID;
 
     public SHBE_S_Record(SHBE_Environment env) {
         super(env);
     }
 
     /**
-     * @param env
-     * @param RecordID
+     * @param env SHBE_Environment
+     * @param recordID RecordID
      * @param type {@code The type is worked out by reading the first line of
-     * the data. type1 has: LandlordPostcode 307 and SubRecordDateOfBirth 315.
+     * the data. type1 has: LandlordPostcode 307 and subRecordDateOfBirth 315.
      * type0---NoFields_307_315-------------------------------------------------
      * 1,2,3,4,8,9, 11,12,13,14,15,16,17,18,19, 20,21,22,23,24,25,26,27,28,29,
      * 30,31,32,33,34,35,36,37,38,39, 40,41,42,43,44,45,46,47,48,49,
@@ -129,13 +131,12 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
      * @param line
      * @throws java.lang.Exception If encountered.
      */
-    public SHBE_S_Record(SHBE_Environment env, long RecordID, int type,
-            String line    ) throws Exception {
+    public SHBE_S_Record(SHBE_Environment env, long recordID, int type,
+            String line) throws Exception {
         super(env);
-        this.recordID = RecordID;
+        this.recordID = recordID;
         String[] fields = line.split(",");
-        int n;
-        n = 1;
+        int n = 1;
         if (n < fields.length) {
             setHousingBenefitClaimReferenceNumber(fields[n]);
         } else {
@@ -172,9 +173,9 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
         n = 205;
         if (n < fields.length) {
             if (fields[n].trim().isEmpty()) {
-                NonDependantGrossWeeklyIncomeFromRemunerativeWork = 0;
+                nonDependantGrossWeeklyIncomeFromRemunerativeWork = 0;
             } else {
-                NonDependantGrossWeeklyIncomeFromRemunerativeWork = Integer.valueOf(fields[n]);
+                nonDependantGrossWeeklyIncomeFromRemunerativeWork = Integer.valueOf(fields[n]);
             }
         } else {
             return;
@@ -192,25 +193,25 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
         }
         n++;
         if (n < fields.length) {
-            SubRecordChildReferenceNumberOrNINO = fields[n];
+            subRecordChildReferenceNumberOrNINO = fields[n];
         } else {
             return;
         }
         n++;
         if (n < fields.length) {
-            SubRecordStartDate = fields[n];
+            subRecordStartDate = fields[n];
         } else {
             return;
         }
         n++;
         if (n < fields.length) {
-            SubRecordEndDate = fields[n];
+            subRecordEndDate = fields[n];
         } else {
             return;
         }
         n++;
         if (n < fields.length) {
-            SubRecordDateOfBirth = fields[n];
+            subRecordDateOfBirth = fields[n];
         }
     }
 
@@ -219,19 +220,19 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
         return super.toString()
                 + ",NonDependentStatus " + nds
                 + ",NonDependentDeductionAmountApplied " + nddaa
-                + ",NonDependantGrossWeeklyIncomeFromRemunerativeWork " + NonDependantGrossWeeklyIncomeFromRemunerativeWork
-                + ",SubRecordType " + SubRecordType;
+                + ",NonDependantGrossWeeklyIncomeFromRemunerativeWork " + nonDependantGrossWeeklyIncomeFromRemunerativeWork
+                + ",SubRecordType " + subRecordType;
     }
 
     /**
-     * @return the nds
+     * @return {@link #nds}
      */
     public int getNds() {
         return nds;
     }
 
     /**
-     * @param nds the nds to set
+     * @param nds What {@link #nds} is set to.
      */
     protected void setNds(int nds) {
         this.nds = nds;
@@ -246,65 +247,63 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
             nds = Integer.valueOf(fields[n]);
         }
         if (nds > 8 || nds < 0) {
-            System.err.println("RecordID " + recordID);
-            System.err.println("NonDependentStatus " + nds);
-            System.err.println("NonDependentStatus > 8 || NonDependentStatus < 0");
-            throw new Exception("NonDependentStatus > 8 || NonDependentStatus < 0");
+            System.err.println("recordID=" + recordID);
+            System.err.println("nonDependentStatus=" + nds);
+            System.err.println("nonDependentStatus > 8 || nonDependentStatus < 0");
+            throw new Exception("nonDependentStatus > 8 || nonDependentStatus < 0");
         }
     }
 
     /**
-     * @return the nddaa
+     * @return {@link #nddaa}
      */
     public int getNddaa() {
         return nddaa;
     }
 
     /**
-     * @param nddaa the
- nddaa to set
+     * @param nddaa What {@link #nddaa} is set to.
      */
     protected void setNddaa(int nddaa) {
         this.nddaa = nddaa;
     }
 
     /**
-     * @return the NonDependantGrossWeeklyIncomeFromRemunerativeWork
+     * @return {@link #nonDependantGrossWeeklyIncomeFromRemunerativeWork}
      */
     public int getNonDependantGrossWeeklyIncomeFromRemunerativeWork() {
-        return NonDependantGrossWeeklyIncomeFromRemunerativeWork;
+        return nonDependantGrossWeeklyIncomeFromRemunerativeWork;
     }
 
     /**
-     * @param NonDependantGrossWeeklyIncomeFromRemunerativeWork the
-     * NonDependantGrossWeeklyIncomeFromRemunerativeWork to set
+     * @param i What {@link #nonDependantGrossWeeklyIncomeFromRemunerativeWork} is set to.
      */
-    protected void setNonDependantGrossWeeklyIncomeFromRemunerativeWork(int NonDependantGrossWeeklyIncomeFromRemunerativeWork) {
-        this.NonDependantGrossWeeklyIncomeFromRemunerativeWork = NonDependantGrossWeeklyIncomeFromRemunerativeWork;
+    protected void setNonDependantGrossWeeklyIncomeFromRemunerativeWork(int i) {
+        this.nonDependantGrossWeeklyIncomeFromRemunerativeWork = i;
     }
 
     /**
-     * @return the SubRecordType 1 = Dependent 2 = NonDependent
+     * @return the subRecordType 1 = Dependent 2 = NonDependent
      */
     public int getSubRecordType() {
-        return SubRecordType;
+        return subRecordType;
     }
 
     /**
-     * @param SubRecordType the SubRecordType to set
+     * @param i What {@link #subRecordType} is set to.
      */
-    protected void setSubRecordType(int SubRecordType) {
-        this.SubRecordType = SubRecordType;
+    protected void setSubRecordType(int i) {
+        this.subRecordType = i;
     }
 
     protected final int setSubRecordType(
             int n,
             String[] fields) throws Exception {
         if (fields[n].trim().isEmpty()) {
-            SubRecordType = 0;
+            subRecordType = 0;
         } else {
             try {
-                SubRecordType = Integer.valueOf(fields[n]);
+                subRecordType = Integer.valueOf(fields[n]);
             } catch (NumberFormatException e) {
 //                System.err.println("Assuming LandlordPostcode was set to County Name");
 //                System.err.println("LandlordPostcode " + LandlordPostcode);
@@ -316,12 +315,12 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
 //                System.err.println("LandlordPostcode set to " + fields[n]);
 //                n++;
 //                setSubRecordType(n, fields);
-//                System.err.println("SubRecordType set to " + SubRecordType);
+//                System.err.println("subRecordType set to " + subRecordType);
 //                System.err.println("recordID " + recordID);
                 throw e;
             }
-            if (SubRecordType > 2 || SubRecordType < 0) {
-                System.err.println("SubRecordType " + SubRecordType);
+            if (subRecordType > 2 || subRecordType < 0) {
+                System.err.println("SubRecordType " + subRecordType);
                 System.err.println("SubRecordType > 2 || SubRecordType < 0");
                 throw new Exception("SubRecordType > 2 || SubRecordType < 0");
             }
@@ -330,47 +329,47 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record implements Serializabl
     }
 
     /**
-     * @return the SubRecordEndDate
+     * @return {@link #subRecordEndDate}
      */
     public String getSubRecordEndDate() {
-        return SubRecordEndDate;
+        return subRecordEndDate;
     }
 
     /**
-     * @param SubRecordEndDate the SubRecordEndDate to set
+     * @param s What {@link #subRecordEndDate} is set to.
      */
-    protected void setSubRecordEndDate(String SubRecordEndDate) {
-        this.SubRecordEndDate = SubRecordEndDate;
+    protected void setSubRecordEndDate(String s) {
+        this.subRecordEndDate = s;
     }
 
     /**
-     * @return the SubRecordDateOfBirth
+     * @return {@link #subRecordDateOfBirth}
      */
     public String getSubRecordDateOfBirth() {
-        return SubRecordDateOfBirth;
+        return subRecordDateOfBirth;
     }
 
     /**
-     * @param SubRecordDateOfBirth the SubRecordDateOfBirth to set
+     * @param s What {@link #subRecordDateOfBirth} is set to.
      */
-    protected void setSubRecordDateOfBirth(String SubRecordDateOfBirth) {
-        this.SubRecordDateOfBirth = SubRecordDateOfBirth;
+    protected void setSubRecordDateOfBirth(String s) {
+        this.subRecordDateOfBirth = s;
     }
 
     public String getSubRecordChildReferenceNumberOrNINO() {
-        return SubRecordChildReferenceNumberOrNINO;
+        return subRecordChildReferenceNumberOrNINO;
     }
 
-    protected void setSubRecordChildReferenceNumberOrNINO(String SubRecordChildReferenceNumberOrNINO) {
-        this.SubRecordChildReferenceNumberOrNINO = SubRecordChildReferenceNumberOrNINO;
+    protected void setSubRecordChildReferenceNumberOrNINO(String s) {
+        this.subRecordChildReferenceNumberOrNINO = s;
     }
 
     public String getSubRecordStartDate() {
-        return SubRecordStartDate;
+        return subRecordStartDate;
     }
 
-    protected void setSubRecordStartDate(String SubRecordStartDate) {
-        this.SubRecordStartDate = SubRecordStartDate;
+    protected void setSubRecordStartDate(String s) {
+        this.subRecordStartDate = s;
     }
 
 }
