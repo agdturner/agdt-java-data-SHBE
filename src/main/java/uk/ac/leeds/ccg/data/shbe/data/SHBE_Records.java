@@ -2353,7 +2353,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
          * Dependents
          */
         int nDependents;
-        nDependents = SHBE_Collections.getCount(claimIDToDependentPersonIDsLookup);
+        nDependents = Generic_Collections.getCountInt(claimIDToDependentPersonIDsLookup);
         addLoadSummaryCount(
                 SHBE_Strings.s_CountOfDependentsInAllClaims,
                 nDependents);
@@ -2367,7 +2367,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
          * NonDependents
          */
         int nNonDependents;
-        nNonDependents = SHBE_Collections.getCount(claimIDToNonDependentPersonIDsLookup);
+        nNonDependents = Generic_Collections.getCountInt(claimIDToNonDependentPersonIDsLookup);
         addLoadSummaryCount(
                 SHBE_Strings.s_CountOfNonDependentsInAllClaims,
                 nNonDependents);
@@ -2696,7 +2696,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                              * claim add to
                              * NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.
                              */
-                            key = SHBE_Collections.getKey(claimIDToNonDependentPersonIDsLookup, personID);
+                            key = Generic_Collections.getKey(claimIDToNonDependentPersonIDsLookup, personID);
                             if (key != null) {
                                 otherClaimID = (SHBE_ClaimID) key;
                                 Set<SHBE_ClaimID> set;
