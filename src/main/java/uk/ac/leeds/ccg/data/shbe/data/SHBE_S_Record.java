@@ -128,7 +128,7 @@ public class SHBE_S_Record extends SHBE_DACTEGPRST_Record {
      * 290,291,292,293,294,295,296,297,298,299, 307,308,309,
      * 310,311,315,316,317,318,319, 320,321,322,323,324,325,326,327,328,329,
      * 330,331,332,333,334,335,336,337,338,339, 340,341}
-     * @param line
+     * @param line The line to construct this from.
      * @throws java.lang.Exception If encountered.
      */
     public SHBE_S_Record(SHBE_Environment env, long recordID, int type,

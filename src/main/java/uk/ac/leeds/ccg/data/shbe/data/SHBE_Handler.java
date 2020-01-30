@@ -1088,13 +1088,13 @@ public class SHBE_Handler extends SHBE_Object {
                             + "\" unmappablePostcodef0 \"" + unmappablePostcodef0
                             + "\" postcodef0 \"" + postcodef0 + "\" changed to "
                             + postcodef1 + " which is mappable.");
-                    if (!rec0.ClaimPostcodeFValidPostcodeFormat) {
-                        rec0.ClaimPostcodeFUpdatedFromTheFuture = true;
-                        rec0.ClaimPostcodeF = postcodef1;
-                        rec0.ClaimPostcodeFMappable = true;
-                        rec0.ClaimPostcodeFValidPostcodeFormat = true;
+                    if (!rec0.claimPostcodeFValidPostcodeFormat) {
+                        rec0.claimPostcodeFUpdatedFromTheFuture = true;
+                        rec0.claimPostcodeF = postcodef1;
+                        rec0.claimPostcodeFMappable = true;
+                        rec0.claimPostcodeFValidPostcodeFormat = true;
                         if (ClaimIDToPostcodeIDLookup0 == null) {
-                            ClaimIDToPostcodeIDLookup0 = s0.getClaimIDToPostcodeIDLookup();
+                            ClaimIDToPostcodeIDLookup0 = s0.getClaimID2PostcodeID();
                         }
                         ClaimIDToPostcodeIDLookup0.put(claimID, p2pid.get(postcodef1));
                         if (ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 == null) {
@@ -1145,7 +1145,7 @@ public class SHBE_Handler extends SHBE_Object {
             Generic_IO.writeObject(cpu0,
                     s0.getClaimantPostcodesUnmappableFile());
             Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0,
-                    s0.getCid2postcodeIDFile());
+                    s0.getClaimID2postcodeIDFile());
             Generic_IO.writeObject(recs0, s0.getRecordsFile());
             Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
                     s0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
@@ -1305,13 +1305,13 @@ public class SHBE_Handler extends SHBE_Object {
 //                                + unmappablePostcodef0 + "\" postcodef0 \"" 
 //                                + postcodef0 + "\" changed to " + postcodef1 
 //                                + " which is mappable.");
-                        if (!rec0.ClaimPostcodeFValidPostcodeFormat) {
-                            rec0.ClaimPostcodeFUpdatedFromTheFuture = true;
-                            rec0.ClaimPostcodeF = postcodef1;
-                            rec0.ClaimPostcodeFMappable = true;
-                            rec0.ClaimPostcodeFValidPostcodeFormat = true;
+                        if (!rec0.claimPostcodeFValidPostcodeFormat) {
+                            rec0.claimPostcodeFUpdatedFromTheFuture = true;
+                            rec0.claimPostcodeF = postcodef1;
+                            rec0.claimPostcodeFMappable = true;
+                            rec0.claimPostcodeFValidPostcodeFormat = true;
                             if (ClaimIDToPostcodeIDLookup0 == null) {
-                                ClaimIDToPostcodeIDLookup0 = SHBE_Records0.getClaimIDToPostcodeIDLookup();
+                                ClaimIDToPostcodeIDLookup0 = SHBE_Records0.getClaimID2PostcodeID();
                             }
                             UKP_RecordID postcodeID = p2pid.get(postcodef1);
                             ClaimIDToPostcodeIDLookup0.put(claimID, postcodeID);
@@ -1360,7 +1360,7 @@ public class SHBE_Handler extends SHBE_Object {
                 Generic_IO.writeObject(ClaimantPostcodesUnmappable0,
                         SHBE_Records0.getClaimantPostcodesUnmappableFile());
                 Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0,
-                        SHBE_Records0.getCid2postcodeIDFile());
+                        SHBE_Records0.getClaimID2postcodeIDFile());
                 Generic_IO.writeObject(recs0, SHBE_Records0.getRecordsFile());
                 Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
                         SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
@@ -1768,7 +1768,7 @@ public class SHBE_Handler extends SHBE_Object {
             SHBE_Record record,
             SHBE_RecordAggregate a_Aggregate_SHBE_DataRecord) {
         SHBE_D_Record aDRecord;
-        aDRecord = record.DRecord;
+        aDRecord = record.dRecord;
         a_Aggregate_SHBE_DataRecord.setTotalClaimCount(a_Aggregate_SHBE_DataRecord.getTotalClaimCount() + 1);
         //if (aDRecord.getHousingBenefitClaimReferenceNumber().length() > 2) {
         if (isHBClaim(aDRecord)) {
@@ -2281,7 +2281,7 @@ public class SHBE_Handler extends SHBE_Object {
         long result;
         result = 1;
         SHBE_D_Record D_Record;
-        D_Record = rec.DRecord;
+        D_Record = rec.dRecord;
         result += D_Record.getPartnerFlag();
         int NumberOfChildDependents;
         NumberOfChildDependents = D_Record.getNumberOfChildDependents();
@@ -2290,7 +2290,7 @@ public class SHBE_Handler extends SHBE_Object {
         int NumberOfDependentsAndNonDependents;
         NumberOfDependentsAndNonDependents = NumberOfChildDependents + NumberOfNonDependents;
         ArrayList<SHBE_S_Record> S_Records;
-        S_Records = rec.SRecords;
+        S_Records = rec.sRecords;
         if (S_Records != null) {
             result += Math.max(NumberOfDependentsAndNonDependents, S_Records.size());
 //            long NumberOfS_Records;
