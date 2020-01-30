@@ -1262,7 +1262,7 @@ public class SHBE_Handler extends SHBE_Object {
         String postcodef1;
 
         Map<UKP_RecordID, ONSPD_Point> PostcodeIDToPointLookup0;
-        Map<SHBE_ClaimID, UKP_RecordID> ClaimIDToPostcodeIDLookup0 = null;
+        Map<SHBE_ClaimID, UKP_RecordID> cid2pid = null;
         Set<SHBE_ClaimID> ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
 
         for (int i = SHBEFilenames.length - 2; i >= 0; i--) {
@@ -1310,11 +1310,11 @@ public class SHBE_Handler extends SHBE_Object {
                             rec0.claimPostcodeF = postcodef1;
                             rec0.claimPostcodeFMappable = true;
                             rec0.claimPostcodeFValidPostcodeFormat = true;
-                            if (ClaimIDToPostcodeIDLookup0 == null) {
-                                ClaimIDToPostcodeIDLookup0 = SHBE_Records0.getClaimID2PostcodeID();
+                            if (cid2pid == null) {
+                                cid2pid = SHBE_Records0.getClaimID2PostcodeID();
                             }
                             UKP_RecordID postcodeID = p2pid.get(postcodef1);
-                            ClaimIDToPostcodeIDLookup0.put(claimID, postcodeID);
+                            cid2pid.put(claimID, postcodeID);
                             if (ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 == null) {
                                 ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
                             }
@@ -1359,7 +1359,7 @@ public class SHBE_Handler extends SHBE_Object {
                 // Write out recs0
                 Generic_IO.writeObject(ClaimantPostcodesUnmappable0,
                         SHBE_Records0.getClaimantPostcodesUnmappableFile());
-                Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0,
+                Generic_IO.writeObject(cid2pid,
                         SHBE_Records0.getClaimID2postcodeIDFile());
                 Generic_IO.writeObject(recs0, SHBE_Records0.getRecordsFile());
                 Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
@@ -1367,7 +1367,7 @@ public class SHBE_Handler extends SHBE_Object {
             }
             // Prepare for next iteration
             recs1 = recs0;
-            ClaimIDToPostcodeIDLookup0 = null;
+            cid2pid = null;
             ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = null;
             env.env.closeLog(logID2);
 
@@ -1398,31 +1398,25 @@ public class SHBE_Handler extends SHBE_Object {
      *
      * @param ump Unique Modified Postcodes.
      * @param ymn YearMonthNumber.
-     * @param records
-     * @param hoome
+     * @param recs SHBE_Records
+     * @param hoome HOOME
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
     protected void writeOutModifiedPostcodes(Set<String> ump, String ymn,
-            SHBE_Records records, boolean hoome) throws IOException,
+            SHBE_Records recs, boolean hoome) throws IOException,
             ClassNotFoundException, Exception {
         int ref;
-        Map<SHBE_ClaimID, String[]> ClaimantPostcodesModified;
-        Iterator<SHBE_ClaimID> ite;
-        SHBE_ClaimID claimID;
-        String[] postcodes;
-        String claimRef;
         int logID2 = env.env.initLog("ModifiedPostcodes" + ymn, ".csv");
-        String s;
-        s = "Ref,ClaimRef,Recorded Postcode,Modified Postcode,Input To Academy (Y/N)";
+        String s = "Ref,ClaimRef,Recorded Postcode,Modified Postcode,Input To Academy (Y/N)";
         env.env.log(s);
         ref = 1;
-        ClaimantPostcodesModified = records.getClaimantPostcodesModified(hoome);
-        ite = ClaimantPostcodesModified.keySet().iterator();
+        Map<SHBE_ClaimID, String[]> cpm = recs.getClaimantPostcodesModified(hoome);
+        Iterator<SHBE_ClaimID> ite = cpm.keySet().iterator();
         while (ite.hasNext()) {
-            claimID = ite.next();
-            postcodes = ClaimantPostcodesModified.get(claimID);
-            claimRef = cid2c.get(claimID);
+            SHBE_ClaimID cid = ite.next();
+            String[] postcodes = cpm.get(cid);
+            String claimRef = cid2c.get(cid);
             s = claimRef + "," + postcodes[0] + "," + postcodes[1] + ",";
             env.env.log("" + ref + "," + s);
             ump.add(s);
@@ -1432,50 +1426,49 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     *
-     * @param SHBE_Records
-     * @param PT
-     * @return
-     *
+     * @param recs SHBE_Records
+     * @param pt Payment Type
+     * @return Claim IDs
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException  If encountered.
      */
     public Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDate(
-            SHBE_Records SHBE_Records, String PT) throws IOException,
+            SHBE_Records recs, String pt) throws IOException,
             ClassNotFoundException {
         Set<SHBE_ClaimID> r = null;
-        if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeAll)) {
-            r = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
-            r.addAll(SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateSuspended());
-            r.addAll(SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateOther());
-        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeIn)) {
-            r = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
-        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeSuspended)) {
-            r = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateSuspended();
-        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeOther)) {
-            r = SHBE_Records.getClaimIDsWithStatusOfHBAtExtractDateOther();
+        if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeAll)) {
+            r = recs.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
+            r.addAll(recs.getClaimIDsWithStatusOfHBAtExtractDateSuspended());
+            r.addAll(recs.getClaimIDsWithStatusOfHBAtExtractDateOther());
+        } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeIn)) {
+            r = recs.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
+        } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeSuspended)) {
+            r = recs.getClaimIDsWithStatusOfHBAtExtractDateSuspended();
+        } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeOther)) {
+            r = recs.getClaimIDsWithStatusOfHBAtExtractDateOther();
         }
         return r;
     }
 
     /**
-     *
-     * @param SHBE_Records
-     * @param PT
-     * @return
+     * @param recs SHBE_Records
+     * @param pt Payment Type
+     * @return Claim IDs
      */
     public Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDate(
-            SHBE_Records SHBE_Records, String PT) throws IOException,
+            SHBE_Records recs, String pt) throws IOException,
             ClassNotFoundException {
         Set<SHBE_ClaimID> r = null;
-        if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeAll)) {
-            r = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
-            r.addAll(SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateSuspended());
-            r.addAll(SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateOther());
-        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeIn)) {
-            r = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
-        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeSuspended)) {
-            r = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateSuspended();
-        } else if (PT.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeOther)) {
-            r = SHBE_Records.getClaimIDsWithStatusOfCTBAtExtractDateOther();
+        if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeAll)) {
+            r = recs.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
+            r.addAll(recs.getClaimIDsWithStatusOfCTBAtExtractDateSuspended());
+            r.addAll(recs.getClaimIDsWithStatusOfCTBAtExtractDateOther());
+        } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeIn)) {
+            r = recs.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
+        } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeSuspended)) {
+            r = recs.getClaimIDsWithStatusOfCTBAtExtractDateSuspended();
+        } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeOther)) {
+            r = recs.getClaimIDsWithStatusOfCTBAtExtractDateOther();
         }
         return r;
     }
@@ -1490,81 +1483,74 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     public ArrayList<String> getClaimantTypes() {
-        ArrayList<String> result;
-        result = new ArrayList<>();
-        result.add(SHBE_Strings.s_HB);
-        result.add(SHBE_Strings.s_CTB);
-        return result;
+        ArrayList<String> r = new ArrayList<>();
+        r.add(SHBE_Strings.s_HB);
+        r.add(SHBE_Strings.s_CTB);
+        return r;
     }
 
-    public boolean isCTBOnlyClaimOtherPT(SHBE_D_Record D_Record) {
-        if (D_Record.getStatusOfCTBClaimAtExtractDate() == 0) {
-            return isCTBOnlyClaim(D_Record);
+    public boolean isCTBOnlyClaimOtherPT(SHBE_D_Record d) {
+        if (d.getStatusOfCTBClaimAtExtractDate() == 0) {
+            return isCTBOnlyClaim(d);
         }
         return false;
     }
 
-    public boolean isCTBOnlyClaimSuspended(SHBE_D_Record D_Record) {
-        if (D_Record.getStatusOfCTBClaimAtExtractDate() == 2) {
-            return isCTBOnlyClaim(D_Record);
+    public boolean isCTBOnlyClaimSuspended(SHBE_D_Record d) {
+        if (d.getStatusOfCTBClaimAtExtractDate() == 2) {
+            return isCTBOnlyClaim(d);
         }
         return false;
     }
 
-    public boolean isCTBOnlyClaimInPayment(SHBE_D_Record D_Record) {
-        if (D_Record.getStatusOfCTBClaimAtExtractDate() == 1) {
-            return isCTBOnlyClaim(D_Record);
+    public boolean isCTBOnlyClaimInPayment(SHBE_D_Record d) {
+        if (d.getStatusOfCTBClaimAtExtractDate() == 1) {
+            return isCTBOnlyClaim(d);
         }
         return false;
     }
 
-    public boolean isCTBOnlyClaim(SHBE_D_Record D_Record) {
-        if (D_Record == null) {
+    public boolean isCTBOnlyClaim(SHBE_D_Record d) {
+        if (d == null) {
             return false;
         }
-        int TT;
-        TT = D_Record.getTenancyType();
-        return isCTBOnlyClaim(
-                TT);
+        return isCTBOnlyClaim(d.getTenancyType());
     }
 
     /**
      * @param TT
      * @return
      */
-    public boolean isCTBOnlyClaim(
-            int TT) {
+    public boolean isCTBOnlyClaim(int TT) {
         return TT == 5 || TT == 7;
     }
 
-    public boolean isHBClaimOtherPT(SHBE_D_Record D_Record) {
-        if (D_Record.getStatusOfHBClaimAtExtractDate() == 0) {
-            return isHBClaim(D_Record);
+    public boolean isHBClaimOtherPT(SHBE_D_Record d) {
+        if (d.getStatusOfHBClaimAtExtractDate() == 0) {
+            return isHBClaim(d);
         }
         return false;
     }
 
-    public boolean isHBClaimSuspended(SHBE_D_Record D_Record) {
-        if (D_Record.getStatusOfHBClaimAtExtractDate() == 2) {
-            return isHBClaim(D_Record);
+    public boolean isHBClaimSuspended(SHBE_D_Record d) {
+        if (d.getStatusOfHBClaimAtExtractDate() == 2) {
+            return isHBClaim(d);
         }
         return false;
     }
 
-    public boolean isHBClaimInPayment(SHBE_D_Record D_Record) {
-        if (D_Record.getStatusOfHBClaimAtExtractDate() == 1) {
-            return isHBClaim(D_Record);
+    public boolean isHBClaimInPayment(SHBE_D_Record d) {
+        if (d.getStatusOfHBClaimAtExtractDate() == 1) {
+            return isHBClaim(d);
         }
         return false;
     }
 
-    public boolean isHBClaim(SHBE_D_Record D_Record) {
-        if (D_Record == null) {
+    public boolean isHBClaim(SHBE_D_Record d) {
+        if (d == null) {
             return false;
         }
-        int TT;
-        TT = D_Record.getTenancyType();
-        return isHBClaim(TT);
+        return isHBClaim(d.getTenancyType());
     }
 
     public boolean isHBClaim(int TT) {
@@ -1646,7 +1632,7 @@ public class SHBE_Handler extends SHBE_Object {
 //    }
     /**
      * @param s National Insurance Number.
-     * @return The ID for {@code s}
+     * @return The NINO ID for {@code s}
      */
     public SHBE_NINOID getNINOIDAddIfNeeded(String s) {
         SHBE_NINOID r;
@@ -1662,34 +1648,33 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      *
-     * @param S
-     * @return
+     * @param s dob
+     * @return DOBID
      */
-    public SHBE_DOBID getDOBIDAddIfNeeded(String S) {
+    public SHBE_DOBID getDOBIDAddIfNeeded(String s) {
         SHBE_DOBID r;
-        if (d2did.containsKey(S)) {
-            r = d2did.get(S);
+        if (d2did.containsKey(s)) {
+            r = d2did.get(s);
         } else {
             r = new SHBE_DOBID(did2d.size());
-            did2d.put(r, S);
-            d2did.put(S, r);
+            did2d.put(r, s);
+            d2did.put(s, r);
         }
         return r;
     }
 
     /**
-     *
-     * @param S
-     * @return
+     * @param s ClaimRef
+     * @return Claim ID
      */
-    public SHBE_ClaimID getClaimIDAddIfNeeded(String S) {
+    public SHBE_ClaimID getClaimIDAddIfNeeded(String s) {
         SHBE_ClaimID r;
-        if (c2cid.containsKey(S)) {
-            r = c2cid.get(S);
+        if (c2cid.containsKey(s)) {
+            r = c2cid.get(s);
         } else {
             r = new SHBE_ClaimID(cid2c.size());
-            cid2c.put(r, S);
-            c2cid.put(S, r);
+            cid2c.put(r, s);
+            c2cid.put(s, r);
         }
         return r;
     }
@@ -1697,58 +1682,54 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * Only called when loading SHBE from source.
      *
-     * @param ClaimRef
-     * @param ClaimRefToClaimIDLookup
-     * @param ClaimIDToClaimRefLookup
-     * @param ClaimIDs
-     * @param ClaimIDsOfNewSHBEClaims
-     * @return
+     * @param claimRef Claim Ref
+     * @param c2cid Claim to Claim ID lookup.
+     * @param cid2c Claim ID to Claim lookup.
+     * @param claimIDs claim IDs
+     * @param claimIDsOfNewSHBEClaims claimIDsOfNewSHBEClaims
+     * @return Claim ID
      * @throws java.lang.Exception
      */
     public SHBE_ClaimID getIDAddIfNeeded(
-            String ClaimRef,
-            Map<String, SHBE_ClaimID> ClaimRefToClaimIDLookup,
-            Map<SHBE_ClaimID, String> ClaimIDToClaimRefLookup,
-            Set<SHBE_ClaimID> ClaimIDs,
-            Set<SHBE_ClaimID> ClaimIDsOfNewSHBEClaims
-    ) throws Exception {
-        SHBE_ClaimID result;
-        if (ClaimRefToClaimIDLookup.containsKey(ClaimRef)) {
-            result = ClaimRefToClaimIDLookup.get(ClaimRef);
+            String claimRef, Map<String, SHBE_ClaimID> c2cid,
+            Map<SHBE_ClaimID, String> cid2c, Set<SHBE_ClaimID> claimIDs,
+            Set<SHBE_ClaimID> claimIDsOfNewSHBEClaims) throws Exception {
+        SHBE_ClaimID r;
+        if (c2cid.containsKey(claimRef)) {
+            r = c2cid.get(claimRef);
         } else {
-            result = new SHBE_ClaimID(ClaimIDToClaimRefLookup.size());
-            ClaimIDToClaimRefLookup.put(result, ClaimRef);
-            ClaimRefToClaimIDLookup.put(ClaimRef, result);
-            if (ClaimIDs.contains(result)) {
-                throw new Exception("DRecord already read for ClaimRef " + ClaimRef);
+            r = new SHBE_ClaimID(cid2c.size());
+            cid2c.put(r, claimRef);
+            c2cid.put(claimRef, r);
+            if (claimIDs.contains(r)) {
+                throw new Exception("DRecord already read for ClaimRef " + claimRef);
             }
-            ClaimIDsOfNewSHBEClaims.add(result);
-            ClaimIDs.add(result);
+            claimIDsOfNewSHBEClaims.add(r);
+            claimIDs.add(r);
         }
-        return result;
+        return r;
     }
 
     /**
      * Only called when loading SHBE from source.
      *
-     * @param PostcodeF
-     * @param PostcodeToPostcodeIDLookup
-     * @param PostcodeIDToPostcodeLookup
+     * @param postcodeF postcode
+     * @param p2pid Postcode to Postcode ID lookup.
+     * @param pid2p Postcode ID to Postcode lookup.
      * @return
      */
-    public UKP_RecordID getPostcodeIDAddIfNeeded(String PostcodeF,
-            Map<String, UKP_RecordID> PostcodeToPostcodeIDLookup,
-            Map<UKP_RecordID, String> PostcodeIDToPostcodeLookup) {
+    public UKP_RecordID getPostcodeIDAddIfNeeded(String postcodeF,
+            Map<String, UKP_RecordID> p2pid, Map<UKP_RecordID, String> pid2p) {
         UKP_RecordID r;
-        if (PostcodeToPostcodeIDLookup.containsKey(PostcodeF)) {
-            r = PostcodeToPostcodeIDLookup.get(PostcodeF);
+        if (p2pid.containsKey(postcodeF)) {
+            r = p2pid.get(postcodeF);
         } else {
-            r = new UKP_RecordID(PostcodeIDToPostcodeLookup.size());
+            r = new UKP_RecordID(pid2p.size());
 //            if (IDToSLookup.size() > Integer.MAX_VALUE) {
 //                throw new Error("LookupFiles are full!");
 //            }
-            PostcodeIDToPostcodeLookup.put(r, PostcodeF);
-            PostcodeToPostcodeIDLookup.put(PostcodeF, r);
+            pid2p.put(r, postcodeF);
+            p2pid.put(postcodeF, r);
         }
         return r;
     }
@@ -1764,51 +1745,48 @@ public class SHBE_Handler extends SHBE_Object {
         return result;
     }
 
-    public void aggregate(
-            SHBE_Record record,
-            SHBE_RecordAggregate a_Aggregate_SHBE_DataRecord) {
-        SHBE_D_Record aDRecord;
-        aDRecord = record.dRecord;
-        a_Aggregate_SHBE_DataRecord.setTotalClaimCount(a_Aggregate_SHBE_DataRecord.getTotalClaimCount() + 1);
+    public void aggregate(SHBE_Record record, SHBE_RecordAggregate aRec) {
+        SHBE_D_Record d = record.dRecord;
+        aRec.setTotalClaimCount(aRec.getTotalClaimCount() + 1);
         //if (aDRecord.getHousingBenefitClaimReferenceNumber().length() > 2) {
-        if (isHBClaim(aDRecord)) {
-            a_Aggregate_SHBE_DataRecord.setTotalHBClaimCount(a_Aggregate_SHBE_DataRecord.getTotalHBClaimCount() + 1);
+        if (isHBClaim(d)) {
+            aRec.setTotalHBClaimCount(aRec.getTotalHBClaimCount() + 1);
         } else {
-            a_Aggregate_SHBE_DataRecord.setTotalCTBClaimCount(a_Aggregate_SHBE_DataRecord.getTotalCTBClaimCount() + 1);
+            aRec.setTotalCTBClaimCount(aRec.getTotalCTBClaimCount() + 1);
         }
-        if (aDRecord.getTenancyType() == 1) {
-            a_Aggregate_SHBE_DataRecord.setTotalTenancyType1Count(a_Aggregate_SHBE_DataRecord.getTotalTenancyType1Count() + 1);
+        if (d.getTenancyType() == 1) {
+            aRec.setTotalTenancyType1Count(aRec.getTotalTenancyType1Count() + 1);
         }
-        if (aDRecord.getTenancyType() == 2) {
-            a_Aggregate_SHBE_DataRecord.setTotalTenancyType2Count(a_Aggregate_SHBE_DataRecord.getTotalTenancyType2Count() + 1);
+        if (d.getTenancyType() == 2) {
+            aRec.setTotalTenancyType2Count(aRec.getTotalTenancyType2Count() + 1);
         }
-        if (aDRecord.getTenancyType() == 3) {
-            a_Aggregate_SHBE_DataRecord.setTotalTenancyType3Count(a_Aggregate_SHBE_DataRecord.getTotalTenancyType3Count() + 1);
+        if (d.getTenancyType() == 3) {
+            aRec.setTotalTenancyType3Count(aRec.getTotalTenancyType3Count() + 1);
         }
-        if (aDRecord.getTenancyType() == 4) {
-            a_Aggregate_SHBE_DataRecord.setTotalTenancyType4Count(a_Aggregate_SHBE_DataRecord.getTotalTenancyType4Count() + 1);
+        if (d.getTenancyType() == 4) {
+            aRec.setTotalTenancyType4Count(aRec.getTotalTenancyType4Count() + 1);
         }
-        if (aDRecord.getTenancyType() == 5) {
-            a_Aggregate_SHBE_DataRecord.setTotalTenancyType5Count(a_Aggregate_SHBE_DataRecord.getTotalTenancyType5Count() + 1);
+        if (d.getTenancyType() == 5) {
+            aRec.setTotalTenancyType5Count(aRec.getTotalTenancyType5Count() + 1);
         }
-        if (aDRecord.getTenancyType() == 6) {
-            a_Aggregate_SHBE_DataRecord.setTotalTenancyType6Count(a_Aggregate_SHBE_DataRecord.getTotalTenancyType6Count() + 1);
+        if (d.getTenancyType() == 6) {
+            aRec.setTotalTenancyType6Count(aRec.getTotalTenancyType6Count() + 1);
         }
-        if (aDRecord.getTenancyType() == 7) {
-            a_Aggregate_SHBE_DataRecord.setTotalTenancyType7Count(a_Aggregate_SHBE_DataRecord.getTotalTenancyType7Count() + 1);
+        if (d.getTenancyType() == 7) {
+            aRec.setTotalTenancyType7Count(aRec.getTotalTenancyType7Count() + 1);
         }
-        if (aDRecord.getTenancyType() == 8) {
-            a_Aggregate_SHBE_DataRecord.setTotalTenancyType8Count(a_Aggregate_SHBE_DataRecord.getTotalTenancyType8Count() + 1);
+        if (d.getTenancyType() == 8) {
+            aRec.setTotalTenancyType8Count(aRec.getTotalTenancyType8Count() + 1);
         }
-        if (aDRecord.getTenancyType() == 9) {
-            a_Aggregate_SHBE_DataRecord.setTotalTenancyType9Count(a_Aggregate_SHBE_DataRecord.getTotalTenancyType9Count() + 1);
+        if (d.getTenancyType() == 9) {
+            aRec.setTotalTenancyType9Count(aRec.getTotalTenancyType9Count() + 1);
         }
-        a_Aggregate_SHBE_DataRecord.setTotalNumberOfChildDependents(
-                a_Aggregate_SHBE_DataRecord.getTotalNumberOfChildDependents()
-                + aDRecord.getNumberOfChildDependents());
-        a_Aggregate_SHBE_DataRecord.setTotalNumberOfNonDependents(
-                a_Aggregate_SHBE_DataRecord.getTotalNumberOfNonDependents()
-                + aDRecord.getNumberOfNonDependents());
+        aRec.setTotalNumberOfChildDependents(
+                aRec.getTotalNumberOfChildDependents()
+                + d.getNumberOfChildDependents());
+        aRec.setTotalNumberOfNonDependents(
+                aRec.getTotalNumberOfNonDependents()
+                + d.getNumberOfNonDependents());
 //        ArrayList<SHBE_S_Record> tSRecords;
 //        tSRecords = record.getSRecordsWithoutDRecords();
 //        Iterator<SHBE_S_Record> ite;
@@ -1855,23 +1833,23 @@ public class SHBE_Handler extends SHBE_Object {
 //                    a_Aggregate_SHBE_DataRecord.getTotalNonDependantGrossWeeklyIncomeFromRemunerativeWork()
 //                    + aSRecord.getNonDependantGrossWeeklyIncomeFromRemunerativeWork());
 //        }
-        if (aDRecord.getStatusOfHBClaimAtExtractDate() == 0) {
-            a_Aggregate_SHBE_DataRecord.setTotalStatusOfHBClaimAtExtractDate0(a_Aggregate_SHBE_DataRecord.getTotalStatusOfHBClaimAtExtractDate0() + 1);
+        if (d.getStatusOfHBClaimAtExtractDate() == 0) {
+            aRec.setTotalStatusOfHBClaimAtExtractDate0(aRec.getTotalStatusOfHBClaimAtExtractDate0() + 1);
         }
-        if (aDRecord.getStatusOfHBClaimAtExtractDate() == 1) {
-            a_Aggregate_SHBE_DataRecord.setTotalStatusOfHBClaimAtExtractDate1(a_Aggregate_SHBE_DataRecord.getTotalStatusOfHBClaimAtExtractDate1() + 1);
+        if (d.getStatusOfHBClaimAtExtractDate() == 1) {
+            aRec.setTotalStatusOfHBClaimAtExtractDate1(aRec.getTotalStatusOfHBClaimAtExtractDate1() + 1);
         }
-        if (aDRecord.getStatusOfHBClaimAtExtractDate() == 2) {
-            a_Aggregate_SHBE_DataRecord.setTotalStatusOfHBClaimAtExtractDate2(a_Aggregate_SHBE_DataRecord.getTotalStatusOfHBClaimAtExtractDate2() + 1);
+        if (d.getStatusOfHBClaimAtExtractDate() == 2) {
+            aRec.setTotalStatusOfHBClaimAtExtractDate2(aRec.getTotalStatusOfHBClaimAtExtractDate2() + 1);
         }
-        if (aDRecord.getStatusOfCTBClaimAtExtractDate() == 0) {
-            a_Aggregate_SHBE_DataRecord.setTotalStatusOfCTBClaimAtExtractDate0(a_Aggregate_SHBE_DataRecord.getTotalStatusOfCTBClaimAtExtractDate0() + 1);
+        if (d.getStatusOfCTBClaimAtExtractDate() == 0) {
+            aRec.setTotalStatusOfCTBClaimAtExtractDate0(aRec.getTotalStatusOfCTBClaimAtExtractDate0() + 1);
         }
-        if (aDRecord.getStatusOfCTBClaimAtExtractDate() == 1) {
-            a_Aggregate_SHBE_DataRecord.setTotalStatusOfCTBClaimAtExtractDate1(a_Aggregate_SHBE_DataRecord.getTotalStatusOfCTBClaimAtExtractDate1() + 1);
+        if (d.getStatusOfCTBClaimAtExtractDate() == 1) {
+            aRec.setTotalStatusOfCTBClaimAtExtractDate1(aRec.getTotalStatusOfCTBClaimAtExtractDate1() + 1);
         }
-        if (aDRecord.getStatusOfCTBClaimAtExtractDate() == 2) {
-            a_Aggregate_SHBE_DataRecord.setTotalStatusOfCTBClaimAtExtractDate2(a_Aggregate_SHBE_DataRecord.getTotalStatusOfCTBClaimAtExtractDate2() + 1);
+        if (d.getStatusOfCTBClaimAtExtractDate() == 2) {
+            aRec.setTotalStatusOfCTBClaimAtExtractDate2(aRec.getTotalStatusOfCTBClaimAtExtractDate2() + 1);
         }
 //        if (aDRecord.getOutcomeOfFirstDecisionOnMostRecentHBClaim() == 1) {
 //            a_Aggregate_SHBE_DataRecord.setTotalOutcomeOfFirstDecisionOnMostRecentHBClaim1(a_Aggregate_SHBE_DataRecord.getTotalOutcomeOfFirstDecisionOnMostRecentHBClaim1() + 1);
@@ -1909,674 +1887,631 @@ public class SHBE_Handler extends SHBE_Object {
 //        if (aDRecord.getOutcomeOfFirstDecisionOnMostRecentCTBClaim() == 6) {
 //            a_Aggregate_SHBE_DataRecord.setTotalOutcomeOfFirstDecisionOnMostRecentCTBClaim6(a_Aggregate_SHBE_DataRecord.getTotalOutcomeOfFirstDecisionOnMostRecentCTBClaim6() + 1);
 //        }
-        a_Aggregate_SHBE_DataRecord.setTotalWeeklyHousingBenefitEntitlement(
-                a_Aggregate_SHBE_DataRecord.getTotalWeeklyHousingBenefitEntitlement()
-                + aDRecord.getWeeklyHousingBenefitEntitlement());
-        a_Aggregate_SHBE_DataRecord.setTotalWeeklyCouncilTaxBenefitEntitlement(
-                a_Aggregate_SHBE_DataRecord.getTotalWeeklyCouncilTaxBenefitEntitlement()
-                + aDRecord.getWeeklyCouncilTaxBenefitEntitlement());
-        if (aDRecord.getLHARegulationsApplied().equalsIgnoreCase("NO")) { // A guess at the values: check!
-            a_Aggregate_SHBE_DataRecord.setTotalLHARegulationsApplied0(
-                    a_Aggregate_SHBE_DataRecord.getTotalLHARegulationsApplied0()
+        aRec.setTotalWeeklyHousingBenefitEntitlement(
+                aRec.getTotalWeeklyHousingBenefitEntitlement()
+                + d.getWeeklyHousingBenefitEntitlement());
+        aRec.setTotalWeeklyCouncilTaxBenefitEntitlement(
+                aRec.getTotalWeeklyCouncilTaxBenefitEntitlement()
+                + d.getWeeklyCouncilTaxBenefitEntitlement());
+        if (d.getLHARegulationsApplied().equalsIgnoreCase("NO")) { // A guess at the values: check!
+            aRec.setTotalLHARegulationsApplied0(
+                    aRec.getTotalLHARegulationsApplied0()
                     + 1);
         } else {
             //aSHBE_DataRecord.getLHARegulationsApplied() == 1
-            a_Aggregate_SHBE_DataRecord.setTotalLHARegulationsApplied1(
-                    a_Aggregate_SHBE_DataRecord.getTotalLHARegulationsApplied1()
+            aRec.setTotalLHARegulationsApplied1(
+                    aRec.getTotalLHARegulationsApplied1()
                     + 1);
         }
-        a_Aggregate_SHBE_DataRecord.setTotalWeeklyMaximumRent(
-                a_Aggregate_SHBE_DataRecord.getTotalWeeklyMaximumRent()
-                + aDRecord.getWeeklyMaximumRent());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsAssessedIncomeFigure(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsAssessedIncomeFigure()
-                + aDRecord.getClaimantsAssessedIncomeFigure());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsAdjustedAssessedIncomeFigure(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsAdjustedAssessedIncomeFigure()
-                + aDRecord.getClaimantsAdjustedAssessedIncomeFigure());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsTotalCapital(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsTotalCapital()
-                + aDRecord.getClaimantsTotalCapital());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsGrossWeeklyIncomeFromEmployment(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsGrossWeeklyIncomeFromEmployment()
-                + aDRecord.getClaimantsGrossWeeklyIncomeFromEmployment());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsNetWeeklyIncomeFromEmployment(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsNetWeeklyIncomeFromEmployment()
-                + aDRecord.getClaimantsNetWeeklyIncomeFromEmployment());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsGrossWeeklyIncomeFromSelfEmployment(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsGrossWeeklyIncomeFromSelfEmployment()
-                + aDRecord.getClaimantsGrossWeeklyIncomeFromSelfEmployment());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsNetWeeklyIncomeFromSelfEmployment(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsNetWeeklyIncomeFromSelfEmployment()
-                + aDRecord.getClaimantsNetWeeklyIncomeFromSelfEmployment());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsTotalAmountOfEarningsDisregarded(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsTotalAmountOfEarningsDisregarded()
-                + aDRecord.getClaimantsTotalAmountOfEarningsDisregarded());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded()
-                + aDRecord.getClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromAttendanceAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromAttendanceAllowance()
-                + aDRecord.getClaimantsIncomeFromAttendanceAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromAttendanceAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromAttendanceAllowance()
-                + aDRecord.getClaimantsIncomeFromAttendanceAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromBusinessStartUpAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromBusinessStartUpAllowance()
-                + aDRecord.getClaimantsIncomeFromBusinessStartUpAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromChildBenefit(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromChildBenefit()
-                + aDRecord.getClaimantsIncomeFromChildBenefit());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent()
-                + aDRecord.getClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromPersonalPension(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromPersonalPension()
-                + aDRecord.getClaimantsIncomeFromPersonalPension());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromSevereDisabilityAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromSevereDisabilityAllowance()
-                + aDRecord.getClaimantsIncomeFromSevereDisabilityAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromMaternityAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromMaternityAllowance()
-                + aDRecord.getClaimantsIncomeFromMaternityAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromContributionBasedJobSeekersAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromContributionBasedJobSeekersAllowance()
-                + aDRecord.getClaimantsIncomeFromContributionBasedJobSeekersAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromStudentGrantLoan(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromStudentGrantLoan()
-                + aDRecord.getClaimantsIncomeFromStudentGrantLoan());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromStudentGrantLoan(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromStudentGrantLoan()
-                + aDRecord.getClaimantsIncomeFromStudentGrantLoan());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromSubTenants(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromSubTenants()
-                + aDRecord.getClaimantsIncomeFromSubTenants());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromBoarders(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromBoarders()
-                + aDRecord.getClaimantsIncomeFromBoarders());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromTrainingForWorkCommunityAction(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromTrainingForWorkCommunityAction()
-                + aDRecord.getClaimantsIncomeFromTrainingForWorkCommunityAction());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromIncapacityBenefitShortTermLower(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromIncapacityBenefitShortTermLower()
-                + aDRecord.getClaimantsIncomeFromIncapacityBenefitShortTermLower());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromIncapacityBenefitShortTermHigher(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromIncapacityBenefitShortTermHigher()
-                + aDRecord.getClaimantsIncomeFromIncapacityBenefitShortTermHigher());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromIncapacityBenefitLongTerm(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromIncapacityBenefitLongTerm()
-                + aDRecord.getClaimantsIncomeFromIncapacityBenefitLongTerm());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromNewDeal50PlusEmploymentCredit(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromNewDeal50PlusEmploymentCredit()
-                + aDRecord.getClaimantsIncomeFromNewDeal50PlusEmploymentCredit());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromNewTaxCredits(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromNewTaxCredits()
-                + aDRecord.getClaimantsIncomeFromNewTaxCredits());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromDisabilityLivingAllowanceCareComponent(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromDisabilityLivingAllowanceCareComponent()
-                + aDRecord.getClaimantsIncomeFromDisabilityLivingAllowanceCareComponent());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent()
-                + aDRecord.getClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromGovernemntTraining(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromGovernemntTraining()
-                + aDRecord.getClaimantsIncomeFromGovernmentTraining());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromIndustrialInjuriesDisablementBenefit(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromIndustrialInjuriesDisablementBenefit()
-                + aDRecord.getClaimantsIncomeFromIndustrialInjuriesDisablementBenefit());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromCarersAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromCarersAllowance()
-                + aDRecord.getClaimantsIncomeFromCarersAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromStatutoryMaternityPaternityPay(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromStatutoryMaternityPaternityPay()
-                + aDRecord.getClaimantsIncomeFromStatutoryMaternityPaternityPay());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc()
-                + aDRecord.getClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromWarDisablementPensionArmedForcesGIP(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromWarDisablementPensionArmedForcesGIP()
-                + aDRecord.getClaimantsIncomeFromWarDisablementPensionArmedForcesGIP());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromWarMobilitySupplement(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromWarMobilitySupplement()
-                + aDRecord.getClaimantsIncomeFromWarMobilitySupplement());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromWidowsWidowersPension(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromWidowsWidowersPension()
-                + aDRecord.getClaimantsIncomeFromWarWidowsWidowersPension());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromBereavementAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromBereavementAllowance()
-                + aDRecord.getClaimantsIncomeFromBereavementAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromWidowedParentsAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromWidowedParentsAllowance()
-                + aDRecord.getClaimantsIncomeFromWidowedParentsAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromYouthTrainingScheme(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromYouthTrainingScheme()
-                + aDRecord.getClaimantsIncomeFromYouthTrainingScheme());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromStatuatorySickPay(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromStatuatorySickPay()
-                + aDRecord.getClaimantsIncomeFromStatutorySickPay());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsOtherIncome(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsOtherIncome()
-                + aDRecord.getClaimantsOtherIncome());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsTotalAmountOfIncomeDisregarded(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsTotalAmountOfIncomeDisregarded()
-                + aDRecord.getClaimantsTotalAmountOfIncomeDisregarded());
-        a_Aggregate_SHBE_DataRecord.setTotalFamilyPremiumAwarded(
-                a_Aggregate_SHBE_DataRecord.getTotalFamilyPremiumAwarded()
-                + aDRecord.getFamilyPremiumAwarded());
-        a_Aggregate_SHBE_DataRecord.setTotalFamilyLoneParentPremiumAwarded(
-                a_Aggregate_SHBE_DataRecord.getTotalFamilyLoneParentPremiumAwarded()
-                + aDRecord.getFamilyLoneParentPremiumAwarded());
-        a_Aggregate_SHBE_DataRecord.setTotalDisabilityPremiumAwarded(
-                a_Aggregate_SHBE_DataRecord.getTotalDisabilityPremiumAwarded()
-                + aDRecord.getDisabilityPremiumAwarded());
-        a_Aggregate_SHBE_DataRecord.setTotalSevereDisabilityPremiumAwarded(
-                a_Aggregate_SHBE_DataRecord.getTotalSevereDisabilityPremiumAwarded()
-                + aDRecord.getSevereDisabilityPremiumAwarded());
-        a_Aggregate_SHBE_DataRecord.setTotalDisabledChildPremiumAwarded(
-                a_Aggregate_SHBE_DataRecord.getTotalDisabledChildPremiumAwarded()
-                + aDRecord.getDisabledChildPremiumAwarded());
-        a_Aggregate_SHBE_DataRecord.setTotalCarePremiumAwarded(
-                a_Aggregate_SHBE_DataRecord.getTotalCarePremiumAwarded()
-                + aDRecord.getCarePremiumAwarded());
-        a_Aggregate_SHBE_DataRecord.setTotalEnhancedDisabilityPremiumAwarded(
-                a_Aggregate_SHBE_DataRecord.getTotalEnhancedDisabilityPremiumAwarded()
-                + aDRecord.getEnhancedDisabilityPremiumAwarded());
-        a_Aggregate_SHBE_DataRecord.setTotalBereavementPremiumAwarded(
-                a_Aggregate_SHBE_DataRecord.getTotalBereavementPremiumAwarded()
-                + aDRecord.getBereavementPremiumAwarded());
-        if (aDRecord.getPartnersStudentIndicator().equalsIgnoreCase("Y")) {
-            a_Aggregate_SHBE_DataRecord.setTotalPartnersStudentIndicator(
-                    a_Aggregate_SHBE_DataRecord.getTotalPartnersStudentIndicator() + 1);
+        aRec.setTotalWeeklyMaximumRent(
+                aRec.getTotalWeeklyMaximumRent()
+                + d.getWeeklyMaximumRent());
+        aRec.setTotalClaimantsAssessedIncomeFigure(
+                aRec.getTotalClaimantsAssessedIncomeFigure()
+                + d.getClaimantsAssessedIncomeFigure());
+        aRec.setTotalClaimantsAdjustedAssessedIncomeFigure(
+                aRec.getTotalClaimantsAdjustedAssessedIncomeFigure()
+                + d.getClaimantsAdjustedAssessedIncomeFigure());
+        aRec.setTotalClaimantsTotalCapital(
+                aRec.getTotalClaimantsTotalCapital()
+                + d.getClaimantsTotalCapital());
+        aRec.setTotalClaimantsGrossWeeklyIncomeFromEmployment(
+                aRec.getTotalClaimantsGrossWeeklyIncomeFromEmployment()
+                + d.getClaimantsGrossWeeklyIncomeFromEmployment());
+        aRec.setTotalClaimantsNetWeeklyIncomeFromEmployment(
+                aRec.getTotalClaimantsNetWeeklyIncomeFromEmployment()
+                + d.getClaimantsNetWeeklyIncomeFromEmployment());
+        aRec.setTotalClaimantsGrossWeeklyIncomeFromSelfEmployment(
+                aRec.getTotalClaimantsGrossWeeklyIncomeFromSelfEmployment()
+                + d.getClaimantsGrossWeeklyIncomeFromSelfEmployment());
+        aRec.setTotalClaimantsNetWeeklyIncomeFromSelfEmployment(
+                aRec.getTotalClaimantsNetWeeklyIncomeFromSelfEmployment()
+                + d.getClaimantsNetWeeklyIncomeFromSelfEmployment());
+        aRec.setTotalClaimantsTotalAmountOfEarningsDisregarded(
+                aRec.getTotalClaimantsTotalAmountOfEarningsDisregarded()
+                + d.getClaimantsTotalAmountOfEarningsDisregarded());
+        aRec.setTotalClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded(
+                aRec.getTotalClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded()
+                + d.getClaimantsIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded());
+        aRec.setTotalClaimantsIncomeFromAttendanceAllowance(
+                aRec.getTotalClaimantsIncomeFromAttendanceAllowance()
+                + d.getClaimantsIncomeFromAttendanceAllowance());
+        aRec.setTotalClaimantsIncomeFromAttendanceAllowance(
+                aRec.getTotalClaimantsIncomeFromAttendanceAllowance()
+                + d.getClaimantsIncomeFromAttendanceAllowance());
+        aRec.setTotalClaimantsIncomeFromBusinessStartUpAllowance(
+                aRec.getTotalClaimantsIncomeFromBusinessStartUpAllowance()
+                + d.getClaimantsIncomeFromBusinessStartUpAllowance());
+        aRec.setTotalClaimantsIncomeFromChildBenefit(
+                aRec.getTotalClaimantsIncomeFromChildBenefit()
+                + d.getClaimantsIncomeFromChildBenefit());
+        aRec.setTotalClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent(
+                aRec.getTotalClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent()
+                + d.getClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent());
+        aRec.setTotalClaimantsIncomeFromPersonalPension(
+                aRec.getTotalClaimantsIncomeFromPersonalPension()
+                + d.getClaimantsIncomeFromPersonalPension());
+        aRec.setTotalClaimantsIncomeFromSevereDisabilityAllowance(
+                aRec.getTotalClaimantsIncomeFromSevereDisabilityAllowance()
+                + d.getClaimantsIncomeFromSevereDisabilityAllowance());
+        aRec.setTotalClaimantsIncomeFromMaternityAllowance(
+                aRec.getTotalClaimantsIncomeFromMaternityAllowance()
+                + d.getClaimantsIncomeFromMaternityAllowance());
+        aRec.setTotalClaimantsIncomeFromContributionBasedJobSeekersAllowance(
+                aRec.getTotalClaimantsIncomeFromContributionBasedJobSeekersAllowance()
+                + d.getClaimantsIncomeFromContributionBasedJobSeekersAllowance());
+        aRec.setTotalClaimantsIncomeFromStudentGrantLoan(
+                aRec.getTotalClaimantsIncomeFromStudentGrantLoan()
+                + d.getClaimantsIncomeFromStudentGrantLoan());
+        aRec.setTotalClaimantsIncomeFromStudentGrantLoan(
+                aRec.getTotalClaimantsIncomeFromStudentGrantLoan()
+                + d.getClaimantsIncomeFromStudentGrantLoan());
+        aRec.setTotalClaimantsIncomeFromSubTenants(
+                aRec.getTotalClaimantsIncomeFromSubTenants()
+                + d.getClaimantsIncomeFromSubTenants());
+        aRec.setTotalClaimantsIncomeFromBoarders(
+                aRec.getTotalClaimantsIncomeFromBoarders()
+                + d.getClaimantsIncomeFromBoarders());
+        aRec.setTotalClaimantsIncomeFromTrainingForWorkCommunityAction(
+                aRec.getTotalClaimantsIncomeFromTrainingForWorkCommunityAction()
+                + d.getClaimantsIncomeFromTrainingForWorkCommunityAction());
+        aRec.setTotalClaimantsIncomeFromIncapacityBenefitShortTermLower(
+                aRec.getTotalClaimantsIncomeFromIncapacityBenefitShortTermLower()
+                + d.getClaimantsIncomeFromIncapacityBenefitShortTermLower());
+        aRec.setTotalClaimantsIncomeFromIncapacityBenefitShortTermHigher(
+                aRec.getTotalClaimantsIncomeFromIncapacityBenefitShortTermHigher()
+                + d.getClaimantsIncomeFromIncapacityBenefitShortTermHigher());
+        aRec.setTotalClaimantsIncomeFromIncapacityBenefitLongTerm(
+                aRec.getTotalClaimantsIncomeFromIncapacityBenefitLongTerm()
+                + d.getClaimantsIncomeFromIncapacityBenefitLongTerm());
+        aRec.setTotalClaimantsIncomeFromNewDeal50PlusEmploymentCredit(
+                aRec.getTotalClaimantsIncomeFromNewDeal50PlusEmploymentCredit()
+                + d.getClaimantsIncomeFromNewDeal50PlusEmploymentCredit());
+        aRec.setTotalClaimantsIncomeFromNewTaxCredits(
+                aRec.getTotalClaimantsIncomeFromNewTaxCredits()
+                + d.getClaimantsIncomeFromNewTaxCredits());
+        aRec.setTotalClaimantsIncomeFromDisabilityLivingAllowanceCareComponent(
+                aRec.getTotalClaimantsIncomeFromDisabilityLivingAllowanceCareComponent()
+                + d.getClaimantsIncomeFromDisabilityLivingAllowanceCareComponent());
+        aRec.setTotalClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent(
+                aRec.getTotalClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent()
+                + d.getClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent());
+        aRec.setTotalClaimantsIncomeFromGovernemntTraining(
+                aRec.getTotalClaimantsIncomeFromGovernemntTraining()
+                + d.getClaimantsIncomeFromGovernmentTraining());
+        aRec.setTotalClaimantsIncomeFromIndustrialInjuriesDisablementBenefit(
+                aRec.getTotalClaimantsIncomeFromIndustrialInjuriesDisablementBenefit()
+                + d.getClaimantsIncomeFromIndustrialInjuriesDisablementBenefit());
+        aRec.setTotalClaimantsIncomeFromCarersAllowance(
+                aRec.getTotalClaimantsIncomeFromCarersAllowance()
+                + d.getClaimantsIncomeFromCarersAllowance());
+        aRec.setTotalClaimantsIncomeFromStatutoryMaternityPaternityPay(
+                aRec.getTotalClaimantsIncomeFromStatutoryMaternityPaternityPay()
+                + d.getClaimantsIncomeFromStatutoryMaternityPaternityPay());
+        aRec.setTotalClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc(
+                aRec.getTotalClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc()
+                + d.getClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc());
+        aRec.setTotalClaimantsIncomeFromWarDisablementPensionArmedForcesGIP(
+                aRec.getTotalClaimantsIncomeFromWarDisablementPensionArmedForcesGIP()
+                + d.getClaimantsIncomeFromWarDisablementPensionArmedForcesGIP());
+        aRec.setTotalClaimantsIncomeFromWarMobilitySupplement(
+                aRec.getTotalClaimantsIncomeFromWarMobilitySupplement()
+                + d.getClaimantsIncomeFromWarMobilitySupplement());
+        aRec.setTotalClaimantsIncomeFromWidowsWidowersPension(
+                aRec.getTotalClaimantsIncomeFromWidowsWidowersPension()
+                + d.getClaimantsIncomeFromWarWidowsWidowersPension());
+        aRec.setTotalClaimantsIncomeFromBereavementAllowance(
+                aRec.getTotalClaimantsIncomeFromBereavementAllowance()
+                + d.getClaimantsIncomeFromBereavementAllowance());
+        aRec.setTotalClaimantsIncomeFromWidowedParentsAllowance(
+                aRec.getTotalClaimantsIncomeFromWidowedParentsAllowance()
+                + d.getClaimantsIncomeFromWidowedParentsAllowance());
+        aRec.setTotalClaimantsIncomeFromYouthTrainingScheme(
+                aRec.getTotalClaimantsIncomeFromYouthTrainingScheme()
+                + d.getClaimantsIncomeFromYouthTrainingScheme());
+        aRec.setTotalClaimantsIncomeFromStatuatorySickPay(
+                aRec.getTotalClaimantsIncomeFromStatuatorySickPay()
+                + d.getClaimantsIncomeFromStatutorySickPay());
+        aRec.setTotalClaimantsOtherIncome(
+                aRec.getTotalClaimantsOtherIncome()
+                + d.getClaimantsOtherIncome());
+        aRec.setTotalClaimantsTotalAmountOfIncomeDisregarded(
+                aRec.getTotalClaimantsTotalAmountOfIncomeDisregarded()
+                + d.getClaimantsTotalAmountOfIncomeDisregarded());
+        aRec.setTotalFamilyPremiumAwarded(
+                aRec.getTotalFamilyPremiumAwarded()
+                + d.getFamilyPremiumAwarded());
+        aRec.setTotalFamilyLoneParentPremiumAwarded(
+                aRec.getTotalFamilyLoneParentPremiumAwarded()
+                + d.getFamilyLoneParentPremiumAwarded());
+        aRec.setTotalDisabilityPremiumAwarded(
+                aRec.getTotalDisabilityPremiumAwarded()
+                + d.getDisabilityPremiumAwarded());
+        aRec.setTotalSevereDisabilityPremiumAwarded(
+                aRec.getTotalSevereDisabilityPremiumAwarded()
+                + d.getSevereDisabilityPremiumAwarded());
+        aRec.setTotalDisabledChildPremiumAwarded(
+                aRec.getTotalDisabledChildPremiumAwarded()
+                + d.getDisabledChildPremiumAwarded());
+        aRec.setTotalCarePremiumAwarded(
+                aRec.getTotalCarePremiumAwarded()
+                + d.getCarePremiumAwarded());
+        aRec.setTotalEnhancedDisabilityPremiumAwarded(
+                aRec.getTotalEnhancedDisabilityPremiumAwarded()
+                + d.getEnhancedDisabilityPremiumAwarded());
+        aRec.setTotalBereavementPremiumAwarded(
+                aRec.getTotalBereavementPremiumAwarded()
+                + d.getBereavementPremiumAwarded());
+        if (d.getPartnersStudentIndicator().equalsIgnoreCase("Y")) {
+            aRec.setTotalPartnersStudentIndicator(
+                    aRec.getTotalPartnersStudentIndicator() + 1);
         }
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersAssessedIncomeFigure(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersAssessedIncomeFigure()
-                + aDRecord.getPartnersAssessedIncomeFigure());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersAdjustedAssessedIncomeFigure(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersAdjustedAssessedIncomeFigure()
-                + aDRecord.getPartnersAdjustedAssessedIncomeFigure());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersGrossWeeklyIncomeFromEmployment(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersGrossWeeklyIncomeFromEmployment()
-                + aDRecord.getPartnersGrossWeeklyIncomeFromEmployment());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersNetWeeklyIncomeFromEmployment(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersNetWeeklyIncomeFromEmployment()
-                + aDRecord.getPartnersNetWeeklyIncomeFromEmployment());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersGrossWeeklyIncomeFromSelfEmployment(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersGrossWeeklyIncomeFromSelfEmployment()
-                + aDRecord.getPartnersGrossWeeklyIncomeFromSelfEmployment());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersNetWeeklyIncomeFromSelfEmployment(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersNetWeeklyIncomeFromSelfEmployment()
-                + aDRecord.getPartnersNetWeeklyIncomeFromSelfEmployment());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersTotalAmountOfEarningsDisregarded(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersTotalAmountOfEarningsDisregarded()
-                + aDRecord.getPartnersTotalAmountOfEarningsDisregarded());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded()
-                + aDRecord.getPartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromAttendanceAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromAttendanceAllowance()
-                + aDRecord.getPartnersIncomeFromAttendanceAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromBusinessStartUpAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromBusinessStartUpAllowance()
-                + aDRecord.getPartnersIncomeFromBusinessStartUpAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromChildBenefit(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromChildBenefit()
-                + aDRecord.getPartnersIncomeFromChildBenefit());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromPersonalPension(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromPersonalPension()
-                + aDRecord.getPartnersIncomeFromPersonalPension());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromSevereDisabilityAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromSevereDisabilityAllowance()
-                + aDRecord.getPartnersIncomeFromSevereDisabilityAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromMaternityAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromMaternityAllowance()
-                + aDRecord.getPartnersIncomeFromMaternityAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromContributionBasedJobSeekersAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromContributionBasedJobSeekersAllowance()
-                + aDRecord.getPartnersIncomeFromContributionBasedJobSeekersAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromStudentGrantLoan(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromStudentGrantLoan()
-                + aDRecord.getPartnersIncomeFromStudentGrantLoan());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromSubTenants(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromSubTenants()
-                + aDRecord.getPartnersIncomeFromSubTenants());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromBoarders(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromBoarders()
-                + aDRecord.getPartnersIncomeFromBoarders());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromTrainingForWorkCommunityAction(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromTrainingForWorkCommunityAction()
-                + aDRecord.getPartnersIncomeFromTrainingForWorkCommunityAction());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromIncapacityBenefitShortTermLower(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromIncapacityBenefitShortTermLower()
-                + aDRecord.getPartnersIncomeFromIncapacityBenefitShortTermLower());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromIncapacityBenefitShortTermHigher(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromIncapacityBenefitShortTermHigher()
-                + aDRecord.getPartnersIncomeFromIncapacityBenefitShortTermHigher());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromIncapacityBenefitLongTerm(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromIncapacityBenefitLongTerm()
-                + aDRecord.getPartnersIncomeFromIncapacityBenefitLongTerm());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromNewDeal50PlusEmploymentCredit(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromNewDeal50PlusEmploymentCredit()
-                + aDRecord.getPartnersIncomeFromNewDeal50PlusEmploymentCredit());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromNewTaxCredits(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromNewTaxCredits()
-                + aDRecord.getPartnersIncomeFromNewTaxCredits());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromDisabilityLivingAllowanceCareComponent(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromDisabilityLivingAllowanceCareComponent()
-                + aDRecord.getPartnersIncomeFromDisabilityLivingAllowanceCareComponent());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromDisabilityLivingAllowanceMobilityComponent(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromDisabilityLivingAllowanceMobilityComponent()
-                + aDRecord.getPartnersIncomeFromDisabilityLivingAllowanceMobilityComponent());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromGovernemntTraining(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromGovernemntTraining()
-                + aDRecord.getPartnersIncomeFromGovernmentTraining());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromIndustrialInjuriesDisablementBenefit(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromIndustrialInjuriesDisablementBenefit()
-                + aDRecord.getPartnersIncomeFromIndustrialInjuriesDisablementBenefit());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromCarersAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromCarersAllowance()
-                + aDRecord.getPartnersIncomeFromCarersAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromStatuatorySickPay(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromStatuatorySickPay()
-                + aDRecord.getPartnersIncomeFromStatutorySickPay());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromStatutoryMaternityPaternityPay(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromStatutoryMaternityPaternityPay()
-                + aDRecord.getPartnersIncomeFromStatutoryMaternityPaternityPay());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc()
-                + aDRecord.getPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromWarDisablementPensionArmedForcesGIP(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromWarDisablementPensionArmedForcesGIP()
-                + aDRecord.getPartnersIncomeFromWarDisablementPensionArmedForcesGIP());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromWarMobilitySupplement(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromWarMobilitySupplement()
-                + aDRecord.getPartnersIncomeFromWarMobilitySupplement());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromWidowsWidowersPension(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromWidowsWidowersPension()
-                + aDRecord.getPartnersIncomeFromWarWidowsWidowersPension());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromBereavementAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromBereavementAllowance()
-                + aDRecord.getPartnersIncomeFromBereavementAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromWidowedParentsAllowance(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromWidowedParentsAllowance()
-                + aDRecord.getPartnersIncomeFromWidowedParentsAllowance());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromYouthTrainingScheme(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromYouthTrainingScheme()
-                + aDRecord.getPartnersIncomeFromYouthTrainingScheme());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersOtherIncome(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersOtherIncome()
-                + aDRecord.getPartnersOtherIncome());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersTotalAmountOfIncomeDisregarded(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersTotalAmountOfIncomeDisregarded()
-                + aDRecord.getPartnersTotalAmountOfIncomeDisregarded());
-        if (aDRecord.getClaimantsGender().equalsIgnoreCase("F")) {
-            a_Aggregate_SHBE_DataRecord.setTotalClaimantsGenderFemale(
-                    a_Aggregate_SHBE_DataRecord.getTotalClaimantsGenderFemale() + 1);
+        aRec.setTotalPartnersAssessedIncomeFigure(
+                aRec.getTotalPartnersAssessedIncomeFigure()
+                + d.getPartnersAssessedIncomeFigure());
+        aRec.setTotalPartnersAdjustedAssessedIncomeFigure(
+                aRec.getTotalPartnersAdjustedAssessedIncomeFigure()
+                + d.getPartnersAdjustedAssessedIncomeFigure());
+        aRec.setTotalPartnersGrossWeeklyIncomeFromEmployment(
+                aRec.getTotalPartnersGrossWeeklyIncomeFromEmployment()
+                + d.getPartnersGrossWeeklyIncomeFromEmployment());
+        aRec.setTotalPartnersNetWeeklyIncomeFromEmployment(
+                aRec.getTotalPartnersNetWeeklyIncomeFromEmployment()
+                + d.getPartnersNetWeeklyIncomeFromEmployment());
+        aRec.setTotalPartnersGrossWeeklyIncomeFromSelfEmployment(
+                aRec.getTotalPartnersGrossWeeklyIncomeFromSelfEmployment()
+                + d.getPartnersGrossWeeklyIncomeFromSelfEmployment());
+        aRec.setTotalPartnersNetWeeklyIncomeFromSelfEmployment(
+                aRec.getTotalPartnersNetWeeklyIncomeFromSelfEmployment()
+                + d.getPartnersNetWeeklyIncomeFromSelfEmployment());
+        aRec.setTotalPartnersTotalAmountOfEarningsDisregarded(
+                aRec.getTotalPartnersTotalAmountOfEarningsDisregarded()
+                + d.getPartnersTotalAmountOfEarningsDisregarded());
+        aRec.setTotalPartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded(
+                aRec.getTotalPartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded()
+                + d.getPartnersIfChildcareDisregardAllowedWeeklyAmountBeingDisregarded());
+        aRec.setTotalPartnersIncomeFromAttendanceAllowance(
+                aRec.getTotalPartnersIncomeFromAttendanceAllowance()
+                + d.getPartnersIncomeFromAttendanceAllowance());
+        aRec.setTotalPartnersIncomeFromBusinessStartUpAllowance(
+                aRec.getTotalPartnersIncomeFromBusinessStartUpAllowance()
+                + d.getPartnersIncomeFromBusinessStartUpAllowance());
+        aRec.setTotalPartnersIncomeFromChildBenefit(
+                aRec.getTotalPartnersIncomeFromChildBenefit()
+                + d.getPartnersIncomeFromChildBenefit());
+        aRec.setTotalPartnersIncomeFromPersonalPension(
+                aRec.getTotalPartnersIncomeFromPersonalPension()
+                + d.getPartnersIncomeFromPersonalPension());
+        aRec.setTotalPartnersIncomeFromSevereDisabilityAllowance(
+                aRec.getTotalPartnersIncomeFromSevereDisabilityAllowance()
+                + d.getPartnersIncomeFromSevereDisabilityAllowance());
+        aRec.setTotalPartnersIncomeFromMaternityAllowance(
+                aRec.getTotalPartnersIncomeFromMaternityAllowance()
+                + d.getPartnersIncomeFromMaternityAllowance());
+        aRec.setTotalPartnersIncomeFromContributionBasedJobSeekersAllowance(
+                aRec.getTotalPartnersIncomeFromContributionBasedJobSeekersAllowance()
+                + d.getPartnersIncomeFromContributionBasedJobSeekersAllowance());
+        aRec.setTotalPartnersIncomeFromStudentGrantLoan(
+                aRec.getTotalPartnersIncomeFromStudentGrantLoan()
+                + d.getPartnersIncomeFromStudentGrantLoan());
+        aRec.setTotalPartnersIncomeFromSubTenants(
+                aRec.getTotalPartnersIncomeFromSubTenants()
+                + d.getPartnersIncomeFromSubTenants());
+        aRec.setTotalPartnersIncomeFromBoarders(
+                aRec.getTotalPartnersIncomeFromBoarders()
+                + d.getPartnersIncomeFromBoarders());
+        aRec.setTotalPartnersIncomeFromTrainingForWorkCommunityAction(
+                aRec.getTotalPartnersIncomeFromTrainingForWorkCommunityAction()
+                + d.getPartnersIncomeFromTrainingForWorkCommunityAction());
+        aRec.setTotalPartnersIncomeFromIncapacityBenefitShortTermLower(
+                aRec.getTotalPartnersIncomeFromIncapacityBenefitShortTermLower()
+                + d.getPartnersIncomeFromIncapacityBenefitShortTermLower());
+        aRec.setTotalPartnersIncomeFromIncapacityBenefitShortTermHigher(
+                aRec.getTotalPartnersIncomeFromIncapacityBenefitShortTermHigher()
+                + d.getPartnersIncomeFromIncapacityBenefitShortTermHigher());
+        aRec.setTotalPartnersIncomeFromIncapacityBenefitLongTerm(
+                aRec.getTotalPartnersIncomeFromIncapacityBenefitLongTerm()
+                + d.getPartnersIncomeFromIncapacityBenefitLongTerm());
+        aRec.setTotalPartnersIncomeFromNewDeal50PlusEmploymentCredit(
+                aRec.getTotalPartnersIncomeFromNewDeal50PlusEmploymentCredit()
+                + d.getPartnersIncomeFromNewDeal50PlusEmploymentCredit());
+        aRec.setTotalPartnersIncomeFromNewTaxCredits(
+                aRec.getTotalPartnersIncomeFromNewTaxCredits()
+                + d.getPartnersIncomeFromNewTaxCredits());
+        aRec.setTotalPartnersIncomeFromDisabilityLivingAllowanceCareComponent(
+                aRec.getTotalPartnersIncomeFromDisabilityLivingAllowanceCareComponent()
+                + d.getPartnersIncomeFromDisabilityLivingAllowanceCareComponent());
+        aRec.setTotalPartnersIncomeFromDisabilityLivingAllowanceMobilityComponent(
+                aRec.getTotalPartnersIncomeFromDisabilityLivingAllowanceMobilityComponent()
+                + d.getPartnersIncomeFromDisabilityLivingAllowanceMobilityComponent());
+        aRec.setTotalPartnersIncomeFromGovernemntTraining(
+                aRec.getTotalPartnersIncomeFromGovernemntTraining()
+                + d.getPartnersIncomeFromGovernmentTraining());
+        aRec.setTotalPartnersIncomeFromIndustrialInjuriesDisablementBenefit(
+                aRec.getTotalPartnersIncomeFromIndustrialInjuriesDisablementBenefit()
+                + d.getPartnersIncomeFromIndustrialInjuriesDisablementBenefit());
+        aRec.setTotalPartnersIncomeFromCarersAllowance(
+                aRec.getTotalPartnersIncomeFromCarersAllowance()
+                + d.getPartnersIncomeFromCarersAllowance());
+        aRec.setTotalPartnersIncomeFromStatuatorySickPay(
+                aRec.getTotalPartnersIncomeFromStatuatorySickPay()
+                + d.getPartnersIncomeFromStatutorySickPay());
+        aRec.setTotalPartnersIncomeFromStatutoryMaternityPaternityPay(
+                aRec.getTotalPartnersIncomeFromStatutoryMaternityPaternityPay()
+                + d.getPartnersIncomeFromStatutoryMaternityPaternityPay());
+        aRec.setTotalPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc(
+                aRec.getTotalPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc()
+                + d.getPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc());
+        aRec.setTotalPartnersIncomeFromWarDisablementPensionArmedForcesGIP(
+                aRec.getTotalPartnersIncomeFromWarDisablementPensionArmedForcesGIP()
+                + d.getPartnersIncomeFromWarDisablementPensionArmedForcesGIP());
+        aRec.setTotalPartnersIncomeFromWarMobilitySupplement(
+                aRec.getTotalPartnersIncomeFromWarMobilitySupplement()
+                + d.getPartnersIncomeFromWarMobilitySupplement());
+        aRec.setTotalPartnersIncomeFromWidowsWidowersPension(
+                aRec.getTotalPartnersIncomeFromWidowsWidowersPension()
+                + d.getPartnersIncomeFromWarWidowsWidowersPension());
+        aRec.setTotalPartnersIncomeFromBereavementAllowance(
+                aRec.getTotalPartnersIncomeFromBereavementAllowance()
+                + d.getPartnersIncomeFromBereavementAllowance());
+        aRec.setTotalPartnersIncomeFromWidowedParentsAllowance(
+                aRec.getTotalPartnersIncomeFromWidowedParentsAllowance()
+                + d.getPartnersIncomeFromWidowedParentsAllowance());
+        aRec.setTotalPartnersIncomeFromYouthTrainingScheme(
+                aRec.getTotalPartnersIncomeFromYouthTrainingScheme()
+                + d.getPartnersIncomeFromYouthTrainingScheme());
+        aRec.setTotalPartnersOtherIncome(
+                aRec.getTotalPartnersOtherIncome()
+                + d.getPartnersOtherIncome());
+        aRec.setTotalPartnersTotalAmountOfIncomeDisregarded(
+                aRec.getTotalPartnersTotalAmountOfIncomeDisregarded()
+                + d.getPartnersTotalAmountOfIncomeDisregarded());
+        if (d.getClaimantsGender().equalsIgnoreCase("F")) {
+            aRec.setTotalClaimantsGenderFemale(
+                    aRec.getTotalClaimantsGenderFemale() + 1);
         }
-        if (aDRecord.getClaimantsGender().equalsIgnoreCase("M")) {
-            a_Aggregate_SHBE_DataRecord.setTotalClaimantsGenderMale(
-                    a_Aggregate_SHBE_DataRecord.getTotalClaimantsGenderMale() + 1);
+        if (d.getClaimantsGender().equalsIgnoreCase("M")) {
+            aRec.setTotalClaimantsGenderMale(
+                    aRec.getTotalClaimantsGenderMale() + 1);
         }
-        a_Aggregate_SHBE_DataRecord.setTotalContractualRentAmount(
-                a_Aggregate_SHBE_DataRecord.getTotalContractualRentAmount()
-                + aDRecord.getContractualRentAmount());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromPensionCreditSavingsCredit(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromPensionCreditSavingsCredit()
-                + aDRecord.getClaimantsIncomeFromPensionCreditSavingsCredit());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromPensionCreditSavingsCredit(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromPensionCreditSavingsCredit()
-                + aDRecord.getPartnersIncomeFromPensionCreditSavingsCredit());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromMaintenancePayments(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromMaintenancePayments()
-                + aDRecord.getClaimantsIncomeFromMaintenancePayments());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromMaintenancePayments(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromMaintenancePayments()
-                + aDRecord.getPartnersIncomeFromMaintenancePayments());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromOccupationalPension(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromOccupationalPension()
-                + aDRecord.getClaimantsIncomeFromOccupationalPension());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromOccupationalPension(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromOccupationalPension()
-                + aDRecord.getPartnersIncomeFromOccupationalPension());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsIncomeFromWidowsBenefit(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsIncomeFromWidowsBenefit()
-                + aDRecord.getClaimantsIncomeFromWidowsBenefit());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersIncomeFromWidowsBenefit(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersIncomeFromWidowsBenefit()
-                + aDRecord.getPartnersIncomeFromWidowsBenefit());
-        a_Aggregate_SHBE_DataRecord.setTotalTotalNumberOfRooms(
-                a_Aggregate_SHBE_DataRecord.getTotalTotalNumberOfRooms()
-                + aDRecord.getTotalNumberOfRooms());
-        a_Aggregate_SHBE_DataRecord.setTotalValueOfLHA(
-                a_Aggregate_SHBE_DataRecord.getTotalValueOfLHA()
-                + aDRecord.getValueOfLHA());
-        if (aDRecord.getPartnersGender().equalsIgnoreCase("F")) {
-            a_Aggregate_SHBE_DataRecord.setTotalPartnersGenderFemale(
-                    a_Aggregate_SHBE_DataRecord.getTotalPartnersGenderFemale() + 1);
+        aRec.setTotalContractualRentAmount(
+                aRec.getTotalContractualRentAmount()
+                + d.getContractualRentAmount());
+        aRec.setTotalClaimantsIncomeFromPensionCreditSavingsCredit(
+                aRec.getTotalClaimantsIncomeFromPensionCreditSavingsCredit()
+                + d.getClaimantsIncomeFromPensionCreditSavingsCredit());
+        aRec.setTotalPartnersIncomeFromPensionCreditSavingsCredit(
+                aRec.getTotalPartnersIncomeFromPensionCreditSavingsCredit()
+                + d.getPartnersIncomeFromPensionCreditSavingsCredit());
+        aRec.setTotalClaimantsIncomeFromMaintenancePayments(
+                aRec.getTotalClaimantsIncomeFromMaintenancePayments()
+                + d.getClaimantsIncomeFromMaintenancePayments());
+        aRec.setTotalPartnersIncomeFromMaintenancePayments(
+                aRec.getTotalPartnersIncomeFromMaintenancePayments()
+                + d.getPartnersIncomeFromMaintenancePayments());
+        aRec.setTotalClaimantsIncomeFromOccupationalPension(
+                aRec.getTotalClaimantsIncomeFromOccupationalPension()
+                + d.getClaimantsIncomeFromOccupationalPension());
+        aRec.setTotalPartnersIncomeFromOccupationalPension(
+                aRec.getTotalPartnersIncomeFromOccupationalPension()
+                + d.getPartnersIncomeFromOccupationalPension());
+        aRec.setTotalClaimantsIncomeFromWidowsBenefit(
+                aRec.getTotalClaimantsIncomeFromWidowsBenefit()
+                + d.getClaimantsIncomeFromWidowsBenefit());
+        aRec.setTotalPartnersIncomeFromWidowsBenefit(
+                aRec.getTotalPartnersIncomeFromWidowsBenefit()
+                + d.getPartnersIncomeFromWidowsBenefit());
+        aRec.setTotalTotalNumberOfRooms(
+                aRec.getTotalTotalNumberOfRooms()
+                + d.getTotalNumberOfRooms());
+        aRec.setTotalValueOfLHA(
+                aRec.getTotalValueOfLHA()
+                + d.getValueOfLHA());
+        if (d.getPartnersGender().equalsIgnoreCase("F")) {
+            aRec.setTotalPartnersGenderFemale(
+                    aRec.getTotalPartnersGenderFemale() + 1);
         }
-        if (aDRecord.getPartnersGender().equalsIgnoreCase("M")) {
-            a_Aggregate_SHBE_DataRecord.setTotalPartnersGenderMale(
-                    a_Aggregate_SHBE_DataRecord.getTotalPartnersGenderMale() + 1);
+        if (d.getPartnersGender().equalsIgnoreCase("M")) {
+            aRec.setTotalPartnersGenderMale(
+                    aRec.getTotalPartnersGenderMale() + 1);
         }
-        a_Aggregate_SHBE_DataRecord.setTotalTotalAmountOfBackdatedHBAwarded(
-                a_Aggregate_SHBE_DataRecord.getTotalTotalAmountOfBackdatedHBAwarded()
-                + aDRecord.getTotalAmountOfBackdatedHBAwarded());
-        a_Aggregate_SHBE_DataRecord.setTotalTotalAmountOfBackdatedCTBAwarded(
-                a_Aggregate_SHBE_DataRecord.getTotalTotalAmountOfBackdatedCTBAwarded()
-                + aDRecord.getTotalAmountOfBackdatedCTBAwarded());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersTotalCapital(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersTotalCapital()
-                + aDRecord.getPartnersTotalCapital());
-        a_Aggregate_SHBE_DataRecord.setTotalWeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure(
-                a_Aggregate_SHBE_DataRecord.getTotalWeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure()
-                + aDRecord.getWeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure());
-        a_Aggregate_SHBE_DataRecord.setTotalClaimantsTotalHoursOfRemunerativeWorkPerWeek(
-                a_Aggregate_SHBE_DataRecord.getTotalClaimantsTotalHoursOfRemunerativeWorkPerWeek()
-                + aDRecord.getClaimantsTotalHoursOfRemunerativeWorkPerWeek());
-        a_Aggregate_SHBE_DataRecord.setTotalPartnersTotalHoursOfRemunerativeWorkPerWeek(
-                a_Aggregate_SHBE_DataRecord.getTotalPartnersTotalHoursOfRemunerativeWorkPerWeek()
-                + aDRecord.getPartnersTotalHoursOfRemunerativeWorkPerWeek());
+        aRec.setTotalTotalAmountOfBackdatedHBAwarded(
+                aRec.getTotalTotalAmountOfBackdatedHBAwarded()
+                + d.getTotalAmountOfBackdatedHBAwarded());
+        aRec.setTotalTotalAmountOfBackdatedCTBAwarded(
+                aRec.getTotalTotalAmountOfBackdatedCTBAwarded()
+                + d.getTotalAmountOfBackdatedCTBAwarded());
+        aRec.setTotalPartnersTotalCapital(
+                aRec.getTotalPartnersTotalCapital()
+                + d.getPartnersTotalCapital());
+        aRec.setTotalWeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure(
+                aRec.getTotalWeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure()
+                + d.getWeeklyNotionalIncomeFromCapitalClaimantAndPartnerCombinedFigure());
+        aRec.setTotalClaimantsTotalHoursOfRemunerativeWorkPerWeek(
+                aRec.getTotalClaimantsTotalHoursOfRemunerativeWorkPerWeek()
+                + d.getClaimantsTotalHoursOfRemunerativeWorkPerWeek());
+        aRec.setTotalPartnersTotalHoursOfRemunerativeWorkPerWeek(
+                aRec.getTotalPartnersTotalHoursOfRemunerativeWorkPerWeek()
+                + d.getPartnersTotalHoursOfRemunerativeWorkPerWeek());
     }
 
     public long getHouseholdSize(SHBE_Record rec) {
-        long result;
-        result = 1;
-        SHBE_D_Record D_Record;
-        D_Record = rec.dRecord;
-        result += D_Record.getPartnerFlag();
-        int NumberOfChildDependents;
-        NumberOfChildDependents = D_Record.getNumberOfChildDependents();
-        int NumberOfNonDependents;
-        NumberOfNonDependents = D_Record.getNumberOfNonDependents();
-        int NumberOfDependentsAndNonDependents;
-        NumberOfDependentsAndNonDependents = NumberOfChildDependents + NumberOfNonDependents;
-        ArrayList<SHBE_S_Record> S_Records;
-        S_Records = rec.sRecords;
+        long r = 1;
+        SHBE_D_Record d = rec.dRecord;
+        r += d.getPartnerFlag();
+        int numberOfChildDependents = d.getNumberOfChildDependents();
+        int numberOfNonDependents = d.getNumberOfNonDependents();
+        int numberOfDependentsAndNonDependents = numberOfChildDependents + numberOfNonDependents;
+        ArrayList<SHBE_S_Record> S_Records = rec.sRecords;
         if (S_Records != null) {
-            result += Math.max(NumberOfDependentsAndNonDependents, S_Records.size());
-//            long NumberOfS_Records;
-//            NumberOfS_Records = S_Records.size();
+            r += Math.max(numberOfDependentsAndNonDependents, S_Records.size());
+//            long NumberOfS_Records = S_Records.size();
 //            if (NumberOfS_Records != NumberOfNonDependents ) {
 //                rec.init(env);
-//                Iterator<SHBE_S_Record> ite;
-//                ite = S_Records.iterator();
+//                Iterator<SHBE_S_Record> ite = S_Records.iterator();
 //                while (ite.hasNext()) {
-//                    SHBE_S_Record S_Record;
-//                    S_Record = ite.next();
+//                    SHBE_S_Record S_Record = ite.next();
 //                }
 //            }
         } else {
-            result += NumberOfDependentsAndNonDependents;
+            r += numberOfDependentsAndNonDependents;
         }
-        return result;
+        return r;
     }
 
-    public long getHouseholdSizeExcludingPartnerslong(SHBE_D_Record D_Record) {
-        long result;
-        result = 1;
-        result += D_Record.getNumberOfChildDependents();
-        long NumberOfNonDependents;
-        NumberOfNonDependents = D_Record.getNumberOfNonDependents();
-        result += NumberOfNonDependents;
-        return result;
+    public long getHouseholdSizeExcludingPartnerslong(SHBE_D_Record d) {
+        long r = 1;
+        r += d.getNumberOfChildDependents();
+        r += d.getNumberOfNonDependents();
+        return r;
     }
 
-    public int getHouseholdSizeExcludingPartnersint(SHBE_D_Record D_Record) {
-        int result;
-        result = 1;
-        result += D_Record.getNumberOfChildDependents();
-        long NumberOfNonDependents;
-        NumberOfNonDependents = D_Record.getNumberOfNonDependents();
-        result += NumberOfNonDependents;
-        return result;
+    public int getHouseholdSizeExcludingPartnersint(SHBE_D_Record d) {
+        int r = 1;
+        r += d.getNumberOfChildDependents();
+        r += d.getNumberOfNonDependents();
+        return r;
     }
 
-    public long getHouseholdSize(SHBE_D_Record D_Record) {
-        long result;
-        result = getHouseholdSizeint(D_Record);
-        return result;
+    public long getHouseholdSize(SHBE_D_Record d) {
+        return getHouseholdSizeint(d);
     }
 
-    public int getHouseholdSizeint(SHBE_D_Record D_Record) {
-        int result;
-        result = getHouseholdSizeExcludingPartnersint(D_Record);
-        result += D_Record.getPartnerFlag();
-        return result;
+    public int getHouseholdSizeint(SHBE_D_Record d) {
+        int r;
+        r = getHouseholdSizeExcludingPartnersint(d);
+        r += d.getPartnerFlag();
+        return r;
     }
 
-    public long getClaimantsIncomeFromBenefitsAndAllowances(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getClaimantsIncomeFromAttendanceAllowance();
-        result += aDRecord.getClaimantsIncomeFromBereavementAllowance();
-        result += aDRecord.getClaimantsIncomeFromBusinessStartUpAllowance();
-        result += aDRecord.getClaimantsIncomeFromCarersAllowance();
-        result += aDRecord.getClaimantsIncomeFromChildBenefit();
-        result += aDRecord.getClaimantsIncomeFromContributionBasedJobSeekersAllowance();
-        result += aDRecord.getClaimantsIncomeFromDisabilityLivingAllowanceCareComponent();
-        result += aDRecord.getClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent();
-        result += aDRecord.getClaimantsIncomeFromIncapacityBenefitLongTerm();
-        result += aDRecord.getClaimantsIncomeFromIncapacityBenefitShortTermHigher();
-        result += aDRecord.getClaimantsIncomeFromIncapacityBenefitShortTermLower();
-        result += aDRecord.getClaimantsIncomeFromIndustrialInjuriesDisablementBenefit();
-        result += aDRecord.getClaimantsIncomeFromMaternityAllowance();
-        result += aDRecord.getClaimantsIncomeFromNewDeal50PlusEmploymentCredit();
-        result += aDRecord.getClaimantsIncomeFromNewTaxCredits();
-        result += aDRecord.getClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent();
-        result += aDRecord.getClaimantsIncomeFromPensionCreditSavingsCredit();
-        result += aDRecord.getClaimantsIncomeFromSevereDisabilityAllowance();
-        result += aDRecord.getClaimantsIncomeFromStatutoryMaternityPaternityPay();
-        result += aDRecord.getClaimantsIncomeFromStatutorySickPay();
-        result += aDRecord.getClaimantsIncomeFromWarMobilitySupplement();
-        result += aDRecord.getClaimantsIncomeFromWidowedParentsAllowance();
-        result += aDRecord.getClaimantsIncomeFromWidowsBenefit();
-        return result;
+    public long getClaimantsIncomeFromBenefitsAndAllowances(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getClaimantsIncomeFromAttendanceAllowance();
+        r += d.getClaimantsIncomeFromBereavementAllowance();
+        r += d.getClaimantsIncomeFromBusinessStartUpAllowance();
+        r += d.getClaimantsIncomeFromCarersAllowance();
+        r += d.getClaimantsIncomeFromChildBenefit();
+        r += d.getClaimantsIncomeFromContributionBasedJobSeekersAllowance();
+        r += d.getClaimantsIncomeFromDisabilityLivingAllowanceCareComponent();
+        r += d.getClaimantsIncomeFromDisabilityLivingAllowanceMobilityComponent();
+        r += d.getClaimantsIncomeFromIncapacityBenefitLongTerm();
+        r += d.getClaimantsIncomeFromIncapacityBenefitShortTermHigher();
+        r += d.getClaimantsIncomeFromIncapacityBenefitShortTermLower();
+        r += d.getClaimantsIncomeFromIndustrialInjuriesDisablementBenefit();
+        r += d.getClaimantsIncomeFromMaternityAllowance();
+        r += d.getClaimantsIncomeFromNewDeal50PlusEmploymentCredit();
+        r += d.getClaimantsIncomeFromNewTaxCredits();
+        r += d.getClaimantsIncomeFromOneParentBenefitChildBenefitLoneParent();
+        r += d.getClaimantsIncomeFromPensionCreditSavingsCredit();
+        r += d.getClaimantsIncomeFromSevereDisabilityAllowance();
+        r += d.getClaimantsIncomeFromStatutoryMaternityPaternityPay();
+        r += d.getClaimantsIncomeFromStatutorySickPay();
+        r += d.getClaimantsIncomeFromWarMobilitySupplement();
+        r += d.getClaimantsIncomeFromWidowedParentsAllowance();
+        r += d.getClaimantsIncomeFromWidowsBenefit();
+        return r;
     }
 
-    public long getClaimantsIncomeFromEmployment(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getClaimantsGrossWeeklyIncomeFromEmployment();
-        result += aDRecord.getClaimantsGrossWeeklyIncomeFromSelfEmployment();
-        return result;
+    public long getClaimantsIncomeFromEmployment(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getClaimantsGrossWeeklyIncomeFromEmployment();
+        r += d.getClaimantsGrossWeeklyIncomeFromSelfEmployment();
+        return r;
     }
 
-    public long getClaimantsIncomeFromGovernmentTraining(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getClaimantsIncomeFromGovernmentTraining();
-        result += aDRecord.getClaimantsIncomeFromTrainingForWorkCommunityAction();
-        result += aDRecord.getClaimantsIncomeFromYouthTrainingScheme();
-        return result;
+    public long getClaimantsIncomeFromGovernmentTraining(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getClaimantsIncomeFromGovernmentTraining();
+        r += d.getClaimantsIncomeFromTrainingForWorkCommunityAction();
+        r += d.getClaimantsIncomeFromYouthTrainingScheme();
+        return r;
     }
 
-    public long getClaimantsIncomeFromPensionPrivate(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getClaimantsIncomeFromOccupationalPension();
-        result += aDRecord.getClaimantsIncomeFromPersonalPension();
-        return result;
+    public long getClaimantsIncomeFromPensionPrivate(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getClaimantsIncomeFromOccupationalPension();
+        r += d.getClaimantsIncomeFromPersonalPension();
+        return r;
     }
 
-    public long getClaimantsIncomeFromPensionState(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc();
-        result += aDRecord.getClaimantsIncomeFromWarDisablementPensionArmedForcesGIP();
-        result += aDRecord.getClaimantsIncomeFromWarWidowsWidowersPension();
-        return result;
+    public long getClaimantsIncomeFromPensionState(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getClaimantsIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc();
+        r += d.getClaimantsIncomeFromWarDisablementPensionArmedForcesGIP();
+        r += d.getClaimantsIncomeFromWarWidowsWidowersPension();
+        return r;
     }
 
-    public long getClaimantsIncomeFromBoardersAndSubTenants(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getClaimantsIncomeFromSubTenants();
-        result += aDRecord.getClaimantsIncomeFromBoarders();
-        return result;
+    public long getClaimantsIncomeFromBoardersAndSubTenants(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getClaimantsIncomeFromSubTenants();
+        r += d.getClaimantsIncomeFromBoarders();
+        return r;
     }
 
-    public long getClaimantsIncomeFromOther(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getClaimantsIncomeFromMaintenancePayments();
-        result += aDRecord.getClaimantsIncomeFromStudentGrantLoan();
-        result += aDRecord.getClaimantsOtherIncome();
-        return result;
+    public long getClaimantsIncomeFromOther(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getClaimantsIncomeFromMaintenancePayments();
+        r += d.getClaimantsIncomeFromStudentGrantLoan();
+        r += d.getClaimantsOtherIncome();
+        return r;
     }
 
-    public long getClaimantsIncomeTotal(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += getClaimantsIncomeFromBenefitsAndAllowances(aDRecord);
-        result += getClaimantsIncomeFromEmployment(aDRecord);
-        result += getClaimantsIncomeFromGovernmentTraining(aDRecord);
-        result += getClaimantsIncomeFromPensionPrivate(aDRecord);
-        result += getClaimantsIncomeFromPensionState(aDRecord);
-        result += getClaimantsIncomeFromBoardersAndSubTenants(aDRecord);
-        result += getClaimantsIncomeFromOther(aDRecord);
-        return result;
+    public long getClaimantsIncomeTotal(SHBE_D_Record d) {
+        long r = 0L;
+        r += getClaimantsIncomeFromBenefitsAndAllowances(d);
+        r += getClaimantsIncomeFromEmployment(d);
+        r += getClaimantsIncomeFromGovernmentTraining(d);
+        r += getClaimantsIncomeFromPensionPrivate(d);
+        r += getClaimantsIncomeFromPensionState(d);
+        r += getClaimantsIncomeFromBoardersAndSubTenants(d);
+        r += getClaimantsIncomeFromOther(d);
+        return r;
     }
 
-    public long getHouseholdIncomeTotal(
-            SHBE_Record aRecord,
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += getClaimantsIncomeTotal(aDRecord);
-        result += getPartnersIncomeTotal(aDRecord);
-        ArrayList<SHBE_S_Record> SRecords;
-        SRecords = aRecord.getSRecords();
-        if (SRecords != null) {
-            Iterator<SHBE_S_Record> ite;
-            ite = SRecords.iterator();
-            SHBE_S_Record SHBE_S_Record;
+    public long getHouseholdIncomeTotal(SHBE_Record rec, SHBE_D_Record d) {
+        long r = 0L;
+        r += getClaimantsIncomeTotal(d);
+        r += getPartnersIncomeTotal(d);
+        ArrayList<SHBE_S_Record> sRecords = rec.getSRecords();
+        if (sRecords != null) {
+            Iterator<SHBE_S_Record> ite = sRecords.iterator();
             while (ite.hasNext()) {
-                SHBE_S_Record = ite.next();
-                result += SHBE_S_Record.getNonDependantGrossWeeklyIncomeFromRemunerativeWork();
+                r += ite.next().getNonDependantGrossWeeklyIncomeFromRemunerativeWork();
             }
         }
-        return result;
+        return r;
     }
 
-    public long getPartnersIncomeFromBenefitsAndAllowances(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getPartnersIncomeFromAttendanceAllowance();
-        result += aDRecord.getPartnersIncomeFromBereavementAllowance();
-        result += aDRecord.getPartnersIncomeFromBusinessStartUpAllowance();
-        result += aDRecord.getPartnersIncomeFromCarersAllowance();
-        result += aDRecord.getPartnersIncomeFromChildBenefit();
-        result += aDRecord.getPartnersIncomeFromContributionBasedJobSeekersAllowance();
-        result += aDRecord.getPartnersIncomeFromDisabilityLivingAllowanceCareComponent();
-        result += aDRecord.getPartnersIncomeFromDisabilityLivingAllowanceMobilityComponent();
-        result += aDRecord.getPartnersIncomeFromIncapacityBenefitLongTerm();
-        result += aDRecord.getPartnersIncomeFromIncapacityBenefitShortTermHigher();
-        result += aDRecord.getPartnersIncomeFromIncapacityBenefitShortTermLower();
-        result += aDRecord.getPartnersIncomeFromIndustrialInjuriesDisablementBenefit();
-        result += aDRecord.getPartnersIncomeFromMaternityAllowance();
-        result += aDRecord.getPartnersIncomeFromNewDeal50PlusEmploymentCredit();
-        result += aDRecord.getPartnersIncomeFromNewTaxCredits();
-        result += aDRecord.getPartnersIncomeFromPensionCreditSavingsCredit();
-        result += aDRecord.getPartnersIncomeFromSevereDisabilityAllowance();
-        result += aDRecord.getPartnersIncomeFromStatutoryMaternityPaternityPay();
-        result += aDRecord.getPartnersIncomeFromStatutorySickPay();
-        result += aDRecord.getPartnersIncomeFromWarMobilitySupplement();
-        result += aDRecord.getPartnersIncomeFromWidowedParentsAllowance();
-        result += aDRecord.getPartnersIncomeFromWidowsBenefit();
-        return result;
+    public long getPartnersIncomeFromBenefitsAndAllowances(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getPartnersIncomeFromAttendanceAllowance();
+        r += d.getPartnersIncomeFromBereavementAllowance();
+        r += d.getPartnersIncomeFromBusinessStartUpAllowance();
+        r += d.getPartnersIncomeFromCarersAllowance();
+        r += d.getPartnersIncomeFromChildBenefit();
+        r += d.getPartnersIncomeFromContributionBasedJobSeekersAllowance();
+        r += d.getPartnersIncomeFromDisabilityLivingAllowanceCareComponent();
+        r += d.getPartnersIncomeFromDisabilityLivingAllowanceMobilityComponent();
+        r += d.getPartnersIncomeFromIncapacityBenefitLongTerm();
+        r += d.getPartnersIncomeFromIncapacityBenefitShortTermHigher();
+        r += d.getPartnersIncomeFromIncapacityBenefitShortTermLower();
+        r += d.getPartnersIncomeFromIndustrialInjuriesDisablementBenefit();
+        r += d.getPartnersIncomeFromMaternityAllowance();
+        r += d.getPartnersIncomeFromNewDeal50PlusEmploymentCredit();
+        r += d.getPartnersIncomeFromNewTaxCredits();
+        r += d.getPartnersIncomeFromPensionCreditSavingsCredit();
+        r += d.getPartnersIncomeFromSevereDisabilityAllowance();
+        r += d.getPartnersIncomeFromStatutoryMaternityPaternityPay();
+        r += d.getPartnersIncomeFromStatutorySickPay();
+        r += d.getPartnersIncomeFromWarMobilitySupplement();
+        r += d.getPartnersIncomeFromWidowedParentsAllowance();
+        r += d.getPartnersIncomeFromWidowsBenefit();
+        return r;
     }
 
-    public long getPartnersIncomeFromEmployment(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getPartnersGrossWeeklyIncomeFromEmployment();
-        result += aDRecord.getPartnersGrossWeeklyIncomeFromSelfEmployment();
-        return result;
+    public long getPartnersIncomeFromEmployment(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getPartnersGrossWeeklyIncomeFromEmployment();
+        r += d.getPartnersGrossWeeklyIncomeFromSelfEmployment();
+        return r;
     }
 
-    public long getPartnersIncomeFromGovernmentTraining(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getPartnersIncomeFromGovernmentTraining();
-        result += aDRecord.getPartnersIncomeFromTrainingForWorkCommunityAction();
-        result += aDRecord.getPartnersIncomeFromYouthTrainingScheme();
-        return result;
+    public long getPartnersIncomeFromGovernmentTraining(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getPartnersIncomeFromGovernmentTraining();
+        r += d.getPartnersIncomeFromTrainingForWorkCommunityAction();
+        r += d.getPartnersIncomeFromYouthTrainingScheme();
+        return r;
     }
 
-    public long getPartnersIncomeFromPensionPrivate(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getPartnersIncomeFromOccupationalPension();
-        result += aDRecord.getPartnersIncomeFromPersonalPension();
-        return result;
+    public long getPartnersIncomeFromPensionPrivate(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getPartnersIncomeFromOccupationalPension();
+        r += d.getPartnersIncomeFromPersonalPension();
+        return r;
     }
 
-    public long getPartnersIncomeFromPensionState(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc();
-        result += aDRecord.getPartnersIncomeFromWarDisablementPensionArmedForcesGIP();
-        result += aDRecord.getPartnersIncomeFromWarWidowsWidowersPension();
-        return result;
+    public long getPartnersIncomeFromPensionState(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getPartnersIncomeFromStateRetirementPensionIncludingSERPsGraduatedPensionetc();
+        r += d.getPartnersIncomeFromWarDisablementPensionArmedForcesGIP();
+        r += d.getPartnersIncomeFromWarWidowsWidowersPension();
+        return r;
     }
 
-    public long getPartnersIncomeFromBoardersAndSubTenants(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getPartnersIncomeFromSubTenants();
-        result += aDRecord.getPartnersIncomeFromBoarders();
-        return result;
+    public long getPartnersIncomeFromBoardersAndSubTenants(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getPartnersIncomeFromSubTenants();
+        r += d.getPartnersIncomeFromBoarders();
+        return r;
     }
 
-    public long getPartnersIncomeFromOther(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += aDRecord.getPartnersIncomeFromMaintenancePayments();
-        result += aDRecord.getPartnersIncomeFromStudentGrantLoan();
-        result += aDRecord.getPartnersOtherIncome();
-        return result;
+    public long getPartnersIncomeFromOther(SHBE_D_Record d) {
+        long r = 0L;
+        r += d.getPartnersIncomeFromMaintenancePayments();
+        r += d.getPartnersIncomeFromStudentGrantLoan();
+        r += d.getPartnersOtherIncome();
+        return r;
     }
 
-    public long getPartnersIncomeTotal(
-            SHBE_D_Record aDRecord) {
-        long result = 0L;
-        result += getPartnersIncomeFromBenefitsAndAllowances(aDRecord);
-        result += getPartnersIncomeFromEmployment(aDRecord);
-        result += getPartnersIncomeFromGovernmentTraining(aDRecord);
-        result += getPartnersIncomeFromPensionPrivate(aDRecord);
-        result += getPartnersIncomeFromPensionState(aDRecord);
-        result += getPartnersIncomeFromBoardersAndSubTenants(aDRecord);
-        result += getPartnersIncomeFromOther(aDRecord);
-        return result;
+    public long getPartnersIncomeTotal(SHBE_D_Record d) {
+        long r = 0L;
+        r += getPartnersIncomeFromBenefitsAndAllowances(d);
+        r += getPartnersIncomeFromEmployment(d);
+        r += getPartnersIncomeFromGovernmentTraining(d);
+        r += getPartnersIncomeFromPensionPrivate(d);
+        r += getPartnersIncomeFromPensionState(d);
+        r += getPartnersIncomeFromBoardersAndSubTenants(d);
+        r += getPartnersIncomeFromOther(d);
+        return r;
     }
 
-    public long getClaimantsAndPartnersIncomeTotal(
-            SHBE_D_Record aDRecord) {
-        long result = getClaimantsIncomeTotal(aDRecord) + getPartnersIncomeTotal(aDRecord);
-        return result;
+    public long getClaimantsAndPartnersIncomeTotal(SHBE_D_Record d) {
+        return getClaimantsIncomeTotal(d) + getPartnersIncomeTotal(d);
     }
 
-    public boolean getUnderOccupancy(
-            SHBE_D_Record aDRecord) {
-        int numberOfBedroomsForLHARolloutCasesOnly = aDRecord.getNumberOfBedroomsForLHARolloutCasesOnly();
+    public boolean getUnderOccupancy(SHBE_D_Record d) {
+        int numberOfBedroomsForLHARolloutCasesOnly = d.getNumberOfBedroomsForLHARolloutCasesOnly();
         if (numberOfBedroomsForLHARolloutCasesOnly > 0) {
             if (numberOfBedroomsForLHARolloutCasesOnly
-                    > aDRecord.getNumberOfChildDependents()
-                    + aDRecord.getNumberOfNonDependents()) {
+                    > d.getNumberOfChildDependents()
+                    + d.getNumberOfNonDependents()) {
                 return true;
             }
         }
         return false;
     }
 
-    public int getUnderOccupancyAmount(
-            SHBE_D_Record aDRecord) {
-        int result = 0;
-        int numberOfBedroomsForLHARolloutCasesOnly = aDRecord.getNumberOfBedroomsForLHARolloutCasesOnly();
+    public int getUnderOccupancyAmount(SHBE_D_Record d) {
+        int r = 0;
+        int numberOfBedroomsForLHARolloutCasesOnly = d.getNumberOfBedroomsForLHARolloutCasesOnly();
         if (numberOfBedroomsForLHARolloutCasesOnly > 0) {
-            result = numberOfBedroomsForLHARolloutCasesOnly
-                    - aDRecord.getNumberOfChildDependents()
-                    - aDRecord.getNumberOfNonDependents();
+            r = numberOfBedroomsForLHARolloutCasesOnly
+                    - d.getNumberOfChildDependents()
+                    - d.getNumberOfNonDependents();
         }
-        return result;
+        return r;
     }
 
     private String[] filenames;
@@ -2616,109 +2551,77 @@ public class SHBE_Handler extends SHBE_Object {
         return filenames;
     }
 
-    private ArrayList<UKP_YM3> YM3All;
+    private ArrayList<UKP_YM3> ym3all;
 
-    public ArrayList<UKP_YM3> getYM3All() throws IOException {
-        if (YM3All == null) {
+    public ArrayList<UKP_YM3> getYm3all() throws IOException {
+        if (ym3all == null) {
             filenames = getFilenames();
-            YM3All = new ArrayList<>();
-            filenames = getFilenames();
-            for (String SHBEFilename : filenames) {
-                YM3All.add(getYM3(SHBEFilename));
+            ym3all = new ArrayList<>();
+            for (String f : filenames) {
+                ym3all.add(getYM3(f));
             }
         }
-        return YM3All;
+        return ym3all;
     }
 
     public ArrayList<Integer> getSHBEFilenameIndexes() throws IOException {
-        ArrayList<Integer> result;
-        result = new ArrayList<>();
+        ArrayList<Integer> r = new ArrayList<>();
         filenames = getFilenames();
         for (int i = 0; i < filenames.length; i++) {
-            result.add(i);
+            r.add(i);
         }
-        return result;
+        return r;
     }
 
     /**
      *
-     * @param tSHBEFilenames
-     * @param include
-     * @return * {@code
-     * Object[] result;
-     * result = new Object[2];
-     * TreeMap<BigDecimal, String> valueLabel;
-     * valueLabel = new TreeMap<BigDecimal, String>();
-     * TreeMap<String, BigDecimal> fileLabelValue;
-     * fileLabelValue = new TreeMap<String, BigDecimal>();
-     * result[0] = valueLabel;
-     * result[1] = fileLabelValue;
-     * }
+     * @param fns SHBEFilenames
+     * @param include include
+     * @return Object[] r, where;
+     * <ul>
+     * <li>{@code r[0] = TreeMap<BigDecimal, String>}</li>
+     * <li>{@code r[1] = TreeMap<String, BigDecimal>}</li>
+     * </ul>
      */
-    public Object[] getTreeMapDateLabelSHBEFilenames(String[] tSHBEFilenames,
-            ArrayList<Integer> include
-    ) {
+    public Object[] getTreeMapDateLabelSHBEFilenames(String[] fns,
+            ArrayList<Integer> include) {
         // Initialise result r
-        Object[] r;
-        r = new Object[2];
-        TreeMap<BigDecimal, String> valueLabel;
-        valueLabel = new TreeMap<>();
-        TreeMap<String, BigDecimal> fileLabelValue;
-        fileLabelValue = new TreeMap<>();
+        Object[] r = new Object[2];
+        TreeMap<BigDecimal, String> valueLabel = new TreeMap<>();
+        TreeMap<String, BigDecimal> fileLabelValue = new TreeMap<>();
         r[0] = valueLabel;
         r[1] = fileLabelValue;
 
         // Get month3Letters lookup
-        ArrayList<String> month3Letters;
-        month3Letters = Generic_Time.getMonths3Letters();
-
-        // Declare variables
-        int startMonth;
-        int startYear;
-        int yearInt0;
-        int month0Int;
-        String month0;
-        String m30;
-        UKP_YM3 yM30;
-        int i;
-        Iterator<Integer> ite;
+        ArrayList<String> month3Letters = Generic_Time.getMonths3Letters();
 
         // Iterate
-        ite = include.iterator();
+        Iterator<Integer> ite = include.iterator();
 
         // Initialise first
-        i = ite.next();
-        yM30 = getYM3(tSHBEFilenames[i]);
-        yearInt0 = Integer.valueOf(getYear(tSHBEFilenames[i]));
-        month0 = getMonth(tSHBEFilenames[i]);
-        m30 = month0.substring(0, 3);
-        month0Int = month3Letters.indexOf(m30) + 1;
-        startMonth = month0Int;
-        startYear = yearInt0;
+        int i = ite.next();
+        UKP_YM3 yM30 = getYM3(fns[i]);
+        int yearInt0 = Integer.valueOf(getYear(fns[i]));
+        String m30 = getMonth(fns[i]).substring(0, 3);
+        int month0Int = month3Letters.indexOf(m30) + 1;
+        int startMonth = month0Int;
+        int startYear = yearInt0;
 
         // Iterate through rest
         while (ite.hasNext()) {
             i = ite.next();
-            UKP_YM3 yM31;
-            yM31 = getYM3(tSHBEFilenames[i]);
-            int yearInt;
-            String month;
-            int monthInt;
-            String m3;
-            month = getMonth(tSHBEFilenames[i]);
-            yearInt = Integer.valueOf(getYear(tSHBEFilenames[i]));
-            m3 = month.substring(0, 3);
-            monthInt = month3Letters.indexOf(m3) + 1;
-            BigDecimal timeSinceStart;
-            timeSinceStart = BigDecimal.valueOf(Generic_Time.getMonthDiff(
-                    startYear, yearInt, startMonth, monthInt));
+            UKP_YM3 yM31 = getYM3(fns[i]);
+            int yearInt = Integer.valueOf(getYear(fns[i]));
+            String m3 = getMonth(fns[i]).substring(0, 3);
+            int monthInt = month3Letters.indexOf(m3) + 1;
+            BigDecimal timeSinceStart = BigDecimal.valueOf(
+                    Generic_Time.getMonthDiff(
+                            startYear, yearInt, startMonth, monthInt));
             //System.out.println(timeSinceStart);
-            String label;
-            label = yM30.toString() + "-" + yM31.toString();
+            String label = yM30.toString() + "-" + yM31.toString();
             //System.out.println(label);
             valueLabel.put(timeSinceStart, label);
             fileLabelValue.put(label, timeSinceStart);
-
             // Prepare variables for next iteration
             yM30 = yM31;
         }
@@ -2727,71 +2630,47 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      *
-     * @param SHBEFilenames
-     * @param include
-     * @return * {@code
-     * Object[] result;
-     * result = new Object[2];
-     * TreeMap<BigDecimal, String> valueLabel;
-     * valueLabel = new TreeMap<BigDecimal, String>();
-     * TreeMap<String, BigDecimal> fileLabelValue;
-     * fileLabelValue = new TreeMap<String, BigDecimal>();
-     * result[0] = valueLabel;
-     * result[1] = fileLabelValue;
-     * }
+     * @param fns SHBEFilenames
+     * @param include The include.
+     * @return Object[] r, where;
+     * <ul>
+     * <li>{@code r[0] = TreeMap<BigDecimal, String>}</li>
+     * <li>{@code r[1] = TreeMap<String, BigDecimal>}</li>
+     * </ul>
      */
     public Object[] getTreeMapDateLabelSHBEFilenamesSingle(
-            String[] SHBEFilenames, ArrayList<Integer> include
-    ) {
+            String[] fns, ArrayList<Integer> include) {
         // Initiailise result r
-        Object[] r;
-        r = new Object[2];
-        TreeMap<BigDecimal, UKP_YM3> valueLabel;
-        valueLabel = new TreeMap<>();
-        TreeMap<UKP_YM3, BigDecimal> fileLabelValue;
-        fileLabelValue = new TreeMap<>();
+        Object[] r = new Object[2];
+        TreeMap<BigDecimal, UKP_YM3> valueLabel = new TreeMap<>();
+        TreeMap<UKP_YM3, BigDecimal> fileLabelValue = new TreeMap<>();
         r[0] = valueLabel;
         r[1] = fileLabelValue;
 
         // Get month3Letters lookup
-        ArrayList<String> month3Letters;
-        month3Letters = Generic_Time.getMonths3Letters();
+        ArrayList<String> month3Letters = Generic_Time.getMonths3Letters();
 
-        // Declare variables
-        int startMonth;
-        int startYear;
-        UKP_YM3 YM3;
-        int yearInt;
-        String month;
-        int monthInt;
-        String m3;
-        Iterator<Integer> ite;
-        int i;
-
-        // Iterate
-        ite = include.iterator();
+        Iterator<Integer> ite = include.iterator();
 
         // Initialise first
-        i = ite.next();
-        int yearInt0 = Integer.valueOf(getYear(SHBEFilenames[i]));
-        String m30 = getMonth3(SHBEFilenames[i]);
-        int month0Int = month3Letters.indexOf(m30) + 1;
-        startMonth = month0Int;
-        startYear = yearInt0;
+        int i = ite.next();
+        int y0 = Integer.valueOf(getYear(fns[i]));
+        String m30 = getMonth3(fns[i]);
+        int m0 = month3Letters.indexOf(m30) + 1;
+        int sm = m0;
+        int sy = y0;
 
         // Iterate through rest
         while (ite.hasNext()) {
             i = ite.next();
-            YM3 = getYM3(SHBEFilenames[i]);
-            month = getMonth(SHBEFilenames[i]);
-            yearInt = Integer.valueOf(getYear(SHBEFilenames[i]));
-            m3 = month.substring(0, 3);
-            monthInt = month3Letters.indexOf(m3) + 1;
-            BigDecimal timeSinceStart;
-            timeSinceStart = BigDecimal.valueOf(Generic_Time.getMonthDiff(
-                    startYear, yearInt, startMonth, monthInt));
-            valueLabel.put(timeSinceStart, YM3);
-            fileLabelValue.put(YM3, timeSinceStart);
+            UKP_YM3 ym3 = getYM3(fns[i]);
+            int y = Integer.valueOf(getYear(fns[i]));
+            int m = month3Letters.indexOf(
+                    getMonth(fns[i]).substring(0, 3)) + 1;
+            BigDecimal timeSinceStart = BigDecimal.valueOf(
+                    Generic_Time.getMonthDiff(sy, y, sm, m));
+            valueLabel.put(timeSinceStart, ym3);
+            fileLabelValue.put(ym3, timeSinceStart);
         }
         return r;
     }
@@ -2871,10 +2750,9 @@ public class SHBE_Handler extends SHBE_Object {
 //        }
 //        return result;
 //    }
-
     /**
      * @param fn SHBE Filename
-     * @return {@link #getYM3(fn, "_")}
+     * @return {@code getMonth(fn).substring(0, 3)}
      */
     public String getMonth3(String fn) {
         return getMonth(fn).substring(0, 3);
@@ -2882,7 +2760,7 @@ public class SHBE_Handler extends SHBE_Object {
 
     /**
      * @param fn SHBE Filename
-     * @return {@link #getYM3(fn, "_")}
+     * @return {@code getYM3(fn, "_")}
      */
     public UKP_YM3 getYM3(String fn) {
         return getYM3(fn, "_");
@@ -2998,7 +2876,7 @@ public class SHBE_Handler extends SHBE_Object {
      * sInclude2MonthlySinceApril2013Offset1 sIncludeStartEndSinceApril2013
      * sIncludeApril2013May2013
      *
-     * @return
+     * @return A map of includes.
      * @throws java.io.IOException If encountered.
      */
     public TreeMap<String, ArrayList<Integer>> getIncludes() throws IOException {
@@ -3016,8 +2894,7 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     *
-     * @return
+     * @return An empty ArrayList
      */
     public ArrayList<Integer> getOmitAll() {
         return new ArrayList<>();

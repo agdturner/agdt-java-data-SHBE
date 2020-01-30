@@ -113,9 +113,7 @@ public class SHBE_Record extends Data_Record {
     }
 
     /**
-     * Returns a Brief String description of this.
-     *
-     * @return
+     * @return a Brief String description of this.
      */
     public String toStringBrief() {
         String r = "SHBE_Record comprising of:";
