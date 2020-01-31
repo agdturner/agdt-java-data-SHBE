@@ -276,20 +276,19 @@ public abstract class SHBE_DAC_Record extends SHBE_DACTEGPRST_Record {
     }
 
     /**
-     * @param TenancyType the tenancyType to set
+     * @param i What {@link #tenancyType} is set to.
      */
-    protected final void setTenancyType(int TenancyType) {
-        this.tenancyType = TenancyType;
+    protected final void setTenancyType(int i) {
+        this.tenancyType = i;
     }
 
     /**
-     * @param n
-     * @param fields
-     * @throws Exception
+     * @param n n
+     * @param fields fields
+     * @throws Exception If encountered.
      */
-    protected final void setTenancyType(
-            int n,
-            String[] fields) throws Exception {
+    protected final void setTenancyType(int n, String[] fields) 
+            throws Exception {
         if (fields[n].trim().isEmpty()) {
             tenancyType = -999;
         } else {

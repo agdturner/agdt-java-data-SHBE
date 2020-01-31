@@ -428,7 +428,7 @@ public class SHBE_Handler extends SHBE_Object {
         return nid2n;
     }
 
-    public Map<SHBE_NINOID, String> getNINOIDToNINOLookup()
+    public Map<SHBE_NINOID, String> getNid2n()
             throws IOException, ClassNotFoundException {
         nid2nFile = getNid2nFile();
         return getNINOIDToNINOLookup(nid2nFile);
@@ -456,9 +456,9 @@ public class SHBE_Handler extends SHBE_Object {
         return claimantPersonIDs;
     }
 
-    public Set<SHBE_PersonID> getClaimantPersonIDs()
+    public Set<SHBE_PersonID> getCpids()
             throws IOException, ClassNotFoundException {
-        claimantPersonIDsFile = getClaimantPersonIDsFile();
+        claimantPersonIDsFile = getCpidsFile();
         return getClaimantPersonIDs(claimantPersonIDsFile);
     }
 
@@ -470,9 +470,9 @@ public class SHBE_Handler extends SHBE_Object {
         return partnerPersonIDs;
     }
 
-    public Set<SHBE_PersonID> getPartnerPersonIDs()
+    public Set<SHBE_PersonID> getPpids()
             throws IOException, ClassNotFoundException {
-        partnerPersonIDsFile = getPartnerPersonIDsFile();
+        partnerPersonIDsFile = getPpidsFile();
         return getPartnerPersonIDs(partnerPersonIDsFile);
     }
 
@@ -484,7 +484,7 @@ public class SHBE_Handler extends SHBE_Object {
         return nonDependentPersonIDs;
     }
 
-    public Set<SHBE_PersonID> getNonDependentPersonIDs()
+    public Set<SHBE_PersonID> getNdpids()
             throws IOException, ClassNotFoundException {
         ndpidsFile = getNdpidsFile();
         return getNonDependentPersonIDs(ndpidsFile);
@@ -520,10 +520,10 @@ public class SHBE_Handler extends SHBE_Object {
         return p2pid;
     }
 
-    public Map<String, UKP_RecordID> getPostcodeToPostcodeIDLookup()
+    public Map<String, UKP_RecordID> getP2pid()
             throws IOException, ClassNotFoundException {
         p2pidFile = getP2pidFile();
-        return getP2pid(p2pidFile);
+        return SHBE_Handler.this.getP2pid(p2pidFile);
     }
 
     public final Map<UKP_RecordID, String> getPostcodeIDToPostcodeLookup(Path f)
@@ -683,7 +683,7 @@ public class SHBE_Handler extends SHBE_Object {
         return did2dFile;
     }
 
-    public final Path getClaimantPersonIDsFile() throws IOException,
+    public final Path getCpidsFile() throws IOException,
             ClassNotFoundException {
         if (claimantPersonIDsFile == null) {
             String filename = "Claimant_HashSet_SHBE_PersonID"
@@ -694,7 +694,7 @@ public class SHBE_Handler extends SHBE_Object {
         return claimantPersonIDsFile;
     }
 
-    public final Path getPartnerPersonIDsFile() throws IOException,
+    public final Path getPpidsFile() throws IOException,
             ClassNotFoundException {
         if (partnerPersonIDsFile == null) {
             String filename = "Partner_HashSet_SHBE_PersonID"
@@ -733,8 +733,8 @@ public class SHBE_Handler extends SHBE_Object {
      * load it from file and return it. Failing that return {@code null}.
      *
      * @param ym3 The year and month of records to get.
-     * @param hoome
-     * @return
+     * @param hoome hoome
+     * @return SHBE_Records
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
@@ -857,7 +857,7 @@ public class SHBE_Handler extends SHBE_Object {
      * Clears some SHBE_Records in data from fast access memory except the
      * SHBE_Records in data indexed by YM3.
      *
-     * @param ym3
+     * @param ym3 ym3
      * @return true iff some SHBE_Records were cleared and false otherwise.
      */
     public boolean clearSomeExcept(UKP_YM3 ym3) {
@@ -893,32 +893,19 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     public void writeLookups() throws IOException, ClassNotFoundException {
-        Generic_IO.writeObject(getCid2c(),
-                getCid2cFile());
-        Generic_IO.writeObject(getC2cid(),
-                getC2cidFile());
-        Generic_IO.writeObject(getN2nid(),
-                getN2nidFile());
-        Generic_IO.writeObject(getNINOIDToNINOLookup(),
-                getNid2nFile());
-        Generic_IO.writeObject(getD2did(),
-                getD2didFile());
-        Generic_IO.writeObject(getDid2d(),
-                getDid2dFile());
-        Generic_IO.writeObject(getPostcodeToPostcodeIDLookup(),
-                getP2pidFile());
-        Generic_IO.writeObject(getPid2p(),
-                getPid2pFile());
-        Generic_IO.writeObject(getPid2point(),
-                getPid2pointFile());
-        Generic_IO.writeObject(getClaimantPersonIDs(),
-                getClaimantPersonIDsFile());
-        Generic_IO.writeObject(getPartnerPersonIDs(),
-                getPartnerPersonIDsFile());
-        Generic_IO.writeObject(getNonDependentPersonIDs(),
-                getNdpidsFile());
-        Generic_IO.writeObject(SHBE_Handler.this.getPid2cids(),
-                getPid2cidsFile());
+        Generic_IO.writeObject(getCid2c(), getCid2cFile());
+        Generic_IO.writeObject(getC2cid(), getC2cidFile());
+        Generic_IO.writeObject(getN2nid(), getN2nidFile());
+        Generic_IO.writeObject(getNid2n(), getNid2nFile());
+        Generic_IO.writeObject(getD2did(), getD2didFile());
+        Generic_IO.writeObject(getDid2d(), getDid2dFile());
+        Generic_IO.writeObject(getP2pid(), getP2pidFile());
+        Generic_IO.writeObject(getPid2p(), getPid2pFile());
+        Generic_IO.writeObject(getPid2point(), getPid2pointFile());
+        Generic_IO.writeObject(getCpids(), getCpidsFile());
+        Generic_IO.writeObject(getPpids(), getPpidsFile());
+        Generic_IO.writeObject(getNdpids(), getNdpidsFile());
+        Generic_IO.writeObject(getPid2cids(), getPid2cidsFile());
     }
 
     /**
@@ -971,6 +958,8 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * For checking postcodes.
      *
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
     public void runPostcodeCheckLatest() throws IOException, ClassNotFoundException, Exception {
         boolean hoome;
@@ -986,7 +975,7 @@ public class SHBE_Handler extends SHBE_Object {
         String h;
 
         // Initialisation
-        p2pid = getPostcodeToPostcodeIDLookup();
+        p2pid = getP2pid();
         PostcodeIDPointLookups = getPid2point();
         cid2c = getCid2c();
 
@@ -1215,7 +1204,7 @@ public class SHBE_Handler extends SHBE_Object {
         boolean modifiedAnyRecs;
 
         // Initialisation
-        p2pid = getPostcodeToPostcodeIDLookup();
+        p2pid = getP2pid();
         PostcodeIDPointLookups = getPid2point();
         cid2c = getCid2c();
         SHBEFilenames = getFilenames();
@@ -1430,7 +1419,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param pt Payment Type
      * @return Claim IDs
      * @throws java.io.IOException If encountered.
-     * @throws java.lang.ClassNotFoundException  If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
     public Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDate(
             SHBE_Records recs, String pt) throws IOException,
@@ -1454,6 +1443,8 @@ public class SHBE_Handler extends SHBE_Object {
      * @param recs SHBE_Records
      * @param pt Payment Type
      * @return Claim IDs
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
     public Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDate(
             SHBE_Records recs, String pt) throws IOException,
@@ -1518,11 +1509,11 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     /**
-     * @param TT
-     * @return
+     * @param tt Tenancy Type
+     * @return {@code true} if {@code tt == 5 || tt == 7}
      */
-    public boolean isCTBOnlyClaim(int TT) {
-        return TT == 5 || TT == 7;
+    public boolean isCTBOnlyClaim(int tt) {
+        return tt == 5 || tt == 7;
     }
 
     public boolean isHBClaimOtherPT(SHBE_D_Record d) {
@@ -1688,7 +1679,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param claimIDs claim IDs
      * @param claimIDsOfNewSHBEClaims claimIDsOfNewSHBEClaims
      * @return Claim ID
-     * @throws java.lang.Exception
+     * @throws java.lang.Exception If encountered.
      */
     public SHBE_ClaimID getIDAddIfNeeded(
             String claimRef, Map<String, SHBE_ClaimID> c2cid,
@@ -1716,7 +1707,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param postcodeF postcode
      * @param p2pid Postcode to Postcode ID lookup.
      * @param pid2p Postcode ID to Postcode lookup.
-     * @return
+     * @return UKP_RecordID
      */
     public UKP_RecordID getPostcodeIDAddIfNeeded(String postcodeF,
             Map<String, UKP_RecordID> p2pid, Map<UKP_RecordID, String> pid2p) {

@@ -40,7 +40,7 @@ public class SHBE_D_Record extends SHBE_DC_Record {
      * postcode if the record is long enough. But it might be useful to have
      * other types in future if the number of fields or the field usage changes.
      * @param line The line.
-     * @throws Exception
+     * @throws Exception If encountered.
      */
     public SHBE_D_Record(SHBE_Environment env, long recordID, int type, 
             String line) throws Exception {

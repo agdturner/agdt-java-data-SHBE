@@ -31,7 +31,7 @@ public abstract class SHBE_Object implements Serializable {
     
     /**
      * {@link #logID} defaulted to 0.
-     * @param e 
+     * @param e SHBE_Environment
      */
     public SHBE_Object(SHBE_Environment e){
         this(e, 0);
@@ -39,7 +39,7 @@ public abstract class SHBE_Object implements Serializable {
             
     /**
      * 
-     * @param e
+     * @param e SHBE_Environment
      * @param i The logID.
      */
     public SHBE_Object(SHBE_Environment e, int i) {

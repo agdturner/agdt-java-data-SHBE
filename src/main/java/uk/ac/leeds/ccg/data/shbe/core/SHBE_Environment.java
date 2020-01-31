@@ -51,7 +51,7 @@ public class SHBE_Environment extends SHBE_MemoryManager
 
     /**
      * @param de Data_Environment
-     * @throws java.io.IOException
+     * @throws java.io.IOException If encountered.
      */
     public SHBE_Environment(Data_Environment de) throws IOException, Exception {
         //Memory_Threshold = 3000000000L;
@@ -66,7 +66,7 @@ public class SHBE_Environment extends SHBE_MemoryManager
     /**
      * A method to try to ensure there is enough memory to continue.
      *
-     * @return
+     * @return true if all fine
      */
     @Override
     public boolean checkAndMaybeFreeMemory() {
@@ -76,7 +76,7 @@ public class SHBE_Environment extends SHBE_MemoryManager
 //            if (clear == 0) {
 //                return false;
 //            }
-            if (!SHBE_Environment.this.swapSomeData()) {
+            if (!swapSomeData()) {
                 return false;
             }
         }
@@ -86,7 +86,7 @@ public class SHBE_Environment extends SHBE_MemoryManager
     @Override
     public boolean swapSomeData(boolean hoome) {
         try {
-            boolean r = SHBE_Environment.this.swapSomeData();
+            boolean r = swapSomeData();
             checkAndMaybeFreeMemory();
             return r;
         } catch (OutOfMemoryError e) {
@@ -104,12 +104,11 @@ public class SHBE_Environment extends SHBE_MemoryManager
     /**
      * Currently this just tries to cache ONSPD data.
      *
-     * @return
+     * @return true if some data was swapped.
      */
     @Override
     public boolean swapSomeData() {
-        boolean r;
-        r = clearSomeData();
+        boolean r = clearSomeData();
         if (r) {
             return r;
         } else {
@@ -126,15 +125,15 @@ public class SHBE_Environment extends SHBE_MemoryManager
 
     /**
      * Clears all 
-     * @return 
+     * @return  count of data cleared.
      */
     public int clearAllData() {
         return handler.clearAll();
     }
     
     /**
-     * Attempts to write out {@link handler} to 
-     * {@link SHBE_Files#getEnvDataFile()}.
+     * Attempts to write out {@link handler}.
+     * @throws java.io.IOException If encountered.
      */
     public void cacheData() throws IOException {
         Path f = files.getEnvDataFile();
@@ -145,6 +144,8 @@ public class SHBE_Environment extends SHBE_MemoryManager
 
     /**
      * Attempts to load {@link handler} from a {@link SHBE_Files#getEnvDataFile()}.
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.ClassNotFoundException If encountered.
      */
     public final void loadData() throws IOException, ClassNotFoundException {
         Path f = files.getEnvDataFile();

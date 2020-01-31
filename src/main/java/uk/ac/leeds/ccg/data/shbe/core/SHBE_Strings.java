@@ -122,13 +122,12 @@ public class SHBE_Strings extends Generic_Strings {
     }
 
     /**
-     * For getting an {@code ArrayList<String>} of PaymentTypes.
+     * For getting an {@code ArrayList<String>} of Payment Types.
      *
-     * @return
+     * @return Payment types.
      */
     public static ArrayList<String> getPaymentTypes() {
-        ArrayList<String> r;
-        r = new ArrayList<>();
+        ArrayList<String> r = new ArrayList<>();
         r.add(s_PaymentTypeAll);
         r.add(s_PaymentTypeIn);
         r.add(s_PaymentTypeSuspended);

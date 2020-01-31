@@ -200,7 +200,7 @@ public class SHBE_DC_Record extends SHBE_DAC_Record {
     }
 
     /**
-     * @return {@link #wasThereABackdatedAwardMadeOnTheHBClaim
+     * @return {@link #wasThereABackdatedAwardMadeOnTheHBClaim}
      */
     public int getWasThereABackdatedAwardMadeOnTheHBClaim() {
         return wasThereABackdatedAwardMadeOnTheHBClaim;
@@ -334,14 +334,14 @@ public class SHBE_DC_Record extends SHBE_DAC_Record {
     }
 
     /**
-     * @return {@link #dDateCTBBackdatingTo}
+     * @return {@link #dateCTBBackdatingTo}
      */
     public String getDateCTBBackdatingTo() {
         return dateCTBBackdatingTo;
     }
 
     /**
-     * @param s What {@link #dDateCTBBackdatingTo} is set to.
+     * @param s What {@link #dateCTBBackdatingTo} is set to.
      */
     protected final void setDateCTBBackdatingTo(String s) {
         this.dateCTBBackdatingTo = s;

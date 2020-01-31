@@ -1594,14 +1594,14 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         //UnmappableToMappablePostcodes = SHBE_CorrectedPostcodes.getUnmappableToMappablePostcodes();
 
         n2nid = handler.getN2nid();
-        nid2n = handler.getNINOIDToNINOLookup();
+        nid2n = handler.getNid2n();
         d2did = handler.getD2did();
         did2d = handler.getDid2d();
-        allClaimantPersonIDs = handler.getClaimantPersonIDs();
-        allPartnerPersonIDs = handler.getPartnerPersonIDs();
-        allNonDependentIDs = handler.getNonDependentPersonIDs();
+        allClaimantPersonIDs = handler.getCpids();
+        allPartnerPersonIDs = handler.getPpids();
+        allNonDependentIDs = handler.getNdpids();
         personID2ClaimIDs = handler.getPid2cids();
-        p2pid = handler.getPostcodeToPostcodeIDLookup();
+        p2pid = handler.getP2pid();
         pid2p = handler.getPid2p();
         pid2point = handler.getPostcodeIDToPointLookup(ym3);
         c2cid = handler.getC2cid();
