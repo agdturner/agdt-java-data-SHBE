@@ -116,17 +116,17 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * All Person IDs of claimants.
      */
-    Set<SHBE_PersonID> claimantPersonIDs;
+    Set<SHBE_PersonID> cpids;
 
     /**
      * All Person IDs of claimant partners.
      */
-    Set<SHBE_PersonID> partnerPersonIDs;
+    Set<SHBE_PersonID> ppids;
 
     /**
      * All Person IDs of non-Dependents.
      */
-    Set<SHBE_PersonID> nonDependentPersonIDs;
+    Set<SHBE_PersonID> ndpids;
 
     /**
      * All Person IDs to Claim IDs. A person may in some circumstances be part
@@ -171,17 +171,17 @@ public class SHBE_Handler extends SHBE_Object {
     private Path did2dFile;
 
     /**
-     * claimantPersonIDs File.
+     * {@link #cpids} File.
      */
-    private Path claimantPersonIDsFile;
+    private Path cpidsFile;
 
     /**
-     * {@link #partnerPersonIDs} File.
+     * {@link #ppids} File.
      */
-    private Path partnerPersonIDsFile;
+    private Path ppidsFile;
 
     /**
-     * {@link #nonDependentPersonIDs} File.
+     * {@link #ndpids} File.
      */
     private Path ndpidsFile;
 
@@ -227,7 +227,7 @@ public class SHBE_Handler extends SHBE_Object {
     public SHBE_Handler(SHBE_Environment e, int logID) {
         super(e, logID);
 //        n2nid = e.getN2nid();
-//        d2did = data.getDOBToDOBIDLookup();
+//        d2did = data.getD2did();
         pData = e.oe.getHandler();
     }
 
@@ -308,7 +308,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public Map<String, SHBE_ClaimID> getClaimRefToClaimIDLookup(Path f)
+    public Map<String, SHBE_ClaimID> getC2cid(Path f)
             throws IOException, ClassNotFoundException {
         if (c2cid == null) {
             c2cid = getStringToTLookup(f);
@@ -343,7 +343,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public Map<SHBE_ClaimID, String> getClaimIDToClaimRefLookup(Path f)
+    public Map<SHBE_ClaimID, String> getCid2c(Path f)
             throws IOException, ClassNotFoundException {
         if (cid2c == null) {
             cid2c = env.collections.getHashMapTString(f);
@@ -359,7 +359,7 @@ public class SHBE_Handler extends SHBE_Object {
     public Map<String, SHBE_ClaimID> getC2cid()
             throws IOException, ClassNotFoundException {
         c2cidFile = getC2cidFile();
-        return getClaimRefToClaimIDLookup(c2cidFile);
+        return getC2cid(c2cidFile);
     }
 
     /**
@@ -370,7 +370,7 @@ public class SHBE_Handler extends SHBE_Object {
     public Map<SHBE_ClaimID, String> getCid2c()
             throws IOException, ClassNotFoundException {
         cid2cFile = getCid2cFile();
-        return getClaimIDToClaimRefLookup(cid2cFile);
+        return getCid2c(cid2cFile);
     }
 
     public final SHBE_CorrectedPostcodes getCorrectedPostcodes(Path f)
@@ -392,7 +392,7 @@ public class SHBE_Handler extends SHBE_Object {
         return getCorrectedPostcodes(correctedPostcodesFile);
     }
 
-    public final Map<String, SHBE_NINOID> getNINOToNINOIDLookup(Path f)
+    public final Map<String, SHBE_NINOID> getN2nid(Path f)
             throws IOException, ClassNotFoundException {
         if (n2nid == null) {
             n2nid = getStringToTLookup(f);
@@ -403,10 +403,10 @@ public class SHBE_Handler extends SHBE_Object {
     public Map<String, SHBE_NINOID> getN2nid()
             throws IOException, ClassNotFoundException {
         n2nidFile = getN2nidFile();
-        return getNINOToNINOIDLookup(n2nidFile);
+        return getN2nid(n2nidFile);
     }
 
-    public final Map<String, SHBE_DOBID> getDOBToDOBIDLookup(Path f)
+    public final Map<String, SHBE_DOBID> getD2did(Path f)
             throws IOException, ClassNotFoundException {
         if (d2did == null) {
             d2did = getStringToTLookup(f);
@@ -417,10 +417,10 @@ public class SHBE_Handler extends SHBE_Object {
     public Map<String, SHBE_DOBID> getD2did()
             throws IOException, ClassNotFoundException {
         d2didFile = getD2didFile();
-        return getDOBToDOBIDLookup(d2didFile);
+        return getD2did(d2didFile);
     }
 
-    public final Map<SHBE_NINOID, String> getNINOIDToNINOLookup(Path f)
+    public final Map<SHBE_NINOID, String> getNid2n(Path f)
             throws IOException, ClassNotFoundException {
         if (nid2n == null) {
             nid2n = env.collections.getHashMapTString(f);
@@ -431,10 +431,10 @@ public class SHBE_Handler extends SHBE_Object {
     public Map<SHBE_NINOID, String> getNid2n()
             throws IOException, ClassNotFoundException {
         nid2nFile = getNid2nFile();
-        return getNINOIDToNINOLookup(nid2nFile);
+        return getNid2n(nid2nFile);
     }
 
-    public final Map<SHBE_DOBID, String> getDOBIDToDOBLookup(Path f)
+    public final Map<SHBE_DOBID, String> getDid2d(Path f)
             throws IOException, ClassNotFoundException {
         if (did2d == null) {
             did2d = env.collections.getHashMapTString(f);
@@ -445,43 +445,43 @@ public class SHBE_Handler extends SHBE_Object {
     public Map<SHBE_DOBID, String> getDid2d()
             throws IOException, ClassNotFoundException {
         did2dFile = getDid2dFile();
-        return getDOBIDToDOBLookup(did2dFile);
+        return getDid2d(did2dFile);
     }
 
     public final Set<SHBE_PersonID> getClaimantPersonIDs(Path f)
             throws IOException, ClassNotFoundException {
-        if (claimantPersonIDs == null) {
-            claimantPersonIDs = env.collections.getPersonIDs(f);
+        if (cpids == null) {
+            cpids = env.collections.getPersonIDs(f);
         }
-        return claimantPersonIDs;
+        return cpids;
     }
 
     public Set<SHBE_PersonID> getCpids()
             throws IOException, ClassNotFoundException {
-        claimantPersonIDsFile = getCpidsFile();
-        return getClaimantPersonIDs(claimantPersonIDsFile);
+        cpidsFile = getCpidsFile();
+        return getClaimantPersonIDs(cpidsFile);
     }
 
     public final Set<SHBE_PersonID> getPartnerPersonIDs(Path f)
             throws IOException, ClassNotFoundException {
-        if (partnerPersonIDs == null) {
-            partnerPersonIDs = env.collections.getPersonIDs(f);
+        if (ppids == null) {
+            ppids = env.collections.getPersonIDs(f);
         }
-        return partnerPersonIDs;
+        return ppids;
     }
 
     public Set<SHBE_PersonID> getPpids()
             throws IOException, ClassNotFoundException {
-        partnerPersonIDsFile = getPpidsFile();
-        return getPartnerPersonIDs(partnerPersonIDsFile);
+        ppidsFile = getPpidsFile();
+        return getPartnerPersonIDs(ppidsFile);
     }
 
     public final Set<SHBE_PersonID> getNonDependentPersonIDs(Path f)
             throws IOException, ClassNotFoundException {
-        if (nonDependentPersonIDs == null) {
-            nonDependentPersonIDs = env.collections.getPersonIDs(f);
+        if (ndpids == null) {
+            ndpids = env.collections.getPersonIDs(f);
         }
-        return nonDependentPersonIDs;
+        return ndpids;
     }
 
     public Set<SHBE_PersonID> getNdpids()
@@ -526,7 +526,7 @@ public class SHBE_Handler extends SHBE_Object {
         return SHBE_Handler.this.getP2pid(p2pidFile);
     }
 
-    public final Map<UKP_RecordID, String> getPostcodeIDToPostcodeLookup(Path f)
+    public final Map<UKP_RecordID, String> getPid2p(Path f)
             throws IOException, ClassNotFoundException {
         if (pid2p == null) {
             if (Files.exists(f)) {
@@ -538,7 +538,7 @@ public class SHBE_Handler extends SHBE_Object {
         return pid2p;
     }
 
-    public final Map<UKP_YM3, Map<UKP_RecordID, ONSPD_Point>> getpid2point(
+    public final Map<UKP_YM3, Map<UKP_RecordID, ONSPD_Point>> getPid2point(
             Path f) throws IOException, ClassNotFoundException {
         if (pid2point == null) {
             if (Files.exists(f)) {
@@ -553,20 +553,20 @@ public class SHBE_Handler extends SHBE_Object {
     public Map<UKP_RecordID, String> getPid2p()
             throws IOException, ClassNotFoundException {
         pid2pFile = getPid2pFile();
-        return getPostcodeIDToPostcodeLookup(pid2pFile);
+        return getPid2p(pid2pFile);
     }
 
     public Map<UKP_YM3, Map<UKP_RecordID, ONSPD_Point>> getPid2point()
             throws IOException, ClassNotFoundException {
         pid2pointFile = getPid2pointFile();
-        return getpid2point(pid2pointFile);
+        return getPid2point(pid2pointFile);
     }
 
-    public Map<UKP_RecordID, ONSPD_Point> getPostcodeIDToPointLookup(UKP_YM3 YM3)
+    public Map<UKP_RecordID, ONSPD_Point> getPid2point(UKP_YM3 YM3)
             throws IOException, ClassNotFoundException {
         UKP_YM3 nYM3 = pData.getNearestYM3ForONSPDLookup(YM3);
         Map<UKP_RecordID, ONSPD_Point> r;
-        pid2point = getPid2point();
+        pid2point = SHBE_Handler.this.getPid2point();
         if (pid2point.containsKey(nYM3)) {
             r = pid2point.get(nYM3);
         } else {
@@ -685,24 +685,24 @@ public class SHBE_Handler extends SHBE_Object {
 
     public final Path getCpidsFile() throws IOException,
             ClassNotFoundException {
-        if (claimantPersonIDsFile == null) {
+        if (cpidsFile == null) {
             String filename = "Claimant_HashSet_SHBE_PersonID"
                     + SHBE_Strings.s_BinaryFileExtension;
-            claimantPersonIDsFile = Paths.get(
+            cpidsFile = Paths.get(
                     files.getGeneratedSHBEDir().toString(), filename);
         }
-        return claimantPersonIDsFile;
+        return cpidsFile;
     }
 
     public final Path getPpidsFile() throws IOException,
             ClassNotFoundException {
-        if (partnerPersonIDsFile == null) {
+        if (ppidsFile == null) {
             String filename = "Partner_HashSet_SHBE_PersonID"
                     + SHBE_Strings.s_BinaryFileExtension;
-            partnerPersonIDsFile = Paths.get(
+            ppidsFile = Paths.get(
                     files.getGeneratedSHBEDir().toString(), filename);
         }
-        return partnerPersonIDsFile;
+        return ppidsFile;
     }
 
     public final Path getNdpidsFile() throws IOException,
@@ -893,15 +893,15 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     public void writeLookups() throws IOException, ClassNotFoundException {
-        Generic_IO.writeObject(getCid2c(), getCid2cFile());
-        Generic_IO.writeObject(getC2cid(), getC2cidFile());
-        Generic_IO.writeObject(getN2nid(), getN2nidFile());
-        Generic_IO.writeObject(getNid2n(), getNid2nFile());
-        Generic_IO.writeObject(getD2did(), getD2didFile());
-        Generic_IO.writeObject(getDid2d(), getDid2dFile());
+        Generic_IO.writeObject(SHBE_Handler.this.getCid2c(), getCid2cFile());
+        Generic_IO.writeObject(SHBE_Handler.this.getC2cid(), getC2cidFile());
+        Generic_IO.writeObject(SHBE_Handler.this.getN2nid(), getN2nidFile());
+        Generic_IO.writeObject(SHBE_Handler.this.getNid2n(), getNid2nFile());
+        Generic_IO.writeObject(SHBE_Handler.this.getD2did(), getD2didFile());
+        Generic_IO.writeObject(SHBE_Handler.this.getDid2d(), getDid2dFile());
         Generic_IO.writeObject(getP2pid(), getP2pidFile());
-        Generic_IO.writeObject(getPid2p(), getPid2pFile());
-        Generic_IO.writeObject(getPid2point(), getPid2pointFile());
+        Generic_IO.writeObject(SHBE_Handler.this.getPid2p(), getPid2pFile());
+        Generic_IO.writeObject(SHBE_Handler.this.getPid2point(), getPid2pointFile());
         Generic_IO.writeObject(getCpids(), getCpidsFile());
         Generic_IO.writeObject(getPpids(), getPpidsFile());
         Generic_IO.writeObject(getNdpids(), getNdpidsFile());
@@ -976,8 +976,8 @@ public class SHBE_Handler extends SHBE_Object {
 
         // Initialisation
         p2pid = getP2pid();
-        PostcodeIDPointLookups = getPid2point();
-        cid2c = getCid2c();
+        PostcodeIDPointLookups = SHBE_Handler.this.getPid2point();
+        cid2c = SHBE_Handler.this.getCid2c();
 
         modifiedAnyRecs = false;
 
@@ -1083,11 +1083,11 @@ public class SHBE_Handler extends SHBE_Object {
                         rec0.claimPostcodeFMappable = true;
                         rec0.claimPostcodeFValidPostcodeFormat = true;
                         if (ClaimIDToPostcodeIDLookup0 == null) {
-                            ClaimIDToPostcodeIDLookup0 = s0.getClaimID2PostcodeID();
+                            ClaimIDToPostcodeIDLookup0 = s0.getCid2postcodeID();
                         }
                         ClaimIDToPostcodeIDLookup0.put(claimID, p2pid.get(postcodef1));
                         if (ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 == null) {
-                            ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = s0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
+                            ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = s0.getCidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
                         }
                         ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0.add(claimID);
                         UKP_RecordID postcodeID;
@@ -1134,10 +1134,10 @@ public class SHBE_Handler extends SHBE_Object {
             Generic_IO.writeObject(cpu0,
                     s0.getClaimantPostcodesUnmappableFile());
             Generic_IO.writeObject(ClaimIDToPostcodeIDLookup0,
-                    s0.getClaimID2postcodeIDFile());
+                    s0.getCid2postcodeIDFile());
             Generic_IO.writeObject(recs0, s0.getRecordsFile());
             Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
-                    s0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
+                    s0.getCidsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
         }
         env.env.closeLog(logIDUP);
 
@@ -1205,8 +1205,8 @@ public class SHBE_Handler extends SHBE_Object {
 
         // Initialisation
         p2pid = getP2pid();
-        PostcodeIDPointLookups = getPid2point();
-        cid2c = getCid2c();
+        PostcodeIDPointLookups = SHBE_Handler.this.getPid2point();
+        cid2c = SHBE_Handler.this.getCid2c();
         SHBEFilenames = getFilenames();
         SHBEFilename1 = SHBEFilenames[SHBEFilenames.length - 1];
         YMN = getYearMonthNumber(SHBEFilename1);
@@ -1300,12 +1300,12 @@ public class SHBE_Handler extends SHBE_Object {
                             rec0.claimPostcodeFMappable = true;
                             rec0.claimPostcodeFValidPostcodeFormat = true;
                             if (cid2pid == null) {
-                                cid2pid = SHBE_Records0.getClaimID2PostcodeID();
+                                cid2pid = SHBE_Records0.getCid2postcodeID();
                             }
                             UKP_RecordID postcodeID = p2pid.get(postcodef1);
                             cid2pid.put(claimID, postcodeID);
                             if (ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 == null) {
-                                ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
+                                ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0 = SHBE_Records0.getCidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
                             }
                             ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0.add(claimID);
                             ONSPD_Point p;
@@ -1349,10 +1349,10 @@ public class SHBE_Handler extends SHBE_Object {
                 Generic_IO.writeObject(ClaimantPostcodesUnmappable0,
                         SHBE_Records0.getClaimantPostcodesUnmappableFile());
                 Generic_IO.writeObject(cid2pid,
-                        SHBE_Records0.getClaimID2postcodeIDFile());
+                        SHBE_Records0.getCid2postcodeIDFile());
                 Generic_IO.writeObject(recs0, SHBE_Records0.getRecordsFile());
                 Generic_IO.writeObject(ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture0,
-                        SHBE_Records0.getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
+                        SHBE_Records0.getCidsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
             }
             // Prepare for next iteration
             recs1 = recs0;
@@ -1426,15 +1426,15 @@ public class SHBE_Handler extends SHBE_Object {
             ClassNotFoundException {
         Set<SHBE_ClaimID> r = null;
         if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeAll)) {
-            r = recs.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
-            r.addAll(recs.getClaimIDsWithStatusOfHBAtExtractDateSuspended());
-            r.addAll(recs.getClaimIDsWithStatusOfHBAtExtractDateOther());
+            r = recs.getCidsHII();
+            r.addAll(recs.getCidsHIS());
+            r.addAll(recs.getCidsHIO());
         } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeIn)) {
-            r = recs.getClaimIDsWithStatusOfHBAtExtractDateInPayment();
+            r = recs.getCidsHII();
         } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeSuspended)) {
-            r = recs.getClaimIDsWithStatusOfHBAtExtractDateSuspended();
+            r = recs.getCidsHIS();
         } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeOther)) {
-            r = recs.getClaimIDsWithStatusOfHBAtExtractDateOther();
+            r = recs.getCidsHIO();
         }
         return r;
     }
@@ -1451,15 +1451,15 @@ public class SHBE_Handler extends SHBE_Object {
             ClassNotFoundException {
         Set<SHBE_ClaimID> r = null;
         if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeAll)) {
-            r = recs.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
-            r.addAll(recs.getClaimIDsWithStatusOfCTBAtExtractDateSuspended());
-            r.addAll(recs.getClaimIDsWithStatusOfCTBAtExtractDateOther());
+            r = recs.getCidsCII();
+            r.addAll(recs.getCidsCIS());
+            r.addAll(recs.getCidsCIO());
         } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeIn)) {
-            r = recs.getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
+            r = recs.getCidsCII();
         } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeSuspended)) {
-            r = recs.getClaimIDsWithStatusOfCTBAtExtractDateSuspended();
+            r = recs.getCidsCIS();
         } else if (pt.equalsIgnoreCase(SHBE_Strings.s_PaymentTypeOther)) {
-            r = recs.getClaimIDsWithStatusOfCTBAtExtractDateOther();
+            r = recs.getCidsCIO();
         }
         return r;
     }
@@ -1625,7 +1625,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param s National Insurance Number.
      * @return The NINO ID for {@code s}
      */
-    public SHBE_NINOID getNINOIDAddIfNeeded(String s) {
+    public SHBE_NINOID getNidAddIfNeeded(String s) {
         SHBE_NINOID r;
         if (n2nid.containsKey(s)) {
             r = n2nid.get(s);
@@ -1642,7 +1642,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param s dob
      * @return DOBID
      */
-    public SHBE_DOBID getDOBIDAddIfNeeded(String s) {
+    public SHBE_DOBID getDidAddIfNeeded(String s) {
         SHBE_DOBID r;
         if (d2did.containsKey(s)) {
             r = d2did.get(s);
@@ -1658,7 +1658,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param s ClaimRef
      * @return Claim ID
      */
-    public SHBE_ClaimID getClaimIDAddIfNeeded(String s) {
+    public SHBE_ClaimID getCidAddIfNeeded(String s) {
         SHBE_ClaimID r;
         if (c2cid.containsKey(s)) {
             r = c2cid.get(s);
@@ -1709,7 +1709,7 @@ public class SHBE_Handler extends SHBE_Object {
      * @param pid2p Postcode ID to Postcode lookup.
      * @return UKP_RecordID
      */
-    public UKP_RecordID getPostcodeIDAddIfNeeded(String postcodeF,
+    public UKP_RecordID getPidAddIfNeeded(String postcodeF,
             Map<String, UKP_RecordID> p2pid, Map<UKP_RecordID, String> pid2p) {
         UKP_RecordID r;
         if (p2pid.containsKey(postcodeF)) {
@@ -3336,8 +3336,8 @@ public class SHBE_Handler extends SHBE_Object {
     public SHBE_PersonID getClaimantPersonID(SHBE_D_Record d)
             throws IOException, ClassNotFoundException {
         return new SHBE_PersonID(
-                getN2nid().get(d.getClaimantsNationalInsuranceNumber()),
-                getD2did().get(d.getClaimantsDateOfBirth()));
+                SHBE_Handler.this.getN2nid().get(d.getClaimantsNationalInsuranceNumber()),
+                SHBE_Handler.this.getD2did().get(d.getClaimantsDateOfBirth()));
     }
 
     /**
@@ -3349,8 +3349,8 @@ public class SHBE_Handler extends SHBE_Object {
     public SHBE_PersonID getPartnerPersonID(SHBE_D_Record d)
             throws IOException, ClassNotFoundException {
         return new SHBE_PersonID(
-                getN2nid().get(d.getPartnersNationalInsuranceNumber()),
-                getD2did().get(d.getPartnersDateOfBirth()));
+                SHBE_Handler.this.getN2nid().get(d.getPartnersNationalInsuranceNumber()),
+                SHBE_Handler.this.getD2did().get(d.getPartnersDateOfBirth()));
     }
 
     /**
@@ -3362,8 +3362,8 @@ public class SHBE_Handler extends SHBE_Object {
     public SHBE_PersonID getNonDependentPersonID(SHBE_S_Record s)
             throws IOException, ClassNotFoundException {
         return new SHBE_PersonID(
-                getN2nid().get(s.getSubRecordChildReferenceNumberOrNINO()),
-                getD2did().get(s.getSubRecordDateOfBirth()));
+                SHBE_Handler.this.getN2nid().get(s.getSubRecordChildReferenceNumberOrNINO()),
+                SHBE_Handler.this.getD2did().get(s.getSubRecordDateOfBirth()));
     }
 
     /**
@@ -3391,8 +3391,8 @@ public class SHBE_Handler extends SHBE_Object {
         } else {
             nino += "_" + cNINO;
         }
-        return new SHBE_PersonID(getN2nid().get(nino),
-                getD2did().get(s.getSubRecordDateOfBirth()));
+        return new SHBE_PersonID(SHBE_Handler.this.getN2nid().get(nino),
+                SHBE_Handler.this.getD2did().get(s.getSubRecordDateOfBirth()));
     }
 
     /**
@@ -3407,9 +3407,9 @@ public class SHBE_Handler extends SHBE_Object {
         Iterator<SHBE_S_Record> ite = S_Records.iterator();
         while (ite.hasNext()) {
             SHBE_S_Record s = ite.next();
-            r.add(new SHBE_PersonID(getN2nid().get(
+            r.add(new SHBE_PersonID(SHBE_Handler.this.getN2nid().get(
                     s.getSubRecordChildReferenceNumberOrNINO()),
-                    getD2did().get(s.getSubRecordDateOfBirth())));
+                    SHBE_Handler.this.getD2did().get(s.getSubRecordDateOfBirth())));
         }
         return r;
     }
@@ -3430,8 +3430,8 @@ public class SHBE_Handler extends SHBE_Object {
     SHBE_PersonID getPersonID(String nino, String dob,
             Map<String, SHBE_NINOID> n2nid, Map<SHBE_NINOID, String> nid2n,
             Map<String, SHBE_DOBID> d2did, Map<SHBE_DOBID, String> did2d) {
-        return new SHBE_PersonID(getNINOIDAddIfNeeded(nino),
-                getDOBIDAddIfNeeded(dob));
+        return new SHBE_PersonID(getNidAddIfNeeded(nino),
+                getDidAddIfNeeded(dob));
     }
 
     /**

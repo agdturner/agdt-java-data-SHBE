@@ -46,11 +46,11 @@ import uk.ac.leeds.ccg.data.shbe.core.SHBE_Strings;
 import uk.ac.leeds.ccg.data.shbe.data.id.SHBE_ClaimID;
 import uk.ac.leeds.ccg.data.shbe.data.id.SHBE_DOBID;
 import uk.ac.leeds.ccg.data.shbe.data.id.SHBE_NINOID;
-import uk.ac.leeds.ccg.data.shbe.util.SHBE_Collections;
 import uk.ac.leeds.ccg.generic.io.Generic_IO;
 
 /**
- *
+ * SHBE Records.
+ * 
  * @author Andy Turner
  * @version 1.0.0
  */
@@ -60,68 +60,68 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     // For convenience.
     private transient final SHBE_Handler handler;
-    private transient final UKP_Data postcodeHandler;
+    private transient final UKP_Data ukpData;
 
     /**
-     * Keys are Claim IDs, values are SHBE_Records.
+     * Keys are Claim IDs, values are SHBE Records.
      */
     private Map<SHBE_ClaimID, SHBE_Record> records;
 
     /**
-     * SHBE_PersonID of Claimants
+     * SHBE Person IDs of Claimants.
      */
-    Set<SHBE_PersonID> claimantPersonIDs;
+    Set<SHBE_PersonID> cpids;
 
     /**
-     * SHBE_PersonID of Partners
+     * SHBE Person IDs of Partners.
      */
-    Set<SHBE_PersonID> partnerPersonIDs;
+    Set<SHBE_PersonID> ppids;
 
     /**
-     * SHBE_PersonID of Non-Dependents
+     * SHBE PersonID of Non-Dependents.
      */
-    Set<SHBE_PersonID> nonDependentPersonIDs;
+    Set<SHBE_PersonID> ndpids;
 
     /**
-     * A store for ClaimIDs for Cottingley Springs Caravan Park where there are
+     * A store for Claim IDs for Cottingley Springs Caravan Park where there are
      * two claims for a claimant, one for a pitch and the other for the rent of
      * a caravan.
      */
     private Set<SHBE_ClaimID> cottingleySpringsCaravanParkPairedClaimIDs;
 
     /**
-     * A store for ClaimIDs where: StatusOfHBClaimAtExtractDate = 1 (In
+     * A store for Claim IDs where: StatusOfHBClaimAtExtractDate = 1 (In
      * Payment).
      */
-    private Set<SHBE_ClaimID> claimIDsWithStatusOfHBAtExtractDateInPayment;
+    private Set<SHBE_ClaimID> cidsHII;
 
     /**
      * A store for ClaimIDs where: StatusOfHBClaimAtExtractDate = 2 (Suspended).
      */
-    private Set<SHBE_ClaimID> claimIDsWithStatusOfHBAtExtractDateSuspended;
+    private Set<SHBE_ClaimID> cidsHIS;
 
     /**
-     * A store for ClaimIDs where: StatusOfHBClaimAtExtractDate = 0 (Suspended).
+     * A store for ClaimIDs where: StatusOfHBClaimAtExtractDate = 0 (Other).
      */
-    private Set<SHBE_ClaimID> claimIDsWithStatusOfHBAtExtractDateOther;
+    private Set<SHBE_ClaimID> cidsHIO;
 
     /**
      * A store for ClaimIDs where: StatusOfCTBClaimAtExtractDate = 1 (In
      * Payment).
      */
-    private Set<SHBE_ClaimID> claimIDsWithStatusOfCTBAtExtractDateInPayment;
+    private Set<SHBE_ClaimID> cidsCII;
 
     /**
      * A store for ClaimIDs where: StatusOfCTBClaimAtExtractDate = 2
      * (Suspended).
      */
-    private Set<SHBE_ClaimID> claimIDsWithStatusOfCTBAtExtractDateSuspended;
+    private Set<SHBE_ClaimID> cidsCIS;
 
     /**
      * A store for ClaimIDs where: StatusOfCTBClaimAtExtractDate = 0
      * (Suspended).
      */
-    private Set<SHBE_ClaimID> claimIDsWithStatusOfCTBAtExtractDateOther;
+    private Set<SHBE_ClaimID> cidsCIO;
 
     /**
      * SRecordsWithoutDRecords indexed by ClaimRef SHBE_ID. Once the SHBE data
@@ -131,10 +131,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     private Map<SHBE_ClaimID, ArrayList<SHBE_S_Record>> sRecordsWithoutDRecords;
 
     /**
-     * For storing the ClaimIDs of records that have sRecords along with the
+     * For storing the Claim IDs of records that have sRecords along with the
      * count of those sRecordsWithoutDRecords.
      */
-    private Map<SHBE_ClaimID, Integer> claimIDAndCountOfRecordsWithSRecords;
+    private Map<SHBE_ClaimID, Integer> cid2CountOfSRecords;
 
     /**
      * For storing the Year_Month of this. This is an identifier for these data.
@@ -197,17 +197,17 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     private Path claimIDsOfNewSHBEClaimsWhereClaimantIsNewFile;
 
     /**
-     * claimantPersonIDs file.
+     * cpids file.
      */
     private Path claimantPersonIDsFile;
 
     /**
-     * partnerPersonIDs file.
+     * ppids file.
      */
     private Path partnerPersonIDsFile;
 
     /**
-     * nonDependentPersonIDs file.
+     * ndpids file.
      */
     private Path nonDependentPersonIDsFile;
 
@@ -259,7 +259,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * For storing the ClaimID of records without a mappable Claimant Postcode.
      */
-    private Set<SHBE_ClaimID> claimIDsOfClaimsWithoutAMappableClaimantPostcode;
+    private Set<SHBE_ClaimID> cidsOfClaimsWithoutAMappableClaimantPostcode;
 
     /**
      * Path for storing ClaimIDs of claims without a mappable claimant postcode.
@@ -269,120 +269,120 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * ClaimIDs mapped to PersonIDs of Claimants.
      */
-    private Map<SHBE_ClaimID, SHBE_PersonID> claimID2ClaimantPersonID;
+    private Map<SHBE_ClaimID, SHBE_PersonID> cid2cpid;
 
     /**
      * ClaimIDs mapped to PersonIDs of Partners. If there is no main Partner for
      * the claim then there is no mapping.
      */
-    private Map<SHBE_ClaimID, SHBE_PersonID> claimID2PartnerPersonID;
+    private Map<SHBE_ClaimID, SHBE_PersonID> cid2ppid;
 
     /**
      * ClaimIDs mapped to {@code Set<SHBE_PersonID>} of Dependents. If there are
      * no Dependents for the claim then there is no mapping.
      */
-    private Map<SHBE_ClaimID, Set<SHBE_PersonID>> claimID2DependentPersonIDs;
+    private Map<SHBE_ClaimID, Set<SHBE_PersonID>> cid2dpids;
 
     /**
      * ClaimIDs mapped to {@code Set<SHBE_PersonID>} of NonDependents. If there
      * are no NonDependents for the claim then there is no mapping.
      */
-    private Map<SHBE_ClaimID, Set<SHBE_PersonID>> claimID2NonDependentPersonIDs;
+    private Map<SHBE_ClaimID, Set<SHBE_PersonID>> cid2ndpids;
 
     /**
      * ClaimIDs of Claims with Claimants that are Claimants in another claim.
      */
-    private Set<SHBE_ClaimID> claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim;
+    private Set<SHBE_ClaimID> cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim;
 
     /**
      * ClaimIDs of Claims with Claimants that are Partners in another claim.
      */
-    private Set<SHBE_ClaimID> claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim;
+    private Set<SHBE_ClaimID> cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim;
 
     /**
      * ClaimIDs of Claims with Partners that are Claimants in another claim.
      */
-    private Set<SHBE_ClaimID> claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim;
+    private Set<SHBE_ClaimID> cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim;
 
     /**
      * ClaimIDs of Claims with Partners that are Partners in multiple claims.
      */
-    private Set<SHBE_ClaimID> claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim;
+    private Set<SHBE_ClaimID> cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim;
 
     /**
      * ClaimIDs of Claims with NonDependents that are Claimants or Partners in
      * another claim.
      */
-    private Set<SHBE_ClaimID> claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim;
+    private Set<SHBE_ClaimID> cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim;
 
     /**
      * SHBE_PersonIDs of Claimants that are in multiple claims in a month mapped
      * to a set of ClaimIDs of those claims.
      */
-    private Map<SHBE_PersonID, Set<SHBE_ClaimID>> claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup;
+    private Map<SHBE_PersonID, Set<SHBE_ClaimID>> pid2cidOfClaimantsInMultipleClaimsInAMonth;
 
     /**
      * SHBE_PersonIDs of Partners that are in multiple claims in a month mapped
      * to a set of ClaimIDs of those claims.
      */
-    private Map<SHBE_PersonID, Set<SHBE_ClaimID>> partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup;
+    private Map<SHBE_PersonID, Set<SHBE_ClaimID>> pid2cidOfPartnersInMultipleClaimsInAMonth;
 
     /**
      * SHBE_PersonIDs of NonDependents that are in multiple claims in a month
      * mapped to a set of ClaimIDs of those claims.
      */
-    private Map<SHBE_PersonID, Set<SHBE_ClaimID>> nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup;
+    private Map<SHBE_PersonID, Set<SHBE_ClaimID>> pid2cidOfNonDependentsInMultipleClaimsInAMonth;
 
     /**
      * Claim ID mapped to Postcode ID.
      */
-    private Map<SHBE_ClaimID, UKP_RecordID> claimID2PostcodeID;
+    private Map<SHBE_ClaimID, UKP_RecordID> cid2postcodeID;
 
     /**
      * ClaimIDs of the claims that have had PostcodeF updated from the future.
      * This is only to be stored if the postcode was previously of an invalid
      * format.
      */
-    private Set<SHBE_ClaimID> claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture;
+    private Set<SHBE_ClaimID> cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture;
 
     /**
      * ClaimIDs. This is only used when reading the data to check that ClaimIDs
      * are unique.
      */
-    private Set<SHBE_ClaimID> claimIDs;
+    private Set<SHBE_ClaimID> cids;
 
     /**
      * For storing ClaimIDs of new SHBE claims.
      */
-    private Set<SHBE_ClaimID> claimIDsOfNewSHBEClaims;
+    private Set<SHBE_ClaimID> cidsOfNewSHBEClaims;
 
     /**
      * For storing ClaimIDs of new SHBE claims where Claimant was a Claimant
      * before.
      */
-    private Set<SHBE_ClaimID> claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore;
+    private Set<SHBE_ClaimID> cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore;
 
     /**
      * For storing ClaimIDs of new SHBE claims where Claimant was a Partner
      * before.
      */
-    private Set<SHBE_ClaimID> claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore;
+    private Set<SHBE_ClaimID> cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore;
 
     /**
      * For storing ClaimIDs of new SHBE claims where Claimant was a NonDependent
      * before.
      */
-    private Set<SHBE_ClaimID> claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore;
+    private Set<SHBE_ClaimID> cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore;
 
     /**
      * For storing ClaimIDs of new SHBE claims where Claimant is new.
      */
-    private Set<SHBE_ClaimID> claimIDsOfNewSHBEClaimsWhereClaimantIsNew;
+    private Set<SHBE_ClaimID> cidsOfNewSHBEClaimsWhereClaimantIsNew;
 
     /**
-     * ClaimIDs mapped to TenancyType.
+     * Claim IDs mapped to Tenancy Type.
      */
-    private Map<SHBE_ClaimID, Integer> claimID2TenancyType;
+    private Map<SHBE_ClaimID, Integer> cid2tt;
 
     /**
      * loadSummary
@@ -398,7 +398,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * For storing ClaimIDs of all Claims where Claimant National Insurance
      * Number is invalid.
      */
-    private Set<SHBE_ClaimID> claimIDsOfInvalidClaimantNINOClaims;
+    private Set<SHBE_ClaimID> cidsOfInvalidClaimantNINOClaims;
 
     /**
      * For storing ClaimID mapped to Claim Postcodes that are not (currently)
@@ -420,107 +420,107 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     private Map<SHBE_ClaimID, String> claimantPostcodesCheckedAsMappableButNotInONSPDPostcodes;
 
     /**
-     * claimID2ClaimantPersonIDFile file.
+     * {@link #cid2cpid} file.
      */
-    private Path claimID2ClaimantPersonIDFile;
+    private Path cid2cpidFile;
 
     /**
-     * claimID2PartnerPersonID file.
+     * {@link cid2ppid} file.
      */
-    private Path claimID2PartnerPersonIDFile;
+    private Path cid2ppidFile;
 
     /**
-     * claimID2DependentPersonIDsFile file.
+     * {@link #cid2dpids} file.
      */
-    private Path claimID2DependentPersonIDsFile;
+    private Path cid2dpidsFile;
 
     /**
-     * claimID2NonDependentPersonIDsFile file.
+     * {@link #cid2ndpids} file.
      */
-    private Path claimID2NonDependentPersonIDsFile;
+    private Path cid2ndpidsFile;
 
     /**
-     * claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile file.
+     * {@link #cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim} file.
      */
-    private Path claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile;
+    private Path cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile;
 
     /**
-     * claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile file.
+     * {@link #cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim} file.
      */
-    private Path claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile;
+    private Path cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile;
 
     /**
-     * claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile file.
+     * {@link #cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim} file.
      */
-    private Path claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile;
+    private Path cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile;
 
     /**
-     * claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile file.
+     * {@link #cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim} file.
      */
-    private Path claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile;
+    private Path cidsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile;
 
     /**
-     * ClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile file.
+     * {@link #cidsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim} file.
      */
-    private Path claimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile;
+    private Path cidsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile;
 
     /**
-     * claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile file.
+     * {@link #pid2cidOfClaimantsInMultipleClaimsInAMonth} file.
      */
-    private Path claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile;
+    private Path pid2cidOfClaimantsInMultipleClaimsInAMonthFile;
 
     /**
-     * partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile file.
+     * {@link #pid2cidOfPartnersInMultipleClaimsInAMonth} file.
      */
-    private Path partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile;
+    private Path pid2cidOfPartnersInMultipleClaimsInAMonthFile;
 
     /**
-     * nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile file.
+     * {@link #pid2cidOfNonDependentsInMultipleClaimsInAMonth} file.
      */
-    private Path nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile;
+    private Path pid2cidOfNonDependentsInMultipleClaimsInAMonthFile;
 
     /**
-     * Claim ID to postcode ID file.
+     * {@link #cid2postcodeID} file.
      */
-    private Path claimID2postcodeIDFile;
+    private Path cid2postcodeIDFile;
 
     /**
-     * claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile file.
+     * {@link #cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture} file.
      */
-    private Path claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile;
+    private Path cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile;
 
     /**
-     * claimID2TenancyTypeFile file.
+     * {@link #cid2tt} file.
      */
-    private Path claimID2TenancyTypeFile;
+    private Path cid2ttFile;
 
     /**
-     * loadSummary file.
+     * {@link #loadSummary} file.
      */
     private Path loadSummaryFile;
 
     /**
-     * recordIDsNotLoaded file.
+     * {@link #recordIDsNotLoaded} file.
      */
     private Path recordIDsNotLoadedFile;
 
     /**
-     * claimIDsOfInvalidClaimantNINOClaimsFile file.
+     * {@link #cidsOfInvalidClaimantNINOClaims} file.
      */
-    private Path claimIDsOfInvalidClaimantNINOClaimsFile;
+    private Path cidsOfInvalidClaimantNINOClaimsFile;
 
     /**
-     * claimantPostcodesUnmappableFile file.
+     * {@link #claimantPostcodesUnmappable} file.
      */
     private Path claimantPostcodesUnmappableFile;
 
     /**
-     * claimantPostcodesModifiedFile file.
+     * {@link #claimantPostcodesModified} file.
      */
     private Path claimantPostcodesModifiedFile;
 
     /**
-     * claimantPostcodesCheckedAsMappableButNotInONSPDPostcodesFile file.
+     * {@link #claimantPostcodesCheckedAsMappableButNotInONSPDPostcodes} file.
      */
     private Path claimantPostcodesCheckedAsMappableButNotInONSPDPostcodesFile;
 
@@ -573,21 +573,21 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises {@link #claimIDsOfNewSHBEClaims} then
+     * If not initialised, initialises {@link #cidsOfNewSHBEClaims} then
      * returns it.
      *
-     * @return {@link #claimIDsOfNewSHBEClaims} initialised first if it is
+     * @return {@link #cidsOfNewSHBEClaims} initialised first if it is
      * {@code null}.
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsOfNewSHBEClaims(boolean hoome)
+    public final Set<SHBE_ClaimID> getCidsOfNewSHBEClaims(boolean hoome)
             throws IOException, ClassNotFoundException {
         try {
             env.checkAndMaybeFreeMemory();
-            return getClaimIDsOfNewSHBEClaims();
+            return SHBE_Records.this.getCidsOfNewSHBEClaims();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -595,7 +595,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsOfNewSHBEClaims(hoome);
+                return getCidsOfNewSHBEClaims(hoome);
             } else {
                 throw e;
             }
@@ -603,34 +603,34 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises {@link #claimIDsOfNewSHBEClaims} then
+     * If not initialised, initialises {@link #cidsOfNewSHBEClaims} then
      * returns it.
      *
-     * @return {@link #claimIDsOfNewSHBEClaims} initialised first if it is
+     * @return {@link #cidsOfNewSHBEClaims} initialised first if it is
      * {@code null}.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsOfNewSHBEClaims()
+    protected Set<SHBE_ClaimID> getCidsOfNewSHBEClaims()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfNewSHBEClaims == null) {
+        if (cidsOfNewSHBEClaims == null) {
             Path f;
             f = getClaimIDsOfNewSHBEClaimsFile();
             if (Files.exists(f)) {
-                claimIDsOfNewSHBEClaims = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfNewSHBEClaims = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfNewSHBEClaims = new HashSet<>();
+                cidsOfNewSHBEClaims = new HashSet<>();
             }
         }
-        return claimIDsOfNewSHBEClaims;
+        return cidsOfNewSHBEClaims;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore} then
+     * {@link #cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore} then
      * returns it.
      *
-     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore}
+     * @return {@link #cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore}
      * initialised first if it is {@code null}.
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
@@ -641,7 +641,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
             env.checkAndMaybeFreeMemory();
-            return getClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore();
+            return getCidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -659,34 +659,34 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * /**
      * If not initialised, initialises
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore} then
+     * {@link #cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore} then
      * returns it.
      *
-     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore}
+     * @return {@link #cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore}
      * initialised first if it is {@code null}.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore()
+    protected Set<SHBE_ClaimID> getCidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore == null) {
+        if (cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore == null) {
             Path f;
             f = getClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBeforeFile();
             if (Files.exists(f)) {
-                claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore = new HashSet<>();
+                cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore = new HashSet<>();
             }
         }
-        return claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore;
+        return cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore} then
+     * {@link #cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore} then
      * returns it.
      *
-     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore}
+     * @return {@link #cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore}
      * initialised first if it is {@code null}.
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
@@ -697,7 +697,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
             env.checkAndMaybeFreeMemory();
-            return getClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore();
+            return getCidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -714,35 +714,35 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore} then
+     * {@link #cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore} then
      * returns it.
      *
-     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore}
+     * @return {@link #cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore}
      * initialised first if it is {@code null}.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore()
+    protected Set<SHBE_ClaimID> getCidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore == null) {
+        if (cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore == null) {
             Path f;
             f = getClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBeforeFile();
             if (Files.exists(f)) {
-                claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore = new HashSet<>();
+                cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore = new HashSet<>();
             }
         }
-        return claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore;
+        return cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore} then
+     * {@link #cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore} then
      * returns it.
      *
      * @return
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore}
+     * {@link #cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore}
      * initialised first if it is {@code null}.
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
@@ -752,7 +752,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public final Set<SHBE_ClaimID> getClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore();
+            return getCidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -769,36 +769,36 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore} then
+     * {@link #cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore} then
      * returns it.
      *
      * @return
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore}
+     * {@link #cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore}
      * initialised first if it is {@code null}.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore()
+    protected Set<SHBE_ClaimID> getCidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore == null) {
+        if (cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore == null) {
             Path f;
             f = getClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBeforeFile();
             if (Files.exists(f)) {
-                claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore = new HashSet<>();
+                cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore = new HashSet<>();
             }
         }
-        return claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore;
+        return cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore;
     }
 
     /**
-     * If not initialised, initialises claimIDsOfNewSHBEClaimsWhereClaimantIsNew
-     * If not initialised, initialises
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore} then
+     * If not initialised, initialises cidsOfNewSHBEClaimsWhereClaimantIsNew
+ If not initialised, initialises
+ {@link #cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore} then
      * returns it.
      *
-     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore}
+     * @return {@link #cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore}
      * initialised first if it is {@code null}.
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
@@ -807,7 +807,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     public final Set<SHBE_ClaimID> getClaimIDsOfNewSHBEClaimsWhereClaimantIsNew(boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsOfNewSHBEClaimsWhereClaimantIsNew();
+            return getCidsOfNewSHBEClaimsWhereClaimantIsNew();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -824,23 +824,23 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfNewSHBEClaimsWhereClaimantIsNew} then returns it.
+     * {@link #cidsOfNewSHBEClaimsWhereClaimantIsNew} then returns it.
      *
-     * @return {@link #claimIDsOfNewSHBEClaimsWhereClaimantIsNew}
+     * @return {@link #cidsOfNewSHBEClaimsWhereClaimantIsNew}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsOfNewSHBEClaimsWhereClaimantIsNew() throws IOException, ClassNotFoundException {
-        if (claimIDsOfNewSHBEClaimsWhereClaimantIsNew == null) {
+    protected Set<SHBE_ClaimID> getCidsOfNewSHBEClaimsWhereClaimantIsNew() throws IOException, ClassNotFoundException {
+        if (cidsOfNewSHBEClaimsWhereClaimantIsNew == null) {
             Path f;
             f = getClaimIDsOfNewSHBEClaimsWhereClaimantIsNewFile();
             if (Files.exists(f)) {
-                claimIDsOfNewSHBEClaimsWhereClaimantIsNew = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfNewSHBEClaimsWhereClaimantIsNew = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfNewSHBEClaimsWhereClaimantIsNew = new HashSet<>();
+                cidsOfNewSHBEClaimsWhereClaimantIsNew = new HashSet<>();
             }
         }
-        return claimIDsOfNewSHBEClaimsWhereClaimantIsNew;
+        return cidsOfNewSHBEClaimsWhereClaimantIsNew;
     }
 
     /**
@@ -894,19 +894,19 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfHBAtExtractDateInPayment} then returns it.
+     * {@link #cidsHII} then returns it.
      *
-     * @return {@link #claimIDsWithStatusOfHBAtExtractDateInPayment} initialised
+     * @return {@link #cidsHII} initialised
      * first if it is {@code null}.
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateInPayment(
+    public final Set<SHBE_ClaimID> getCidsHII(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsWithStatusOfHBAtExtractDateInPayment();
+            return SHBE_Records.this.getCidsHII();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -914,7 +914,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsWithStatusOfHBAtExtractDateInPayment(hoome);
+                return getCidsHII(hoome);
             } else {
                 throw e;
             }
@@ -923,39 +923,39 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfHBAtExtractDateInPayment} then returns it.
+     * {@link #cidsHII} then returns it.
      *
-     * @return {@link #claimIDsWithStatusOfHBAtExtractDateInPayment}
+     * @return {@link #cidsHII}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateInPayment()
+    protected Set<SHBE_ClaimID> getCidsHII()
             throws IOException, ClassNotFoundException {
-        if (claimIDsWithStatusOfHBAtExtractDateInPayment == null) {
+        if (cidsHII == null) {
             Path f;
             f = getClaimIDsWithStatusOfHBAtExtractDateInPaymentFile();
             if (Files.exists(f)) {
-                claimIDsWithStatusOfHBAtExtractDateInPayment = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsHII = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsWithStatusOfHBAtExtractDateInPayment = new HashSet<>();
+                cidsHII = new HashSet<>();
             }
         }
-        return claimIDsWithStatusOfHBAtExtractDateInPayment;
+        return cidsHII;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfHBAtExtractDateSuspended} then returns it.
+     * {@link #cidsHIS} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimIDsWithStatusOfHBAtExtractDateSuspended}
+     * @return {@link #cidsHIS}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateSuspended(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Set<SHBE_ClaimID> getCidsHIS(boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsWithStatusOfHBAtExtractDateSuspended();
+            return SHBE_Records.this.getCidsHIS();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -963,7 +963,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsWithStatusOfHBAtExtractDateSuspended(hoome);
+                return getCidsHIS(hoome);
             } else {
                 throw e;
             }
@@ -972,40 +972,40 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfHBAtExtractDateSuspended} then returns it.
+     * {@link #cidsHIS} then returns it.
      *
-     * @return {@link #claimIDsWithStatusOfHBAtExtractDateSuspended}
+     * @return {@link #cidsHIS}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateSuspended()
+    protected Set<SHBE_ClaimID> getCidsHIS()
             throws IOException, ClassNotFoundException {
-        if (claimIDsWithStatusOfHBAtExtractDateSuspended == null) {
+        if (cidsHIS == null) {
             Path f;
             f = getClaimIDsWithStatusOfHBAtExtractDateSuspendedFile();
             if (Files.exists(f)) {
-                claimIDsWithStatusOfHBAtExtractDateSuspended = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsHIS = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsWithStatusOfHBAtExtractDateSuspended = new HashSet<>();
+                cidsHIS = new HashSet<>();
             }
         }
-        return claimIDsWithStatusOfHBAtExtractDateSuspended;
+        return cidsHIS;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfHBAtExtractDateOther} then returns it.
+     * {@link #cidsHIO} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimIDsWithStatusOfHBAtExtractDateOther}
+     * @return {@link #cidsHIO}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateOther(
+    public final Set<SHBE_ClaimID> getCidsHIO(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsWithStatusOfHBAtExtractDateOther();
+            return SHBE_Records.this.getCidsHIO();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -1013,7 +1013,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsWithStatusOfHBAtExtractDateOther(hoome);
+                return getCidsHIO(hoome);
             } else {
                 throw e;
             }
@@ -1022,40 +1022,40 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfHBAtExtractDateOther} then returns it.
+     * {@link #cidsHIO} then returns it.
      *
-     * @return {@link #claimIDsWithStatusOfHBAtExtractDateOther}
+     * @return {@link #cidsHIO}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfHBAtExtractDateOther()
+    protected Set<SHBE_ClaimID> getCidsHIO()
             throws IOException, ClassNotFoundException {
-        if (claimIDsWithStatusOfHBAtExtractDateOther == null) {
+        if (cidsHIO == null) {
             Path f;
             f = getClaimIDsWithStatusOfHBAtExtractDateOtherFile();
             if (Files.exists(f)) {
-                claimIDsWithStatusOfHBAtExtractDateOther = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsHIO = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsWithStatusOfHBAtExtractDateOther = new HashSet<>();
+                cidsHIO = new HashSet<>();
             }
         }
-        return claimIDsWithStatusOfHBAtExtractDateOther;
+        return cidsHIO;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfCTBAtExtractDateInPayment} then returns it.
+     * {@link #cidsCII} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateInPayment}
+     * @return {@link #cidsCII}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateInPayment(
+    public final Set<SHBE_ClaimID> getCidsCII(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsWithStatusOfCTBAtExtractDateInPayment();
+            return SHBE_Records.this.getCidsCII();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -1063,7 +1063,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsWithStatusOfCTBAtExtractDateInPayment(hoome);
+                return getCidsCII(hoome);
             } else {
                 throw e;
             }
@@ -1072,40 +1072,40 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfCTBAtExtractDateInPayment} then returns it.
+     * {@link #cidsCII} then returns it.
      *
-     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateInPayment}
+     * @return {@link #cidsCII}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateInPayment()
+    protected Set<SHBE_ClaimID> getCidsCII()
             throws IOException, ClassNotFoundException {
-        if (claimIDsWithStatusOfCTBAtExtractDateInPayment == null) {
+        if (cidsCII == null) {
             Path f;
             f = getClaimIDsWithStatusOfCTBAtExtractDateInPaymentFile();
             if (Files.exists(f)) {
-                claimIDsWithStatusOfCTBAtExtractDateInPayment = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsCII = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsWithStatusOfCTBAtExtractDateInPayment = new HashSet<>();
+                cidsCII = new HashSet<>();
             }
         }
-        return claimIDsWithStatusOfCTBAtExtractDateInPayment;
+        return cidsCII;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfCTBAtExtractDateSuspended} then returns it.
+     * {@link #cidsCIS} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateSuspended}
+     * @return {@link #cidsCIS}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateSuspended(
+    public final Set<SHBE_ClaimID> getCidsCIS(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsWithStatusOfCTBAtExtractDateSuspended();
+            return SHBE_Records.this.getCidsCIS();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -1113,7 +1113,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsWithStatusOfCTBAtExtractDateSuspended(hoome);
+                return getCidsCIS(hoome);
             } else {
                 throw e;
             }
@@ -1122,40 +1122,40 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfCTBAtExtractDateSuspended} then returns it.
+     * {@link #cidsCIS} then returns it.
      *
-     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateSuspended}
+     * @return {@link #cidsCIS}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateSuspended()
+    protected Set<SHBE_ClaimID> getCidsCIS()
             throws IOException, ClassNotFoundException {
-        if (claimIDsWithStatusOfCTBAtExtractDateSuspended == null) {
+        if (cidsCIS == null) {
             Path f;
             f = getClaimIDsWithStatusOfCTBAtExtractDateSuspendedFile();
             if (Files.exists(f)) {
-                claimIDsWithStatusOfCTBAtExtractDateSuspended = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsCIS = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsWithStatusOfCTBAtExtractDateSuspended = new HashSet<>();
+                cidsCIS = new HashSet<>();
             }
         }
-        return claimIDsWithStatusOfCTBAtExtractDateSuspended;
+        return cidsCIS;
     }
 
     /**
-     * If not initialised, initialises claimIDsWithStatusOfCTBAtExtractDateOther
-     * then returns it.
+     * If not initialised, initialises cidsCIO
+ then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateOther}
+     * @return {@link #cidsCIO}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateOther(
+    public final Set<SHBE_ClaimID> getCidsCIO(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsWithStatusOfCTBAtExtractDateOther();
+            return SHBE_Records.this.getCidsCIO();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -1163,7 +1163,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsWithStatusOfCTBAtExtractDateOther(hoome);
+                return getCidsCIO(hoome);
             } else {
                 throw e;
             }
@@ -1172,23 +1172,23 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsWithStatusOfCTBAtExtractDateOther} then returns it.
+     * {@link #cidsCIO} then returns it.
      *
-     * @return {@link #claimIDsWithStatusOfCTBAtExtractDateOther}
+     * @return {@link #cidsCIO}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsWithStatusOfCTBAtExtractDateOther() throws IOException, ClassNotFoundException {
-        if (claimIDsWithStatusOfCTBAtExtractDateOther == null) {
+    protected Set<SHBE_ClaimID> getCidsCIO() throws IOException, ClassNotFoundException {
+        if (cidsCIO == null) {
             Path f;
             f = getClaimIDsWithStatusOfCTBAtExtractDateOtherFile();
             if (Files.exists(f)) {
-                claimIDsWithStatusOfCTBAtExtractDateOther = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsCIO = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsWithStatusOfCTBAtExtractDateOther = new HashSet<>();
+                cidsCIO = new HashSet<>();
             }
         }
-        return claimIDsWithStatusOfCTBAtExtractDateOther;
+        return cidsCIO;
     }
 
     /**
@@ -1239,18 +1239,18 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDAndCountOfRecordsWithSRecords} then returns it.
+     * {@link #cid2CountOfSRecords} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimIDAndCountOfRecordsWithSRecords}
+     * @return {@link #cid2CountOfSRecords}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_ClaimID, Integer> getClaimIDAndCountOfRecordsWithSRecords(
+    public final Map<SHBE_ClaimID, Integer> getCid2CountOfSRecords(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDAndCountOfRecordsWithSRecords();
+            return SHBE_Records.this.getCid2CountOfSRecords();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -1258,7 +1258,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDAndCountOfRecordsWithSRecords(hoome);
+                return getCid2CountOfSRecords(hoome);
             } else {
                 throw e;
             }
@@ -1267,19 +1267,19 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfClaimsWithoutAMappableClaimantPostcode} then returns
+     * {@link #cidsOfClaimsWithoutAMappableClaimantPostcode} then returns
      * it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimIDsOfClaimsWithoutAMappableClaimantPostcode}
+     * @return {@link #cidsOfClaimsWithoutAMappableClaimantPostcode}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsOfClaimsWithoutAValidClaimantPostcode(
+    public final Set<SHBE_ClaimID> getCidsOfClaimsWithoutAValidClaimantPostcode(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsOfClaimsWithoutAMappableClaimantPostcode();
+            return getCidsOfClaimsWithoutAMappableClaimantPostcode();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -1287,7 +1287,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsOfClaimsWithoutAValidClaimantPostcode(hoome);
+                return getCidsOfClaimsWithoutAValidClaimantPostcode(hoome);
             } else {
                 throw e;
             }
@@ -1295,40 +1295,40 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return the {@link #claimIDAndCountOfRecordsWithSRecords}
+     * @return the {@link #cid2CountOfSRecords}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Map<SHBE_ClaimID, Integer> getClaimIDAndCountOfRecordsWithSRecords()
+    protected Map<SHBE_ClaimID, Integer> getCid2CountOfSRecords()
             throws IOException, ClassNotFoundException {
-        if (claimIDAndCountOfRecordsWithSRecords == null) {
+        if (cid2CountOfSRecords == null) {
             Path f;
             f = getClaimIDAndCountOfRecordsWithSRecordsFile();
             if (Files.exists(f)) {
-                claimIDAndCountOfRecordsWithSRecords = (Map<SHBE_ClaimID, Integer>) Generic_IO.readObject(f);
+                cid2CountOfSRecords = (Map<SHBE_ClaimID, Integer>) Generic_IO.readObject(f);
             } else {
-                claimIDAndCountOfRecordsWithSRecords = new HashMap<>();
+                cid2CountOfSRecords = new HashMap<>();
             }
         }
-        return claimIDAndCountOfRecordsWithSRecords;
+        return cid2CountOfSRecords;
     }
 
     /**
-     * @return {@link #claimIDsOfClaimsWithoutAMappableClaimantPostcode}
+     * @return {@link #cidsOfClaimsWithoutAMappableClaimantPostcode}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsOfClaimsWithoutAMappableClaimantPostcode() throws IOException, ClassNotFoundException {
-        if (claimIDsOfClaimsWithoutAMappableClaimantPostcode == null) {
+    protected Set<SHBE_ClaimID> getCidsOfClaimsWithoutAMappableClaimantPostcode() throws IOException, ClassNotFoundException {
+        if (cidsOfClaimsWithoutAMappableClaimantPostcode == null) {
             Path f;
             f = getClaimIDsOfClaimsWithoutAMappableClaimantPostcodeFile();
             if (Files.exists(f)) {
-                claimIDsOfClaimsWithoutAMappableClaimantPostcode = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfClaimsWithoutAMappableClaimantPostcode = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfClaimsWithoutAMappableClaimantPostcode = new HashSet<>();
+                cidsOfClaimsWithoutAMappableClaimantPostcode = new HashSet<>();
             }
         }
-        return claimIDsOfClaimsWithoutAMappableClaimantPostcode;
+        return cidsOfClaimsWithoutAMappableClaimantPostcode;
     }
 
     /**
@@ -1405,46 +1405,46 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         super(env, logID);
         this.ym3 = ym3;
         handler = this.env.handler;
-        postcodeHandler = this.env.oe.getHandler();
-        nearestYM3ForONSPDLookup = postcodeHandler.getNearestYM3ForONSPDLookup(ym3);
+        ukpData = this.env.oe.getHandler();
+        nearestYM3ForONSPDLookup = ukpData.getNearestYM3ForONSPDLookup(ym3);
         env.env.log("YM3 " + ym3, logID);
         env.env.log("NearestYM3ForONSPDLookup " + nearestYM3ForONSPDLookup, logID);
         records = getRecords();
-        claimIDsOfNewSHBEClaims = getClaimIDsOfNewSHBEClaims(env.HOOME);
-        claimantPersonIDs = getClaimantPersonIDs(env.HOOME);
-        partnerPersonIDs = getPartnerPersonIDs(env.HOOME);
-        nonDependentPersonIDs = getNonDependentPersonIDs(env.HOOME);
+        cidsOfNewSHBEClaims = getCidsOfNewSHBEClaims(env.HOOME);
+        cpids = getCpids(env.HOOME);
+        ppids = getPpids(env.HOOME);
+        ndpids = getNdpids(env.HOOME);
         cottingleySpringsCaravanParkPairedClaimIDs = getCottingleySpringsCaravanParkPairedClaimIDs(env.HOOME);
-        claimIDsWithStatusOfHBAtExtractDateInPayment = getClaimIDsWithStatusOfHBAtExtractDateInPayment(env.HOOME);
-        claimIDsWithStatusOfHBAtExtractDateSuspended = getClaimIDsWithStatusOfHBAtExtractDateSuspended(env.HOOME);
-        claimIDsWithStatusOfHBAtExtractDateOther = getClaimIDsWithStatusOfHBAtExtractDateOther(env.HOOME);
-        claimIDsWithStatusOfCTBAtExtractDateInPayment = getClaimIDsWithStatusOfCTBAtExtractDateInPayment(env.HOOME);
-        claimIDsWithStatusOfCTBAtExtractDateSuspended = getClaimIDsWithStatusOfCTBAtExtractDateSuspended(env.HOOME);
-        claimIDsWithStatusOfCTBAtExtractDateOther = getClaimIDsWithStatusOfCTBAtExtractDateOther(env.HOOME);
+        cidsHII = getCidsHII(env.HOOME);
+        cidsHIS = getCidsHIS(env.HOOME);
+        cidsHIO = getCidsHIO(env.HOOME);
+        cidsCII = getCidsCII(env.HOOME);
+        cidsCIS = getCidsCIS(env.HOOME);
+        cidsCIO = getCidsCIO(env.HOOME);
         sRecordsWithoutDRecords = getSRecordsWithoutDRecords(env.HOOME);
-        claimIDAndCountOfRecordsWithSRecords = getClaimIDAndCountOfRecordsWithSRecords(env.HOOME);
-        claimIDsOfClaimsWithoutAMappableClaimantPostcode = getClaimIDsOfClaimsWithoutAValidClaimantPostcode(env.HOOME);
-        claimID2ClaimantPersonID = getClaimIDToClaimantPersonIDLookup(env.HOOME);
-        claimID2PartnerPersonID = getClaimIDToPartnerPersonIDLookup(env.HOOME);
-        claimID2DependentPersonIDs = getClaimIDToDependentPersonIDsLookup(env.HOOME);
-        claimID2NonDependentPersonIDs = getClaimIDToNonDependentPersonIDsLookup(env.HOOME);
-        claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(env.HOOME);
-        claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim = getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim(env.HOOME);
-        claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(env.HOOME);
-        claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim = getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim(env.HOOME);
-        claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim = getClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(env.HOOME);
-        claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(env.HOOME);
-        partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(env.HOOME);
-        nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(env.HOOME);
-        claimID2PostcodeID = getClaimIDToPostcodeIDLookup(env.HOOME);
-        claimID2TenancyType = getClaimIDToTenancyTypeLookup(env.HOOME);
+        cid2CountOfSRecords = getCid2CountOfSRecords(env.HOOME);
+        cidsOfClaimsWithoutAMappableClaimantPostcode = getCidsOfClaimsWithoutAValidClaimantPostcode(env.HOOME);
+        cid2cpid = getCid2cpid(env.HOOME);
+        cid2ppid = SHBE_Records.this.getCid2ppid(env.HOOME);
+        cid2dpids = SHBE_Records.this.getCid2dpids(env.HOOME);
+        cid2ndpids = SHBE_Records.this.getCid2ndpids(env.HOOME);
+        cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = getCidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(env.HOOME);
+        cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim = getCidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim(env.HOOME);
+        cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = getCidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(env.HOOME);
+        cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim = getCidsOfClaimsWithPartnersThatArePartnersInAnotherClaim(env.HOOME);
+        cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim = getCidsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(env.HOOME);
+        pid2cidOfClaimantsInMultipleClaimsInAMonth = getPid2cidOfClaimantsInMultipleClaimsInAMonth(env.HOOME);
+        pid2cidOfPartnersInMultipleClaimsInAMonth = getPid2cidsOfPartnersInMultipleClaimsInAMonth(env.HOOME);
+        pid2cidOfNonDependentsInMultipleClaimsInAMonth = getPid2cidOfNonDependentsInMultipleClaimsInAMonth(env.HOOME);
+        cid2postcodeID = getCid2postcodeIDLookup(env.HOOME);
+        cid2tt = SHBE_Records.this.getCid2tt(env.HOOME);
         loadSummary = getLoadSummary(env.HOOME);
         recordIDsNotLoaded = getRecordIDsNotLoaded(env.HOOME);
-        claimIDsOfInvalidClaimantNINOClaims = getClaimIDsOfInvalidClaimantNINOClaims(env.HOOME);
+        cidsOfInvalidClaimantNINOClaims = getClaimIDsOfInvalidClaimantNINOClaims(env.HOOME);
         claimantPostcodesUnmappable = getClaimantPostcodesUnmappable(env.HOOME);
         claimantPostcodesModified = getClaimantPostcodesModified(env.HOOME);
         claimantPostcodesCheckedAsMappableButNotInONSPDPostcodes = getClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodes(env.HOOME);
-        claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture = getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture(env.HOOME);
+        cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture = getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture(env.HOOME);
     }
 
     /**
@@ -1465,49 +1465,49 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         handler = env.handler;
         inputFile = Paths.get(inputDirectory.toString(), inputFilename);
         ym3 = handler.getYM3(inputFilename);
-        postcodeHandler = this.env.oe.getHandler();
-        nearestYM3ForONSPDLookup = postcodeHandler.getNearestYM3ForONSPDLookup(ym3);
+        ukpData = this.env.oe.getHandler();
+        nearestYM3ForONSPDLookup = ukpData.getNearestYM3ForONSPDLookup(ym3);
         records = new HashMap<>();
-        claimIDs = new HashSet<>();
-        claimIDsOfNewSHBEClaims = new HashSet<>();
-        claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore = new HashSet<>();
-        claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore = new HashSet<>();
-        claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore = new HashSet<>();
-        claimIDsOfNewSHBEClaimsWhereClaimantIsNew = new HashSet<>();
-        claimantPersonIDs = new HashSet<>();
-        partnerPersonIDs = new HashSet<>();
-        nonDependentPersonIDs = new HashSet<>();
+        cids = new HashSet<>();
+        cidsOfNewSHBEClaims = new HashSet<>();
+        cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore = new HashSet<>();
+        cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore = new HashSet<>();
+        cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore = new HashSet<>();
+        cidsOfNewSHBEClaimsWhereClaimantIsNew = new HashSet<>();
+        cpids = new HashSet<>();
+        ppids = new HashSet<>();
+        ndpids = new HashSet<>();
         cottingleySpringsCaravanParkPairedClaimIDs = new HashSet<>();
-        claimIDsWithStatusOfHBAtExtractDateInPayment = new HashSet<>();
-        claimIDsWithStatusOfHBAtExtractDateSuspended = new HashSet<>();
-        claimIDsWithStatusOfHBAtExtractDateOther = new HashSet<>();
-        claimIDsWithStatusOfCTBAtExtractDateInPayment = new HashSet<>();
-        claimIDsWithStatusOfCTBAtExtractDateSuspended = new HashSet<>();
-        claimIDsWithStatusOfCTBAtExtractDateOther = new HashSet<>();
+        cidsHII = new HashSet<>();
+        cidsHIS = new HashSet<>();
+        cidsHIO = new HashSet<>();
+        cidsCII = new HashSet<>();
+        cidsCIS = new HashSet<>();
+        cidsCIO = new HashSet<>();
         sRecordsWithoutDRecords = new HashMap<>();
-        claimIDAndCountOfRecordsWithSRecords = new HashMap<>();
-        claimIDsOfClaimsWithoutAMappableClaimantPostcode = new HashSet<>();
-        claimID2ClaimantPersonID = new HashMap<>();
-        claimID2PartnerPersonID = new HashMap<>();
-        claimID2DependentPersonIDs = new HashMap<>();
-        claimID2NonDependentPersonIDs = new HashMap<>();
-        claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = new HashSet<>();
-        claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim = new HashSet<>();
-        claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = new HashSet<>();
-        claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim = new HashSet<>();
-        claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim = new HashSet<>();
-        claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = new HashMap<>();
-        partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = new HashMap<>();
-        nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = new HashMap<>();
-        claimID2PostcodeID = new HashMap<>();
-        claimID2TenancyType = new HashMap<>();
+        cid2CountOfSRecords = new HashMap<>();
+        cidsOfClaimsWithoutAMappableClaimantPostcode = new HashSet<>();
+        cid2cpid = new HashMap<>();
+        cid2ppid = new HashMap<>();
+        cid2dpids = new HashMap<>();
+        cid2ndpids = new HashMap<>();
+        cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = new HashSet<>();
+        cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim = new HashSet<>();
+        cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = new HashSet<>();
+        cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim = new HashSet<>();
+        cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim = new HashSet<>();
+        pid2cidOfClaimantsInMultipleClaimsInAMonth = new HashMap<>();
+        pid2cidOfPartnersInMultipleClaimsInAMonth = new HashMap<>();
+        pid2cidOfNonDependentsInMultipleClaimsInAMonth = new HashMap<>();
+        cid2postcodeID = new HashMap<>();
+        cid2tt = new HashMap<>();
         loadSummary = new HashMap<>();
         recordIDsNotLoaded = new ArrayList<>();
-        claimIDsOfInvalidClaimantNINOClaims = new HashSet<>();
+        cidsOfInvalidClaimantNINOClaims = new HashSet<>();
         claimantPostcodesUnmappable = new HashMap<>();
         claimantPostcodesModified = new HashMap<>();
         claimantPostcodesCheckedAsMappableButNotInONSPDPostcodes = new HashMap<>();
-        claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture = new HashSet<>();
+        cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture = new HashSet<>();
         env.env.log("----------------------", logID);
         env.env.log("Load " + ym3, logID);
         env.env.log("----------------------", logID);
@@ -1603,7 +1603,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         personID2ClaimIDs = handler.getPid2cids();
         p2pid = handler.getP2pid();
         pid2p = handler.getPid2p();
-        pid2point = handler.getPostcodeIDToPointLookup(ym3);
+        pid2point = handler.getPid2point(ym3);
         c2cid = handler.getC2cid();
         cid2c = handler.getCid2c();
         // Initialise statistics
@@ -1688,7 +1688,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                     recordIDsNotLoaded.add(recordID);
                                     sRecordNotLoadedCount++;
                                 } else {
-                                    claimID = handler.getClaimIDAddIfNeeded(claimRef);
+                                    claimID = handler.getCidAddIfNeeded(claimRef);
                                     ArrayList<SHBE_S_Record> recs;
                                     recs = sRecordsWithoutDRecords.get(claimID);
                                     if (recs == null) {
@@ -1739,8 +1739,8 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                         claimID = handler.getIDAddIfNeeded(claimRef,
                                                 c2cid,
                                                 cid2c,
-                                                claimIDs,
-                                                claimIDsOfNewSHBEClaims);
+                                                cids,
+                                                cidsOfNewSHBEClaims);
                                         if (handler.isHBClaim(dRecord)) {
                                             if (dRecord.getCouncilTaxBenefitClaimReferenceNumber() != null) {
                                                 totalCouncilTaxAndHousingBenefitClaims++;
@@ -1775,15 +1775,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                          */
                                         switch (statusOfHBClaimAtExtractDate) {
                                             case 0: {
-                                                claimIDsWithStatusOfHBAtExtractDateOther.add(claimID);
+                                                cidsHIO.add(claimID);
                                                 break;
                                             }
                                             case 1: {
-                                                claimIDsWithStatusOfHBAtExtractDateInPayment.add(claimID);
+                                                cidsHII.add(claimID);
                                                 break;
                                             }
                                             case 2: {
-                                                claimIDsWithStatusOfHBAtExtractDateSuspended.add(claimID);
+                                                cidsHIS.add(claimID);
                                                 break;
                                             }
                                             default:
@@ -1801,15 +1801,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                          */
                                         switch (statusOfCTBClaimAtExtractDate) {
                                             case 0: {
-                                                claimIDsWithStatusOfCTBAtExtractDateOther.add(claimID);
+                                                cidsCIO.add(claimID);
                                                 break;
                                             }
                                             case 1: {
-                                                claimIDsWithStatusOfCTBAtExtractDateInPayment.add(claimID);
+                                                cidsCII.add(claimID);
                                                 break;
                                             }
                                             case 2: {
-                                                claimIDsWithStatusOfCTBAtExtractDateSuspended.add(claimID);
+                                                cidsCIS.add(claimID);
                                                 break;
                                             }
                                             default:
@@ -1822,7 +1822,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                         }
                                         if (doLoop) {
                                             postcode = dRecord.getClaimantsPostcode();
-                                            record.claimPostcodeF = postcodeHandler.formatPostcode(postcode);
+                                            record.claimPostcodeF = ukpData.formatPostcode(postcode);
                                             record.claimPostcodeFManModified = false;
                                             record.claimPostcodeFAutoModified = false;
                                             // Do man modifications (modifications using lookups provided by LCC based on a manual checking of addresses)
@@ -1873,10 +1873,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                             }
                                             // Check if record.claimPostcodeF is mappable
                                             boolean isMappablePostcode;
-                                            isMappablePostcode = postcodeHandler.isMappablePostcode(nearestYM3ForONSPDLookup, record.claimPostcodeF);
+                                            isMappablePostcode = ukpData.isMappablePostcode(nearestYM3ForONSPDLookup, record.claimPostcodeF);
                                             boolean isMappablePostcodeLastestYM3 = false;
                                             if (!isMappablePostcode) {
-                                                isMappablePostcodeLastestYM3 = postcodeHandler.isMappablePostcode(lym3, record.claimPostcodeF);
+                                                isMappablePostcodeLastestYM3 = ukpData.isMappablePostcode(lym3, record.claimPostcodeF);
                                                 if (isMappablePostcodeLastestYM3) {
                                                     env.env.log("Postcode " + postcode + " is not in the " + nearestYM3ForONSPDLookup + " ONSPD, "
                                                             + "but is in the " + lym3 + " ONSPD!", logID);
@@ -1898,14 +1898,14 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                     }
                                                 }
                                             }
-                                            record.claimPostcodeFValidPostcodeFormat = postcodeHandler.checker.isValidPostcodeUnit(record.claimPostcodeF);
+                                            record.claimPostcodeFValidPostcodeFormat = ukpData.checker.isValidPostcodeUnit(record.claimPostcodeF);
                                             if (p2pid.containsKey(record.claimPostcodeF)) {
                                                 countOfMappableClaimantPostcodes++;
                                                 record.claimPostcodeFMappable = true;
                                                 record.postcodeID = p2pid.get(record.claimPostcodeF);
                                                 // Add the point to the lookup
                                                 ONSPD_Point AGDT_Point;
-                                                AGDT_Point = postcodeHandler.getPointFromPostcodeNew(nearestYM3ForONSPDLookup,
+                                                AGDT_Point = ukpData.getPointFromPostcodeNew(nearestYM3ForONSPDLookup,
                                                         UKP_Data.TYPE_UNIT,
                                                         record.claimPostcodeF);
                                                 pid2point.put(record.postcodeID, AGDT_Point);
@@ -1914,17 +1914,17 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                 countOfNewClaimantPostcodes++;
                                                 countOfNewMappableClaimantPostcodes++;
                                                 record.claimPostcodeFMappable = true;
-                                                record.postcodeID = handler.getPostcodeIDAddIfNeeded(record.claimPostcodeF,
+                                                record.postcodeID = handler.getPidAddIfNeeded(record.claimPostcodeF,
                                                         p2pid,
                                                         pid2p);
                                                 // Add the point to the lookup
                                                 ONSPD_Point p;
                                                 if (isMappablePostcodeLastestYM3) {
-                                                    p = postcodeHandler.getPointFromPostcodeNew(lym3,
+                                                    p = ukpData.getPointFromPostcodeNew(lym3,
                                                             UKP_Data.TYPE_UNIT,
                                                             record.claimPostcodeF);
                                                 } else {
-                                                    p = postcodeHandler.getPointFromPostcodeNew(nearestYM3ForONSPDLookup,
+                                                    p = ukpData.getPointFromPostcodeNew(nearestYM3ForONSPDLookup,
                                                             UKP_Data.TYPE_UNIT,
                                                             record.claimPostcodeF);
                                                 }
@@ -1936,7 +1936,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                     countOfValidFormatClaimantPostcodes++;
                                                 }
                                                 record.claimPostcodeFMappable = false;
-                                                claimIDsOfClaimsWithoutAMappableClaimantPostcode.add(claimID);
+                                                cidsOfClaimsWithoutAMappableClaimantPostcode.add(claimID);
                                                 boolean PostcodeCheckedAsMappable;
                                                 PostcodeCheckedAsMappable = postcodesCheckedAsMappable.contains(record.claimPostcodeF);
                                                 if (PostcodeCheckedAsMappable) {
@@ -1946,8 +1946,8 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                     claimantPostcodesUnmappable.put(claimID, postcode);
                                                 }
                                             }
-                                            claimID2PostcodeID.put(claimID, record.postcodeID);
-                                            claimID2TenancyType.put(claimID, tenancyType);
+                                            cid2postcodeID.put(claimID, record.postcodeID);
+                                            cid2tt.put(claimID, tenancyType);
                                             totalIncome = handler.getClaimantsAndPartnersIncomeTotal(dRecord);
                                             grandTotalIncome += totalIncome;
                                             if (totalIncome > 0) {
@@ -1965,7 +1965,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                         claimantNINO = dRecord.getClaimantsNationalInsuranceNumber();
                                         if (claimantNINO.trim().equalsIgnoreCase("")
                                                 || claimantNINO.trim().startsWith("XX999")) {
-                                            claimIDsOfInvalidClaimantNINOClaims.add(claimID);
+                                            cidsOfInvalidClaimantNINOClaims.add(claimID);
                                         }
                                         claimantDOB = dRecord.getClaimantsDateOfBirth();
                                         claimantPersonID = handler.getPersonID(
@@ -1982,22 +1982,22 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                          * NonDependent or if the Person is
                                          * "new".
                                          */
-                                        if (claimIDsOfNewSHBEClaims.contains(claimID)) {
+                                        if (cidsOfNewSHBEClaims.contains(claimID)) {
                                             addToNew = true;
                                             if (allClaimantPersonIDs.contains(claimantPersonID)) {
-                                                claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore.add(claimID);
+                                                cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore.add(claimID);
                                                 addToNew = false;
                                             }
                                             if (allPartnerPersonIDs.contains(claimantPersonID)) {
-                                                claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore.add(claimID);
+                                                cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore.add(claimID);
                                                 addToNew = false;
                                             }
                                             if (allNonDependentIDs.contains(claimantPersonID)) {
-                                                claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore.add(claimID);
+                                                cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore.add(claimID);
                                                 addToNew = false;
                                             }
                                             if (addToNew) {
-                                                claimIDsOfNewSHBEClaimsWhereClaimantIsNew.add(claimID);
+                                                cidsOfNewSHBEClaimsWhereClaimantIsNew.add(claimID);
                                             }
                                         }
                                         /**
@@ -2006,7 +2006,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                          * then ClaimantSHBE_PersonID has
                                          * multiple claims in a month.
                                          */
-                                        if (claimID2ClaimantPersonID.containsValue(claimantPersonID)) {
+                                        if (cid2cpid.containsValue(claimantPersonID)) {
                                             /**
                                              * This claimant is in multiple
                                              * claims in this SHBE data. This
@@ -2023,7 +2023,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                              * age and ethnicity which could be
                                              * used to help differentiate.
                                              */
-                                            key = Generic_Collections.getKeys(claimID2ClaimantPersonID,
+                                            key = Generic_Collections.getKeys(cid2cpid,
                                                     claimantPersonID).stream().findFirst();
                                             postcode = dRecord.getClaimantsPostcode();
                                             if (key != null) {
@@ -2062,14 +2062,14 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                          * Add to
                                                          * ClaimantsWithMultipleClaimsInAMonth.
                                                          */
-                                                        claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.add(claimID);
-                                                        claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.add(otherRecord.getClaimID());
+                                                        cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.add(claimID);
+                                                        cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.add(otherRecord.getClaimID());
                                                         Set<SHBE_ClaimID> set;
-                                                        if (claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.containsKey(claimantPersonID)) {
-                                                            set = claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(claimantPersonID);
+                                                        if (pid2cidOfClaimantsInMultipleClaimsInAMonth.containsKey(claimantPersonID)) {
+                                                            set = pid2cidOfClaimantsInMultipleClaimsInAMonth.get(claimantPersonID);
                                                         } else {
                                                             set = new HashSet<>();
-                                                            claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(claimantPersonID, set);
+                                                            pid2cidOfClaimantsInMultipleClaimsInAMonth.put(claimantPersonID, set);
                                                         }
                                                         set.add(claimID);
                                                         set.add(otherClaimID);
@@ -2087,7 +2087,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                          * and
                                          * ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.
                                          */
-                                        if (claimID2PartnerPersonID.containsValue(claimantPersonID)) {
+                                        if (cid2ppid.containsValue(claimantPersonID)) {
                                             /**
                                              * Ignore if this is a
                                              * CottingleySpringsCaravanParkPairedClaimIDs.
@@ -2103,13 +2103,13 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                  * and
                                                  * ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.
                                                  */
-                                                key = Generic_Collections.getKeys(claimID2PartnerPersonID,
+                                                key = Generic_Collections.getKeys(cid2ppid,
                                                         claimantPersonID).stream().findFirst();
                                                 if (key != null) {
                                                     otherClaimID = (SHBE_ClaimID) key;
-                                                    claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.add(otherClaimID);
+                                                    cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.add(otherClaimID);
                                                 }
-                                                claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.add(claimID);
+                                                cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.add(claimID);
 //                                                env.log("!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //                                                env.log("Claimant with NINO " + ClaimantNINO
 //                                                        + " DOB " + ClaimantDOB
@@ -2138,29 +2138,29 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                              * and
                                              * PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.
                                              */
-                                            if (claimID2PartnerPersonID.containsValue(partnerPersonID)) {
+                                            if (cid2ppid.containsValue(partnerPersonID)) {
                                                 /*
                                                     * Ignore if this is a cottingleySpringsCaravanParkPairedClaimIDs.
                                                     * It may be that there are partners shared in these claims, but such
                                                     * a thing is ignored for now.
                                                  */
                                                 if (!cottingleySpringsCaravanParkPairedClaimIDs.contains(claimID)) {
-                                                    key = Generic_Collections.getKeys(claimID2PartnerPersonID,
+                                                    key = Generic_Collections.getKeys(cid2ppid,
                                                             partnerPersonID).stream().findFirst();
                                                     if (key != null) {
                                                         otherClaimID = (SHBE_ClaimID) key;
                                                         Set<SHBE_ClaimID> set;
-                                                        if (partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.containsKey(partnerPersonID)) {
-                                                            set = partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(partnerPersonID);
+                                                        if (pid2cidOfPartnersInMultipleClaimsInAMonth.containsKey(partnerPersonID)) {
+                                                            set = pid2cidOfPartnersInMultipleClaimsInAMonth.get(partnerPersonID);
                                                         } else {
                                                             set = new HashSet<>();
-                                                            partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(partnerPersonID, set);
+                                                            pid2cidOfPartnersInMultipleClaimsInAMonth.put(partnerPersonID, set);
                                                         }
                                                         set.add(claimID);
                                                         set.add(otherClaimID);
-                                                        claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim.add(otherClaimID);
+                                                        cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim.add(otherClaimID);
                                                     }
-                                                    claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim.add(claimID);
+                                                    cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim.add(claimID);
 //                                                    env.log("!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //                                                    env.log("Partner with NINO " + NINOIDToNINOLookup.get(PartnerPersonID.getNINO_ID())
 //                                                            + " DOB " + DOBIDToDOBLookup.get(PartnerPersonID.getDOB_ID())
@@ -2176,7 +2176,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                              * and
                                              * ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.
                                              */
-                                            if (claimID2ClaimantPersonID.containsValue(partnerPersonID)) {
+                                            if (cid2cpid.containsValue(partnerPersonID)) {
                                                 /**
                                                  * Ignore if this is a
                                                  * CottingleySpringsCaravanParkPairedClaimIDs.
@@ -2186,30 +2186,30 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                                  * ignored for now.
                                                  */
                                                 if (!cottingleySpringsCaravanParkPairedClaimIDs.contains(claimID)) {
-                                                    key = Generic_Collections.getKeys(claimID2ClaimantPersonID,
+                                                    key = Generic_Collections.getKeys(cid2cpid,
                                                             partnerPersonID).stream().findFirst();
                                                     if (key != null) {
                                                         otherClaimID = (SHBE_ClaimID) key;
                                                         Set<SHBE_ClaimID> set;
-                                                        if (partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.containsKey(partnerPersonID)) {
-                                                            set = partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(partnerPersonID);
+                                                        if (pid2cidOfPartnersInMultipleClaimsInAMonth.containsKey(partnerPersonID)) {
+                                                            set = pid2cidOfPartnersInMultipleClaimsInAMonth.get(partnerPersonID);
                                                         } else {
                                                             set = new HashSet<>();
-                                                            partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(partnerPersonID, set);
+                                                            pid2cidOfPartnersInMultipleClaimsInAMonth.put(partnerPersonID, set);
                                                         }
                                                         set.add(claimID);
                                                         set.add(otherClaimID);
-                                                        if (claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.containsKey(partnerPersonID)) {
-                                                            set = claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(partnerPersonID);
+                                                        if (pid2cidOfClaimantsInMultipleClaimsInAMonth.containsKey(partnerPersonID)) {
+                                                            set = pid2cidOfClaimantsInMultipleClaimsInAMonth.get(partnerPersonID);
                                                         } else {
                                                             set = new HashSet<>();
-                                                            claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(partnerPersonID, set);
+                                                            pid2cidOfClaimantsInMultipleClaimsInAMonth.put(partnerPersonID, set);
                                                         }
                                                         set.add(claimID);
                                                         set.add(otherClaimID);
-                                                        claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.add(otherClaimID);
+                                                        cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.add(otherClaimID);
                                                     }
-                                                    claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.add(claimID);
+                                                    cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.add(claimID);
 //                                                    env.log("!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //                                                    env.log("Partner with NINO " + NINOIDToNINOLookup.get(PartnerPersonID.getNINO_ID())
 //                                                            + " DOB " + DOBIDToDOBLookup.get(PartnerPersonID.getDOB_ID())
@@ -2217,26 +2217,26 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 //                                                            + " is a Claimant in " + ClaimIDToClaimRefLookup.get(otherClaimID));
 //                                                    env.log("!!!!!!!!!!!!!!!!!!!!!!!!!!");
                                                 }
-                                                claimID2PartnerPersonID.put(claimID, partnerPersonID);
+                                                cid2ppid.put(claimID, partnerPersonID);
                                             }
                                         }
                                         /**
                                          * Add to
                                          * ClaimIDToClaimantPersonIDLookup.
                                          */
-                                        claimID2ClaimantPersonID.put(claimID, claimantPersonID);
+                                        cid2cpid.put(claimID, claimantPersonID);
 
                                         /**
                                          * Add to AllClaimantPersonIDs and
                                          * AllPartnerPersonIDs.
                                          */
                                         allClaimantPersonIDs.add(claimantPersonID);
-                                        claimantPersonIDs.add(claimantPersonID);
+                                        cpids.add(claimantPersonID);
                                         Generic_Collections.addToMap(personID2ClaimIDs, claimantPersonID, claimID);
                                         if (partnerPersonID != null) {
                                             allPartnerPersonIDs.add(partnerPersonID);
-                                            partnerPersonIDs.add(partnerPersonID);
-                                            claimID2PartnerPersonID.put(claimID, partnerPersonID);
+                                            ppids.add(partnerPersonID);
+                                            cid2ppid.put(claimID, partnerPersonID);
                                             Generic_Collections.addToMap(personID2ClaimIDs, partnerPersonID, claimID);
                                         }
                                     }
@@ -2283,15 +2283,15 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
          * Statistics on New SHBE Claims
          */
         addLoadSummaryCount(SHBE_Strings.s_CountOfNewSHBEClaims,
-                claimIDsOfNewSHBEClaims.size());
+                cidsOfNewSHBEClaims.size());
         addLoadSummaryCount(SHBE_Strings.s_CountOfNewSHBEClaimsWhereClaimantWasClaimantBefore,
-                claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore.size());
+                cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore.size());
         addLoadSummaryCount(SHBE_Strings.s_CountOfNewSHBEClaimsWhereClaimantWasPartnerBefore,
-                claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore.size());
+                cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore.size());
         addLoadSummaryCount(SHBE_Strings.s_CountOfNewSHBEClaimsWhereClaimantWasNonDependentBefore,
-                claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore.size());
+                cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore.size());
         addLoadSummaryCount(SHBE_Strings.s_CountOfNewSHBEClaimsWhereClaimantIsNew,
-                claimIDsOfNewSHBEClaimsWhereClaimantIsNew.size());
+                cidsOfNewSHBEClaimsWhereClaimantIsNew.size());
         /**
          * Statistics on Postcodes
          */
@@ -2330,26 +2330,26 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
          * Claimants
          */
         set = new HashSet<>();
-        set.addAll(claimID2ClaimantPersonID.values());
+        set.addAll(cid2cpid.values());
         allSet.addAll(set);
         addLoadSummaryCount(SHBE_Strings.s_CountOfUniqueClaimants, set.size());
         /**
          * Partners
          */
         addLoadSummaryCount(SHBE_Strings.s_CountOfClaimsWithPartners,
-                claimID2PartnerPersonID.size());
-        set = handler.getUniquePersonIDs0(claimID2PartnerPersonID);
+                cid2ppid.size());
+        set = handler.getUniquePersonIDs0(cid2ppid);
         allSet.addAll(set);
         addLoadSummaryCount(SHBE_Strings.s_CountOfUniquePartners, set.size());
         /**
          * Dependents
          */
         int nDependents;
-        nDependents = Generic_Collections.getCountInt(claimID2DependentPersonIDs);
+        nDependents = Generic_Collections.getCountInt(cid2dpids);
         addLoadSummaryCount(
                 SHBE_Strings.s_CountOfDependentsInAllClaims,
                 nDependents);
-        set = handler.getUniquePersonIDs(claimID2DependentPersonIDs);
+        set = handler.getUniquePersonIDs(cid2dpids);
         allSet.addAll(set);
         int CountOfUniqueDependents = set.size();
         addLoadSummaryCount(
@@ -2359,11 +2359,11 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
          * NonDependents
          */
         int nNonDependents;
-        nNonDependents = Generic_Collections.getCountInt(claimID2NonDependentPersonIDs);
+        nNonDependents = Generic_Collections.getCountInt(cid2ndpids);
         addLoadSummaryCount(
                 SHBE_Strings.s_CountOfNonDependentsInAllClaims,
                 nNonDependents);
-        set = handler.getUniquePersonIDs(claimID2NonDependentPersonIDs);
+        set = handler.getUniquePersonIDs(cid2ndpids);
         allSet.addAll(set);
         int CountOfUniqueNonDependents = set.size();
         addLoadSummaryCount(
@@ -2382,19 +2382,19 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
          * NonDependentsInMultipleClaimsInAMonth
          */
         addLoadSummaryCount(SHBE_Strings.s_CountOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim,
-                claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.size());
+                cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.size());
         addLoadSummaryCount(SHBE_Strings.s_CountOfClaimsWithClaimantsThatArePartnersInAnotherClaim,
-                claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.size());
+                cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim.size());
         addLoadSummaryCount(SHBE_Strings.s_CountOfClaimsWithPartnersThatAreClaimantsInAnotherClaim,
-                claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.size());
+                cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim.size());
         addLoadSummaryCount(SHBE_Strings.s_CountOfClaimsWithPartnersThatArePartnersInAnotherClaim,
-                claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim.size());
+                cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim.size());
         addLoadSummaryCount(SHBE_Strings.s_CountOfClaimantsInMultipleClaimsInAMonth,
-                claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.size());
+                pid2cidOfClaimantsInMultipleClaimsInAMonth.size());
         addLoadSummaryCount(SHBE_Strings.s_CountOfPartnersInMultipleClaimsInAMonth,
-                partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.size());
+                pid2cidOfPartnersInMultipleClaimsInAMonth.size());
         addLoadSummaryCount(SHBE_Strings.s_CountOfNonDependentsInMultipleClaimsInAMonth,
-                nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.size());
+                pid2cidOfNonDependentsInMultipleClaimsInAMonth.size());
         addLoadSummaryCount(SHBE_Strings.s_LineCount, lineCount);
         addLoadSummaryCount(SHBE_Strings.s_TotalIncome, grandTotalIncome);
         addLoadSummaryCount(SHBE_Strings.s_TotalIncomeGreaterThanZeroCount,
@@ -2413,87 +2413,87 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
          * Write out data.
          */
         Generic_IO.writeObject(records, getRecordsFile());
-        Generic_IO.writeObject(claimIDsOfNewSHBEClaims,
+        Generic_IO.writeObject(cidsOfNewSHBEClaims,
                 getClaimIDsOfNewSHBEClaimsFile());
-        Generic_IO.writeObject(claimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBefore,
+        Generic_IO.writeObject(cidsOfNewSHBEClaimsWhereClaimantWasClaimantBefore,
                 getClaimIDsOfNewSHBEClaimsWhereClaimantWasClaimantBeforeFile());
-        Generic_IO.writeObject(claimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBefore,
+        Generic_IO.writeObject(cidsOfNewSHBEClaimsWhereClaimantWasPartnerBefore,
                 getClaimIDsOfNewSHBEClaimsWhereClaimantWasPartnerBeforeFile());
-        Generic_IO.writeObject(claimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore,
+        Generic_IO.writeObject(cidsOfNewSHBEClaimsWhereClaimantWasNonDependentBefore,
                 getClaimIDsOfNewSHBEClaimsWhereClaimantWasNonDependentBeforeFile());
-        Generic_IO.writeObject(claimIDsOfNewSHBEClaimsWhereClaimantIsNew,
+        Generic_IO.writeObject(cidsOfNewSHBEClaimsWhereClaimantIsNew,
                 getClaimIDsOfNewSHBEClaimsWhereClaimantIsNewFile());
-        Generic_IO.writeObject(claimantPersonIDs, getClaimantPersonIDsFile());
-        Generic_IO.writeObject(partnerPersonIDs, getPartnerPersonIDsFile());
-        Generic_IO.writeObject(nonDependentPersonIDs, getNonDependentPersonIDsFile());
+        Generic_IO.writeObject(cpids, getClaimantPersonIDsFile());
+        Generic_IO.writeObject(ppids, getPartnerPersonIDsFile());
+        Generic_IO.writeObject(ndpids, getNonDependentPersonIDsFile());
         Generic_IO.writeObject(cottingleySpringsCaravanParkPairedClaimIDs,
                 getCottingleySpringsCaravanParkPairedClaimIDsFile());
-        Generic_IO.writeObject(claimIDsWithStatusOfHBAtExtractDateInPayment,
+        Generic_IO.writeObject(cidsHII,
                 getClaimIDsWithStatusOfHBAtExtractDateInPaymentFile());
-        Generic_IO.writeObject(claimIDsWithStatusOfHBAtExtractDateSuspended,
+        Generic_IO.writeObject(cidsHIS,
                 getClaimIDsWithStatusOfHBAtExtractDateSuspendedFile());
-        Generic_IO.writeObject(claimIDsWithStatusOfHBAtExtractDateOther,
+        Generic_IO.writeObject(cidsHIO,
                 getClaimIDsWithStatusOfHBAtExtractDateOtherFile());
-        Generic_IO.writeObject(claimIDsWithStatusOfCTBAtExtractDateInPayment,
+        Generic_IO.writeObject(cidsCII,
                 getClaimIDsWithStatusOfCTBAtExtractDateInPaymentFile());
-        Generic_IO.writeObject(claimIDsWithStatusOfCTBAtExtractDateSuspended,
+        Generic_IO.writeObject(cidsCIS,
                 getClaimIDsWithStatusOfCTBAtExtractDateSuspendedFile());
-        Generic_IO.writeObject(claimIDsWithStatusOfCTBAtExtractDateOther,
+        Generic_IO.writeObject(cidsCIO,
                 getClaimIDsWithStatusOfCTBAtExtractDateOtherFile());
         Generic_IO.writeObject(sRecordsWithoutDRecords, getSRecordsWithoutDRecordsFile());
-        Generic_IO.writeObject(claimIDAndCountOfRecordsWithSRecords,
+        Generic_IO.writeObject(cid2CountOfSRecords,
                 getClaimIDAndCountOfRecordsWithSRecordsFile());
-        Generic_IO.writeObject(claimIDsOfClaimsWithoutAMappableClaimantPostcode,
+        Generic_IO.writeObject(cidsOfClaimsWithoutAMappableClaimantPostcode,
                 getClaimIDsOfClaimsWithoutAMappableClaimantPostcodeFile());
-        Generic_IO.writeObject(claimID2ClaimantPersonID,
-                getClaimID2ClaimantPersonIDFile());
-        Generic_IO.writeObject(claimID2PartnerPersonID,
-                getClaimID2PartnerPersonIDFile());
-        Generic_IO.writeObject(claimID2NonDependentPersonIDs,
-                getClaimID2NonDependentPersonIDsFile());
-        Generic_IO.writeObject(claimID2DependentPersonIDs,
-                getClaimID2DependentPersonIDsFile());
-        Generic_IO.writeObject(claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim,
-                getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile());
-        Generic_IO.writeObject(claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim,
-                getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile());
-        Generic_IO.writeObject(claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim,
-                getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile());
-        Generic_IO.writeObject(claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim,
-                getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile());
-        Generic_IO.writeObject(claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim,
+        Generic_IO.writeObject(cid2cpid,
+                getCid2cpidFile());
+        Generic_IO.writeObject(cid2ppid,
+                getCid2ppidFile());
+        Generic_IO.writeObject(cid2ndpids,
+                getCid2ndpidsFile());
+        Generic_IO.writeObject(cid2dpids,
+                getCid2dpidsFile());
+        Generic_IO.writeObject(cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim,
+                getCidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile());
+        Generic_IO.writeObject(cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim,
+                getCidsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile());
+        Generic_IO.writeObject(cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim,
+                getCidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile());
+        Generic_IO.writeObject(cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim,
+                getCidsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile());
+        Generic_IO.writeObject(cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim,
                 getClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile());
-        Generic_IO.writeObject(claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup,
-                getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile());
-        Generic_IO.writeObject(partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup,
-                getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile());
-        Generic_IO.writeObject(nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup,
-                getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile());
-        Generic_IO.writeObject(claimID2PostcodeID, getClaimID2postcodeIDFile());
-        Generic_IO.writeObject(claimID2TenancyType, getClaimID2TenancyTypeFile());
+        Generic_IO.writeObject(pid2cidOfClaimantsInMultipleClaimsInAMonth,
+                getPid2cidOfClaimantsInMultipleClaimsInAMonthFile());
+        Generic_IO.writeObject(pid2cidOfPartnersInMultipleClaimsInAMonth,
+                getPid2cidOfPartnersInMultipleClaimsInAMonthFile());
+        Generic_IO.writeObject(pid2cidOfNonDependentsInMultipleClaimsInAMonth,
+                getPid2cidOfNonDependentsInMultipleClaimsInAMonthFile());
+        Generic_IO.writeObject(cid2postcodeID, getCid2postcodeIDFile());
+        Generic_IO.writeObject(cid2tt, getCid2ttFile());
         Generic_IO.writeObject(loadSummary, getLoadSummaryFile());
         Generic_IO.writeObject(recordIDsNotLoaded, getRecordIDsNotLoadedFile());
-        Generic_IO.writeObject(claimIDsOfInvalidClaimantNINOClaims, getClaimIDsOfInvalidClaimantNINOClaimsFile());
+        Generic_IO.writeObject(cidsOfInvalidClaimantNINOClaims, getCidsOfInvalidClaimantNINOClaimsFile());
         Generic_IO.writeObject(claimantPostcodesUnmappable, getClaimantPostcodesUnmappableFile());
         Generic_IO.writeObject(claimantPostcodesModified, getClaimantPostcodesModifiedFile());
         Generic_IO.writeObject(claimantPostcodesCheckedAsMappableButNotInONSPDPostcodes, getClaimantPostcodesCheckedAsMappableButNotInONSPDPostcodesFile());
-        Generic_IO.writeObject(claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture, getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
+        Generic_IO.writeObject(cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture, getCidsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile());
 
         // Write out other outputs
         // Write out ClaimRefs of ClaimantsInMultipleClaimsInAMonth
         String YMN;
         YMN = handler.getYearMonthNumber(inputFilename);
-        writeOut(claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup,
+        writeOut(pid2cidOfClaimantsInMultipleClaimsInAMonth,
                 "ClaimantsInMultipleClaimsInAMonth", YMN,
                 cid2c, nid2n,
                 did2d);
         // Write out ClaimRefs of PartnersInMultipleClaimsInAMonth
-        writeOut(partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup,
+        writeOut(pid2cidOfPartnersInMultipleClaimsInAMonth,
                 "PartnersInMultipleClaimsInAMonth", YMN,
                 cid2c, nid2n,
                 did2d);
         // Write out ClaimRefs of PartnersInMultipleClaimsInAMonth
-        writeOut(nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup,
+        writeOut(pid2cidOfNonDependentsInMultipleClaimsInAMonth,
                 "NonDependentsInMultipleClaimsInAMonth", YMN,
                 cid2c, nid2n,
                 did2d);
@@ -2501,7 +2501,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         String name = "ClaimRefsOfInvalidClaimantNINOClaims";
         int logID2 = this.env.env.initLog(name, ".csv");
         Iterator<SHBE_ClaimID> ite2;
-        ite2 = claimIDsOfInvalidClaimantNINOClaims.iterator();
+        ite2 = cidsOfInvalidClaimantNINOClaims.iterator();
         while (ite2.hasNext()) {
             claimID = ite2.next();
             this.env.env.log(cid2c.get(claimID), logID2);
@@ -2631,7 +2631,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                                  * If the claimant has more than one claim, this
                                  * is fine. Otherwise we have to do something.
                                  */
-                                if (claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.contains(claimID)) {
+                                if (cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim.contains(claimID)) {
                                     set = true;
                                 } else {
                                     env.env.log("NINO " + nino + " is not unique"
@@ -2663,10 +2663,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                         /**
                          * Add to ClaimIDToDependentPersonIDsLookup.
                          */
-                        Set<SHBE_PersonID> s = claimID2DependentPersonIDs.get(claimID);
+                        Set<SHBE_PersonID> s = cid2dpids.get(claimID);
                         if (s == null) {
                             s = new HashSet<>();
-                            claimID2DependentPersonIDs.put(claimID, s);
+                            cid2dpids.put(claimID, s);
                         }
                         s.add(personID);
                         Generic_Collections.addToMap(personID2ClaimIDs, personID, claimID);
@@ -2686,19 +2686,19 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                              * claim add to
                              * NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.
                              */
-                            key = Generic_Collections.getKey(claimID2NonDependentPersonIDs, personID);
+                            key = Generic_Collections.getKey(cid2ndpids, personID);
                             if (key != null) {
                                 otherClaimID = (SHBE_ClaimID) key;
                                 Set<SHBE_ClaimID> set;
-                                set = nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(personID);
+                                set = pid2cidOfNonDependentsInMultipleClaimsInAMonth.get(personID);
                                 if (set == null) {
                                     set = new HashSet<>();
-                                    nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(personID, set);
+                                    pid2cidOfNonDependentsInMultipleClaimsInAMonth.put(personID, set);
                                 }
                                 set.add(claimID);
                                 set.add(otherClaimID);
-                                claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(claimID);
-                                claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(otherClaimID);
+                                cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(claimID);
+                                cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(otherClaimID);
 //                                if (!(NINO.trim().equalsIgnoreCase("") || NINO.startsWith("XX999"))) {
 //                                    env.log("!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //                                    env.log("NonDependent with NINO " + NINO + " DOB " + DOB
@@ -2712,19 +2712,19 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                              * add to
                              * NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.
                              */
-                            if (claimID2ClaimantPersonID.containsValue(personID)) {
+                            if (cid2cpid.containsValue(personID)) {
                                 if (key != null) {
                                     otherClaimID = (SHBE_ClaimID) key;
                                     Set<SHBE_ClaimID> set;
-                                    set = nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(personID);
+                                    set = pid2cidOfNonDependentsInMultipleClaimsInAMonth.get(personID);
                                     if (set == null) {
                                         set = new HashSet<>();
-                                        nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(personID, set);
+                                        pid2cidOfNonDependentsInMultipleClaimsInAMonth.put(personID, set);
                                     }
                                     set.add(claimID);
                                     set.add(otherClaimID);
-                                    claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(claimID);
-                                    claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(otherClaimID);
+                                    cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(claimID);
+                                    cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(otherClaimID);
 //                                    if (!(NINO.trim().equalsIgnoreCase("") || NINO.startsWith("XX999"))) {
 //                                        env.log("!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //                                        env.log("NonDependent with NINO " + NINO + " DOB " + DOB
@@ -2739,19 +2739,19 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                              * to
                              * NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup;
                              */
-                            if (claimID2PartnerPersonID.containsValue(personID)) {
+                            if (cid2ppid.containsValue(personID)) {
                                 if (key != null) {
                                     otherClaimID = (SHBE_ClaimID) key;
                                     Set<SHBE_ClaimID> set;
-                                    set = nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.get(personID);
+                                    set = pid2cidOfNonDependentsInMultipleClaimsInAMonth.get(personID);
                                     if (set == null) {
                                         set = new HashSet<>();
-                                        nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup.put(personID, set);
+                                        pid2cidOfNonDependentsInMultipleClaimsInAMonth.put(personID, set);
                                     }
                                     set.add(claimID);
                                     set.add(otherClaimID);
-                                    claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(claimID);
-                                    claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(otherClaimID);
+                                    cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(claimID);
+                                    cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim.add(otherClaimID);
 //                                    if (!(NINO.trim().equalsIgnoreCase("") || NINO.startsWith("XX999"))) {
 //                                        env.log("!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //                                        env.log("NonDependent with NINO " + NINO + " DOB " + DOB
@@ -2763,13 +2763,13 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                             }
                         }
                         //Set<SHBE_PersonID> s;
-                        s = claimID2NonDependentPersonIDs.get(claimID);
+                        s = cid2ndpids.get(claimID);
                         if (s == null) {
                             s = new HashSet<>();
-                            claimID2NonDependentPersonIDs.put(claimID, s);
+                            cid2ndpids.put(claimID, s);
                         }
                         s.add(personID);
-                        nonDependentPersonIDs.add(personID);
+                        ndpids.add(personID);
                         allNonDependentPersonIDs.add(personID);
                         Generic_Collections.addToMap(personID2ClaimIDs, personID, claimID);
                         break;
@@ -2779,13 +2779,13 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 }
             }
             record.sRecords = sRecordsForClaim;
-            claimIDAndCountOfRecordsWithSRecords.put(claimID, sRecordsForClaim.size());
+            cid2CountOfSRecords.put(claimID, sRecordsForClaim.size());
         }
         /**
          * Remove all assigned SRecords from SRecordsWithoutDRecords.
          */
         Iterator<SHBE_ClaimID> iteID;
-        iteID = claimIDAndCountOfRecordsWithSRecords.keySet().iterator();
+        iteID = cid2CountOfSRecords.keySet().iterator();
         while (iteID.hasNext()) {
             sRecordsWithoutDRecords.remove(iteID.next());
         }
@@ -2893,19 +2893,19 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises {@link #claimID2ClaimantPersonID} then
+     * If not initialised, initialises {@link #cid2cpid} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimID2ClaimantPersonID}
+     * @return {@link #cid2cpid}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_ClaimID, SHBE_PersonID> getClaimIDToClaimantPersonIDLookup(
+    public final Map<SHBE_ClaimID, SHBE_PersonID> getCid2cpid(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimID2ClaimantPersonID();
+            return SHBE_Records.this.getCid2cpid();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -2913,7 +2913,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDToClaimantPersonIDLookup(hoome);
+                return getCid2cpid(hoome);
             } else {
                 throw e;
             }
@@ -2921,41 +2921,41 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises {@link #claimID2ClaimantPersonID} then
+     * If not initialised, initialises {@link #cid2cpid} then
      * returns it.
      *
-     * @return {@link #claimID2ClaimantPersonID}
+     * @return {@link #cid2cpid}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Map<SHBE_ClaimID, SHBE_PersonID> getClaimID2ClaimantPersonID()
+    protected Map<SHBE_ClaimID, SHBE_PersonID> getCid2cpid()
             throws IOException, ClassNotFoundException {
-        if (claimID2ClaimantPersonID == null) {
+        if (cid2cpid == null) {
             Path f;
-            f = getClaimID2ClaimantPersonIDFile();
+            f = getCid2cpidFile();
             if (Files.exists(f)) {
-                claimID2ClaimantPersonID = (Map<SHBE_ClaimID, SHBE_PersonID>) Generic_IO.readObject(f);
+                cid2cpid = (Map<SHBE_ClaimID, SHBE_PersonID>) Generic_IO.readObject(f);
             } else {
-                claimID2ClaimantPersonID = new HashMap<>();
+                cid2cpid = new HashMap<>();
             }
         }
-        return claimID2ClaimantPersonID;
+        return cid2cpid;
     }
 
     /**
-     * If not initialised, initialises {@link #claimID2PartnerPersonID} then
+     * If not initialised, initialises {@link #cid2ppid} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimID2PartnerPersonID}
+     * @return {@link #cid2ppid}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_ClaimID, SHBE_PersonID> getClaimIDToPartnerPersonIDLookup(
+    public final Map<SHBE_ClaimID, SHBE_PersonID> getCid2ppid(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimID2PartnerPersonID();
+            return getCid2ppid();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -2963,7 +2963,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDToPartnerPersonIDLookup(hoome);
+                return SHBE_Records.this.getCid2ppid(hoome);
             } else {
                 throw e;
             }
@@ -2971,41 +2971,41 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises {@link #claimID2PartnerPersonID} then
+     * If not initialised, initialises {@link #cid2ppid} then
      * returns it.
      *
-     * @return {@link #claimID2PartnerPersonID}
+     * @return {@link #cid2ppid}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Map<SHBE_ClaimID, SHBE_PersonID> getClaimID2PartnerPersonID()
+    protected Map<SHBE_ClaimID, SHBE_PersonID> getCid2ppid()
             throws IOException, ClassNotFoundException {
-        if (claimID2PartnerPersonID == null) {
+        if (cid2ppid == null) {
             Path f;
-            f = getClaimID2PartnerPersonIDFile();
+            f = getCid2ppidFile();
             if (Files.exists(f)) {
-                claimID2PartnerPersonID = (Map<SHBE_ClaimID, SHBE_PersonID>) Generic_IO.readObject(f);
+                cid2ppid = (Map<SHBE_ClaimID, SHBE_PersonID>) Generic_IO.readObject(f);
             } else {
-                claimID2PartnerPersonID = new HashMap<>();
+                cid2ppid = new HashMap<>();
             }
         }
-        return claimID2PartnerPersonID;
+        return cid2ppid;
     }
 
     /**
-     * If not initialised, initialises {@link #claimID2DependentPersonIDs} then
+     * If not initialised, initialises {@link #cid2dpids} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimID2DependentPersonIDs}
+     * @return {@link #cid2dpids}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_ClaimID, Set<SHBE_PersonID>> getClaimIDToDependentPersonIDsLookup(
+    public final Map<SHBE_ClaimID, Set<SHBE_PersonID>> getCid2dpids(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimID2DependentPersonIDs();
+            return SHBE_Records.this.getCid2dpids();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3013,7 +3013,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDToDependentPersonIDsLookup(hoome);
+                return SHBE_Records.this.getCid2dpids(hoome);
             } else {
                 throw e;
             }
@@ -3021,41 +3021,41 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises {@link #claimID2DependentPersonIDs} then
+     * If not initialised, initialises {@link #cid2dpids} then
      * returns it.
      *
-     * @return {@link #claimID2DependentPersonIDs}
+     * @return {@link #cid2dpids}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Map<SHBE_ClaimID, Set<SHBE_PersonID>> getClaimID2DependentPersonIDs()
+    protected Map<SHBE_ClaimID, Set<SHBE_PersonID>> getCid2dpids()
             throws IOException, ClassNotFoundException {
-        if (claimID2DependentPersonIDs == null) {
+        if (cid2dpids == null) {
             Path f;
-            f = getClaimID2DependentPersonIDsFile();
+            f = getCid2dpidsFile();
             if (Files.exists(f)) {
-                claimID2DependentPersonIDs = (Map<SHBE_ClaimID, Set<SHBE_PersonID>>) Generic_IO.readObject(f);
+                cid2dpids = (Map<SHBE_ClaimID, Set<SHBE_PersonID>>) Generic_IO.readObject(f);
             } else {
-                claimID2DependentPersonIDs = new HashMap<>();
+                cid2dpids = new HashMap<>();
             }
         }
-        return claimID2DependentPersonIDs;
+        return cid2dpids;
     }
 
     /**
-     * If not initialised, initialises {@link #claimID2NonDependentPersonIDs}
+     * If not initialised, initialises {@link #cid2ndpids}
      * then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimID2NonDependentPersonIDs}
+     * @return {@link #cid2ndpids}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_ClaimID, Set<SHBE_PersonID>> getClaimIDToNonDependentPersonIDsLookup(
+    public final Map<SHBE_ClaimID, Set<SHBE_PersonID>> getCid2ndpids(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimID2NonDependentPersonIDs();
+            return getCid2ndpids();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3063,7 +3063,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDToNonDependentPersonIDsLookup(hoome);
+                return SHBE_Records.this.getCid2ndpids(hoome);
             } else {
                 throw e;
             }
@@ -3071,43 +3071,43 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * If not initialised, initialises {@link #claimID2NonDependentPersonIDs}
+     * If not initialised, initialises {@link #cid2ndpids}
      * then returns it.
      *
-     * @return {@link #claimID2NonDependentPersonIDs}
+     * @return {@link #cid2ndpids}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Map<SHBE_ClaimID, Set<SHBE_PersonID>> getClaimID2NonDependentPersonIDs()
+    protected Map<SHBE_ClaimID, Set<SHBE_PersonID>> getCid2ndpids()
             throws IOException, ClassNotFoundException {
-        if (claimID2NonDependentPersonIDs == null) {
+        if (cid2ndpids == null) {
             Path f;
-            f = getClaimID2NonDependentPersonIDsFile();
+            f = getCid2ndpidsFile();
             if (Files.exists(f)) {
-                claimID2NonDependentPersonIDs = (Map<SHBE_ClaimID, Set<SHBE_PersonID>>) Generic_IO.readObject(f);
+                cid2ndpids = (Map<SHBE_ClaimID, Set<SHBE_PersonID>>) Generic_IO.readObject(f);
             } else {
-                claimID2NonDependentPersonIDs = new HashMap<>();
+                cid2ndpids = new HashMap<>();
             }
         }
-        return claimID2NonDependentPersonIDs;
+        return cid2ndpids;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim} then
+     * {@link #cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @return
-     * {@link #claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim}
+     * {@link #cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(
+    public final Set<SHBE_ClaimID> getCidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim();
+            return SHBE_Records.this.getCidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3115,7 +3115,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(hoome);
+                return getCidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim(hoome);
             } else {
                 throw e;
             }
@@ -3124,44 +3124,44 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim} then
+     * {@link #cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim} then
      * returns it.
      *
      * @return
-     * {@link #claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim}
+     * {@link #cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim()
+    protected Set<SHBE_ClaimID> getCidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim == null) {
+        if (cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim == null) {
             Path f;
-            f = getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile();
+            f = getCidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile();
             if (Files.exists(f)) {
-                claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = new HashSet<>();
+                cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim = new HashSet<>();
             }
         }
-        return claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim;
+        return cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim} then
+     * {@link #cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @return
-     * {@link #claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim}
+     * {@link #cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim(
+    public final Set<SHBE_ClaimID> getCidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim();
+            return SHBE_Records.this.getCidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3169,7 +3169,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim(hoome);
+                return getCidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim(hoome);
             } else {
                 throw e;
             }
@@ -3178,43 +3178,43 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim} then
+     * {@link #cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim} then
      * returns it.
      *
      * @return
-     * {@link #claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim}
+     * {@link #cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Set<SHBE_ClaimID> getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim()
+    protected Set<SHBE_ClaimID> getCidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim == null) {
+        if (cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim == null) {
             Path f;
-            f = getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile();
+            f = getCidsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile();
             if (Files.exists(f)) {
-                claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim = new HashSet<>();
+                cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim = new HashSet<>();
             }
         }
-        return claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim;
+        return cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaim;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim} then
+     * {@link #cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @return
-     * {@link #claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim}
+     * {@link #cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Set<SHBE_ClaimID> getCidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim();
+            return SHBE_Records.this.getCidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3222,43 +3222,43 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(hoome);
+                return getCidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(hoome);
             } else {
                 throw e;
             }
         }
     }
 
-    protected Set<SHBE_ClaimID> getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim()
+    protected Set<SHBE_ClaimID> getCidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim == null) {
+        if (cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim == null) {
             Path f;
-            f = getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile();
+            f = getCidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile();
             if (Files.exists(f)) {
-                claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = new HashSet<>();
+                cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = new HashSet<>();
             }
         }
-        return claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim;
+        return cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim} then
+     * {@link #cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @return
-     * {@link #claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim}
+     * {@link #cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim(
+    public final Set<SHBE_ClaimID> getCidsOfClaimsWithPartnersThatArePartnersInAnotherClaim(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim();
+            return SHBE_Records.this.getCidsOfClaimsWithPartnersThatArePartnersInAnotherClaim();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3266,43 +3266,43 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim(hoome);
+                return getCidsOfClaimsWithPartnersThatArePartnersInAnotherClaim(hoome);
             } else {
                 throw e;
             }
         }
     }
 
-    protected Set<SHBE_ClaimID> getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim()
+    protected Set<SHBE_ClaimID> getCidsOfClaimsWithPartnersThatArePartnersInAnotherClaim()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim == null) {
+        if (cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim == null) {
             Path f;
-            f = getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile();
+            f = getCidsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile();
             if (Files.exists(f)) {
-                claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim = new HashSet<>();
+                cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim = new HashSet<>();
             }
         }
-        return claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim;
+        return cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
+     * {@link #cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
      * then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @return
-     * {@link #claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
+     * {@link #cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(
+    public final Set<SHBE_ClaimID> getCidsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim();
+            return getCidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3310,41 +3310,41 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(hoome);
+                return getCidsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(hoome);
             } else {
                 throw e;
             }
         }
     }
 
-    protected Set<SHBE_ClaimID> getClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim()
+    protected Set<SHBE_ClaimID> getCidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim == null) {
+        if (cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim == null) {
             Path f = getClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile();
             if (Files.exists(f)) {
-                claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim = new HashSet<>();
+                cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim = new HashSet<>();
             }
         }
-        return claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim;
+        return cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
+     * {@link #cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
      * then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @return
-     * {@link #claimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
+     * {@link #cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_PersonID, Set<SHBE_ClaimID>> getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPid2cidOfClaimantsInMultipleClaimsInAMonth(boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup();
+            return SHBE_Records.this.getPid2cidOfClaimantsInMultipleClaimsInAMonth();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3352,7 +3352,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(hoome);
+                return getPid2cidOfClaimantsInMultipleClaimsInAMonth(hoome);
             } else {
                 throw e;
             }
@@ -3361,42 +3361,42 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup} then
+     * {@link #pid2cidOfClaimantsInMultipleClaimsInAMonth} then
      * returns it.
      *
      * @return
-     * {@link #claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup}
+     * {@link #pid2cidOfClaimantsInMultipleClaimsInAMonth}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Map<SHBE_PersonID, Set<SHBE_ClaimID>> getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup()
+    protected Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPid2cidOfClaimantsInMultipleClaimsInAMonth()
             throws IOException, ClassNotFoundException {
-        if (claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup == null) {
+        if (pid2cidOfClaimantsInMultipleClaimsInAMonth == null) {
             Path f;
-            f = getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile();
+            f = getPid2cidOfClaimantsInMultipleClaimsInAMonthFile();
             if (Files.exists(f)) {
-                claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = (Map<SHBE_PersonID, Set<SHBE_ClaimID>>) Generic_IO.readObject(f);
+                pid2cidOfClaimantsInMultipleClaimsInAMonth = (Map<SHBE_PersonID, Set<SHBE_ClaimID>>) Generic_IO.readObject(f);
             } else {
-                claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = new HashMap<>();
+                pid2cidOfClaimantsInMultipleClaimsInAMonth = new HashMap<>();
             }
         }
-        return claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup;
+        return pid2cidOfClaimantsInMultipleClaimsInAMonth;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup} then
+     * {@link #pid2cidOfPartnersInMultipleClaimsInAMonth} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup}
+     * @return {@link #pid2cidOfPartnersInMultipleClaimsInAMonth}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPid2cidsOfPartnersInMultipleClaimsInAMonth(boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup();
+            return getPid2cidOfPartnersInMultipleClaimsInAMonth();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3404,42 +3404,42 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(hoome);
+                return getPid2cidsOfPartnersInMultipleClaimsInAMonth(hoome);
             } else {
                 throw e;
             }
         }
     }
 
-    protected Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup()
+    protected Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPid2cidOfPartnersInMultipleClaimsInAMonth()
             throws IOException, ClassNotFoundException {
-        if (partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup == null) {
-            Path f = getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile();
+        if (pid2cidOfPartnersInMultipleClaimsInAMonth == null) {
+            Path f = getPid2cidOfPartnersInMultipleClaimsInAMonthFile();
             if (Files.exists(f)) {
-                partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = (Map<SHBE_PersonID, Set<SHBE_ClaimID>>) Generic_IO.readObject(f);
+                pid2cidOfPartnersInMultipleClaimsInAMonth = (Map<SHBE_PersonID, Set<SHBE_ClaimID>>) Generic_IO.readObject(f);
             } else {
-                partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = new HashMap<>();
+                pid2cidOfPartnersInMultipleClaimsInAMonth = new HashMap<>();
             }
         }
-        return partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookup;
+        return pid2cidOfPartnersInMultipleClaimsInAMonth;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup}
+     * {@link #pid2cidOfNonDependentsInMultipleClaimsInAMonth}
      * then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
      * @return
-     * {@link #nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup}
+     * {@link #pid2cidOfNonDependentsInMultipleClaimsInAMonth}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_PersonID, Set<SHBE_ClaimID>> getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(
+    public final Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPid2cidOfNonDependentsInMultipleClaimsInAMonth(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup();
+            return SHBE_Records.this.getPid2cidOfNonDependentsInMultipleClaimsInAMonth();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3447,7 +3447,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup(hoome);
+                return getPid2cidOfNonDependentsInMultipleClaimsInAMonth(hoome);
             } else {
                 throw e;
             }
@@ -3456,42 +3456,42 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup}
+     * {@link #pid2cidOfNonDependentsInMultipleClaimsInAMonth}
      * then returns it.
      *
      * @return
-     * {@link #nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup}
+     * {@link #pid2cidOfNonDependentsInMultipleClaimsInAMonth}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    protected Map<SHBE_PersonID, Set<SHBE_ClaimID>> getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup()
+    protected Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPid2cidOfNonDependentsInMultipleClaimsInAMonth()
             throws IOException, ClassNotFoundException {
-        if (nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup == null) {
+        if (pid2cidOfNonDependentsInMultipleClaimsInAMonth == null) {
             Path f;
-            f = getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile();
+            f = getPid2cidOfNonDependentsInMultipleClaimsInAMonthFile();
             if (Files.exists(f)) {
-                nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = (Map<SHBE_PersonID, Set<SHBE_ClaimID>>) Generic_IO.readObject(f);
+                pid2cidOfNonDependentsInMultipleClaimsInAMonth = (Map<SHBE_PersonID, Set<SHBE_ClaimID>>) Generic_IO.readObject(f);
             } else {
-                nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup = new HashMap<>();
+                pid2cidOfNonDependentsInMultipleClaimsInAMonth = new HashMap<>();
             }
         }
-        return nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup;
+        return pid2cidOfNonDependentsInMultipleClaimsInAMonth;
     }
 
     /**
-     * If not initialised, initialises {@link #claimID2PostcodeID} then
+     * If not initialised, initialises {@link #cid2postcodeID} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimID2PostcodeID}
+     * @return {@link #cid2postcodeID}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_ClaimID, UKP_RecordID> getClaimIDToPostcodeIDLookup(
+    public final Map<SHBE_ClaimID, UKP_RecordID> getCid2postcodeIDLookup(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimID2PostcodeID();
+            return getCid2postcodeID();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3499,42 +3499,42 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDToPostcodeIDLookup(hoome);
+                return getCid2postcodeIDLookup(hoome);
             } else {
                 throw e;
             }
         }
     }
 
-    protected Map<SHBE_ClaimID, UKP_RecordID> getClaimID2PostcodeID()
+    protected Map<SHBE_ClaimID, UKP_RecordID> getCid2postcodeID()
             throws IOException, ClassNotFoundException {
-        if (claimID2PostcodeID == null) {
+        if (cid2postcodeID == null) {
             Path f;
-            f = getClaimID2postcodeIDFile();
+            f = getCid2postcodeIDFile();
             if (Files.exists(f)) {
-                claimID2PostcodeID = (Map<SHBE_ClaimID, UKP_RecordID>) Generic_IO.readObject(f);
+                cid2postcodeID = (Map<SHBE_ClaimID, UKP_RecordID>) Generic_IO.readObject(f);
             } else {
-                claimID2PostcodeID = new HashMap<>();
+                cid2postcodeID = new HashMap<>();
             }
         }
-        return claimID2PostcodeID;
+        return cid2postcodeID;
     }
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture} then
+     * {@link #cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture} then
      * returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture}
+     * @return {@link #cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
     public final Set<SHBE_ClaimID> getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
+            return getCidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3549,34 +3549,34 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         }
     }
 
-    protected Set<SHBE_ClaimID> getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture()
+    protected Set<SHBE_ClaimID> getCidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture == null) {
+        if (cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture == null) {
             Path f;
-            f = getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile();
+            f = getCidsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile();
             if (Files.exists(f)) {
-                claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture = new HashSet<>();
+                cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture = new HashSet<>();
             }
         }
-        return claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture;
+        return cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture;
     }
 
     /**
-     * If not initialised, initialises {@link #claimID2TenancyType} then returns
+     * If not initialised, initialises {@link #cid2tt} then returns
      * it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimID2TenancyType}
+     * @return {@link #cid2tt}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_ClaimID, Integer> getClaimIDToTenancyTypeLookup(
+    public final Map<SHBE_ClaimID, Integer> getCid2tt(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimID2TenancyType();
+            return getCid2tt();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3584,25 +3584,25 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimIDToTenancyTypeLookup(hoome);
+                return SHBE_Records.this.getCid2tt(hoome);
             } else {
                 throw e;
             }
         }
     }
 
-    protected Map<SHBE_ClaimID, Integer> getClaimID2TenancyType()
+    protected Map<SHBE_ClaimID, Integer> getCid2tt()
             throws IOException, ClassNotFoundException {
-        if (claimID2TenancyType == null) {
+        if (cid2tt == null) {
             Path f;
-            f = getClaimID2TenancyTypeFile();
+            f = getCid2ttFile();
             if (Files.exists(f)) {
-                claimID2TenancyType = (Map<SHBE_ClaimID, Integer>) Generic_IO.readObject(f);
+                cid2tt = (Map<SHBE_ClaimID, Integer>) Generic_IO.readObject(f);
             } else {
-                claimID2TenancyType = new HashMap<>();
+                cid2tt = new HashMap<>();
             }
         }
-        return claimID2TenancyType;
+        return cid2tt;
     }
 
     /**
@@ -3690,18 +3690,18 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
 
     /**
      * If not initialised, initialises
-     * {@link #claimIDsOfInvalidClaimantNINOClaims} then returns it.
+     * {@link #cidsOfInvalidClaimantNINOClaims} then returns it.
      *
      * @param hoome If {@code true} then an attempt is made to handle
      * OutOfMemeoryErrors if they are encountered.
-     * @return {@link #claimIDsOfInvalidClaimantNINOClaims}
+     * @return {@link #cidsOfInvalidClaimantNINOClaims}
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
     public final Set<SHBE_ClaimID> getClaimIDsOfInvalidClaimantNINOClaims(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimIDsOfInvalidClaimantNINOClaims();
+            return getCidsOfInvalidClaimantNINOClaims();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3716,18 +3716,18 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         }
     }
 
-    protected Set<SHBE_ClaimID> getClaimIDsOfInvalidClaimantNINOClaims()
+    protected Set<SHBE_ClaimID> getCidsOfInvalidClaimantNINOClaims()
             throws IOException, ClassNotFoundException {
-        if (claimIDsOfInvalidClaimantNINOClaims == null) {
+        if (cidsOfInvalidClaimantNINOClaims == null) {
             Path f;
-            f = getClaimIDsOfInvalidClaimantNINOClaimsFile();
+            f = getCidsOfInvalidClaimantNINOClaimsFile();
             if (Files.exists(f)) {
-                claimIDsOfInvalidClaimantNINOClaims = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
+                cidsOfInvalidClaimantNINOClaims = (Set<SHBE_ClaimID>) Generic_IO.readObject(f);
             } else {
-                claimIDsOfInvalidClaimantNINOClaims = new HashSet<>();
+                cidsOfInvalidClaimantNINOClaims = new HashSet<>();
             }
         }
-        return claimIDsOfInvalidClaimantNINOClaims;
+        return cidsOfInvalidClaimantNINOClaims;
     }
 
     /**
@@ -4001,9 +4001,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         return nonDependentPersonIDsFile;
     }
 
-    public final Set<SHBE_PersonID> getClaimantPersonIDs(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Set<SHBE_PersonID> getCpids(boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getClaimantPersonIDs();
+            return SHBE_Records.this.getCpids();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -4011,7 +4011,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getClaimantPersonIDs(hoome);
+                return getCpids(hoome);
             } else {
                 throw e;
             }
@@ -4023,7 +4023,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public Set<SHBE_PersonID> getClaimantPersonIDs()
+    public Set<SHBE_PersonID> getCpids()
             throws IOException, ClassNotFoundException {
         claimantPersonIDsFile = getClaimantPersonIDsFile();
         return getClaimantPersonIDs(claimantPersonIDsFile);
@@ -4037,16 +4037,16 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     public final Set<SHBE_PersonID> getClaimantPersonIDs(
             Path f) throws IOException, ClassNotFoundException {
-        if (claimantPersonIDs == null) {
-            claimantPersonIDs = env.collections.getPersonIDs(f);
+        if (cpids == null) {
+            cpids = env.collections.getPersonIDs(f);
         }
-        return claimantPersonIDs;
+        return cpids;
     }
 
-    public final Set<SHBE_PersonID> getPartnerPersonIDs(boolean hoome)
+    public final Set<SHBE_PersonID> getPpids(boolean hoome)
             throws IOException, ClassNotFoundException {
         try {
-            return getPartnerPersonIDs();
+            return SHBE_Records.this.getPpids();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -4054,7 +4054,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getPartnerPersonIDs(hoome);
+                return getPpids(hoome);
             } else {
                 throw e;
             }
@@ -4066,7 +4066,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public Set<SHBE_PersonID> getPartnerPersonIDs() throws IOException,
+    public Set<SHBE_PersonID> getPpids() throws IOException,
             ClassNotFoundException {
         partnerPersonIDsFile = getPartnerPersonIDsFile();
         return getPartnerPersonIDs(partnerPersonIDsFile);
@@ -4080,16 +4080,16 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     public final Set<SHBE_PersonID> getPartnerPersonIDs(Path f)
             throws IOException, ClassNotFoundException {
-        if (partnerPersonIDs == null) {
-            partnerPersonIDs = env.collections.getPersonIDs(f);
+        if (ppids == null) {
+            ppids = env.collections.getPersonIDs(f);
         }
-        return partnerPersonIDs;
+        return ppids;
     }
 
-    public final Set<SHBE_PersonID> getNonDependentPersonIDs(boolean hoome)
+    public final Set<SHBE_PersonID> getNdpids(boolean hoome)
             throws IOException, ClassNotFoundException {
         try {
-            return getNonDependentPersonIDs();
+            return SHBE_Records.this.getNdpids();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -4097,7 +4097,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getNonDependentPersonIDs(hoome);
+                return getNdpids(hoome);
             } else {
                 throw e;
             }
@@ -4112,10 +4112,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     public final Set<SHBE_PersonID> getNonDependentPersonIDs(Path f)
             throws IOException, ClassNotFoundException {
-        if (nonDependentPersonIDs == null) {
-            nonDependentPersonIDs = env.collections.getPersonIDs(f);
+        if (ndpids == null) {
+            ndpids = env.collections.getPersonIDs(f);
         }
-        return nonDependentPersonIDs;
+        return ndpids;
     }
 
     /**
@@ -4123,7 +4123,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public Set<SHBE_PersonID> getNonDependentPersonIDs()
+    public Set<SHBE_PersonID> getNdpids()
             throws IOException, ClassNotFoundException {
         nonDependentPersonIDsFile = getNonDependentPersonIDsFile();
         return getNonDependentPersonIDs(nonDependentPersonIDsFile);
@@ -4296,129 +4296,129 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return claimID2ClaimantPersonIDFile initialising if it is not already
-     * initialised.
+     * @return cid2cpidFile initialising if it is not already
+ initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimID2ClaimantPersonIDFile() throws IOException {
-        if (claimID2ClaimantPersonIDFile == null) {
-            claimID2ClaimantPersonIDFile = getFile(
+    public final Path getCid2cpidFile() throws IOException {
+        if (cid2cpidFile == null) {
+            cid2cpidFile = getFile(
                     "ClaimIDToClaimantPersonIDLookup" + SHBE_Strings.symbol_underscore
                     + "Map_SHBE_ID_SHBE_PersonID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimID2ClaimantPersonIDFile;
+        return cid2cpidFile;
     }
 
     /**
-     * @return claimID2PartnerPersonIDFile initialising if it is not already
-     * initialised.
+     * @return cid2ppidFile initialising if it is not already
+ initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimID2PartnerPersonIDFile()
+    public final Path getCid2ppidFile()
             throws IOException {
-        if (claimID2PartnerPersonIDFile == null) {
-            claimID2PartnerPersonIDFile = getFile(
+        if (cid2ppidFile == null) {
+            cid2ppidFile = getFile(
                     "ClaimIDToPartnerPersonIDLookup" + SHBE_Strings.symbol_underscore
                     + "Map_SHBE_ID__SHBE_PersonID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimID2PartnerPersonIDFile;
+        return cid2ppidFile;
     }
 
     /**
-     * @return claimID2DependentPersonIDsFile initialising if it is not already
-     * initialised.
+     * @return cid2dpidsFile initialising if it is not already
+ initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimID2DependentPersonIDsFile()
+    public final Path getCid2dpidsFile()
             throws IOException {
-        if (claimID2DependentPersonIDsFile == null) {
-            claimID2DependentPersonIDsFile = getFile(
+        if (cid2dpidsFile == null) {
+            cid2dpidsFile = getFile(
                     "ClaimIDToDependentPersonIDsLookupFile" + SHBE_Strings.symbol_underscore
                     + "Map_SHBE_ID__Set<SHBE_PersonID>"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimID2DependentPersonIDsFile;
+        return cid2dpidsFile;
     }
 
     /**
-     * @return claimID2NonDependentPersonIDsFile initialising if it is not
-     * already initialised.
+     * @return cid2ndpidsFile initialising if it is not
+ already initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimID2NonDependentPersonIDsFile() throws IOException {
-        if (claimID2NonDependentPersonIDsFile == null) {
-            claimID2NonDependentPersonIDsFile = getFile(
+    public final Path getCid2ndpidsFile() throws IOException {
+        if (cid2ndpidsFile == null) {
+            cid2ndpidsFile = getFile(
                     "ClaimIDToNonDependentPersonIDsLookupFile" + SHBE_Strings.symbol_underscore
                     + "Map_SHBE_ID__Set_SHBE_PersonID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimID2NonDependentPersonIDsFile;
+        return cid2ndpidsFile;
     }
 
     /**
-     * @return claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile
-     * initialising if it is not already initialised.
+     * @return cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile
+ initialising if it is not already initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile()
+    public final Path getCidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile()
             throws IOException {
-        if (claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile == null) {
-            claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile = getFile(
+        if (cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile == null) {
+            cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile = getFile(
                     "ClaimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaim" + SHBE_Strings.symbol_underscore
                     + "Set_SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimIDsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile;
+        return cidsOfClaimsWithClaimantsThatAreClaimantsInAnotherClaimFile;
     }
 
     /**
-     * @return claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile
-     * initialising if it is not already initialised.
+     * @return cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile
+ initialising if it is not already initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile()
+    public final Path getCidsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile()
             throws IOException {
-        if (claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile == null) {
-            claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile = getFile(
+        if (cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile == null) {
+            cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile = getFile(
                     "ClaimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaim" + SHBE_Strings.symbol_underscore
                     + "Set_SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimIDsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile;
+        return cidsOfClaimsWithClaimantsThatArePartnersInAnotherClaimFile;
     }
 
     /**
-     * @return claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile
-     * initialising if it is not already initialised.
+     * @return cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile
+ initialising if it is not already initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile()
+    public final Path getCidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile()
             throws IOException {
-        if (claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile == null) {
-            claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile = getFile(
+        if (cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile == null) {
+            cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile = getFile(
                     "ClaimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile" + SHBE_Strings.symbol_underscore
                     + "Set_SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimIDsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile;
+        return cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaimFile;
     }
 
     /**
-     * @return claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile
-     * initialising if it is not already initialised.
+     * @return cidsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile
+ initialising if it is not already initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile()
+    public final Path getCidsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile()
             throws IOException {
-        if (claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile == null) {
-            claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile = getFile(
+        if (cidsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile == null) {
+            cidsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile = getFile(
                     "ClaimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaim" + SHBE_Strings.symbol_underscore
                     + "Set_SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimIDsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile;
+        return cidsOfClaimsWithPartnersThatArePartnersInAnotherClaimFile;
     }
 
     /**
@@ -4429,107 +4429,107 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      */
     public final Path getClaimIDsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile()
             throws IOException {
-        if (claimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile == null) {
-            claimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile = getFile(
+        if (cidsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile == null) {
+            cidsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile = getFile(
                     "ClaimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim" + SHBE_Strings.symbol_underscore
                     + "Set_SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimIDsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile;
+        return cidsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaimFile;
     }
 
     /**
-     * @return claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile
-     * initialising if it is not already initialised.
+     * @return pid2cidOfClaimantsInMultipleClaimsInAMonthFile
+ initialising if it is not already initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile()
+    public final Path getPid2cidOfClaimantsInMultipleClaimsInAMonthFile()
             throws IOException {
-        if (claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile == null) {
-            claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile = getFile(
+        if (pid2cidOfClaimantsInMultipleClaimsInAMonthFile == null) {
+            pid2cidOfClaimantsInMultipleClaimsInAMonthFile = getFile(
                     "ClaimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookup" + SHBE_Strings.symbol_underscore
                     + "Map_SHBE_PersonID__Set_SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimantsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile;
+        return pid2cidOfClaimantsInMultipleClaimsInAMonthFile;
     }
 
     /**
-     * @return partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile
-     * initialising if it is not already initialised.
+     * @return pid2cidOfPartnersInMultipleClaimsInAMonthFile
+ initialising if it is not already initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getPartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile()
+    public final Path getPid2cidOfPartnersInMultipleClaimsInAMonthFile()
             throws IOException {
-        if (partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile == null) {
-            partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile = getFile(
+        if (pid2cidOfPartnersInMultipleClaimsInAMonthFile == null) {
+            pid2cidOfPartnersInMultipleClaimsInAMonthFile = getFile(
                     "PartnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile" + SHBE_Strings.symbol_underscore
                     + "Map_SHBE_PersonID__Set_SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return partnersInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile;
+        return pid2cidOfPartnersInMultipleClaimsInAMonthFile;
     }
 
     /**
-     * @return nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile
-     * initialising if it is not already initialised.
+     * @return pid2cidOfNonDependentsInMultipleClaimsInAMonthFile
+ initialising if it is not already initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getNonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile()
+    public final Path getPid2cidOfNonDependentsInMultipleClaimsInAMonthFile()
             throws IOException {
-        if (nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile == null) {
-            nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile = getFile(
+        if (pid2cidOfNonDependentsInMultipleClaimsInAMonthFile == null) {
+            pid2cidOfNonDependentsInMultipleClaimsInAMonthFile = getFile(
                     "NonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile" + SHBE_Strings.symbol_underscore
                     + "Map_SHBE_PersonID__Set_SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return nonDependentsInMultipleClaimsInAMonthPersonIDToClaimIDsLookupFile;
+        return pid2cidOfNonDependentsInMultipleClaimsInAMonthFile;
     }
 
     /**
-     * @return claimID2postcodeIDFile initialising if it is not already
-     * initialised.
+     * @return cid2postcodeIDFile initialising if it is not already
+ initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimID2postcodeIDFile() throws IOException {
-        if (claimID2postcodeIDFile == null) {
-            claimID2postcodeIDFile = getFile(
+    public final Path getCid2postcodeIDFile() throws IOException {
+        if (cid2postcodeIDFile == null) {
+            cid2postcodeIDFile = getFile(
                     "ClaimIDToPostcodeIDLookup" + SHBE_Strings.symbol_underscore
                     + "Map_SHBE_ID__SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimID2postcodeIDFile;
+        return cid2postcodeIDFile;
     }
 
     /**
-     * @return claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile
-     * initialising if it is not already initialised.
+     * @return cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile
+ initialising if it is not already initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile()
+    public final Path getCidsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile()
             throws IOException {
-        if (claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile == null) {
-            claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile = getFile(
+        if (cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile == null) {
+            cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile = getFile(
                     "ClaimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFuture" + SHBE_Strings.symbol_underscore
                     + "Set_SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimIDsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile;
+        return cidsOfClaimsWithClaimPostcodeFUpdatedFromTheFutureFile;
     }
 
     /**
-     * @return claimID2TenancyTypeFile initialising if it is not already
-     * initialised.
+     * @return cid2ttFile initialising if it is not already
+ initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimID2TenancyTypeFile() throws IOException {
-        if (claimID2TenancyTypeFile == null) {
-            claimID2TenancyTypeFile = getFile(
+    public final Path getCid2ttFile() throws IOException {
+        if (cid2ttFile == null) {
+            cid2ttFile = getFile(
                     "ClaimIDToTenancyTypeLookup" + SHBE_Strings.symbol_underscore
                     + "Map_SHBE_ID__Integer"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimID2TenancyTypeFile;
+        return cid2ttFile;
     }
 
     /**
@@ -4562,19 +4562,19 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return claimIDsOfInvalidClaimantNINOClaimsFile initialising if it is not
-     * already initialised.
+     * @return cidsOfInvalidClaimantNINOClaimsFile initialising if it is not
+ already initialised.
      * @throws java.io.IOException If encountered.
      */
-    public final Path getClaimIDsOfInvalidClaimantNINOClaimsFile()
+    public final Path getCidsOfInvalidClaimantNINOClaimsFile()
             throws IOException {
-        if (claimIDsOfInvalidClaimantNINOClaimsFile == null) {
-            claimIDsOfInvalidClaimantNINOClaimsFile = getFile(
+        if (cidsOfInvalidClaimantNINOClaimsFile == null) {
+            cidsOfInvalidClaimantNINOClaimsFile = getFile(
                     "ClaimIDsOfInvalidClaimantNINOClaimsFile" + SHBE_Strings.symbol_underscore
                     + "Set_SHBE_ID"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return claimIDsOfInvalidClaimantNINOClaimsFile;
+        return cidsOfInvalidClaimantNINOClaimsFile;
     }
 
     /**
