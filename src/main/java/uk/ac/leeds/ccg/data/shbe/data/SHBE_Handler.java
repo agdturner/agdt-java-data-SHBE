@@ -911,6 +911,8 @@ public class SHBE_Handler extends SHBE_Object {
     /**
      * For loading in new SHBE data
      *
+     * @throws java.io.IOException If encountered.
+     * @throws java.lang.Exception If encountered.
      */
     public void runNew() throws IOException, Exception {
         Path dir = env.files.getInputSHBEDir();
@@ -921,11 +923,9 @@ public class SHBE_Handler extends SHBE_Object {
         Set<Path> ff = Files.list(files.getGeneratedSHBEDir()).collect(Collectors.toSet());
         // Formatted Year Month
         HashSet<UKP_YM3> fym3s = new HashSet<>();
-        for (Path f : ff) {
-            if (Files.isDirectory(f)) {
-                fym3s.add(new UKP_YM3(f.getFileName().toString()));
-            }
-        }
+        ff.parallelStream().filter((f) -> (Files.isDirectory(f))).forEach((Path f) -> {
+            fym3s.add(new UKP_YM3(f.getFileName().toString()));
+        });
         for (String SHBEFilename : SHBEFilenames) {
             if (!fym3s.contains(getYM3(SHBEFilename))) {
                 newFilesToRead.add(SHBEFilename);
