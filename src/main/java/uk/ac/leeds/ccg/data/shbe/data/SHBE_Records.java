@@ -802,7 +802,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_ClaimID> getCidsOfNewSHBEClaimsWhereClaimantIsNew
+    public final Set<SHBE_ClaimID> getCidsOfNewSHBEClaimsWhereClaimantIsNew(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
             return getCidsOfNewSHBEClaimsWhereClaimantIsNew();
@@ -1417,9 +1417,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         cidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim = getCidsOfClaimsWithPartnersThatAreClaimantsInAnotherClaim(env.HOOME);
         cidsOfClaimsWithPartnersThatArePartnersInAnotherClaim = getCidsOfClaimsWithPartnersThatArePartnersInAnotherClaim(env.HOOME);
         cidsOfClaimsWithNonDependentsThatAreClaimantsOrPartnersInAnotherClaim = getCidsOfNonDependentsThatAreClaimantsOrPartnersInAnotherClaim(env.HOOME);
-        pid2cidsOfClaimantsInMultipleClaimsInAMonth = getPid2cidOfClaimantsInMultipleClaimsInAMonth(env.HOOME);
+        pid2cidsOfClaimantsInMultipleClaimsInAMonth = getPid2cidsOfClaimantsInMultipleClaimsInAMonth(env.HOOME);
         pid2cidsOfPartnersInMultipleClaimsInAMonth = getPid2cidsOfPartnersInMultipleClaimsInAMonth(env.HOOME);
-        pid2cidsOfNonDependentsInMultipleClaimsInAMonth = getPid2cidOfNonDependentsInMultipleClaimsInAMonth(env.HOOME);
+        pid2cidsOfNonDependentsInMultipleClaimsInAMonth = getPid2cidsOfNonDependentsInMultipleClaimsInAMonth(env.HOOME);
         cid2postcodeID = getCid2postcodeIDLookup(env.HOOME);
         cid2tt = getCid2tt(env.HOOME);
         loadSummary = getLoadSummary(env.HOOME);
@@ -3312,9 +3312,9 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPid2cidOfClaimantsInMultipleClaimsInAMonth(boolean hoome) throws IOException, ClassNotFoundException {
+    public final Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPid2cidsOfClaimantsInMultipleClaimsInAMonth(boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getPid2cidsOfClaimantsInMultipleClaimsInAMonth();
+            return SHBE_Records.this.getPid2cidsOfClaimantsInMultipleClaimsInAMonth();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3322,7 +3322,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getPid2cidOfClaimantsInMultipleClaimsInAMonth(hoome);
+                return getPid2cidsOfClaimantsInMultipleClaimsInAMonth(hoome);
             } else {
                 throw e;
             }
@@ -3401,10 +3401,10 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPid2cidOfNonDependentsInMultipleClaimsInAMonth(
+    public final Map<SHBE_PersonID, Set<SHBE_ClaimID>> getPid2cidsOfNonDependentsInMultipleClaimsInAMonth(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
-            return getPid2cidsOfNonDependentsInMultipleClaimsInAMonth();
+            return SHBE_Records.this.getPid2cidsOfNonDependentsInMultipleClaimsInAMonth();
         } catch (OutOfMemoryError e) {
             if (hoome) {
                 env.clearMemoryReserve(env.env);
@@ -3412,7 +3412,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getPid2cidOfNonDependentsInMultipleClaimsInAMonth(hoome);
+                return getPid2cidsOfNonDependentsInMultipleClaimsInAMonth(hoome);
             } else {
                 throw e;
             }
@@ -4030,7 +4030,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     public Set<SHBE_PersonID> getPpids() throws IOException,
             ClassNotFoundException {
         ppidsFile = getPpidsFile();
-        return getPartnerPersonIDs(ppidsFile);
+        return getPpids(ppidsFile);
     }
 
     /**
@@ -4039,7 +4039,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Set<SHBE_PersonID> getPartnerPersonIDs(Path f)
+    public final Set<SHBE_PersonID> getPpids(Path f)
             throws IOException, ClassNotFoundException {
         if (ppids == null) {
             ppids = env.collections.getPersonIDs(f);
