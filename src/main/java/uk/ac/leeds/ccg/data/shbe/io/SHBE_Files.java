@@ -30,6 +30,8 @@ import uk.ac.leeds.ccg.data.shbe.core.SHBE_Strings;
  */
 public class SHBE_Files extends Data_Files {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * @param dir The directory.
      * @throws java.io.IOException If encountered.

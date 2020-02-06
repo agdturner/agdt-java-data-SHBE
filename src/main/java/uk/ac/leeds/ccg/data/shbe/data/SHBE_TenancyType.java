@@ -23,10 +23,14 @@ import uk.ac.leeds.ccg.data.shbe.core.SHBE_Object;
 import uk.ac.leeds.ccg.data.shbe.core.SHBE_Strings;
 
 /**
+ * SHBE_TenancyType
+ * 
  * @author Andy Turner
  * @version 1.0.0
  */
-public class SHBE_TenancyType_Handler extends SHBE_Object {
+public class SHBE_TenancyType extends SHBE_Object {
+
+    private static final long serialVersionUID = 1L;
 
     public final int iMinus999 = -999;
     public final int zero = 0;
@@ -67,7 +71,7 @@ public class SHBE_TenancyType_Handler extends SHBE_Object {
     public final String sNoTenancy = "No Tenancy";
     public final String sUnknown = "Unknown";
 
-    public SHBE_TenancyType_Handler(SHBE_Environment env) {
+    public SHBE_TenancyType(SHBE_Environment env) {
         super(env);
     }
 

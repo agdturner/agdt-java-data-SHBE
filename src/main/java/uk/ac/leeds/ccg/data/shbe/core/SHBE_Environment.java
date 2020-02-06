@@ -16,30 +16,31 @@
 package uk.ac.leeds.ccg.data.shbe.core;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import uk.ac.leeds.ccg.data.core.Data_Environment;
 import uk.ac.leeds.ccg.generic.core.Generic_Environment;
 import uk.ac.leeds.ccg.data.ukp.core.UKP_Environment;
-import uk.ac.leeds.ccg.data.shbe.data.SHBE_Handler;
+import uk.ac.leeds.ccg.data.shbe.data.SHBE_Data;
 import uk.ac.leeds.ccg.data.shbe.io.SHBE_Files;
 import uk.ac.leeds.ccg.data.shbe.util.SHBE_Collections;
 import uk.ac.leeds.ccg.generic.io.Generic_IO;
+import uk.ac.leeds.ccg.generic.memory.Generic_MemoryManager;
 
 /**
- *
+ * SHBE_Environment
+ * 
  * @author Andy Turner
  * @version 1.0.0
  */
-public class SHBE_Environment extends SHBE_MemoryManager
-        implements Serializable {
+public class SHBE_Environment extends Generic_MemoryManager {
 
+    
     public final transient Generic_Environment env;
     public final transient Data_Environment de;
     public final transient UKP_Environment oe;
     public final transient SHBE_Files files;
-    public transient SHBE_Handler handler;
+    public transient SHBE_Data data;
     public final transient SHBE_Collections collections;
     
     /**
@@ -120,7 +121,7 @@ public class SHBE_Environment extends SHBE_MemoryManager
     }
 
     public boolean clearSomeData() {
-        return handler.clearSome();
+        return data.clearSome();
     }
 
     /**
@@ -128,29 +129,29 @@ public class SHBE_Environment extends SHBE_MemoryManager
      * @return  count of data cleared.
      */
     public int clearAllData() {
-        return handler.clearAll();
+        return data.clearAll();
     }
     
     /**
-     * Attempts to write out {@link handler}.
+     * Attempts to write out {@link handler#data}.
      * @throws java.io.IOException If encountered.
      */
     public void cacheData() throws IOException {
         Path f = files.getEnvDataFile();
         env.log("<cache>", false);
-        Generic_IO.writeObject(handler, f);
+        Generic_IO.writeObject(data, f);
         env.log("</cache>", false);
     }
 
     /**
-     * Attempts to load {@link handler} from a {@link SHBE_Files#getEnvDataFile()}.
+     * Attempts to load {@link handler#data} from a {@link SHBE_Files#getEnvDataFile()}.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
     public final void loadData() throws IOException, ClassNotFoundException {
         Path f = files.getEnvDataFile();
         env.log("<load>", false);
-        handler = (SHBE_Handler) Generic_IO.readObject(f);
+        data = (SHBE_Data) Generic_IO.readObject(f);
         env.log("</load>", false);
     }
 }

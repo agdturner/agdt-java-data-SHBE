@@ -53,12 +53,14 @@ import uk.ac.leeds.ccg.generic.io.Generic_IO;
 //import uk.ac.leeds.ccg.projects.digitalwelfare.data.underoccupied.DW_UO_Set;
 
 /**
- * Class for handling SHBE data.
+ * SHBE_Data.
  *
  * @author Andy Turner
  * @version 1.0.0
  */
-public class SHBE_Handler extends SHBE_Object {
+public class SHBE_Data extends SHBE_Object {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * For convenience, these are initialised in construction from env.
@@ -220,11 +222,11 @@ public class SHBE_Handler extends SHBE_Object {
      */
     private Path pid2pointFile;
 
-    public SHBE_Handler(SHBE_Environment e) throws IOException, Exception {
+    public SHBE_Data(SHBE_Environment e) throws IOException, Exception {
         this(e, e.env.initLog("SHBE_Handler"));
     }
 
-    public SHBE_Handler(SHBE_Environment e, int logID) {
+    public SHBE_Data(SHBE_Environment e, int logID) {
         super(e, logID);
 //        n2nid = e.getN2nid();
 //        d2did = data.getD2did();
@@ -523,7 +525,7 @@ public class SHBE_Handler extends SHBE_Object {
     public Map<String, UKP_RecordID> getP2pid()
             throws IOException, ClassNotFoundException {
         p2pidFile = getP2pidFile();
-        return SHBE_Handler.this.getP2pid(p2pidFile);
+        return getP2pid(p2pidFile);
     }
 
     public final Map<UKP_RecordID, String> getPid2p(Path f)
@@ -566,7 +568,7 @@ public class SHBE_Handler extends SHBE_Object {
             throws IOException, ClassNotFoundException {
         UKP_YM3 nYM3 = pData.getNearestYM3ForONSPDLookup(YM3);
         Map<UKP_RecordID, ONSPD_Point> r;
-        pid2point = SHBE_Handler.this.getPid2point();
+        pid2point = getPid2point();
         if (pid2point.containsKey(nYM3)) {
             r = pid2point.get(nYM3);
         } else {
@@ -893,15 +895,15 @@ public class SHBE_Handler extends SHBE_Object {
     }
 
     public void writeLookups() throws IOException, ClassNotFoundException {
-        Generic_IO.writeObject(SHBE_Handler.this.getCid2c(), getCid2cFile());
-        Generic_IO.writeObject(SHBE_Handler.this.getC2cid(), getC2cidFile());
-        Generic_IO.writeObject(SHBE_Handler.this.getN2nid(), getN2nidFile());
-        Generic_IO.writeObject(SHBE_Handler.this.getNid2n(), getNid2nFile());
-        Generic_IO.writeObject(SHBE_Handler.this.getD2did(), getD2didFile());
-        Generic_IO.writeObject(SHBE_Handler.this.getDid2d(), getDid2dFile());
+        Generic_IO.writeObject(getCid2c(), getCid2cFile());
+        Generic_IO.writeObject(getC2cid(), getC2cidFile());
+        Generic_IO.writeObject(getN2nid(), getN2nidFile());
+        Generic_IO.writeObject(getNid2n(), getNid2nFile());
+        Generic_IO.writeObject(getD2did(), getD2didFile());
+        Generic_IO.writeObject(getDid2d(), getDid2dFile());
         Generic_IO.writeObject(getP2pid(), getP2pidFile());
-        Generic_IO.writeObject(SHBE_Handler.this.getPid2p(), getPid2pFile());
-        Generic_IO.writeObject(SHBE_Handler.this.getPid2point(), getPid2pointFile());
+        Generic_IO.writeObject(getPid2p(), getPid2pFile());
+        Generic_IO.writeObject(getPid2point(), getPid2pointFile());
         Generic_IO.writeObject(getCpids(), getCpidsFile());
         Generic_IO.writeObject(getPpids(), getPpidsFile());
         Generic_IO.writeObject(getNdpids(), getNdpidsFile());
@@ -976,8 +978,8 @@ public class SHBE_Handler extends SHBE_Object {
 
         // Initialisation
         p2pid = getP2pid();
-        PostcodeIDPointLookups = SHBE_Handler.this.getPid2point();
-        cid2c = SHBE_Handler.this.getCid2c();
+        PostcodeIDPointLookups = getPid2point();
+        cid2c = getCid2c();
 
         modifiedAnyRecs = false;
 
@@ -1205,8 +1207,8 @@ public class SHBE_Handler extends SHBE_Object {
 
         // Initialisation
         p2pid = getP2pid();
-        PostcodeIDPointLookups = SHBE_Handler.this.getPid2point();
-        cid2c = SHBE_Handler.this.getCid2c();
+        PostcodeIDPointLookups = getPid2point();
+        cid2c = getCid2c();
         SHBEFilenames = getFilenames();
         SHBEFilename1 = SHBEFilenames[SHBEFilenames.length - 1];
         YMN = getYearMonthNumber(SHBEFilename1);
@@ -3336,8 +3338,8 @@ public class SHBE_Handler extends SHBE_Object {
     public SHBE_PersonID getClaimantPersonID(SHBE_D_Record d)
             throws IOException, ClassNotFoundException {
         return new SHBE_PersonID(
-                SHBE_Handler.this.getN2nid().get(d.getClaimantsNationalInsuranceNumber()),
-                SHBE_Handler.this.getD2did().get(d.getClaimantsDateOfBirth()));
+                getN2nid().get(d.getClaimantsNationalInsuranceNumber()),
+                getD2did().get(d.getClaimantsDateOfBirth()));
     }
 
     /**
@@ -3349,8 +3351,8 @@ public class SHBE_Handler extends SHBE_Object {
     public SHBE_PersonID getPartnerPersonID(SHBE_D_Record d)
             throws IOException, ClassNotFoundException {
         return new SHBE_PersonID(
-                SHBE_Handler.this.getN2nid().get(d.getPartnersNationalInsuranceNumber()),
-                SHBE_Handler.this.getD2did().get(d.getPartnersDateOfBirth()));
+                getN2nid().get(d.getPartnersNationalInsuranceNumber()),
+                getD2did().get(d.getPartnersDateOfBirth()));
     }
 
     /**
@@ -3362,8 +3364,8 @@ public class SHBE_Handler extends SHBE_Object {
     public SHBE_PersonID getNonDependentPersonID(SHBE_S_Record s)
             throws IOException, ClassNotFoundException {
         return new SHBE_PersonID(
-                SHBE_Handler.this.getN2nid().get(s.getSubRecordChildReferenceNumberOrNINO()),
-                SHBE_Handler.this.getD2did().get(s.getSubRecordDateOfBirth()));
+                getN2nid().get(s.getSubRecordChildReferenceNumberOrNINO()),
+                getD2did().get(s.getSubRecordDateOfBirth()));
     }
 
     /**
@@ -3391,8 +3393,8 @@ public class SHBE_Handler extends SHBE_Object {
         } else {
             nino += "_" + cNINO;
         }
-        return new SHBE_PersonID(SHBE_Handler.this.getN2nid().get(nino),
-                SHBE_Handler.this.getD2did().get(s.getSubRecordDateOfBirth()));
+        return new SHBE_PersonID(getN2nid().get(nino),
+                getD2did().get(s.getSubRecordDateOfBirth()));
     }
 
     /**
@@ -3407,9 +3409,9 @@ public class SHBE_Handler extends SHBE_Object {
         Iterator<SHBE_S_Record> ite = S_Records.iterator();
         while (ite.hasNext()) {
             SHBE_S_Record s = ite.next();
-            r.add(new SHBE_PersonID(SHBE_Handler.this.getN2nid().get(
+            r.add(new SHBE_PersonID(getN2nid().get(
                     s.getSubRecordChildReferenceNumberOrNINO()),
-                    SHBE_Handler.this.getD2did().get(s.getSubRecordDateOfBirth())));
+                    getD2did().get(s.getSubRecordDateOfBirth())));
         }
         return r;
     }
