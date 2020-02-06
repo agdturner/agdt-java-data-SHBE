@@ -23,7 +23,8 @@ import uk.ac.leeds.ccg.data.io.Data_Files;
 import uk.ac.leeds.ccg.data.shbe.core.SHBE_Strings;
 
 /**
- *
+ * SHBE_Files
+ * 
  * @author Andy Turner
  * @version 1.0.0
  */
