@@ -251,7 +251,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     /**
      * {@link #cid2CountOfSRecords} file.
      */
-    private Path cidToCountOfSRecordsFile;
+    private Path cid2CountOfSRecordsFile;
 
     /**
      * For storing the Claim IDs of records without a mappable Claimant
@@ -1287,7 +1287,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
             throws IOException, ClassNotFoundException {
         if (cid2CountOfSRecords == null) {
             Path f;
-            f = getCidToCountOfSRecordsFile();
+            f = getCid2CountOfSRecordsFile();
             if (Files.exists(f)) {
                 cid2CountOfSRecords = (Map<SHBE_ClaimID, Integer>) Generic_IO.readObject(f);
             } else {
@@ -1420,7 +1420,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
         pid2cidsOfClaimantsInMultipleClaimsInAMonth = getPid2cidsOfClaimantsInMultipleClaimsInAMonth(env.HOOME);
         pid2cidsOfPartnersInMultipleClaimsInAMonth = getPid2cidsOfPartnersInMultipleClaimsInAMonth(env.HOOME);
         pid2cidsOfNonDependentsInMultipleClaimsInAMonth = getPid2cidsOfNonDependentsInMultipleClaimsInAMonth(env.HOOME);
-        cid2postcodeID = getCid2postcodeIDLookup(env.HOOME);
+        cid2postcodeID = getCid2postcodeID(env.HOOME);
         cid2tt = getCid2tt(env.HOOME);
         loadSummary = getLoadSummary(env.HOOME);
         recordIDsNotLoaded = getRecordIDsNotLoaded(env.HOOME);
@@ -2426,7 +2426,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                 getCidsCIOFile());
         Generic_IO.writeObject(sRecordsWithoutDRecords, getSRecordsWithoutDRecordsFile());
         Generic_IO.writeObject(cid2CountOfSRecords,
-                getCidToCountOfSRecordsFile());
+                getCid2CountOfSRecordsFile());
         Generic_IO.writeObject(cidsOfClaimsWithoutAMappableClaimantPostcode,
                 getCidsOfClaimsWithoutAMappableClaimantPostcodeFile());
         Generic_IO.writeObject(cid2cpid,
@@ -3450,7 +3450,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
-    public final Map<SHBE_ClaimID, UKP_RecordID> getCid2postcodeIDLookup(
+    public final Map<SHBE_ClaimID, UKP_RecordID> getCid2postcodeID(
             boolean hoome) throws IOException, ClassNotFoundException {
         try {
             return getCid2postcodeID();
@@ -3461,7 +3461,7 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
                     throw e;
                 }
                 env.initMemoryReserve(env.env);
-                return getCid2postcodeIDLookup(hoome);
+                return getCid2postcodeID(hoome);
             } else {
                 throw e;
             }
@@ -4218,19 +4218,19 @@ public class SHBE_Records extends SHBE_Object implements Serializable {
     }
 
     /**
-     * @return cidToCountOfSRecordsFile initialising if it is not already
+     * @return {@link #cid2CountOfSRecordsFile} initialising if it is not already
      * initialised.
      * @throws java.io.IOException If encountered.
      */
-    protected final Path getCidToCountOfSRecordsFile()
+    protected final Path getCid2CountOfSRecordsFile()
             throws IOException {
-        if (cidToCountOfSRecordsFile == null) {
-            cidToCountOfSRecordsFile = getFile(
+        if (cid2CountOfSRecordsFile == null) {
+            cid2CountOfSRecordsFile = getFile(
                     "ClaimIDAndCountOfRecordsWithSRecordsFile" + SHBE_Strings.symbol_underscore
                     + "Map_SHBE_ID__Integer"
                     + SHBE_Strings.s_BinaryFileExtension);
         }
-        return cidToCountOfSRecordsFile;
+        return cid2CountOfSRecordsFile;
     }
 
     /**
