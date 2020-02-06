@@ -133,7 +133,7 @@ public class SHBE_Environment extends Generic_MemoryManager {
     }
     
     /**
-     * Attempts to write out {@link handler#data}.
+     * Attempts to write out {@link #data}.
      * @throws java.io.IOException If encountered.
      */
     public void cacheData() throws IOException {
@@ -144,7 +144,7 @@ public class SHBE_Environment extends Generic_MemoryManager {
     }
 
     /**
-     * Attempts to load {@link handler#data} from a {@link SHBE_Files#getEnvDataFile()}.
+     * Attempts to load {@link #data} from a {@link SHBE_Files#getEnvDataFile()}.
      * @throws java.io.IOException If encountered.
      * @throws java.lang.ClassNotFoundException If encountered.
      */
