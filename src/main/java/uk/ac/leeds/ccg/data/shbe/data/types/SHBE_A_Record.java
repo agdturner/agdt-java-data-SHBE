@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package uk.ac.leeds.ccg.data.shbe.data;
+package uk.ac.leeds.ccg.data.shbe.data.types;
 
 import uk.ac.leeds.ccg.data.shbe.core.SHBE_Environment;
 

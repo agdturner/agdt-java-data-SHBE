@@ -18,6 +18,8 @@
  */
 package uk.ac.leeds.ccg.data.shbe.data;
 
+import uk.ac.leeds.ccg.data.shbe.data.types.SHBE_S_Record;
+import uk.ac.leeds.ccg.data.shbe.data.types.SHBE_D_Record;
 import uk.ac.leeds.ccg.data.shbe.data.id.SHBE_PersonID;
 import java.io.IOException;
 import java.math.BigDecimal;

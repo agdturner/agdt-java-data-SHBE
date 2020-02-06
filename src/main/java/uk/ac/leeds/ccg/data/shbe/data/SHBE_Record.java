@@ -15,6 +15,8 @@
  */
 package uk.ac.leeds.ccg.data.shbe.data;
 
+import uk.ac.leeds.ccg.data.shbe.data.types.SHBE_S_Record;
+import uk.ac.leeds.ccg.data.shbe.data.types.SHBE_D_Record;
 import java.util.ArrayList;
 import java.util.Iterator;
 import uk.ac.leeds.ccg.data.Data_Record;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.ac.leeds.ccg.data.shbe.data;
+package uk.ac.leeds.ccg.data.shbe.data.types;
 
 import uk.ac.leeds.ccg.data.shbe.core.SHBE_Environment;
 
